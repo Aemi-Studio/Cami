@@ -9,20 +9,9 @@ import SwiftUI
 
 @main
 struct CamiApp: App {
-
-    
-
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear {
-                    Task {
-                        await CalendarHandler.request()
-                    }
-                    Task {
-                        await ContactHelper.request()
-                    }
-                }
         }
     }
 }

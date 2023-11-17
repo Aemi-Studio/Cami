@@ -8,5 +8,9 @@
 	<array>
 		<string>group.studio.aemi.Cami</string>
 	</array>
+	<key>com.apple.security.personal-information.addressbook</key>
+	<true/>
+	<key>com.apple.security.personal-information.calendars</key>
+	<true/>
 </dict>
 </plist>

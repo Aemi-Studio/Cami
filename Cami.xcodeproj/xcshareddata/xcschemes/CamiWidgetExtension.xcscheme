@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4655331E2AF4EA7A000B537B"
-               BuildableName = "CamiWidgetExtension.appex"
-               BlueprintName = "CamiWidgetExtension"
+               BuildableName = "CamiWidget.appex"
+               BlueprintName = "CamiWidget"
                ReferencedContainer = "container:Cami.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4655331E2AF4EA7A000B537B"
-            BuildableName = "CamiWidgetExtension.appex"
-            BlueprintName = "CamiWidgetExtension"
+            BuildableName = "CamiWidget.appex"
+            BlueprintName = "CamiWidget"
             ReferencedContainer = "container:Cami.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
