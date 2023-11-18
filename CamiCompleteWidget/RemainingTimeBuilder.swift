@@ -17,16 +17,17 @@ struct RemainingTimeComponent: View {
         let now = Date.now
         HStack(spacing: 4) {
             if startDate < now {
-                Label("Remaining Time", systemImage: "timer")
+                let remainingTime: String = CamiUtils.remainingTime(endDate)
+                Label("Remaining Time: \(remainingTime)", systemImage: "timer")
                     .labelStyle(.iconOnly)
-                Text(CamiUtils.remainingTime(endDate))
+                Text(remainingTime)
             } else {
                 Text("\(startDate.formatted(.dateTime.hour(.twoDigits(amPM: .omitted)))):\(startDate.formatted(.dateTime.minute(.twoDigits)))")
             }
         }
         .monospacedDigit()
         .fontWeight(.medium)
-        .opacity(0.25)
+        .opacity(0.5)
     }
 
 }

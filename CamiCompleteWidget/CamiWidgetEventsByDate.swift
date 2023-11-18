@@ -9,10 +9,18 @@ import SwiftUI
 import EventKit
 
 struct CamiWidgetEventsByDate: View {
-    
+
     var date: Date
     var events: EventList = []
-    var allDayEventStyle: AllDayEventStyle = .event
+    var config: CamiWidgetConfiguration = .init()
+
+    private var allDayEventStyle: AllDayEventStyle {
+        config.allDayEventStyle
+    }
+
+    private var groupEvents: Bool {
+        config.groupEvents
+    }
 
     private var allDayEvents: EventList {
         if allDayEventStyle == .inline {
@@ -22,20 +30,28 @@ struct CamiWidgetEventsByDate: View {
     }
 
     private var reducedEvents: [(EKEvent, EventList)] {
-        if allDayEventStyle != .event {
-            return events.filter({ event in !(
-                event.isAllDay
-            )}).reduced()
+        if groupEvents {
+            if allDayEventStyle != .event {
+                return events.filter({ event in !(
+                    event.isAllDay
+                )}).reduced()
+            }
+            return events.reduced()
+        } else {
+            if allDayEventStyle != .event {
+                return events.filter({ event in !(
+                    event.isAllDay
+                )}).map( { ($0,[$0]) } )
+            }
+            return events.map( { ($0,[$0]) } )
         }
-        return events.reduced()
     }
 
     var body: some View {
-
-        VStack(alignment: .leading, spacing: 2) {
-            if allDayEvents.isEmpty && reducedEvents.isEmpty {
-                EmptyView()
-            } else {
+        if allDayEvents.isEmpty && reducedEvents.isEmpty {
+            EmptyView()
+        } else {
+            VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Text(
                         (date >= Date.now.zero)
@@ -64,7 +80,6 @@ struct CamiWidgetEventsByDate: View {
                         .lineLimit(1)
                     }
                 }
-
                 VStack(spacing: 2) {
 
                     ForEach(0..<reducedEvents.count, id: \.self) { index in

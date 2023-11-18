@@ -11,18 +11,17 @@ import EventKit
 struct CamiWidgetEvents: View {
     
     var events: EventDict = [:]
-    var allDayEventStyle: AllDayEventStyle = .event
+    var config: CamiWidgetConfiguration = CamiWidgetConfiguration()
+
+    private var allDayEventStyle: AllDayEventStyle {
+        config.allDayEventStyle
+    }
 
     var body: some View {
-
         let dates = Array(events.keys).sorted()
-
-        LazyVStack(spacing: 6) {
-
+        VStack(spacing: 6) {
             ForEach(0..<dates.count, id: \.self) { dateIndex in
-
                 ViewThatFits {
-
                     let date : Date = dates[dateIndex]
                     let eventList: EventList = (
                         events[date] ?? []
@@ -31,7 +30,7 @@ struct CamiWidgetEvents: View {
                     CamiWidgetEventsByDate(
                         date: date,
                         events: eventList,
-                        allDayEventStyle: allDayEventStyle
+                        config: config
                     )
                 }
             }

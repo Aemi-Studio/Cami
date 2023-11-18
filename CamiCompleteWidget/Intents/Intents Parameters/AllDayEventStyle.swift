@@ -26,6 +26,11 @@ enum AllDayEventStyle: String, CaseIterable, AppEnum {
     var title: String {
         self.rawValue
     }
+}
 
 
+struct AllDayEventStyleOptionsProvider: DynamicOptionsProvider {
+    func results() async throws -> [AllDayEventStyle] {
+        AllDayEventStyle.allCases
+    }
 }

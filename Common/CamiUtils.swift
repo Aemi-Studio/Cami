@@ -25,6 +25,7 @@ public final class CamiUtils {
         formatter.dateStyle = .long
         formatter.monthSymbols = .none
         formatter.doesRelativeDateFormatting = true
+        formatter.locale = Locale.autoupdatingCurrent
         return formatter.string(from: date)
     }
 

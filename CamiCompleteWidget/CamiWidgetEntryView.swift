@@ -20,13 +20,13 @@ struct CamiWidgetEntryView : View {
             VStack(spacing: 6) {
                 CamiWidgetHeader(
                     date: now,
-                    birthdays: entry.birthdays
+                    config: entry.config
                 )
                 Color.clear
                     .overlay(alignment:.top) {
                         CamiWidgetEvents(
                             events: entry.events,
-                            allDayEventStyle: entry.allDayEventStyle
+                            config: entry.config
                         )
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

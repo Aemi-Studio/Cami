@@ -29,7 +29,7 @@ struct CamiWidgetBirthdays: View {
         return birthdays.first(where: { event in event.isEndingToday })
     }
 
-    private var nextBirthdays: (Days, [String]) {
+    private var nextBirthdays: (Seconds, [String]) {
 
         if birthdays.count > 0 {
             let firstBirthday: EKEvent = birthdays[0]
@@ -50,12 +50,12 @@ struct CamiWidgetBirthdays: View {
             )
 
             return (
-                Int((firstBirthday.endDate.zero - Date.now.zero) / (24 * 3600)) as Days,
+                Int(firstBirthday.endDate.zero - Date.now.zero) as Seconds,
                 peopleBirthdays
             )
         }
         else {
-            return (0 as Days,[])
+            return (0 as Seconds,[])
         }
     }
 

@@ -25,18 +25,17 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
     
     func snapshot(for configuration: Intent, in context: Context) async -> Entry {
 
-        let calendars: [String] = configuration.calendars.map { calendar in
-            calendar.calendar
-        }
-
-        let allDayEventStyle: AllDayEventStyle = configuration.allDayEventStyle
-
-        let eventDict = CamiHelper.events(calendars: calendars)
+        let eventDict = CamiHelper.events(
+            calendars: configuration.calendars.map { $0.calendar }
+        )
         let birthdays = CamiHelper.birthdays()
 
         return CamiWidgetEntry(
-            calendars: calendars,
-            allDayEventStyle: allDayEventStyle,
+            config: CamiWidgetConfiguration(
+                allDayEventStyle: configuration.allDayEventStyle,
+                displayBirthdays: configuration.displayBirthdays,
+                groupEvents: configuration.groupEvents
+            ),
             events: eventDict,
             birthdays: birthdays
         )
@@ -44,25 +43,24 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
 
     func timeline(for configuration: Intent, in context: Context) async -> Timeline<Entry> {
         
-        let calendars: [String] = configuration.calendars.map { calendar in
-            calendar.calendar
-        }
-
-        let allDayEventStyle: AllDayEventStyle = configuration.allDayEventStyle
-
-        let eventDict = CamiHelper.events(calendars: calendars)
+        let eventDict = CamiHelper.events(
+            calendars: configuration.calendars.map { $0.calendar }
+        )
         let birthdays = CamiHelper.birthdays()
 
         return Timeline(
             entries: [
                 CamiWidgetEntry(
-                    calendars: calendars,
-                    allDayEventStyle: allDayEventStyle,
+                    config: CamiWidgetConfiguration(
+                        allDayEventStyle: configuration.allDayEventStyle,
+                        displayBirthdays: configuration.displayBirthdays,
+                        groupEvents: configuration.groupEvents
+                    ),
                     events: eventDict,
                     birthdays: birthdays
                 )
             ],
-            policy: .atEnd
+            policy: .after(Calendar.current.date(byAdding: .minute, value: 1, to: Date.now)!)
         )
     }
 

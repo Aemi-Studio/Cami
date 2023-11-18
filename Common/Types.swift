@@ -12,4 +12,5 @@ typealias EventList     = [EKEvent]
 typealias EventDict     = [Date: [EKEvent]]
 typealias BirthdayList  = EventList
 typealias AuthSet       = AuthorizationSet
-typealias Days          = Int
+typealias Days          = Double
+typealias Seconds       = Int

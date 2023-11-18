@@ -34,6 +34,12 @@
 		469E05662B07DDED00F3263D /* CamiCompleteWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05652B07DDED00F3263D /* CamiCompleteWidgetIntent.swift */; };
 		469E05802B08172700F3263D /* AllDayEventStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E057F2B08172700F3263D /* AllDayEventStyle.swift */; };
 		469E05812B08172700F3263D /* AllDayEventStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E057F2B08172700F3263D /* AllDayEventStyle.swift */; };
+		469E05832B0848AE00F3263D /* Seconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05822B0848AE00F3263D /* Seconds.swift */; };
+		469E05842B0848AE00F3263D /* Seconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05822B0848AE00F3263D /* Seconds.swift */; };
+		469E05862B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */; };
+		469E05872B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */; };
+		469E058A2B086C3100F3263D /* CamiCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05892B086C3100F3263D /* CamiCalendar.swift */; };
+		469E058B2B086C3100F3263D /* CamiCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05892B086C3100F3263D /* CamiCalendar.swift */; };
 		46B160632B07D87000A44FBF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 465533212AF4EA7A000B537B /* WidgetKit.framework */; };
 		46B160642B07D87000A44FBF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 465533232AF4EA7A000B537B /* SwiftUI.framework */; };
 		46B1606B2B07D87100A44FBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46B1606A2B07D87100A44FBF /* Assets.xcassets */; };
@@ -147,6 +153,9 @@
 		469E05632B07DDA600F3263D /* CamiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidget.swift; sourceTree = "<group>"; };
 		469E05652B07DDED00F3263D /* CamiCompleteWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiCompleteWidgetIntent.swift; sourceTree = "<group>"; };
 		469E057F2B08172700F3263D /* AllDayEventStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDayEventStyle.swift; sourceTree = "<group>"; };
+		469E05822B0848AE00F3263D /* Seconds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seconds.swift; sourceTree = "<group>"; };
+		469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetConfiguration.swift; sourceTree = "<group>"; };
+		469E05892B086C3100F3263D /* CamiCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiCalendar.swift; sourceTree = "<group>"; };
 		46B160622B07D87000A44FBF /* CamiCompleteWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CamiCompleteWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B1606A2B07D87100A44FBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		46B1606C2B07D87100A44FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -194,7 +203,7 @@
 				46BDFBFA2AFA8AED00B4C7CB /* Types.swift */,
 				461CF49F2B035F15003D9293 /* AuthorizationSet.swift */,
 				460CAB142B0652470059B2F7 /* WidgetFamilySet.swift */,
-				469E057F2B08172700F3263D /* AllDayEventStyle.swift */,
+				469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -243,6 +252,7 @@
 		46688DA22B07834800AD28F4 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
+				469E05882B086C1900F3263D /* Intents Parameters */,
 				469E05652B07DDED00F3263D /* CamiCompleteWidgetIntent.swift */,
 			);
 			path = Intents;
@@ -277,6 +287,15 @@
 				465533282AF4EA7A000B537B /* CamiWidgetLiveActivity.swift */,
 			);
 			path = LiveActivity;
+			sourceTree = "<group>";
+		};
+		469E05882B086C1900F3263D /* Intents Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				469E05892B086C3100F3263D /* CamiCalendar.swift */,
+				469E057F2B08172700F3263D /* AllDayEventStyle.swift */,
+			);
+			path = "Intents Parameters";
 			sourceTree = "<group>";
 		};
 		46B160652B07D87000A44FBF /* CamiCompleteWidget */ = {
@@ -315,6 +334,7 @@
 				460CAB202B0669900059B2F7 /* EdgeInsets.swift */,
 				460CAB1A2B065F630059B2F7 /* WidgetFamily.swift */,
 				460CAB232B06C1720059B2F7 /* Days.swift */,
+				469E05822B0848AE00F3263D /* Seconds.swift */,
 				46688D9F2B07658400AD28F4 /* EventList.swift */,
 				46688DA32B07ACB800AD28F4 /* Bool.swift */,
 			);
@@ -446,8 +466,11 @@
 				46CC7E142AF7944800607AAF /* EKEvent.swift in Sources */,
 				46968DC42B06148500EA1C8D /* CalendarList.swift in Sources */,
 				460CAB2A2B06C5410059B2F7 /* HiddenIf.swift in Sources */,
+				469E05862B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */,
 				4655330F2AF4EA69000B537B /* ContentView.swift in Sources */,
 				46CC7E1E2AF795EF00607AAF /* CalendarHelper.swift in Sources */,
+				469E058A2B086C3100F3263D /* CamiCalendar.swift in Sources */,
+				469E05832B0848AE00F3263D /* Seconds.swift in Sources */,
 				460CAB152B0652470059B2F7 /* WidgetFamilySet.swift in Sources */,
 				46BDFBFB2AFA8AED00B4C7CB /* Types.swift in Sources */,
 				4655330D2AF4EA69000B537B /* CamiApp.swift in Sources */,
@@ -476,6 +499,7 @@
 				46B1609C2B07D9A100A44FBF /* CamiWidgetBundle.swift in Sources */,
 				46B160A12B07D9A100A44FBF /* CamiWidgetEventsByDate.swift in Sources */,
 				46B1608E2B07D90A00A44FBF /* DateComponents.swift in Sources */,
+				469E05842B0848AE00F3263D /* Seconds.swift in Sources */,
 				46B160892B07D90A00A44FBF /* EventList.swift in Sources */,
 				46B160A62B07D9A100A44FBF /* CamiWidgetEvents.swift in Sources */,
 				46B160962B07D91000A44FBF /* AuthorizationSet.swift in Sources */,
@@ -491,6 +515,7 @@
 				469E05642B07DDA600F3263D /* CamiWidget.swift in Sources */,
 				46B1609D2B07D9A100A44FBF /* CamiWidgetEvent.swift in Sources */,
 				46B160802B07D90500A44FBF /* Rounded.swift in Sources */,
+				469E058B2B086C3100F3263D /* CamiCalendar.swift in Sources */,
 				46B1608C2B07D90A00A44FBF /* EdgeInsets.swift in Sources */,
 				46B1608F2B07D90A00A44FBF /* CalendarList.swift in Sources */,
 				46B160832B07D90500A44FBF /* Pad.swift in Sources */,
@@ -500,6 +525,7 @@
 				46B1608B2B07D90A00A44FBF /* Bool.swift in Sources */,
 				46B160872B07D90A00A44FBF /* RectangleCornerRadii.swift in Sources */,
 				469E05812B08172700F3263D /* AllDayEventStyle.swift in Sources */,
+				469E05872B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */,
 				469E05662B07DDED00F3263D /* CamiCompleteWidgetIntent.swift in Sources */,
 				46B1609F2B07D9A100A44FBF /* CamiWidgetProvider.swift in Sources */,
 				46B160912B07D90D00A44FBF /* CalendarHelper.swift in Sources */,
@@ -574,7 +600,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -630,7 +658,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -647,7 +677,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = Cami/Cami.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -671,8 +701,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.Cami;
+				MARKETING_VERSION = 0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -693,7 +723,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = Cami/Cami.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -717,8 +747,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.Cami;
+				MARKETING_VERSION = 0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -737,7 +767,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = CamiCompleteWidget/CamiCompleteWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -757,8 +787,8 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.Cami.CamiCompleteWidget;
+				MARKETING_VERSION = 0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiCompleteWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
@@ -776,7 +806,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = CamiCompleteWidget/CamiCompleteWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -796,8 +826,8 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.Cami.CamiCompleteWidget;
+				MARKETING_VERSION = 0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiCompleteWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;

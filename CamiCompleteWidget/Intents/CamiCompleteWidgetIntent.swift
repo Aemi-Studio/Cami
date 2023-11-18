@@ -13,75 +13,20 @@ struct CamiCompleteWidgetIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Configuration"
     static var description = IntentDescription("This is an example widget.")
 
-    @Parameter(title: "Displayed Calendars")
+    @Parameter(title: "Calendars", default: [])
     var calendars: [CamiCalendar]
 
     @Parameter(
         title: "All-Day Events Style",
+        default: .event,
         optionsProvider: AllDayEventStyleOptionsProvider()
     )
     var allDayEventStyle: AllDayEventStyle
 
-    init() {
-        self.calendars = []
-        self.allDayEventStyle = .event
-    }
+    @Parameter(title: "Display Birthdays", default: true)
+    var displayBirthdays: Bool
 
-    init(allDayEventStyle: AllDayEventStyle) {
-        self.allDayEventStyle = allDayEventStyle
-    }
+    @Parameter(title: "Group Similar Events", default: true)
+    var groupEvents: Bool
 
-    init(calendars: [CamiCalendar]) {
-        self.calendars = calendars
-        self.allDayEventStyle = .event
-    }
-
-    init(calendars: [CamiCalendar], allDayEventStyle: AllDayEventStyle) {
-        self.calendars = calendars
-        self.allDayEventStyle = allDayEventStyle
-    }
-    
-}
-
-struct CamiCalendar: AppEntity {
-    var id: String
-    var calendar: String
-
-    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Calendar"
-    static var defaultQuery = CamiCalendarQuery()
-
-    var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "\(id)")
-    }
-
-    static let allCalendars: [CamiCalendar] = CamiHelper.allCalendars.map { calendar in
-        CamiCalendar(
-            id: "\(calendar.source.title) - \(calendar.title)",
-            calendar: calendar.calendarIdentifier
-        )
-    }
-}
-
-struct CamiCalendarQuery: EntityQuery {
-    typealias Entity = CamiCalendar
-
-    func entities(for identifiers: [Entity.ID]) async throws -> [Entity] {
-        CamiCalendar.allCalendars.filter { calendar in
-            identifiers.contains(calendar.id)
-        }
-    }
-
-    func suggestedEntities() async throws -> [Entity] {
-        CamiCalendar.allCalendars
-    }
-
-    func defaultResult() async -> [Entity] {
-        CamiCalendar.allCalendars
-    }
-}
-
-struct AllDayEventStyleOptionsProvider: DynamicOptionsProvider {
-    func results() async throws -> [AllDayEventStyle] {
-        AllDayEventStyle.allCases
-    }
 }
