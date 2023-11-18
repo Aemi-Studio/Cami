@@ -16,6 +16,9 @@ struct CamiWidgetIntent: WidgetConfigurationIntent {
     @Parameter(title: "Calendars", default: [])
     var calendars: [WidgetCalendarEntity]
 
+    @Parameter(title: "All-Day Inline Calendars", default: [])
+    var inlineCalendars: [WidgetCalendarEntity]
+
     @Parameter(
         title: "All-Day Events Style",
         default: .event,
@@ -23,10 +26,13 @@ struct CamiWidgetIntent: WidgetConfigurationIntent {
     )
     var allDayStyle: AllDayStyleEnum
 
+    @Parameter(title: "Group Similar Events", default: true)
+    var groupEvents: Bool
+
     @Parameter(title: "Display Birthdays", default: true)
     var displayBirthdays: Bool
 
-    @Parameter(title: "Group Similar Events", default: true)
-    var groupEvents: Bool
+    @Parameter(title: "Display Ongoing Events", default: true)
+    var displayOngoingEvents: Bool
 
 }

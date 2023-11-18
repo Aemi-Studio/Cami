@@ -7,39 +7,28 @@
 
 import SwiftUI
 import EventKit
+import WidgetKit
 
 struct CamiWidgetEventsByDate: View {
 
     @EnvironmentObject private var entry: CamiWidgetEntry
 
+    @Environment(\.widgetFamily) var widgetFamily: WidgetFamily
+
     var date: Date
     var events: Events = []
-
-    private var allDayStyle: AllDayStyleEnum {
-        entry.config.allDayStyle
-    }
-
-    private var groupEvents: Bool {
-        entry.config.groupEvents
-    }
-
-    private var allDayEvents: Events {
-        if allDayStyle == .inline {
-            return events.filter({ event in event.isAllDay })
-        }
-        return []
-    }
+    var inlineEvents: Events = []
 
     private var reducedEvents: [(EKEvent, Events)] {
-        if groupEvents {
-            if allDayStyle != .event {
+        if entry.config.groupEvents {
+            if entry.config.allDayStyle == .hidden {
                 return events.filter({ event in !(
                     event.isAllDay
                 )}).reduced()
             }
             return events.reduced()
         } else {
-            if allDayStyle != .event {
+            if entry.config.allDayStyle == .hidden {
                 return events.filter({ event in !(
                     event.isAllDay
                 )}).map( { ($0,[$0]) } )
@@ -48,9 +37,17 @@ struct CamiWidgetEventsByDate: View {
         }
     }
 
+    var ongoingEvents: Bool {
+        date < entry.date.zero
+    }
+
+    var isUpToTomorrow: Bool {
+        date.isToday || Calendar.autoupdatingCurrent.isDateInTomorrow(date)
+    }
+
     var body: some View {
 
-        if allDayEvents.isEmpty && reducedEvents.isEmpty {
+        if inlineEvents.isEmpty && reducedEvents.isEmpty {
 
             EmptyView()
 
@@ -58,43 +55,62 @@ struct CamiWidgetEventsByDate: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
-                    Text(
-                        (date >= Date.now.zero)
-                        ? date.relativeToNow
-                        : "These days"
-                    )
+                    Group {
+                        if ongoingEvents {
+                            Text("Ongoing Events")
+                        } else if isUpToTomorrow {
+                            Text(date.formattedUntilTomorrow)
+                        } else {
+                            Text("\(date.formattedAfterTomorrow) • \(date.relativeToNow)")
+                        }
+                    }
                     .fontDesign(.rounded)
                     .fontWeight(.medium)
-                    .font(.system(size:12))
                     .foregroundStyle(.white.opacity(0.25))
                     .lineLimit(1)
                     Spacer()
-                    if allDayEvents.count > 0 {
-                        Group {
-                            Text(allDayEvents[0].title)
-                                .truncationMode(.tail)
+                    if inlineEvents.count > 0 {
+                        HStack {
 
-                            if allDayEvents.count > 1 {
-                                Text(" + \(allDayEvents.count - 1)")
+                            if widgetFamily.isSmall {
+                                if inlineEvents.count >= 1 {
+                                    Text("\(inlineEvents.count - 1)")
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color(white: 0.1))
+                                        .padding(.horizontal,1)
+                                        .background(.white.opacity(0.25))
+                                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                                }
+                            } else {
+                                Text(inlineEvents[0].title)
+                                    .truncationMode(.tail)
+
+                                if inlineEvents.count > 1 {
+                                    Text("+\(inlineEvents.count - 1)")
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color(white: 0.1))
+                                        .padding(.horizontal,2)
+                                        .background(.white.opacity(0.25))
+                                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                                }
                             }
                         }
-                        .fontDesign(.rounded)
                         .fontWeight(.medium)
-                        .font(.system(size:12))
                         .foregroundStyle(.white.opacity(0.25))
                         .lineLimit(1)
                     }
                 }
+                .fontDesign(.rounded)
+                .font(.caption2)
+                .padding(.horizontal, 1)
 
 
                 VStack(spacing: 2) {
-
                     ForEach(0..<reducedEvents.count, id: \.self) { index in
                         ViewThatFits {
                             CamiWidgetEvent( event: reducedEvents[index] )
                         }
                     }
-
                 }
             }
 

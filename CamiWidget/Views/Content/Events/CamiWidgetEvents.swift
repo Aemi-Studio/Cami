@@ -13,24 +13,27 @@ struct CamiWidgetEvents: View {
 
     var body: some View {
         
-        let dates: Dates = Array(entry.events.keys).sorted()
+        var dates: Dates {
+            var _dates: Set<Date> = Set<Date>().union(entry.events.keys).union(entry.inlineEvents.keys)
+            return _dates.sorted()
+        }
 
         VStack(spacing: 6) {
-
             ForEach(0..<dates.count, id: \.self) { dateIndex in
-
-                ViewThatFits {
-
-                    let date: Date = dates[dateIndex]
-                    let _events: Events = entry.events[date] ?? []
-
-                    CamiWidgetEventsByDate(
-                        date: date,
-                        events: _events.sortedEventByAscendingDate()
-                    )
-
+                let date: Date = dates[dateIndex]
+                if date < entry.date.zero && !entry.config.displayOngoingEvents {
+                    EmptyView()
+                } else {
+                    ViewThatFits {
+                        let _events: Events = entry.events[date] ?? []
+                        let _inlineEvents: Events = entry.inlineEvents[date] ?? []
+                        CamiWidgetEventsByDate(
+                            date: date,
+                            events: _events,
+                            inlineEvents: _inlineEvents
+                        )
+                    }
                 }
-                
             }
 
         }

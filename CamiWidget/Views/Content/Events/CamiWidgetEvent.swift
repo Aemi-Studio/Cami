@@ -9,7 +9,9 @@ import SwiftUI
 import EventKit
 
 struct CamiWidgetEvent: View {
-    
+
+    @EnvironmentObject private var entry: CamiWidgetEntry
+
     var event: (EKEvent,Events)
 
     private var _event: EKEvent {
@@ -26,7 +28,8 @@ struct CamiWidgetEvent: View {
 
             VStack(alignment: .leading) {
                 Text(_event.title)
-                    .font(.system(.caption, design: .rounded))
+                    .font(.caption)
+                    .fontDesign(.rounded)
                     .fontWeight(.medium)
                     .lineLimit(1)
                     .foregroundStyle(Color(cgColor: _event.calendar.cgColor))
@@ -35,20 +38,21 @@ struct CamiWidgetEvent: View {
             Spacer(minLength: 8)
 
             if !_event.isAllDay {
-                VStack(alignment: .trailing) {
+                VStack(alignment: .trailing,spacing: 1) {
 
                     ForEach(_other, id: \.self) { __event in
                         RemainingTimeComponent(
                             from: __event.startDate,
-                            to: __event.endDate
+                            to: __event.endDate,
+                            accuracy: __event.spansMore(than: entry.date) ? .day : [.day,.hour,.minute]
                         )
-                            .font(.system(.caption))
+                            .font(.caption)
                             .foregroundStyle(Color(cgColor: __event.calendar.cgColor))
                     }
                 }
             }
 
         }
-        .roundedBorder( _event.calendar.cgColor )
+        .roundedBorder( _event.calendar.cgColor, bordered: entry.config.allDayStyle == .bordered && _event.isAllDay )
     }
 }

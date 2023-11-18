@@ -18,7 +18,7 @@ struct CamiWidgetHeader: View {
         HStack(spacing: 0) {
             CamiWidgetHeaderDate()
             Spacer()
-            if !(entry.config.displayBirthdays || entry.birthdays.isEmpty) {
+            if entry.config.displayBirthdays && !entry.birthdays.isEmpty {
                 CamiWidgetHeaderBirthdays()
             }
         }

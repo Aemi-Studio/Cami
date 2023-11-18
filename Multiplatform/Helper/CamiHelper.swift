@@ -84,19 +84,22 @@ class CamiHelper {
     }
 
     public static func events(
-        calendars: [String] = allCalendars.asIdentifiers,
-        days: Int = 30
+        from calendars: [String] = allCalendars.asIdentifiers,
+        during days: Int = 30,
+        where filter: ((EKEvent) -> Bool)? = nil
     ) -> EventDict {
-        return CalendarHelper.events(calendars: calendars, days: days)
+        return CalendarHelper.events(from: calendars, during: days, where: filter)
     }
 
     public static func events(
-        calendars: [WidgetCalendarEntity] = WidgetCalendarEntity.allCalendars,
-        days: Int = 30
+        from calendars: [WidgetCalendarEntity] = WidgetCalendarEntity.allCalendars,
+        during days: Int = 30,
+        where filter: ((EKEvent) -> Bool)? = nil
     ) -> EventDict {
         return self.events(
-            calendars: calendars.map { $0.calendar },
-            days: days
+            from: calendars.map { $0.calendar },
+            during: days,
+            where: filter
         )
     }
 

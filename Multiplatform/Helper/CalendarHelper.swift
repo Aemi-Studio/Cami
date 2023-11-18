@@ -49,8 +49,10 @@ final class CalendarHelper {
 
     public static func events(
         store: EKEventStore = CamiHelper.eventStore,
-        calendars: [String] = CamiHelper.allCalendars.asIdentifiers,
-        days: Int = 30
+        from calendars: [String] = CamiHelper.allCalendars.asIdentifiers,
+        during days: Int = 30,
+        where filter: ((EKEvent) -> Bool)? = nil,
+        relativeTo date: Date = Date.now
     ) -> EventDict {
 
         let calendar = Calendar.autoupdatingCurrent
@@ -62,7 +64,7 @@ final class CalendarHelper {
         todayComponent.day = 0
         let today = calendar.date(
             byAdding: todayComponent,
-            to: Date(),
+            to: date,
             wrappingComponents: false
         )
 
@@ -71,7 +73,7 @@ final class CalendarHelper {
         oneMonthFromNowComponents.day = days
         let oneMonthFromNow = calendar.date(
             byAdding: oneMonthFromNowComponents,
-            to: Date(),
+            to: date,
             wrappingComponents: false
         )
 
@@ -87,17 +89,22 @@ final class CalendarHelper {
 
         // Fetch all events that match the predicate.
         if let aPredicate = predicate {
-            events = store.events(matching: aPredicate)
+            events = store.events(matching: aPredicate).sortedEventByAscendingDate()
+        }
+
+        if filter != nil {
+            events = events.filter(filter!)
         }
 
         var eventsDictionary: EventDict = [:]
 
         for event in events {
-            let resetDate = event.startDate.zero
-            if eventsDictionary[resetDate] != nil {
-                eventsDictionary[resetDate]?.append(event)
+            if event.spansMore(than: date) {
+                let theseDaysKey = date.addingTimeInterval(-86400).zero;
+                eventsDictionary.append(to: theseDaysKey, event)
             } else {
-                eventsDictionary[resetDate] = [event]
+                let resetDate = event.startDate.zero
+                eventsDictionary.append(to: event.startDate.zero, event)
             }
         }
 

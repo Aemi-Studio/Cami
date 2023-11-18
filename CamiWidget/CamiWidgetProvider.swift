@@ -14,7 +14,7 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
 
     func placeholder(in context: Context) -> Entry {
         return CamiWidgetEntry(
-            events:     CamiHelper.events(calendars: [] as [String]),
+            events:     CamiHelper.events(from: [] as [String]),
             birthdays:  CamiHelper.birthdays()
         )
     }

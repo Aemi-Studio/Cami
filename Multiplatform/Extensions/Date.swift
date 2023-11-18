@@ -26,22 +26,33 @@ extension Date {
         )
     }
 
-    var relativeToNow: String {
+    var formattedUntilTomorrow: String {
         let formatter = DateFormatter()
-        formatter.timeStyle = .none
         formatter.dateStyle = .long
-        formatter.monthSymbols = .none
+        formatter.timeStyle = .none
         formatter.doesRelativeDateFormatting = true
-        formatter.locale = Locale.autoupdatingCurrent
         return formatter.string(from: self)
     }
 
-    var timeUntil: String {
+    var formattedAfterTomorrow: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE d"
+        return formatter.string(from: self)
+    }
+
+
+    var relativeToNow: String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        return formatter.string(for: self)!
+    }
+
+    func remainingTime(until date: Date, accuracy: NSCalendar.Unit = [.day,.hour,.minute]) -> String {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .abbreviated
         formatter.zeroFormattingBehavior = .dropAll
-        formatter.allowedUnits = [.day, .hour, .minute]
-        return formatter.string(from: Date.now, to: self)!
+        formatter.allowedUnits = accuracy
+        return formatter.string(from: self, to: date)!
     }
 
     var zero: Date {

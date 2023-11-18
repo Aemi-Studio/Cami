@@ -11,16 +11,16 @@ import AppIntents
 enum AllDayStyleEnum: String, CaseIterable, AppEnum {
     typealias RawValue = String
 
-    case hidden = "Hidden"
-    case inline = "Inline"
-    case event  = "Event"
+    case hidden     = "Hidden"
+    case event      = "Event"
+    case bordered   = "Event Bordered"
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 
     static var caseDisplayRepresentations: [AllDayStyleEnum : DisplayRepresentation] = [
         .hidden: .init(stringLiteral: "Hidden"),
-        .inline: .init(stringLiteral: "Inline"),
-        .event: .init(stringLiteral: "Event")
+        .event: .init(stringLiteral: "Event"),
+        .bordered: .init(stringLiteral: "Event Bordered"),
     ]
 
     var title: String {

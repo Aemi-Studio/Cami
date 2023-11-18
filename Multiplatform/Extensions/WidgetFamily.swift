@@ -12,4 +12,8 @@ extension WidgetFamily {
     public static func isSmall(_ widgetFamily: WidgetFamily) -> Bool {
         widgetFamily == .systemSmall
     }
+
+    var isSmall: Bool {
+        self == .systemSmall
+    }
 }

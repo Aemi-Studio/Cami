@@ -40,7 +40,7 @@ struct CamiWidgetHeaderBirthdays: View {
             let firstBirthday: EKEvent = birthdays[0]
 
             var peopleBirthdays: [String] = birthdays.filter { event in
-                event.isSameDayAs(event: firstBirthday) && event != firstBirthday
+                event.isSameDay(as: firstBirthday) && event != firstBirthday
             }.map { event in
                 ContactHelper.resolveContactName( 
                     event.birthdayContactIdentifier!

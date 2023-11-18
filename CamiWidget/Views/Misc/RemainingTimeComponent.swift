@@ -11,28 +11,32 @@ struct RemainingTimeComponent: View {
 
     @EnvironmentObject private var entry: CamiWidgetEntry
 
-    private var now: Date {
-        entry.date
-    }
-
     private let startDate: Date
     private let endDate: Date
+    private let accuracy: NSCalendar.Unit
 
-    init(from startDate: Date, to endDate: Date) {
+    init(
+        from startDate: Date,
+        to endDate: Date,
+        accuracy: NSCalendar.Unit = [.day,.hour,.minute]
+    ) {
         self.startDate = startDate
         self.endDate = endDate
+        self.accuracy = accuracy
     }
 
     var body: some View {
 
-        HStack(spacing: 4) {
+        HStack(spacing: 2) {
 
-            if startDate < now {
+            if startDate < entry.date {
 
-                let remainingTime: String = endDate.timeUntil
+                let remainingTime: String = entry.date.remainingTime(until: endDate, accuracy: accuracy)
 
                 Label("Remaining Time: \(remainingTime)", systemImage: "timer")
                     .labelStyle(.iconOnly)
+                    .fontWeight(.bold)
+                    .scaleEffect(0.8)
 
                 Text(remainingTime)
                 
@@ -41,7 +45,8 @@ struct RemainingTimeComponent: View {
             }
         }
         .monospacedDigit()
-        .fontWeight(.medium)
+        .fontDesign(.rounded)
+        .fontWeight(.semibold)
         .opacity(0.5)
     }
 
