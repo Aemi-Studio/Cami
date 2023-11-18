@@ -1,5 +1,5 @@
 //
-//  EventList.swift
+//  Events.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 17/11/23.
@@ -7,9 +7,8 @@
 
 import Foundation
 import EventKit
-import OSLog
 
-extension EventList {
+extension Events {
 
     private func similarEvents(_ event: EKEvent) -> [(EKEvent,Int)] {
         var outputList: [(EKEvent,Int)] = []
@@ -25,9 +24,9 @@ extension EventList {
         return outputList
     }
 
-    func reduced() -> [(EKEvent, EventList)] {
+    func reduced() -> [(EKEvent, Events)] {
 
-        var result: [(EKEvent, EventList)] = []
+        var result: [(EKEvent, Events)] = []
         var ignoredEvents: [Int] = []
 
         for (index,event) in self.enumerated() {

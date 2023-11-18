@@ -56,7 +56,7 @@ final class CalendarHelper {
         let calendar = Calendar.autoupdatingCurrent
         let ekCalendars: [EKCalendar] = calendars.asEKCalendars(with: store)
 
-        var events: EventList = []
+        var events: Events = []
 
         var todayComponent = DateComponents()
         todayComponent.day = 0
@@ -107,7 +107,7 @@ final class CalendarHelper {
     public static func birthdays(
         store: EKEventStore = CamiHelper.eventStore,
         days: Int = 365
-    ) -> EventList {
+    ) -> Events {
 
         let calendar = Calendar.autoupdatingCurrent
 
@@ -143,7 +143,7 @@ final class CalendarHelper {
             return store.events(matching: aPredicate).sortedEventByAscendingDate()
         }
 
-        return EventList()
+        return Events()
     }
 
 }

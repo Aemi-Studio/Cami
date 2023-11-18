@@ -1,5 +1,5 @@
 //
-//  EKAuthorizationSet.swift
+//  AuthorizationSet.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 14/11/23.

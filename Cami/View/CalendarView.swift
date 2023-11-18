@@ -6,16 +6,14 @@
 //
 
 import SwiftUI
-import EventKit
-import Contacts
 
 struct CalendarView: View {
     
-    private var birthdays: EventList {
+    private var birthdays: Events {
         return CamiHelper.birthdays()
     }
 
-    private var subscribedCalendars: [EKCalendar] {
+    private var subscribedCalendars: Calendars {
         return CamiHelper.allCalendars.filter({ cal in cal.isSubscribed })
     }
 

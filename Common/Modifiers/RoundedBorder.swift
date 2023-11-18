@@ -1,5 +1,5 @@
 //
-//  EventItemUI.swift
+//  RoundedBorder.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 07/11/23.

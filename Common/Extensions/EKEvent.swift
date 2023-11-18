@@ -1,5 +1,5 @@
 //
-//  EKEventExtension.swift
+//  EKEvent.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 01/11/23.

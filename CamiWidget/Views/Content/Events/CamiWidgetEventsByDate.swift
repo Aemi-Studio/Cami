@@ -1,6 +1,6 @@
 //
 //  CamiWidgetEventsByDate.swift
-//  Cami
+//  CamiWidget
 //
 //  Created by Guillaume Coquard on 14/11/23.
 //
@@ -10,35 +10,36 @@ import EventKit
 
 struct CamiWidgetEventsByDate: View {
 
-    var date: Date
-    var events: EventList = []
-    var config: CamiWidgetConfiguration = .init()
+    @EnvironmentObject private var entry: CamiWidgetEntry
 
-    private var allDayEventStyle: AllDayEventStyle {
-        config.allDayEventStyle
+    var date: Date
+    var events: Events = []
+
+    private var allDayStyle: AllDayStyleEnum {
+        entry.config.allDayStyle
     }
 
     private var groupEvents: Bool {
-        config.groupEvents
+        entry.config.groupEvents
     }
 
-    private var allDayEvents: EventList {
-        if allDayEventStyle == .inline {
+    private var allDayEvents: Events {
+        if allDayStyle == .inline {
             return events.filter({ event in event.isAllDay })
         }
         return []
     }
 
-    private var reducedEvents: [(EKEvent, EventList)] {
+    private var reducedEvents: [(EKEvent, Events)] {
         if groupEvents {
-            if allDayEventStyle != .event {
+            if allDayStyle != .event {
                 return events.filter({ event in !(
                     event.isAllDay
                 )}).reduced()
             }
             return events.reduced()
         } else {
-            if allDayEventStyle != .event {
+            if allDayStyle != .event {
                 return events.filter({ event in !(
                     event.isAllDay
                 )}).map( { ($0,[$0]) } )
@@ -48,14 +49,18 @@ struct CamiWidgetEventsByDate: View {
     }
 
     var body: some View {
+
         if allDayEvents.isEmpty && reducedEvents.isEmpty {
+
             EmptyView()
+
         } else {
+
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Text(
                         (date >= Date.now.zero)
-                        ? CamiUtils.relativeDate(date)
+                        ? date.relativeToNow
                         : "These days"
                     )
                     .fontDesign(.rounded)
@@ -80,24 +85,20 @@ struct CamiWidgetEventsByDate: View {
                         .lineLimit(1)
                     }
                 }
+
+
                 VStack(spacing: 2) {
 
                     ForEach(0..<reducedEvents.count, id: \.self) { index in
-
                         ViewThatFits {
-
-                            CamiWidgetEvent(
-                                event: reducedEvents[index]
-                            )
-
+                            CamiWidgetEvent( event: reducedEvents[index] )
                         }
                     }
+
                 }
             }
+
         }
+        
     }
 }
-
-//#Preview {
-//    CamiWidgetEventsByDate()
-//}

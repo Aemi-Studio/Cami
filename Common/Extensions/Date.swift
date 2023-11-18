@@ -15,6 +15,35 @@ extension Date {
 
 extension Date {
 
+    var literals: (name: String, number: String) {
+        let stringFormatter = DateFormatter()
+        let numberFormatter = DateFormatter()
+        stringFormatter.dateFormat = "EEEE"
+        numberFormatter.dateFormat = "d"
+        return (
+            name: stringFormatter.string(from: self),
+            number: numberFormatter.string(from: self)
+        )
+    }
+
+    var relativeToNow: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .none
+        formatter.dateStyle = .long
+        formatter.monthSymbols = .none
+        formatter.doesRelativeDateFormatting = true
+        formatter.locale = Locale.autoupdatingCurrent
+        return formatter.string(from: self)
+    }
+
+    var timeUntil: String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .abbreviated
+        formatter.zeroFormattingBehavior = .dropAll
+        formatter.allowedUnits = [.day, .hour, .minute]
+        return formatter.string(from: Date.now, to: self)!
+    }
+
     var zero: Date {
         Calendar.current.date(
             bySettingHour: 0,

@@ -1,6 +1,6 @@
 //
 //  CamiWidgetHeader.swift
-//  Cami
+//  CamiWidget
 //
 //  Created by Guillaume Coquard on 15/11/23.
 //
@@ -10,27 +10,16 @@ import EventKit
 
 struct CamiWidgetHeader: View {
 
-    var date: Date
-    var config: CamiWidgetConfiguration
-
-    var birthdays: EventList {
-        if config.displayBirthdays {
-            return CamiHelper.birthdays()
-        } else {
-            return []
-        }
-    }
+    @EnvironmentObject
+    private var entry: CamiWidgetEntry
 
     var body: some View {
 
         HStack(spacing: 0) {
-            CamiWidgetHeaderDate(date: date)
+            CamiWidgetHeaderDate()
             Spacer()
-            if !birthdays.isEmpty {
-                CamiWidgetBirthdays(
-                    date: date,
-                    birthdays: birthdays
-                )
+            if !(entry.config.displayBirthdays || entry.birthdays.isEmpty) {
+                CamiWidgetHeaderBirthdays()
             }
         }
         .padding(.init(top: 4, leading: 8, bottom: 4, trailing: 4))

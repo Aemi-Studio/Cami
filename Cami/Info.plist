@@ -4,7 +4,7 @@
 <dict>
 	<key>INIntentsSupported</key>
 	<array>
-		<string>CamiCompleteWidgetIntent</string>
+		<string>CamiWidgetIntent</string>
 	</array>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Cami only uses your data locally to display events. It does not edit or delete them nor sends them away.</string>

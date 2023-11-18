@@ -5,19 +5,21 @@
 //  Created by Guillaume Coquard on 03/11/23.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 struct CamiWidget: Widget {
+
     let kind: String = "CamiWidget"
 
     var body: some WidgetConfiguration {
+
         AppIntentConfiguration(
             kind: kind,
-            intent: CamiCompleteWidgetIntent.self,
+            intent: CamiWidgetIntent.self,
             provider: CamiWidgetProvider()
         ) { entry in
-            CamiWidgetEntryView(entry: entry)
+            CamiWidgetView(for: entry)
                 .containerBackground(Color(white:0.1), for: .widget)
         }
         .containerBackgroundRemovable()

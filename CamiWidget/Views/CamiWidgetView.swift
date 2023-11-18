@@ -1,40 +1,44 @@
 //
-//  CamiWidgetEntryView.swift
-//  Cami
+//  CamiWidgetView.swift
+//  CamiWidget
 //
 //  Created by Guillaume Coquard on 05/11/23.
 //
 
-import Foundation
 import SwiftUI
-import WidgetKit
-import EventKit
 
-struct CamiWidgetEntryView : View {
-    var entry: CamiWidgetEntry
+struct CamiWidgetView : View {
 
-    private let now = Date.now
+    let entry: CamiWidgetEntry
+
+    init(for entry: CamiWidgetEntry) {
+        self.entry = entry
+    }
 
     var body: some View {
+
         ZStack {
+
             VStack(spacing: 6) {
-                CamiWidgetHeader(
-                    date: now,
-                    config: entry.config
-                )
+
+                CamiWidgetHeader()
+
+                Spacer()
+
                 Color.clear
-                    .overlay(alignment:.top) {
-                        CamiWidgetEvents(
-                            events: entry.events,
-                            config: entry.config
-                        )
-                    }
+                    .overlay(
+                        alignment:.top,
+                        content: { CamiWidgetEvents() }
+                    )
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+
             }
             .padding(6)
 
             VStack {
+
                 Spacer()
+
                 LinearGradient(
                     colors: [
                         Color(white: 0.1).opacity(0),
@@ -44,7 +48,10 @@ struct CamiWidgetEntryView : View {
                     endPoint: .bottom
                 )
                 .frame(maxWidth: .infinity, maxHeight: 64)
+
             }
         }
+        .environmentObject(entry)
+
     }
 }

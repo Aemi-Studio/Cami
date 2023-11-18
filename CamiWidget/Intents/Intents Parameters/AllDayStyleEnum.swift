@@ -1,6 +1,6 @@
 //
-//  AllDayEventStyle.swift
-//  Cami
+//  AllDayStyleEnum.swift
+//  CamiWidget
 //
 //  Created by Guillaume Coquard on 17/11/23.
 //
@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-enum AllDayEventStyle: String, CaseIterable, AppEnum {
+enum AllDayStyleEnum: String, CaseIterable, AppEnum {
     typealias RawValue = String
 
     case hidden = "Hidden"
@@ -17,7 +17,7 @@ enum AllDayEventStyle: String, CaseIterable, AppEnum {
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 
-    static var caseDisplayRepresentations: [AllDayEventStyle : DisplayRepresentation] = [
+    static var caseDisplayRepresentations: [AllDayStyleEnum : DisplayRepresentation] = [
         .hidden: .init(stringLiteral: "Hidden"),
         .inline: .init(stringLiteral: "Inline"),
         .event: .init(stringLiteral: "Event")
@@ -29,8 +29,8 @@ enum AllDayEventStyle: String, CaseIterable, AppEnum {
 }
 
 
-struct AllDayEventStyleOptionsProvider: DynamicOptionsProvider {
-    func results() async throws -> [AllDayEventStyle] {
-        AllDayEventStyle.allCases
+struct AllDayStyleOptionsProvider: DynamicOptionsProvider {
+    func results() async throws -> [AllDayStyleEnum] {
+        AllDayStyleEnum.allCases
     }
 }

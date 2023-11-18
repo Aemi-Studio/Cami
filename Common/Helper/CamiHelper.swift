@@ -51,7 +51,7 @@ class CamiHelper {
 
     }
 
-    public static var allCalendars: CalendarList {
+    public static var allCalendars: Calendars {
         self.eventStore.calendars(for: .event).filter { calendar in
             calendar.type != .birthday
         }
@@ -90,7 +90,17 @@ class CamiHelper {
         return CalendarHelper.events(calendars: calendars, days: days)
     }
 
-    public static func birthdays(days: Int = 365) -> EventList {
+    public static func events(
+        calendars: [WidgetCalendarEntity] = WidgetCalendarEntity.allCalendars,
+        days: Int = 30
+    ) -> EventDict {
+        return self.events(
+            calendars: calendars.map { $0.calendar },
+            days: days
+        )
+    }
+
+    public static func birthdays(days: Int = 365) -> Events {
         return CalendarHelper.birthdays(days: days)
     }
 

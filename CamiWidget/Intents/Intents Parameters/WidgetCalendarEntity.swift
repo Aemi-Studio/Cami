@@ -1,6 +1,6 @@
 //
-//  CamiCalendar.swift
-//  Cami
+//  WidgetCalendarEntity.swift
+//  CamiWidget
 //
 //  Created by Guillaume Coquard on 18/11/23.
 //
@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-struct CamiCalendar: AppEntity {
+struct WidgetCalendarEntity: AppEntity {
     var id: String
     var calendar: String
 
@@ -19,8 +19,8 @@ struct CamiCalendar: AppEntity {
         DisplayRepresentation(title: "\(id)")
     }
 
-    static let allCalendars: [CamiCalendar] = CamiHelper.allCalendars.map { calendar in
-        CamiCalendar(
+    static let allCalendars: [WidgetCalendarEntity] = CamiHelper.allCalendars.map { calendar in
+        WidgetCalendarEntity(
             id: "\(calendar.source.title) - \(calendar.title)",
             calendar: calendar.calendarIdentifier
         )
@@ -28,19 +28,19 @@ struct CamiCalendar: AppEntity {
 }
 
 struct CamiCalendarQuery: EntityQuery {
-    typealias Entity = CamiCalendar
+    typealias Entity = WidgetCalendarEntity
 
     func entities(for identifiers: [Entity.ID]) async throws -> [Entity] {
-        CamiCalendar.allCalendars.filter { calendar in
+        WidgetCalendarEntity.allCalendars.filter { calendar in
             identifiers.contains(calendar.id)
         }
     }
 
     func suggestedEntities() async throws -> [Entity] {
-        CamiCalendar.allCalendars
+        WidgetCalendarEntity.allCalendars
     }
 
     func defaultResult() async -> [Entity] {
-        CamiCalendar.allCalendars
+        WidgetCalendarEntity.allCalendars
     }
 }

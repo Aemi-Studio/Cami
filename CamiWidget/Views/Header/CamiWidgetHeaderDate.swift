@@ -1,41 +1,47 @@
 //
 //  CamiWidgetHeaderDate.swift
-//  Cami
+//  CamiWidget
 //
 //  Created by Guillaume Coquard on 15/11/23.
 //
 
+import Foundation
 import SwiftUI
 import WidgetKit
 
 struct CamiWidgetHeaderDate: View {
 
-    @Environment(\.widgetFamily) var widgetFamily: WidgetFamily
+    @Environment(\.widgetFamily)
+    var widgetFamily: WidgetFamily
 
-    var datePrefix: Int {
-        switch widgetFamily {
+    @EnvironmentObject
+    private var entry: CamiWidgetEntry
+
+    private var datePrefix: Int {
+        return switch widgetFamily {
+            case .systemExtraLarge:
+                Int.max
             case .systemSmall:
-                return 1
+                1
             default:
-                return 3
+                3
         }
     }
 
-    var date: Date
-
     var body: some View {
         HStack {
-            let dateComponents = CamiUtils.getDayFromDate(date: date)
+            let dateComponents = entry.date.literals
+
             Group {
                 Text(
-                    "\(dateComponents.0)"
+                    "\(dateComponents.name)"
                         .uppercased()
                         .prefix(datePrefix)
                 )
                 .fontWeight(.heavy)
                 .foregroundStyle(.white)
                 +
-                Text("\(dateComponents.1)")
+                Text("\(dateComponents.number)")
                     .fontWeight(.heavy)
                     .foregroundStyle(.red)
             }

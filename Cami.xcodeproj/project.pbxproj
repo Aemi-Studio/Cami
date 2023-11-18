@@ -13,14 +13,13 @@
 		460CAB1B2B065F630059B2F7 /* WidgetFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB1A2B065F630059B2F7 /* WidgetFamily.swift */; };
 		460CAB1E2B06602E0059B2F7 /* Pad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB1D2B06602E0059B2F7 /* Pad.swift */; };
 		460CAB212B0669900059B2F7 /* EdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB202B0669900059B2F7 /* EdgeInsets.swift */; };
-		460CAB242B06C1720059B2F7 /* Days.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB232B06C1720059B2F7 /* Days.swift */; };
 		460CAB272B06C2EC0059B2F7 /* MiniBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB262B06C2EC0059B2F7 /* MiniBadge.swift */; };
 		460CAB2A2B06C5410059B2F7 /* HiddenIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB292B06C5410059B2F7 /* HiddenIf.swift */; };
 		461CF4A02B035F15003D9293 /* AuthorizationSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF49F2B035F15003D9293 /* AuthorizationSet.swift */; };
 		4655330D2AF4EA69000B537B /* CamiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4655330C2AF4EA69000B537B /* CamiApp.swift */; };
 		4655330F2AF4EA69000B537B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4655330E2AF4EA69000B537B /* ContentView.swift */; };
 		465533112AF4EA6A000B537B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 465533102AF4EA6A000B537B /* Assets.xcassets */; };
-		46688DA02B07658400AD28F4 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688D9F2B07658400AD28F4 /* EventList.swift */; };
+		46688DA02B07658400AD28F4 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688D9F2B07658400AD28F4 /* Events.swift */; };
 		46688DA42B07ACB800AD28F4 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688DA32B07ACB800AD28F4 /* Bool.swift */; };
 		467F3DCB2B04C49200F10899 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCA2B04C49200F10899 /* SettingsView.swift */; };
 		467F3DCD2B04C50B00F10899 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCC2B04C50B00F10899 /* CalendarView.swift */; };
@@ -28,38 +27,37 @@
 		46968DB52B05188A00EA1C8D /* ReminderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB42B05188A00EA1C8D /* ReminderHelper.swift */; };
 		46968DB82B0518AB00EA1C8D /* CamiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB72B0518AB00EA1C8D /* CamiHelper.swift */; };
 		46968DBB2B05FFA000EA1C8D /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DBA2B05FFA000EA1C8D /* Array.swift */; };
-		46968DC42B06148500EA1C8D /* CalendarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC32B06148500EA1C8D /* CalendarList.swift */; };
+		46968DC42B06148500EA1C8D /* Calendars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC32B06148500EA1C8D /* Calendars.swift */; };
 		46968DC72B062BE700EA1C8D /* DateComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC62B062BE700EA1C8D /* DateComponents.swift */; };
 		469E05642B07DDA600F3263D /* CamiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05632B07DDA600F3263D /* CamiWidget.swift */; };
-		469E05662B07DDED00F3263D /* CamiCompleteWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05652B07DDED00F3263D /* CamiCompleteWidgetIntent.swift */; };
-		469E05802B08172700F3263D /* AllDayEventStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E057F2B08172700F3263D /* AllDayEventStyle.swift */; };
-		469E05812B08172700F3263D /* AllDayEventStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E057F2B08172700F3263D /* AllDayEventStyle.swift */; };
+		469E05802B08172700F3263D /* AllDayStyleEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E057F2B08172700F3263D /* AllDayStyleEnum.swift */; };
+		469E05812B08172700F3263D /* AllDayStyleEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E057F2B08172700F3263D /* AllDayStyleEnum.swift */; };
 		469E05832B0848AE00F3263D /* Seconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05822B0848AE00F3263D /* Seconds.swift */; };
 		469E05842B0848AE00F3263D /* Seconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05822B0848AE00F3263D /* Seconds.swift */; };
-		469E05862B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */; };
-		469E05872B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */; };
-		469E058A2B086C3100F3263D /* CamiCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05892B086C3100F3263D /* CamiCalendar.swift */; };
-		469E058B2B086C3100F3263D /* CamiCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05892B086C3100F3263D /* CamiCalendar.swift */; };
+		469E058A2B086C3100F3263D /* WidgetCalendarEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05892B086C3100F3263D /* WidgetCalendarEntity.swift */; };
+		469E058B2B086C3100F3263D /* WidgetCalendarEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05892B086C3100F3263D /* WidgetCalendarEntity.swift */; };
+		469E058F2B08F57600F3263D /* CamiWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E058D2B08F57600F3263D /* CamiWidgetConfiguration.swift */; };
+		469E05932B0919A000F3263D /* CamiWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05902B08F7DA00F3263D /* CamiWidgetIntent.swift */; };
+		469E05942B0919A800F3263D /* CamiWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E05902B08F7DA00F3263D /* CamiWidgetIntent.swift */; };
+		469E05992B0922B600F3263D /* CamiWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E058D2B08F57600F3263D /* CamiWidgetConfiguration.swift */; };
 		46B160632B07D87000A44FBF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 465533212AF4EA7A000B537B /* WidgetKit.framework */; };
 		46B160642B07D87000A44FBF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 465533232AF4EA7A000B537B /* SwiftUI.framework */; };
 		46B1606B2B07D87100A44FBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46B1606A2B07D87100A44FBF /* Assets.xcassets */; };
-		46B160702B07D87100A44FBF /* CamiCompleteWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 46B160622B07D87000A44FBF /* CamiCompleteWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		46B160702B07D87100A44FBF /* CamiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		46B160802B07D90500A44FBF /* Rounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB112B0650370059B2F7 /* Rounded.swift */; };
 		46B160812B07D90500A44FBF /* HiddenIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB292B06C5410059B2F7 /* HiddenIf.swift */; };
 		46B160822B07D90500A44FBF /* RoundedBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBEE2AFA2CC600B4C7CB /* RoundedBorder.swift */; };
 		46B160832B07D90500A44FBF /* Pad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB1D2B06602E0059B2F7 /* Pad.swift */; };
 		46B160842B07D90500A44FBF /* MiniBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB262B06C2EC0059B2F7 /* MiniBadge.swift */; };
-		46B160852B07D90700A44FBF /* CamiUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBF42AFA48B300B4C7CB /* CamiUtils.swift */; };
 		46B160862B07D90A00A44FBF /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E162AF7946700607AAF /* Date.swift */; };
 		46B160872B07D90A00A44FBF /* RectangleCornerRadii.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB172B0659320059B2F7 /* RectangleCornerRadii.swift */; };
 		46B160882B07D90A00A44FBF /* WidgetFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB1A2B065F630059B2F7 /* WidgetFamily.swift */; };
-		46B160892B07D90A00A44FBF /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688D9F2B07658400AD28F4 /* EventList.swift */; };
-		46B1608A2B07D90A00A44FBF /* Days.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB232B06C1720059B2F7 /* Days.swift */; };
+		46B160892B07D90A00A44FBF /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688D9F2B07658400AD28F4 /* Events.swift */; };
 		46B1608B2B07D90A00A44FBF /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688DA32B07ACB800AD28F4 /* Bool.swift */; };
 		46B1608C2B07D90A00A44FBF /* EdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB202B0669900059B2F7 /* EdgeInsets.swift */; };
 		46B1608D2B07D90A00A44FBF /* EKEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E132AF7944800607AAF /* EKEvent.swift */; };
 		46B1608E2B07D90A00A44FBF /* DateComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC62B062BE700EA1C8D /* DateComponents.swift */; };
-		46B1608F2B07D90A00A44FBF /* CalendarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC32B06148500EA1C8D /* CalendarList.swift */; };
+		46B1608F2B07D90A00A44FBF /* Calendars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC32B06148500EA1C8D /* Calendars.swift */; };
 		46B160902B07D90A00A44FBF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DBA2B05FFA000EA1C8D /* Array.swift */; };
 		46B160912B07D90D00A44FBF /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E1D2AF795EF00607AAF /* CalendarHelper.swift */; };
 		46B160922B07D90D00A44FBF /* ContactHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCE2B04C76400F10899 /* ContactHelper.swift */; };
@@ -76,13 +74,12 @@
 		46B160A02B07D9A100A44FBF /* CamiWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E102AF78DC700607AAF /* CamiWidgetEntry.swift */; };
 		46B160A12B07D9A100A44FBF /* CamiWidgetEventsByDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675FC5C2B0370520050F0FC /* CamiWidgetEventsByDate.swift */; };
 		46B160A22B07D9A100A44FBF /* CamiWidgetHeaderDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675FC682B04B4460050F0FC /* CamiWidgetHeaderDate.swift */; };
-		46B160A42B07D9A100A44FBF /* RemainingTimeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBF72AFA607A00B4C7CB /* RemainingTimeBuilder.swift */; };
-		46B160A52B07D9A100A44FBF /* CamiWidgetBirthdays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675FC622B0379800050F0FC /* CamiWidgetBirthdays.swift */; };
+		46B160A42B07D9A100A44FBF /* RemainingTimeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBF72AFA607A00B4C7CB /* RemainingTimeComponent.swift */; };
+		46B160A52B07D9A100A44FBF /* CamiWidgetHeaderBirthdays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675FC622B0379800050F0FC /* CamiWidgetHeaderBirthdays.swift */; };
 		46B160A62B07D9A100A44FBF /* CamiWidgetEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF4A32B036A80003D9293 /* CamiWidgetEvents.swift */; };
-		46B160A72B07D9A100A44FBF /* CamiWidgetEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462861FE2AF7E616004FDC9E /* CamiWidgetEntryView.swift */; };
+		46B160A72B07D9A100A44FBF /* CamiWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462861FE2AF7E616004FDC9E /* CamiWidgetView.swift */; };
 		46BDFBEC2AF851F400B4C7CB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBEB2AF851F400B4C7CB /* MainView.swift */; };
 		46BDFBEF2AFA2CC600B4C7CB /* RoundedBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBEE2AFA2CC600B4C7CB /* RoundedBorder.swift */; };
-		46BDFBF52AFA48B300B4C7CB /* CamiUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBF42AFA48B300B4C7CB /* CamiUtils.swift */; };
 		46BDFBFB2AFA8AED00B4C7CB /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBFA2AFA8AED00B4C7CB /* Types.swift */; };
 		46CC7E142AF7944800607AAF /* EKEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E132AF7944800607AAF /* EKEvent.swift */; };
 		46CC7E172AF7946700607AAF /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E162AF7946700607AAF /* Date.swift */; };
@@ -106,7 +103,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				46B160702B07D87100A44FBF /* CamiCompleteWidgetExtension.appex in Embed Foundation Extensions */,
+				46B160702B07D87100A44FBF /* CamiWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,12 +117,11 @@
 		460CAB1A2B065F630059B2F7 /* WidgetFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetFamily.swift; sourceTree = "<group>"; };
 		460CAB1D2B06602E0059B2F7 /* Pad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pad.swift; sourceTree = "<group>"; };
 		460CAB202B0669900059B2F7 /* EdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsets.swift; sourceTree = "<group>"; };
-		460CAB232B06C1720059B2F7 /* Days.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Days.swift; sourceTree = "<group>"; };
 		460CAB262B06C2EC0059B2F7 /* MiniBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniBadge.swift; sourceTree = "<group>"; };
 		460CAB292B06C5410059B2F7 /* HiddenIf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenIf.swift; sourceTree = "<group>"; };
 		461CF49F2B035F15003D9293 /* AuthorizationSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSet.swift; sourceTree = "<group>"; };
 		461CF4A32B036A80003D9293 /* CamiWidgetEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEvents.swift; sourceTree = "<group>"; };
-		462861FE2AF7E616004FDC9E /* CamiWidgetEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEntryView.swift; sourceTree = "<group>"; };
+		462861FE2AF7E616004FDC9E /* CamiWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetView.swift; sourceTree = "<group>"; };
 		465533092AF4EA69000B537B /* Cami.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cami.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4655330C2AF4EA69000B537B /* CamiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiApp.swift; sourceTree = "<group>"; };
 		4655330E2AF4EA69000B537B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -135,11 +131,11 @@
 		465533232AF4EA7A000B537B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		465533262AF4EA7A000B537B /* CamiWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetBundle.swift; sourceTree = "<group>"; };
 		465533282AF4EA7A000B537B /* CamiWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetLiveActivity.swift; sourceTree = "<group>"; };
-		46688D9F2B07658400AD28F4 /* EventList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
+		46688D9F2B07658400AD28F4 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		46688DA32B07ACB800AD28F4 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		4675FC5C2B0370520050F0FC /* CamiWidgetEventsByDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEventsByDate.swift; sourceTree = "<group>"; };
 		4675FC5F2B0370CB0050F0FC /* CamiWidgetEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEvent.swift; sourceTree = "<group>"; };
-		4675FC622B0379800050F0FC /* CamiWidgetBirthdays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetBirthdays.swift; sourceTree = "<group>"; };
+		4675FC622B0379800050F0FC /* CamiWidgetHeaderBirthdays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetHeaderBirthdays.swift; sourceTree = "<group>"; };
 		4675FC682B04B4460050F0FC /* CamiWidgetHeaderDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetHeaderDate.swift; sourceTree = "<group>"; };
 		4675FC6B2B04B4710050F0FC /* CamiWidgetHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetHeader.swift; sourceTree = "<group>"; };
 		467F3DCA2B04C49200F10899 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -148,23 +144,22 @@
 		46968DB42B05188A00EA1C8D /* ReminderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderHelper.swift; sourceTree = "<group>"; };
 		46968DB72B0518AB00EA1C8D /* CamiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiHelper.swift; sourceTree = "<group>"; };
 		46968DBA2B05FFA000EA1C8D /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
-		46968DC32B06148500EA1C8D /* CalendarList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarList.swift; sourceTree = "<group>"; };
+		46968DC32B06148500EA1C8D /* Calendars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendars.swift; sourceTree = "<group>"; };
 		46968DC62B062BE700EA1C8D /* DateComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponents.swift; sourceTree = "<group>"; };
 		469E05632B07DDA600F3263D /* CamiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidget.swift; sourceTree = "<group>"; };
-		469E05652B07DDED00F3263D /* CamiCompleteWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiCompleteWidgetIntent.swift; sourceTree = "<group>"; };
-		469E057F2B08172700F3263D /* AllDayEventStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDayEventStyle.swift; sourceTree = "<group>"; };
+		469E057F2B08172700F3263D /* AllDayStyleEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDayStyleEnum.swift; sourceTree = "<group>"; };
 		469E05822B0848AE00F3263D /* Seconds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seconds.swift; sourceTree = "<group>"; };
-		469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetConfiguration.swift; sourceTree = "<group>"; };
-		469E05892B086C3100F3263D /* CamiCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiCalendar.swift; sourceTree = "<group>"; };
-		46B160622B07D87000A44FBF /* CamiCompleteWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CamiCompleteWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		469E05892B086C3100F3263D /* WidgetCalendarEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCalendarEntity.swift; sourceTree = "<group>"; };
+		469E058D2B08F57600F3263D /* CamiWidgetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetConfiguration.swift; sourceTree = "<group>"; };
+		469E05902B08F7DA00F3263D /* CamiWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetIntent.swift; sourceTree = "<group>"; };
+		46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CamiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B1606A2B07D87100A44FBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		46B1606C2B07D87100A44FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		46B1606D2B07D87100A44FBF /* CamiCompleteWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CamiCompleteWidget.entitlements; sourceTree = "<group>"; };
+		46B1606D2B07D87100A44FBF /* CamiWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CamiWidget.entitlements; sourceTree = "<group>"; };
 		46BDFBEB2AF851F400B4C7CB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		46BDFBED2AF8536700B4C7CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		46BDFBEE2AFA2CC600B4C7CB /* RoundedBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBorder.swift; sourceTree = "<group>"; };
-		46BDFBF42AFA48B300B4C7CB /* CamiUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiUtils.swift; sourceTree = "<group>"; };
-		46BDFBF72AFA607A00B4C7CB /* RemainingTimeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingTimeBuilder.swift; sourceTree = "<group>"; };
+		46BDFBF72AFA607A00B4C7CB /* RemainingTimeComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingTimeComponent.swift; sourceTree = "<group>"; };
 		46BDFBFA2AFA8AED00B4C7CB /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		46CC7E0D2AF78D7B00607AAF /* CamiWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetProvider.swift; sourceTree = "<group>"; };
 		46CC7E102AF78DC700607AAF /* CamiWidgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEntry.swift; sourceTree = "<group>"; };
@@ -197,13 +192,11 @@
 			isa = PBXGroup;
 			children = (
 				46968DBE2B06022600EA1C8D /* Modifiers */,
-				46BDFBF42AFA48B300B4C7CB /* CamiUtils.swift */,
 				46CC7E192AF7959200607AAF /* Extensions */,
 				46CC7E202AF795F600607AAF /* Helper */,
 				46BDFBFA2AFA8AED00B4C7CB /* Types.swift */,
 				461CF49F2B035F15003D9293 /* AuthorizationSet.swift */,
 				460CAB142B0652470059B2F7 /* WidgetFamilySet.swift */,
-				469E05852B086BC600F3263D /* CamiWidgetConfiguration.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -213,7 +206,7 @@
 			children = (
 				461CF4A22B035F1E003D9293 /* Common */,
 				4655330B2AF4EA69000B537B /* Cami */,
-				46B160652B07D87000A44FBF /* CamiCompleteWidget */,
+				46B160652B07D87000A44FBF /* CamiWidget */,
 				465533202AF4EA7A000B537B /* Frameworks */,
 				4655330A2AF4EA69000B537B /* Products */,
 			);
@@ -223,7 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				465533092AF4EA69000B537B /* Cami.app */,
-				46B160622B07D87000A44FBF /* CamiCompleteWidgetExtension.appex */,
+				46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,8 +245,9 @@
 		46688DA22B07834800AD28F4 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
+				469E05902B08F7DA00F3263D /* CamiWidgetIntent.swift */,
+				469E058D2B08F57600F3263D /* CamiWidgetConfiguration.swift */,
 				469E05882B086C1900F3263D /* Intents Parameters */,
-				469E05652B07DDED00F3263D /* CamiCompleteWidgetIntent.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -292,34 +286,74 @@
 		469E05882B086C1900F3263D /* Intents Parameters */ = {
 			isa = PBXGroup;
 			children = (
-				469E05892B086C3100F3263D /* CamiCalendar.swift */,
-				469E057F2B08172700F3263D /* AllDayEventStyle.swift */,
+				469E05892B086C3100F3263D /* WidgetCalendarEntity.swift */,
+				469E057F2B08172700F3263D /* AllDayStyleEnum.swift */,
 			);
 			path = "Intents Parameters";
 			sourceTree = "<group>";
 		};
-		46B160652B07D87000A44FBF /* CamiCompleteWidget */ = {
+		469E058C2B08F01200F3263D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				46688DA22B07834800AD28F4 /* Intents */,
-				46968DC22B0613FC00EA1C8D /* LiveActivity */,
-				462861FE2AF7E616004FDC9E /* CamiWidgetEntryView.swift */,
-				465533262AF4EA7A000B537B /* CamiWidgetBundle.swift */,
-				46CC7E0D2AF78D7B00607AAF /* CamiWidgetProvider.swift */,
-				46CC7E102AF78DC700607AAF /* CamiWidgetEntry.swift */,
-				46BDFBF72AFA607A00B4C7CB /* RemainingTimeBuilder.swift */,
+				462861FE2AF7E616004FDC9E /* CamiWidgetView.swift */,
+				469E05962B09221900F3263D /* Header */,
+				469E05982B09229100F3263D /* Content */,
+				469E05972B09223800F3263D /* Misc */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		469E05952B0921F500F3263D /* Events */ = {
+			isa = PBXGroup;
+			children = (
 				461CF4A32B036A80003D9293 /* CamiWidgetEvents.swift */,
 				4675FC5C2B0370520050F0FC /* CamiWidgetEventsByDate.swift */,
 				4675FC5F2B0370CB0050F0FC /* CamiWidgetEvent.swift */,
-				4675FC622B0379800050F0FC /* CamiWidgetBirthdays.swift */,
-				4675FC682B04B4460050F0FC /* CamiWidgetHeaderDate.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		469E05962B09221900F3263D /* Header */ = {
+			isa = PBXGroup;
+			children = (
 				4675FC6B2B04B4710050F0FC /* CamiWidgetHeader.swift */,
+				4675FC682B04B4460050F0FC /* CamiWidgetHeaderDate.swift */,
+				4675FC622B0379800050F0FC /* CamiWidgetHeaderBirthdays.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
+		469E05972B09223800F3263D /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				46BDFBF72AFA607A00B4C7CB /* RemainingTimeComponent.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
+		469E05982B09229100F3263D /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				469E05952B0921F500F3263D /* Events */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		46B160652B07D87000A44FBF /* CamiWidget */ = {
+			isa = PBXGroup;
+			children = (
+				469E05632B07DDA600F3263D /* CamiWidget.swift */,
+				465533262AF4EA7A000B537B /* CamiWidgetBundle.swift */,
+				46CC7E102AF78DC700607AAF /* CamiWidgetEntry.swift */,
+				46CC7E0D2AF78D7B00607AAF /* CamiWidgetProvider.swift */,
+				469E058C2B08F01200F3263D /* Views */,
+				46688DA22B07834800AD28F4 /* Intents */,
+				46968DC22B0613FC00EA1C8D /* LiveActivity */,
 				46B1606A2B07D87100A44FBF /* Assets.xcassets */,
 				46B1606C2B07D87100A44FBF /* Info.plist */,
-				46B1606D2B07D87100A44FBF /* CamiCompleteWidget.entitlements */,
-				469E05632B07DDA600F3263D /* CamiWidget.swift */,
+				46B1606D2B07D87100A44FBF /* CamiWidget.entitlements */,
 			);
-			path = CamiCompleteWidget;
+			path = CamiWidget;
 			sourceTree = "<group>";
 		};
 		46CC7E192AF7959200607AAF /* Extensions */ = {
@@ -328,14 +362,13 @@
 				46CC7E162AF7946700607AAF /* Date.swift */,
 				46CC7E132AF7944800607AAF /* EKEvent.swift */,
 				46968DBA2B05FFA000EA1C8D /* Array.swift */,
-				46968DC32B06148500EA1C8D /* CalendarList.swift */,
+				46968DC32B06148500EA1C8D /* Calendars.swift */,
 				46968DC62B062BE700EA1C8D /* DateComponents.swift */,
 				460CAB172B0659320059B2F7 /* RectangleCornerRadii.swift */,
 				460CAB202B0669900059B2F7 /* EdgeInsets.swift */,
 				460CAB1A2B065F630059B2F7 /* WidgetFamily.swift */,
-				460CAB232B06C1720059B2F7 /* Days.swift */,
 				469E05822B0848AE00F3263D /* Seconds.swift */,
-				46688D9F2B07658400AD28F4 /* EventList.swift */,
+				46688D9F2B07658400AD28F4 /* Events.swift */,
 				46688DA32B07ACB800AD28F4 /* Bool.swift */,
 			);
 			path = Extensions;
@@ -374,9 +407,9 @@
 			productReference = 465533092AF4EA69000B537B /* Cami.app */;
 			productType = "com.apple.product-type.application";
 		};
-		46B160612B07D87000A44FBF /* CamiCompleteWidgetExtension */ = {
+		46B160612B07D87000A44FBF /* CamiWidgetExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 46B160712B07D87100A44FBF /* Build configuration list for PBXNativeTarget "CamiCompleteWidgetExtension" */;
+			buildConfigurationList = 46B160712B07D87100A44FBF /* Build configuration list for PBXNativeTarget "CamiWidgetExtension" */;
 			buildPhases = (
 				46B1605E2B07D87000A44FBF /* Sources */,
 				46B1605F2B07D87000A44FBF /* Frameworks */,
@@ -386,9 +419,9 @@
 			);
 			dependencies = (
 			);
-			name = CamiCompleteWidgetExtension;
+			name = CamiWidgetExtension;
 			productName = CamiCompleteWidgetExtension;
-			productReference = 46B160622B07D87000A44FBF /* CamiCompleteWidgetExtension.appex */;
+			productReference = 46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -423,7 +456,7 @@
 			projectRoot = "";
 			targets = (
 				465533082AF4EA69000B537B /* Cami */,
-				46B160612B07D87000A44FBF /* CamiCompleteWidgetExtension */,
+				46B160612B07D87000A44FBF /* CamiWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -453,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46968DC72B062BE700EA1C8D /* DateComponents.swift in Sources */,
+				469E05932B0919A000F3263D /* CamiWidgetIntent.swift in Sources */,
 				467F3DCF2B04C76400F10899 /* ContactHelper.swift in Sources */,
 				467F3DCD2B04C50B00F10899 /* CalendarView.swift in Sources */,
 				46BDFBEF2AFA2CC600B4C7CB /* RoundedBorder.swift in Sources */,
@@ -461,29 +495,27 @@
 				460CAB122B0650370059B2F7 /* Rounded.swift in Sources */,
 				46968DB52B05188A00EA1C8D /* ReminderHelper.swift in Sources */,
 				460CAB1E2B06602E0059B2F7 /* Pad.swift in Sources */,
+				469E05992B0922B600F3263D /* CamiWidgetConfiguration.swift in Sources */,
 				460CAB1B2B065F630059B2F7 /* WidgetFamily.swift in Sources */,
 				46BDFBEC2AF851F400B4C7CB /* MainView.swift in Sources */,
 				46CC7E142AF7944800607AAF /* EKEvent.swift in Sources */,
-				46968DC42B06148500EA1C8D /* CalendarList.swift in Sources */,
+				46968DC42B06148500EA1C8D /* Calendars.swift in Sources */,
 				460CAB2A2B06C5410059B2F7 /* HiddenIf.swift in Sources */,
-				469E05862B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */,
 				4655330F2AF4EA69000B537B /* ContentView.swift in Sources */,
 				46CC7E1E2AF795EF00607AAF /* CalendarHelper.swift in Sources */,
-				469E058A2B086C3100F3263D /* CamiCalendar.swift in Sources */,
+				469E058A2B086C3100F3263D /* WidgetCalendarEntity.swift in Sources */,
 				469E05832B0848AE00F3263D /* Seconds.swift in Sources */,
 				460CAB152B0652470059B2F7 /* WidgetFamilySet.swift in Sources */,
 				46BDFBFB2AFA8AED00B4C7CB /* Types.swift in Sources */,
 				4655330D2AF4EA69000B537B /* CamiApp.swift in Sources */,
 				460CAB272B06C2EC0059B2F7 /* MiniBadge.swift in Sources */,
 				461CF4A02B035F15003D9293 /* AuthorizationSet.swift in Sources */,
-				469E05802B08172700F3263D /* AllDayEventStyle.swift in Sources */,
+				469E05802B08172700F3263D /* AllDayStyleEnum.swift in Sources */,
 				46968DB82B0518AB00EA1C8D /* CamiHelper.swift in Sources */,
 				460CAB182B0659320059B2F7 /* RectangleCornerRadii.swift in Sources */,
 				46688DA42B07ACB800AD28F4 /* Bool.swift in Sources */,
-				46688DA02B07658400AD28F4 /* EventList.swift in Sources */,
-				46BDFBF52AFA48B300B4C7CB /* CamiUtils.swift in Sources */,
+				46688DA02B07658400AD28F4 /* Events.swift in Sources */,
 				460CAB212B0669900059B2F7 /* EdgeInsets.swift in Sources */,
-				460CAB242B06C1720059B2F7 /* Days.swift in Sources */,
 				467F3DCB2B04C49200F10899 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,44 +524,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46B160A52B07D9A100A44FBF /* CamiWidgetBirthdays.swift in Sources */,
+				46B160A52B07D9A100A44FBF /* CamiWidgetHeaderBirthdays.swift in Sources */,
 				46B1608D2B07D90A00A44FBF /* EKEvent.swift in Sources */,
 				46B160952B07D91000A44FBF /* Types.swift in Sources */,
-				46B160A72B07D9A100A44FBF /* CamiWidgetEntryView.swift in Sources */,
+				46B160A72B07D9A100A44FBF /* CamiWidgetView.swift in Sources */,
 				46B1609C2B07D9A100A44FBF /* CamiWidgetBundle.swift in Sources */,
 				46B160A12B07D9A100A44FBF /* CamiWidgetEventsByDate.swift in Sources */,
 				46B1608E2B07D90A00A44FBF /* DateComponents.swift in Sources */,
 				469E05842B0848AE00F3263D /* Seconds.swift in Sources */,
-				46B160892B07D90A00A44FBF /* EventList.swift in Sources */,
+				46B160892B07D90A00A44FBF /* Events.swift in Sources */,
 				46B160A62B07D9A100A44FBF /* CamiWidgetEvents.swift in Sources */,
 				46B160962B07D91000A44FBF /* AuthorizationSet.swift in Sources */,
+				469E05942B0919A800F3263D /* CamiWidgetIntent.swift in Sources */,
 				46B160932B07D90D00A44FBF /* CamiHelper.swift in Sources */,
 				46B160992B07D92F00A44FBF /* CamiWidgetLiveActivity.swift in Sources */,
 				46B160812B07D90500A44FBF /* HiddenIf.swift in Sources */,
 				46B160822B07D90500A44FBF /* RoundedBorder.swift in Sources */,
 				46B160A02B07D9A100A44FBF /* CamiWidgetEntry.swift in Sources */,
 				46B160882B07D90A00A44FBF /* WidgetFamily.swift in Sources */,
-				46B160852B07D90700A44FBF /* CamiUtils.swift in Sources */,
 				46B160A22B07D9A100A44FBF /* CamiWidgetHeaderDate.swift in Sources */,
 				46B1609E2B07D9A100A44FBF /* CamiWidgetHeader.swift in Sources */,
 				469E05642B07DDA600F3263D /* CamiWidget.swift in Sources */,
 				46B1609D2B07D9A100A44FBF /* CamiWidgetEvent.swift in Sources */,
+				469E058F2B08F57600F3263D /* CamiWidgetConfiguration.swift in Sources */,
 				46B160802B07D90500A44FBF /* Rounded.swift in Sources */,
-				469E058B2B086C3100F3263D /* CamiCalendar.swift in Sources */,
+				469E058B2B086C3100F3263D /* WidgetCalendarEntity.swift in Sources */,
 				46B1608C2B07D90A00A44FBF /* EdgeInsets.swift in Sources */,
-				46B1608F2B07D90A00A44FBF /* CalendarList.swift in Sources */,
+				46B1608F2B07D90A00A44FBF /* Calendars.swift in Sources */,
 				46B160832B07D90500A44FBF /* Pad.swift in Sources */,
 				46B160942B07D90D00A44FBF /* ReminderHelper.swift in Sources */,
 				46B160842B07D90500A44FBF /* MiniBadge.swift in Sources */,
-				46B1608A2B07D90A00A44FBF /* Days.swift in Sources */,
 				46B1608B2B07D90A00A44FBF /* Bool.swift in Sources */,
 				46B160872B07D90A00A44FBF /* RectangleCornerRadii.swift in Sources */,
-				469E05812B08172700F3263D /* AllDayEventStyle.swift in Sources */,
-				469E05872B086BC600F3263D /* CamiWidgetConfiguration.swift in Sources */,
-				469E05662B07DDED00F3263D /* CamiCompleteWidgetIntent.swift in Sources */,
+				469E05812B08172700F3263D /* AllDayStyleEnum.swift in Sources */,
 				46B1609F2B07D9A100A44FBF /* CamiWidgetProvider.swift in Sources */,
 				46B160912B07D90D00A44FBF /* CalendarHelper.swift in Sources */,
-				46B160A42B07D9A100A44FBF /* RemainingTimeBuilder.swift in Sources */,
+				46B160A42B07D9A100A44FBF /* RemainingTimeComponent.swift in Sources */,
 				46B160862B07D90A00A44FBF /* Date.swift in Sources */,
 				46B160922B07D90D00A44FBF /* ContactHelper.swift in Sources */,
 				46B160902B07D90A00A44FBF /* Array.swift in Sources */,
@@ -542,7 +572,7 @@
 /* Begin PBXTargetDependency section */
 		46B1606F2B07D87100A44FBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 46B160612B07D87000A44FBF /* CamiCompleteWidgetExtension */;
+			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 			targetProxy = 46B1606E2B07D87100A44FBF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -765,15 +795,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = CamiCompleteWidget/CamiCompleteWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CamiWidget/CamiWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CamiCompleteWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = CamiCompleteWidget;
+				INFOPLIST_FILE = CamiWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CamiWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -788,7 +818,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiCompleteWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
@@ -804,15 +834,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = CamiCompleteWidget/CamiCompleteWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CamiWidget/CamiWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CamiCompleteWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = CamiCompleteWidget;
+				INFOPLIST_FILE = CamiWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CamiWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -827,7 +857,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiCompleteWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
@@ -859,7 +889,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		46B160712B07D87100A44FBF /* Build configuration list for PBXNativeTarget "CamiCompleteWidgetExtension" */ = {
+		46B160712B07D87100A44FBF /* Build configuration list for PBXNativeTarget "CamiWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46B160722B07D87100A44FBF /* Debug */,

@@ -1,6 +1,6 @@
 //
-//  CamiWidgetBirthdays.swift
-//  Cami
+//  CamiWidgetHeaderBirthdays.swift
+//  CamiWidget
 //
 //  Created by Guillaume Coquard on 14/11/23.
 //
@@ -9,12 +9,17 @@ import SwiftUI
 import EventKit
 import WidgetKit
 
-struct CamiWidgetBirthdays: View {
+struct CamiWidgetHeaderBirthdays: View {
 
-    @Environment(\.widgetFamily) var widgetFamily: WidgetFamily
+    @Environment(\.widgetFamily)
+    private var widgetFamily: WidgetFamily
 
-    var date: Date
-    var birthdays: EventList
+    @EnvironmentObject
+    private var entry: CamiWidgetEntry
+
+    private var birthdays: Events {
+        entry.birthdays
+    }
 
     private var isSmall: Bool {
         widgetFamily == WidgetFamily.systemSmall
@@ -50,7 +55,7 @@ struct CamiWidgetBirthdays: View {
             )
 
             return (
-                Int(firstBirthday.endDate.zero - Date.now.zero) as Seconds,
+                Int(firstBirthday.endDate.zero - entry.date.zero) as Seconds,
                 peopleBirthdays
             )
         }
@@ -69,7 +74,8 @@ struct CamiWidgetBirthdays: View {
                     let name = ContactHelper.resolveContactName(
                         todayBirthdayEvent!.birthdayContactIdentifier!
                     )
-                    let age = ContactHelper.resolveBirthdate( todayBirthdayEvent!.birthdayContactIdentifier!
+                    let age = ContactHelper.resolveBirthdate(
+                        todayBirthdayEvent!.birthdayContactIdentifier!
                     )!.yearsAgo
 
                     HStack(spacing: 0) {
