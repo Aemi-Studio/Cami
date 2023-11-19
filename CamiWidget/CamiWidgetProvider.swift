@@ -28,7 +28,7 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
             entries: [
                 CamiWidgetEntry(from: intent)
             ],
-            policy: .after(Calendar.current.date(byAdding: .minute, value: 1, to: Date.now)!)
+            policy: .atEnd
         )
     }
 }
