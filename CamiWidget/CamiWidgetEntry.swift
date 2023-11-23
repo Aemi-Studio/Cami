@@ -36,14 +36,15 @@ final class CamiWidgetEntry: TimelineEntry, ObservableObject {
     }
 
     convenience init(from intent: CamiWidgetIntent) {
+        let date: Date = Date.now
         self.init(
             config: CamiWidgetConfiguration(from: intent),
             calendars: (intent.calendars.map { $0.calendar }).asEKCalendars(),
             inlineCalendars: (intent.inlineCalendars.map { $0.calendar }).asEKCalendars(),
-            events: CamiHelper.events(from: intent.calendars),
-            inlineEvents: CamiHelper.events(from: intent.inlineCalendars, where: { $0.isAllDay } ),
+            events: CamiHelper.events(from: intent.calendars, relativeTo: date),
+            inlineEvents: CamiHelper.events(from: intent.inlineCalendars, where: { $0.isAllDay }, relativeTo: date),
             birthdays: intent.displayBirthdays
-                ? CamiHelper.birthdays()
+            ? CamiHelper.birthdays(from: date)
                 : []
         )
     }

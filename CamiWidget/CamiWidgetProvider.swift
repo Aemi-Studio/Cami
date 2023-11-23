@@ -13,9 +13,10 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
     typealias Intent = CamiWidgetIntent
 
     func placeholder(in context: Context) -> Entry {
+        let date: Date = Date.now
         return CamiWidgetEntry(
-            events:     CamiHelper.events(from: [] as [String]),
-            birthdays:  CamiHelper.birthdays()
+            events:     CamiHelper.events(from: [] as [String], relativeTo: date),
+            birthdays:  CamiHelper.birthdays(from: date)
         )
     }
     

@@ -9,7 +9,12 @@ import SwiftUI
 
 struct SettingsView: View {
 
-    @State private var authStatus: AuthSet = CamiHelper.authorizationStatus()
+    @Environment(ViewModel.self)
+    private var model: ViewModel
+
+    @State private var calInfo: Bool = false
+    @State private var remInfo: Bool = false
+    @State private var conInfo: Bool = false
 
     private func statusToSymbolName(_ status: AuthSet.Status) -> String {
         switch status {
@@ -21,104 +26,201 @@ struct SettingsView: View {
                 "circle"
         }
     }
-
     private func statusToStatusColor(_ status: AuthSet.Status) -> Color {
         switch status {
             case .authorized:
-                .blue
+                    .blue
             case .restricted:
-                .red
+                    .red
             case .notDetermined:
-                .gray
+                    .gray
         }
     }
 
     var body: some View {
-        VStack(spacing: 8) {
-
-            Button {
-                Task {
-                    if authStatus.calendars.status == .notDetermined  {
-                        authStatus.insert(await CalendarHelper.requestAccess())
+        NavigationStack {
+            VStack(spacing: 16) {
+                HStack(alignment: .center, spacing: 16) {
+                    Button {
+                        Task {
+                            if !Bool(model.authStatus.calendars.status) {
+                                model.authStatus.insert(await CalendarHelper.requestAccess())
+                            }
+                        }
+                    } label: {
+                        Label("Enable Calendars Access", systemImage: statusToSymbolName(model.authStatus.calendars.status))
+                            .labelStyle(.iconOnly)
+                            .foregroundStyle(statusToStatusColor(model.authStatus.calendars.status))
                     }
-                }
-            } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: statusToSymbolName(authStatus.calendars.status))
-                        .foregroundStyle(statusToStatusColor(authStatus.calendars.status))
-                        .padding()
-                    VStack(alignment: .leading) {
-                        Text("Calendars Access")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                        Text("Description Placeholder")
-                    }
-                    Spacer()
+                    .font(.title)
+                    .buttonStyle(PlainButtonStyle())
+                    .disabled(model.authStatus.calendars.status == .authorized)
 
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("Calendars Access")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .accessibilityHidden(true)
+
+                            Spacer()
+
+                            Button {
+                                calInfo.toggle()
+                            } label: {
+                                Label("Information", systemImage: "info.circle")
+                                    .labelStyle(.iconOnly)
+                            }
+                            .foregroundStyle(.foreground.secondary)
+                            .buttonStyle(PlainButtonStyle())
+                            .navigationDestination(isPresented: $calInfo) {
+                                ScrollView {
+                                    VStack(alignment: .leading, spacing: 16) {
+                                        Text("Calendars Access")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                        Text("""
+        Cami only uses your data locally to display events. It does not edit or delete them nor sends them away.
+        """)
+                                    }
+                                    .padding()
+                                }
+                            }
+                        }
+
+                        Text("Used to display events in the calendar and the widget.")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.foreground.secondary)
+                            .multilineTextAlignment(.leading)
+                    }
                 }
                 .padding()
-                .background(.quinary)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
-            .disabled(authStatus.calendars.status == .authorized)
+                .background(.regularMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                HStack(alignment: .center, spacing: 16) {
 
-            Button {
-                Task {
-                    if !Bool(authStatus.reminders.status) {
-                        authStatus.insert(await ReminderHelper.requestAccess())
+                    Button {
+                        Task {
+                            if !Bool(model.authStatus.reminders.status) {
+                                model.authStatus.insert(await ReminderHelper.requestAccess())
+                            }
+                        }
+                    } label: {
+                        Label("Enable Reminders Access", systemImage: statusToSymbolName(model.authStatus.reminders.status))
+                            .labelStyle(.iconOnly)
+                            .foregroundStyle(statusToStatusColor(model.authStatus.reminders.status))
                     }
-                }
-            } label: {
-                HStack(spacing: 4) {
+                    .font(.title)
+                    .buttonStyle(PlainButtonStyle())
+                    .disabled(model.authStatus.reminders.status == .authorized)
 
-                    Image(systemName: statusToSymbolName(authStatus.reminders.status))
-                        .foregroundStyle(statusToStatusColor(authStatus.reminders.status))
-                        .padding()
-                    VStack(alignment: .leading) {
-                        Text("Reminders Access")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                        Text("Description Placeholder")
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("Reminders Access")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .accessibilityHidden(true)
+
+                            Spacer()
+
+                            Button {
+                                remInfo.toggle()
+                            } label: {
+                                Label("Information", systemImage: "info.circle")
+                                    .labelStyle(.iconOnly)
+                            }
+                            .foregroundStyle(.foreground.secondary)
+                            .buttonStyle(PlainButtonStyle())
+                            .navigationDestination(isPresented: $remInfo) {
+                                ScrollView {
+                                    VStack(alignment: .leading, spacing: 16) {
+                                        Text("Reminders Access")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                        Text("""
+        Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.
+        """)
+                                    }
+                                    .padding()
+                                }
+                            }
+
+                        }
+
+                        Text("Used to display reminders in the calendar and the widget.")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.foreground.secondary)
+                            .multilineTextAlignment(.leading)
                     }
-                    Spacer()
                 }
                 .padding()
-                .background(.quinary)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
-            .disabled(authStatus.reminders.status == .authorized)
+                .background(.regularMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                HStack(alignment: .center, spacing: 16) {
 
-            Button {
-                Task {
-                    if authStatus.contacts.status == .notDetermined {
-                        authStatus.insert(await ContactHelper.requestAccess())
+                    Button {
+                        Task {
+                            if !Bool(model.authStatus.contacts.status) {
+                                model.authStatus.insert(await ContactHelper.requestAccess())
+                            }
+                        }
+                    } label: {
+                        Label("Enable Contacts Access", systemImage: statusToSymbolName(model.authStatus.contacts.status))
+                            .labelStyle(.iconOnly)
+                            .foregroundStyle(statusToStatusColor(model.authStatus.contacts.status))
                     }
-                }
-            } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: statusToSymbolName(authStatus.contacts.status))
-                        .foregroundStyle(statusToStatusColor(authStatus.contacts.status))
-                        .padding()
-                    VStack(alignment: .leading) {
-                        Text("Contacts Access")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                        Text("Description Placeholder")
+                    .font(.title)
+                    .buttonStyle(PlainButtonStyle())
+                    .disabled(model.authStatus.contacts.status == .authorized)
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("Contacts Access")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .accessibilityHidden(true)
+
+                            Spacer()
+
+                            Button {
+                                conInfo.toggle()
+                            } label: {
+                                Label("Information", systemImage: "info.circle")
+                                    .labelStyle(.iconOnly)
+                            }
+                            .foregroundStyle(.foreground.secondary)
+                            .buttonStyle(PlainButtonStyle())
+                            .navigationDestination(isPresented: $conInfo) {
+                                ScrollView {
+                                    VStack(alignment: .leading, spacing: 16) {
+                                        Text("Contact Access Information")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                        Text("""
+            Cami only uses your contacts information locally to display events and reminders customization. It does not edit or delete them nor sends them away.
+            """)
+                                    }
+                                    .padding()
+                                }
+                            }
+                        }
+
+                        Text("Used to display and customize events and reminders in the calendar and the widget.")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.foreground.secondary)
+                            .multilineTextAlignment(.leading)
                     }
-                    Spacer()
                 }
                 .padding()
-                .background(.quinary)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .background(.regularMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             }
-            .disabled(authStatus.contacts.status == .authorized)
-
-
+            .font(.title2)
+            .padding()
         }
-        .padding()
     }
-}
-
-#Preview {
-    SettingsView()
 }

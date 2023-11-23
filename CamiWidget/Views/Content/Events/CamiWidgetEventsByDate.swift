@@ -69,15 +69,14 @@ struct CamiWidgetEventsByDate: View {
                     .foregroundStyle(.white.opacity(0.25))
                     .lineLimit(1)
                     Spacer()
-                    if inlineEvents.count > 0 {
+                    if !ongoingEvents && inlineEvents.count > 0 {
                         HStack {
-
                             if widgetFamily.isSmall {
                                 if inlineEvents.count >= 1 {
-                                    Text("\(inlineEvents.count - 1)")
+                                    Text("\(inlineEvents.count)")
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color(white: 0.1))
-                                        .padding(.horizontal,1)
+                                        .padding(.horizontal,2)
                                         .background(.white.opacity(0.25))
                                         .clipShape(RoundedRectangle(cornerRadius: 2))
                                 }
@@ -113,8 +112,6 @@ struct CamiWidgetEventsByDate: View {
                     }
                 }
             }
-
         }
-        
     }
 }

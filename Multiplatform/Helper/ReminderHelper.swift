@@ -8,7 +8,7 @@
 import Foundation
 import EventKit
 
-class ReminderHelper {
+struct ReminderHelper {
 
     public static func requestAccess(
         store: EKEventStore = CamiHelper.eventStore
@@ -36,4 +36,5 @@ class ReminderHelper {
             }
         }
     }
+    
 }

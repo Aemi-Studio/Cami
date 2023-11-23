@@ -9,7 +9,7 @@ import Foundation
 import Contacts
 
 
-final class ContactHelper {
+struct ContactHelper {
 
     ///Request access to contacts data in an asynchronous way.
     ///
@@ -113,4 +113,5 @@ final class ContactHelper {
             fetchedContact?.givenName ?? "",
         ].first(where: {string in !string.isEmpty}) ?? ""
     }
+
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AuthorizationSet: OptionSet {
+struct AuthorizationSet: Observable, OptionSet {
 
     let rawValue: Int
 

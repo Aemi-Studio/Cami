@@ -14,8 +14,7 @@ struct CamiWidgetEvents: View {
     var body: some View {
         
         var dates: Dates {
-            var _dates: Set<Date> = Set<Date>().union(entry.events.keys).union(entry.inlineEvents.keys)
-            return _dates.sorted()
+            Set<Date>().union(entry.events.keys).union(entry.inlineEvents.keys).sorted()
         }
 
         VStack(spacing: 6) {

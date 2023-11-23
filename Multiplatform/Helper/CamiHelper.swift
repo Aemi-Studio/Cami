@@ -9,7 +9,7 @@ import Foundation
 import EventKit
 import Contacts
 
-class CamiHelper {
+struct CamiHelper {
 
     public static var eventStore: EKEventStore = EKEventStore()
     public static var contactStore: CNContactStore = CNContactStore()
@@ -57,6 +57,15 @@ class CamiHelper {
         }
     }
 
+    public static var calendarColors: [String: CGColor] {
+        allCalendars.reduce(into: [String: CGColor]()) { (result, calendar) in
+            if let color = calendar.cgColor {
+                result[calendar.calendarIdentifier] = color
+            }
+        }
+    }
+
+
     public static var birthdayCalendar: EKCalendar? {
         (self.eventStore.calendars(for: .event).first { calendar in
             calendar.type == .birthday
@@ -84,27 +93,42 @@ class CamiHelper {
     }
 
     public static func events(
+        from calendars: Calendars = allCalendars,
+        during days: Int = 30,
+        where filter: ((EKEvent) -> Bool)? = nil,
+        relativeTo date: Date
+    ) -> EventDict {
+        return CalendarHelper.events(from: calendars, during: days, where: filter, relativeTo: date).mapped(relativeTo: date)
+    }
+
+    public static func events(
         from calendars: [String] = allCalendars.asIdentifiers,
         during days: Int = 30,
-        where filter: ((EKEvent) -> Bool)? = nil
+        where filter: ((EKEvent) -> Bool)? = nil,
+        relativeTo date: Date
     ) -> EventDict {
-        return CalendarHelper.events(from: calendars, during: days, where: filter)
+        return CalendarHelper.events(from: calendars, during: days, where: filter, relativeTo: date).mapped(relativeTo: date)
     }
 
     public static func events(
         from calendars: [WidgetCalendarEntity] = WidgetCalendarEntity.allCalendars,
         during days: Int = 30,
-        where filter: ((EKEvent) -> Bool)? = nil
+        where filter: ((EKEvent) -> Bool)? = nil,
+        relativeTo date: Date
     ) -> EventDict {
         return self.events(
             from: calendars.map { $0.calendar },
             during: days,
-            where: filter
+            where: filter,
+            relativeTo: date
         )
     }
 
-    public static func birthdays(days: Int = 365) -> Events {
-        return CalendarHelper.birthdays(days: days)
+    public static func birthdays(
+        from date: Date,
+        during days: Int = 365
+    ) -> Events {
+        return CalendarHelper.birthdays(from: date, during: days)
     }
 
 }

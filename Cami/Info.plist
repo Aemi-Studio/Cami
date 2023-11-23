@@ -10,5 +10,7 @@
 	<string>Cami only uses your data locally to display events. It does not edit or delete them nor sends them away.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
 	<string>Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Cami only uses your contacts information locally to display events and reminders customization. It does not edit or delete them nor sends them away.</string>
 </dict>
 </plist>

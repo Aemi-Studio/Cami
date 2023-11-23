@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
 
-    var body: some View {
-        MainView()
-    }
-}
+    @Bindable var model: ViewModel
 
-#Preview {
-    ContentView()
+    var body: some View {
+        NavigationStack(path: $model.path) {
+            MainView()
+        }
+    }
 }

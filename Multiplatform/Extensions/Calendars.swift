@@ -8,7 +8,7 @@
 import Foundation
 import EventKit
 
-extension Calendars {
+extension Calendars: Observable {
     var asIdentifiers: [String] {
         self.map { calendar in
             calendar.calendarIdentifier

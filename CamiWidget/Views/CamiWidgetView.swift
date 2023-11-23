@@ -23,8 +23,6 @@ struct CamiWidgetView : View {
 
                 CamiWidgetHeader()
 
-                Spacer()
-
                 Color.clear
                     .overlay(
                         alignment:.top,

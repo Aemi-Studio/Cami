@@ -11,7 +11,11 @@ typealias Calendars     = [EKCalendar]
 typealias Events        = [EKEvent]
 typealias EventDict     = [Date: [EKEvent]]
 typealias Dates         = [Date]
+typealias Weeks         = [Dates]
+
 typealias Birthdays     = Events
 typealias AuthSet       = AuthorizationSet
-typealias Days          = Double
 typealias Seconds       = Int
+
+typealias DateRange     = ClosedRange<Date>
+typealias DateStride    = StrideTo<Date>

@@ -8,7 +8,7 @@
 import Foundation
 import EventKit
 
-final class CalendarHelper {
+struct CalendarHelper {
 
     public static var authorizationStatus: Bool {
         let authorizationStatus: EKAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
@@ -52,11 +52,26 @@ final class CalendarHelper {
         from calendars: [String] = CamiHelper.allCalendars.asIdentifiers,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool)? = nil,
-        relativeTo date: Date = Date.now
-    ) -> EventDict {
+        relativeTo date: Date
+    ) -> Events {
+        CalendarHelper.events(
+            store: store,
+            from: calendars.asEKCalendars(with: store),
+            during: days,
+            where: filter,
+            relativeTo: date
+        )
+    }
+
+    public static func events(
+        store: EKEventStore = CamiHelper.eventStore,
+        from calendars: Calendars = CamiHelper.allCalendars,
+        during days: Int = 30,
+        where filter: ((EKEvent) -> Bool)? = nil,
+        relativeTo date: Date
+    ) -> Events {
 
         let calendar = Calendar.autoupdatingCurrent
-        let ekCalendars: [EKCalendar] = calendars.asEKCalendars(with: store)
 
         var events: Events = []
 
@@ -83,37 +98,26 @@ final class CalendarHelper {
             predicate = store.predicateForEvents(
                 withStart: anAgo,
                 end: aNow,
-                calendars: ekCalendars.count > 0 ? ekCalendars : CamiHelper.allCalendars
+                calendars: calendars.count > 0 ? calendars : CamiHelper.allCalendars
             )
         }
 
         // Fetch all events that match the predicate.
         if let aPredicate = predicate {
-            events = store.events(matching: aPredicate).sortedEventByAscendingDate()
+            events = store.events(matching: aPredicate).sorted(.orderedAscending)
         }
 
         if filter != nil {
             events = events.filter(filter!)
         }
 
-        var eventsDictionary: EventDict = [:]
-
-        for event in events {
-            if event.spansMore(than: date) {
-                let theseDaysKey = date.addingTimeInterval(-86400).zero;
-                eventsDictionary.append(to: theseDaysKey, event)
-            } else {
-                let resetDate = event.startDate.zero
-                eventsDictionary.append(to: event.startDate.zero, event)
-            }
-        }
-
-        return eventsDictionary
+        return events
     }
 
     public static func birthdays(
         store: EKEventStore = CamiHelper.eventStore,
-        days: Int = 365
+        from date: Date,
+        during days: Int = 365
     ) -> Events {
 
         let calendar = Calendar.autoupdatingCurrent
@@ -122,22 +126,22 @@ final class CalendarHelper {
         todayComponent.day = 0
         let today = calendar.date(
             byAdding: todayComponent,
-            to: Date(),
+            to: date,
             wrappingComponents: false
         )
 
         // Create the end date components.
-        var oneMonthFromNowComponents = DateComponents()
-        oneMonthFromNowComponents.day = days
-        let oneMonthFromNow = calendar.date(
-            byAdding: oneMonthFromNowComponents,
-            to: Date(),
+        var limit = DateComponents()
+        limit.day = days
+        let endDate = calendar.date(
+            byAdding: limit,
+            to: date,
             wrappingComponents: false
         )
 
         // Create the predicate from the event store's instance method.
         var predicate: NSPredicate? = nil
-        if let anAgo = today, let aNow = oneMonthFromNow {
+        if let anAgo = today, let aNow = endDate {
             predicate = store.predicateForEvents(
                 withStart: anAgo,
                 end: aNow,
@@ -147,7 +151,7 @@ final class CalendarHelper {
 
         // Fetch all events that match the predicate.
         if let aPredicate = predicate {
-            return store.events(matching: aPredicate).sortedEventByAscendingDate()
+            return store.events(matching: aPredicate).sorted(.orderedAscending)
         }
 
         return Events()

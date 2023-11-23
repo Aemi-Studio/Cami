@@ -10,21 +10,8 @@ import SwiftUI
 struct MainView: View {
 
     var body: some View {
-        VStack {
-            TabView {
-                CalendarView()
-                    .tabItem {
-                        Label("Calendar", systemImage: "calendar")
-                    }
-                    .tag(1)
-
-                SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gear")
-                    }
-                    .tag(2)
-            }
-        }
+        CalendarView()
+            .navigationDestination(for: Day.self, destination: DayView.init)
     }
 }
 
