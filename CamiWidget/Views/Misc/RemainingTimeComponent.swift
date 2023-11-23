@@ -30,18 +30,22 @@ struct RemainingTimeComponent: View {
         HStack(spacing: 2) {
 
             if startDate < entry.date {
-
-                let remainingTime: String = entry.date.remainingTime(until: endDate, accuracy: accuracy)
-
+                let remainingTime: String = entry.date.remainingTime(
+                    until: endDate,
+                    accuracy: accuracy
+                )
                 Label("Remaining Time: \(remainingTime)", systemImage: "timer")
                     .labelStyle(.iconOnly)
                     .fontWeight(.bold)
                     .scaleEffect(0.8)
+                    .accessibilityHint("This event ends in \(remainingTime).")
 
                 Text(remainingTime)
-                
+                    .accessibilityHidden(true)
+
             } else {
-                Text("\(startDate.formatted(.dateTime.hour(.twoDigits(amPM: .omitted)))):\(startDate.formatted(.dateTime.minute(.twoDigits)))")
+                Text(startDate.formattedHour)
+                    .accessibilityLabel("This event starts at \(startDate.formattedHour).")
             }
         }
         .monospacedDigit()

@@ -61,7 +61,6 @@ struct SettingsView: View {
                             Text("Calendars Access")
                                 .font(.title)
                                 .fontWeight(.semibold)
-                                .accessibilityHidden(true)
 
                             Spacer()
 
@@ -121,7 +120,6 @@ struct SettingsView: View {
                             Text("Reminders Access")
                                 .font(.title)
                                 .fontWeight(.semibold)
-                                .accessibilityHidden(true)
 
                             Spacer()
 
@@ -181,7 +179,6 @@ struct SettingsView: View {
                             Text("Contacts Access")
                                 .font(.title)
                                 .fontWeight(.semibold)
-                                .accessibilityHidden(true)
 
                             Spacer()
 

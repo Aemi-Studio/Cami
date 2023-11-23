@@ -47,47 +47,68 @@ extension Date {
 // MARK: Date Formatting
 extension Date {
 
-    var literals: (name: String, number: String) {
-        let stringFormatter = DateFormatter()
-        let numberFormatter = DateFormatter()
-        stringFormatter.locale = Locale.autoupdatingCurrent
-        numberFormatter.locale = Locale.autoupdatingCurrent
-        stringFormatter.dateFormat = "EEEE"
-        numberFormatter.dateFormat = "d"
-        return (
-            name: stringFormatter.string(from: self),
-            number: numberFormatter.string(from: self)
+    var literals: (String,String,String,String) {
+        (
+            day:    self.formatter { $0.dateFormat = "EEEE" },
+            date:   self.formatter { $0.dateFormat = "d"    },
+            month:  self.formatter { $0.dateFormat = "MMMM" },
+            year:   self.formatter { $0.dateFormat = "YYYY" }
         )
     }
 
-    var formattedUntilTomorrow: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        formatter.doesRelativeDateFormatting = true
+    func formatter(
+        _ setup: @escaping (DateFormatter) -> Void
+    ) -> String {
+        let formatter: DateFormatter = .init()
         formatter.locale = Locale.autoupdatingCurrent
+        setup(formatter)
         return formatter.string(from: self)
+    }
+
+    func formatter<T:Formatter>(
+        _ _type: T.Type,
+        _ setup: @escaping (T) -> Void
+    ) -> T {
+        var _formatter = _type.init()
+        setup(_formatter)
+        return _formatter
+    }
+
+    var formattedUntilTomorrow: String {
+        self.formatter { f in
+            f.dateStyle = .long
+            f.timeStyle = .none
+            f.doesRelativeDateFormatting = true
+        }
     }
 
     var formattedAfterTomorrow: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE d"
-        formatter.locale = Locale.autoupdatingCurrent
-        return formatter.string(from: self)
+        self.formatter { $0.dateFormat = "EEE d" }
     }
 
     var relativeToNow: String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
-        return formatter.string(for: self)!
+        self.formatter(RelativeDateTimeFormatter.self) { f in
+            f.locale = Locale.autoupdatingCurrent
+        }.string(for: self)!
     }
 
-    func remainingTime(until date: Date, accuracy: NSCalendar.Unit = [.day,.hour,.minute]) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .abbreviated
-        formatter.zeroFormattingBehavior = .dropAll
-        formatter.allowedUnits = accuracy
-        return formatter.string(from: self, to: date)!
+    func remainingTime(
+        until date: Date,
+        accuracy: NSCalendar.Unit = [.day,.hour,.minute]
+    ) -> String {
+        self.formatter(DateComponentsFormatter.self) { f in
+            f.unitsStyle = .brief
+            f.zeroFormattingBehavior = .dropAll
+            f.allowedUnits = accuracy
+        }.string(from: self, to: date)!
+    }
+
+    var formattedHour: String {
+        self.formatter {
+            $0.dateStyle = .none
+            $0.timeStyle = .short
+            $0.formattingContext = .standalone
+        }
     }
 
 }

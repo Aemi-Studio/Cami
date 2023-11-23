@@ -11,9 +11,11 @@ import WidgetKit
 
 struct CamiWidgetEventsByDate: View {
 
-    @EnvironmentObject private var entry: CamiWidgetEntry
+    @EnvironmentObject
+    private var entry: CamiWidgetEntry
 
-    @Environment(\.widgetFamily) var widgetFamily: WidgetFamily
+    @Environment(\.widgetFamily)
+    var widgetFamily: WidgetFamily
 
     var date: Date
     var events: Events = []
@@ -60,8 +62,14 @@ struct CamiWidgetEventsByDate: View {
                             Text("Ongoing Events")
                         } else if isUpToTomorrow {
                             Text(date.formattedUntilTomorrow)
+                                .accessibilityLabel("Events for \(date.formattedUntilTomorrow)")
                         } else {
-                            Text("\(date.formattedAfterTomorrow) • \(date.relativeToNow)")
+                            Group {
+                                Text(date.formattedAfterTomorrow) +
+                                Text(" • ") +
+                                Text(date.relativeToNow)
+                            }
+                            .accessibilityLabel("Events for \(date.formattedAfterTomorrow), \(date.relativeToNow)")
                         }
                     }
                     .fontDesign(.rounded)
@@ -79,10 +87,12 @@ struct CamiWidgetEventsByDate: View {
                                         .padding(.horizontal,2)
                                         .background(.white.opacity(0.25))
                                         .clipShape(RoundedRectangle(cornerRadius: 2))
+                                        .accessibilityLabel("You have \(inlineEvents.count) all-day events.")
                                 }
                             } else {
                                 Text(inlineEvents[0].title)
                                     .truncationMode(.tail)
+                                    .accessibilityLabel("Today have \(inlineEvents[0].title) as first all-day events.")
 
                                 if inlineEvents.count > 1 {
                                     Text("+\(inlineEvents.count - 1)")
@@ -91,6 +101,7 @@ struct CamiWidgetEventsByDate: View {
                                         .padding(.horizontal,2)
                                         .background(.white.opacity(0.25))
                                         .clipShape(RoundedRectangle(cornerRadius: 2))
+                                        .accessibilityLabel("And you have also \(inlineEvents.count - 1) other all-day events.")
                                 }
                             }
                         }

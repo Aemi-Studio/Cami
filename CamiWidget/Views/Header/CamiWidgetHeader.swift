@@ -16,8 +16,16 @@ struct CamiWidgetHeader: View {
     var body: some View {
 
         HStack(spacing: 0) {
+            
             CamiWidgetHeaderDate()
+                .accessibilityLabel("Today's date is " + entry.date.formatter {
+                    $0.dateStyle = .full
+                    $0.timeStyle = .none
+                    $0.formattingContext = .standalone
+                })
+
             Spacer()
+            
             if entry.config.displayBirthdays && !entry.birthdays.isEmpty {
                 CamiWidgetHeaderBirthdays()
             }

@@ -86,7 +86,7 @@ import SwiftUI
 
     }
 
-    private func gen(from startDate: Date, with startId: Int = -3, count: Int = 7) -> [Month] {
+    private func gen(from startDate: Date, with startId: Int = -5, count: Int = 11) -> [Month] {
         var months: [Month] = []
         let newDate: Date = (startDate.startOfMonth.zero + DateComponents(month: startId)).startOfMonth.zero
         for _ in 0..<count {

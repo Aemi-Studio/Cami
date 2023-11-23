@@ -20,9 +20,11 @@ struct CalendarView: View {
     @State private var isCalendarSelectionViewPresented: Bool = false
     @State var position: Int? = 0
 
+    private let rows: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 0, maximum: .infinity)),count: 7)
+
     var body: some View {
         ScrollView(.vertical) {
-            LazyVStack {
+            LazyVStack(spacing: 8) {
                 ForEach(model.months!) { month in
                     MonthView(date: month.date)
                         .id(month.id)
@@ -34,12 +36,12 @@ struct CalendarView: View {
         .scrollPosition(id: $position)
         .onChange(of: position) {
             Task {
-                if position! >= model.last.id - 2 {
+                if position! >= model.last.id - 4 {
                     model.next()
                 }
             }
             Task {
-                if position! <= model.first.id + 2 {
+                if position! <= model.first.id + 4 {
                     model.prev()
                 }
             }

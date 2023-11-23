@@ -30,20 +30,27 @@ struct CamiWidgetHeaderDate: View {
 
     var body: some View {
         HStack {
-            let dateComponents = entry.date.literals
+            let dateComponents: (
+                day:String,
+                date:String,
+                month:String,
+                year:String
+            ) = entry.date.literals
 
             Group {
-                Text(
-                    "\(dateComponents.name)"
-                        .uppercased()
-                        .prefix(datePrefix)
-                )
-                .fontWeight(.heavy)
-                .foregroundStyle(.white)
-                +
-                Text("\(dateComponents.number)")
+                Group {
+                    Text(
+                        "\(dateComponents.day)"
+                            .uppercased()
+                            .prefix(datePrefix)
+                    )
                     .fontWeight(.heavy)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(.white)
+                    +
+                    Text("\(dateComponents.date)")
+                        .fontWeight(.heavy)
+                        .foregroundStyle(.red)
+                }
             }
         }
         .font(.title3)

@@ -33,22 +33,27 @@ struct CamiWidgetEvent: View {
                     .fontWeight(.medium)
                     .lineLimit(1)
                     .foregroundStyle(Color(cgColor: _event.calendar.cgColor))
+                    .accessibilityLabel("You have an event titled: \(_event.title).")
             }
 
             Spacer(minLength: 8)
 
-            if !_event.isAllDay {
+            if !_event.isAllDay || entry.config.displayOngoingEvents && _event.spansMore(than: entry.date) {
                 VStack(alignment: .trailing,spacing: 1) {
-
-                    ForEach(_other, id: \.self) { __event in
-                        RemainingTimeComponent(
-                            from: __event.startDate,
-                            to: __event.endDate,
-                            accuracy: __event.spansMore(than: entry.date) ? .day : [.day,.hour,.minute]
-                        )
-                            .font(.caption)
-                            .foregroundStyle(Color(cgColor: __event.calendar.cgColor))
+                    Group {
+                        ForEach(_other, id: \.self) { __event in
+                            RemainingTimeComponent(
+                                from: __event.startDate,
+                                to: __event.endDate,
+                                accuracy: __event.spansMore(than: entry.date) ? [.day,.hour] : [.day,.hour,.minute]
+                            )
+                                .font(.caption)
+                                .foregroundStyle(Color(cgColor: __event.calendar.cgColor))
+                        }
                     }
+                    .accessibilityLabel(
+                        _other.count > 1
+                        ? "This event happens \(_other.count) times in your day." : "")
                 }
             }
 

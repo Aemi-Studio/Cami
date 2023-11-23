@@ -22,14 +22,14 @@ struct CamiWidgetView : View {
             VStack(spacing: 6) {
 
                 CamiWidgetHeader()
+                
 
                 Color.clear
-                    .overlay(
-                        alignment:.top,
-                        content: { CamiWidgetEvents() }
-                    )
+                    .overlay(alignment:.top) {
+                        CamiWidgetEvents()
+                            .accessibilityAddTraits(.updatesFrequently)
+                    }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-
             }
             .padding(6)
 
