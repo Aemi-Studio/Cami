@@ -25,16 +25,16 @@ struct ReminderHelper {
         store: EKEventStore = CamiHelper.eventStore,
         callback: @escaping (AuthSet) -> Void
     ) {
-        store.requestFullAccessToReminders() { result, error in
+        store.requestFullAccessToReminders { result, error in
             if error != nil {
-#if DEBUG
+                #if DEBUG
                 print(error!.localizedDescription)
-#endif
+                #endif
                 callback(.none)
             } else {
                 callback(result ? .reminders : .none)
             }
         }
     }
-    
+
 }

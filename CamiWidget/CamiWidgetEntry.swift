@@ -9,22 +9,22 @@ import WidgetKit
 
 final class CamiWidgetEntry: TimelineEntry, ObservableObject {
 
-    let date:               Date
-    let config:             CamiWidgetConfiguration
-    let calendars:          Calendars
-    let inlineCalendars:    Calendars
-    let events:             EventDict
-    let inlineEvents:       EventDict
-    let birthdays:          Events
+    let date: Date
+    let config: CamiWidgetConfiguration
+    let calendars: Calendars
+    let inlineCalendars: Calendars
+    let events: EventDict
+    let inlineEvents: EventDict
+    let birthdays: Events
 
     init(
-        date:               Date                    = Date.now,
-        config:             CamiWidgetConfiguration = CamiWidgetConfiguration(),
-        calendars:          Calendars               = [],
-        inlineCalendars:    Calendars               = [],
-        events:             EventDict               = [:],
-        inlineEvents:       EventDict               = [:],
-        birthdays:          Events                  = []
+        date: Date                    = Date.now,
+        config: CamiWidgetConfiguration = CamiWidgetConfiguration(),
+        calendars: Calendars               = [],
+        inlineCalendars: Calendars               = [],
+        events: EventDict               = [:],
+        inlineEvents: EventDict               = [:],
+        birthdays: Events                  = []
     ) {
         self.date = date
         self.config = config
@@ -44,7 +44,7 @@ final class CamiWidgetEntry: TimelineEntry, ObservableObject {
             events: CamiHelper.events(from: intent.calendars, relativeTo: date),
             inlineEvents: CamiHelper.events(from: intent.inlineCalendars, where: { $0.isAllDay }, relativeTo: date),
             birthdays: intent.displayBirthdays
-            ? CamiHelper.birthdays(from: date)
+                ? CamiHelper.birthdays(from: date)
                 : []
         )
     }

@@ -7,107 +7,81 @@
 
 import Foundation
 import SwiftUI
+import Collections
 
 @Observable final class ViewModel: ObservableObject {
 
-    class Month: Identifiable {
+    class Month: Identifiable, Hashable {
 
-        enum Side: Int {
-            case prev = -1
-            case next = 1
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.date)
+        }
+
+        static func == (lhs: ViewModel.Month, rhs: ViewModel.Month) -> Bool {
+            lhs.date == rhs.date
         }
 
         let date: Date
         let id: Int
 
-        private var _prev: Month? = nil
-        private var _next: Month? = nil
-
         public func next() -> Month {
-            if self._next == nil {
-                self._next = Month(self.date.startOfNextMonth, prev: self)
-            }
-            return self._next!
+            Month(self.date.startOfNextMonth, prev: self.id)
         }
 
         public func prev() -> Month {
-            if self._prev == nil {
-                self._prev = Month(self.date.startOfPreviousMonth, next: self)
-            }
-            return self._prev!
+            Month(self.date.startOfPreviousMonth, next: self.id)
         }
 
-        public func first() -> Month {
-            return if self._prev != nil {
-                self._prev!.last()
-            } else {
-                self
-            }
-        }
-
-        public func last() -> Month {
-            return if self._next != nil {
-                self._next!.last()
-            } else {
-                self
-            }
-        }
-
-        public func unregister(_ side: Side) {
-            switch side {
-                case .prev:
-                    self._prev = nil
-                case .next:
-                    self._next = nil
-            }
-        }
-
-        public func destroy() {
-            if self._prev != nil {
-                self._prev!.unregister(.next)
-            } else
-            if self._next != nil {
-                self._next!.unregister(.prev)
-            }
-        }
-
-        init(_ date: Date = Date.now.startOfMonth.zero, prev: Month? = nil, next: Month? = nil, id: Int = 0) {
+        init(
+            _ date: Date = Date.now.startOfMonth,
+            prev: Int? = nil,
+            next: Int? = nil,
+            id: Int = 0
+        ) {
             self.date = date
             if prev != nil {
-                self._prev = prev
-                self.id = prev!.id + 1
+                self.id = prev! + 1
             } else if next != nil {
-                self._next = next
-                self.id = next!.id - 1
+                self.id = next! - 1
             } else {
                 self.id = id
             }
         }
-
     }
 
-    private func gen(from startDate: Date, with startId: Int = -5, count: Int = 11) -> [Month] {
-        var months: [Month] = []
-        let newDate: Date = (startDate.startOfMonth.zero + DateComponents(month: startId)).startOfMonth.zero
-        for _ in 0..<count {
-            let prev: Month? = months.last
-            if prev != nil {
-                months.append(prev!.next())
-            } else {
-                months.append(Month(newDate, id: startId))
-            }
-        }
-        return months
+    private func generate(
+        from startDate: Date,
+        count: Int = 37,
+        shift: Int = 0
+    ) -> Deque<Month> {
+        let fixedCount: Int = count % 2 == 0 ? count + 1 : count
+        let startIndex: Int = -(fixedCount / 2) + shift
+        var months: Deque<Month?> = Deque<Month?>(repeating: nil, count: count)
+        let newDate: Date = (startDate.startOfMonth + DateComponents(month: startIndex)).startOfMonth
+        return months.reduce(into: [Month(newDate, id: startIndex)], {
+            result, _ in
+            result.append(result.last!.next())
+        })
     }
 
     public func reset() {
         self.calendars = Set(CamiHelper.allCalendars.asIdentifiers)
-        self.months = self.gen(from: self.date)
+        self.months = self.generate(from: self.date)
     }
 
     public var authStatus: AuthorizationSet
     public var date: Date
-    public var months: [Month]? = nil
+    public var position: Int? = 0 {
+        willSet {
+            if newValue! > self.position! {
+                self.months!.append(self.months!.last!.next())
+            } else
+            if newValue! < self.position! {
+                self.months!.prepend(self.months!.first!.prev())
+            }
+        }
+    }
+    public var months: Deque<Month>?
     public var path: NavigationPath
     public var calendars: Set<String>
     public var weekdaysCount: Int {
@@ -124,7 +98,7 @@ import SwiftUI
         } else {
             .init()
         }
-        self.months = self.gen(from: date)
+        self.months = self.generate(from: date)
     }
 
     init(for date: Date) {
@@ -137,58 +111,90 @@ import SwiftUI
         } else {
             .init()
         }
-        self.months = self.gen(from: date)
+        self.months = self.generate(from: date)
     }
 
-
-    func next() -> Month {
-        if self.months != nil {
-            if self.months!.count > 0 {
-                self.months!.append(self.months!.last!.next())
-//                self.months!.removeFirst().destroy()
-            } else {
-                self.months!.append(.init())
-            }
-        } else {
+    func generateNext(_ count: Int) {
+        if (self.months?.count ?? 0) == 0 {
             self.months = [.init()]
+            self.generateNext(count - 1)
+        } else {
+            for _ in 0..<count {
+                self.months!.append(self.months!.last!.next())
+            }
+            //            self.months?.removeFirst(count)
         }
-        return self.months!.last!
     }
 
-    func prev() -> Month {
-        if self.months != nil {
-            if self.months!.count > 0 {
-                self.months!.insert(self.months!.first!.prev(), at: 0)
-//                self.months!.removeLast().destroy()
-            } else {
-                self.months!.append(.init())
-            }
+    func generatePrevious(_ count: Int) {
+        if (self.months?.count ?? 0) == 0 {
+            self.months = [.init()]
+            self.generatePrevious(count - 1)
         } else {
+            for _ in 0..<count {
+                self.months!.prepend(self.months!.first!.prev())
+            }
+            //            self.months?.removeLast(count)
+        }
+    }
+
+    var first: Month {
+        if (self.months?.count ?? 0) == 0 {
             self.months = [.init()]
         }
         return self.months!.first!
     }
 
-    var first: Month {
-        get {
-            if self.months == nil {
-                self.months = [.init()]
-            }
-            return self.months!.first!
-        }
+    func removeFirst(_ count: Int) {
+        self.months!.removeFirst(count)
+    }
+
+    func removeFirstUpTo(_ month: Month) {
+        self.removeFirst(self.months!.count - (self.months!.firstIndex(of: month)! + 1))
+    }
+
+    func removeLastUpTo(_ month: Month) {
+        self.removeLast(self.months!.count - (self.months!.lastIndex(of: month)! + 1))
+    }
+
+    func removeLast(_ count: Int) {
+        self.months!.removeLast(count)
     }
 
     var last: Month {
-        get {
-            if self.months == nil {
-                self.months = [.init()]
-            }
-            return self.months!.last!
+        if (self.months?.count ?? 0) == 0 {
+            self.months = [.init()]
         }
+        return self.months!.last!
     }
 
-    func get(id: Int) -> Month? {
+    func first(id: Int) -> Month? {
         self.months?.first { $0.id == id }
     }
 
+    func last(id: Int) -> Month? {
+        self.months?.last { $0.id == id }
+    }
+
+    func first(where filter: @escaping (Month) throws -> Bool) rethrows -> Month? {
+        try self.months?.first(where: filter)
+    }
+
+    func firstIndex(where filter: @escaping (Month) -> Bool) -> Int? {
+        self.months?.firstIndex(where: filter)
+    }
+
+    func last(where filter: @escaping (Month) throws -> Bool) rethrows -> Month? {
+        try self.months?.last(where: filter)
+    }
+
+    func lastIndex(where filter: @escaping (Month) -> Bool) -> Int? {
+        self.months?.lastIndex(where: filter)
+    }
+
+}
+
+private enum Side: Int {
+    case prev = -1
+    case next = 1
 }

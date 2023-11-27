@@ -18,7 +18,7 @@ struct RemainingTimeComponent: View {
     init(
         from startDate: Date,
         to endDate: Date,
-        accuracy: NSCalendar.Unit = [.day,.hour,.minute]
+        accuracy: NSCalendar.Unit = [.day, .hour, .minute]
     ) {
         self.startDate = startDate
         self.endDate = endDate

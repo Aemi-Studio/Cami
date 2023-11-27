@@ -18,7 +18,7 @@ extension EKEvent {
         self.endDate.isToday
     }
 
-    func spansMore(than date: Date) ->Bool {
+    func spansMore(than date: Date) -> Bool {
         let resetDate: Date = self.startDate.zero
         let tomorrow: Date = Calendar.current.date(byAdding: DateComponents(day: 1), to: date)!
         return resetDate < date.zero || (self.isStartingToday && self.endDate.zero > tomorrow)

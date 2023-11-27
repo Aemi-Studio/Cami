@@ -8,15 +8,14 @@
 import Foundation
 import Contacts
 
-
 struct ContactHelper {
 
-    ///Request access to contacts data in an asynchronous way.
+    /// Request access to contacts data in an asynchronous way.
     ///
-    ///- Parameters:
+    /// - Parameters:
     ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///
-    ///- Returns: The access status as an `AuthenticationSet` object.
+    /// - Returns: The access status as an `AuthenticationSet` object.
     ///
     public static func requestAccess(
         store: CNContactStore = CamiHelper.contactStore
@@ -33,9 +32,9 @@ struct ContactHelper {
         }
     }
 
-    ///Request access to contacts data in a synchronous way, providing a callback.
+    /// Request access to contacts data in a synchronous way, providing a callback.
     ///
-    ///- Parameters:
+    /// - Parameters:
     ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///     - callback: The callback function to interact with the access status.
     ///     The status is passed to the callback as an `AuthenticationSet` object.
@@ -43,7 +42,7 @@ struct ContactHelper {
     public static func requestAccess(
         store: CNContactStore = CamiHelper.contactStore,
         _ callback: @escaping (AuthSet) -> Void
-    ) -> Void {
+    ) {
         store.requestAccess(for: .contacts) { result, error in
             if error != nil {
                 #if DEBUG
@@ -56,13 +55,13 @@ struct ContactHelper {
         }
     }
 
-    ///Resolve contact birthdate from a specified contact identifier using `unifiedContact`.
+    /// Resolve contact birthdate from a specified contact identifier using `unifiedContact`.
     ///
-    ///- Parameters:
+    /// - Parameters:
     ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///     - identifier: The contact identifier `String` to resolve the unified contact from.
     ///
-    ///- Returns: The birthdate of the contact.
+    /// - Returns: The birthdate of the contact.
     ///
     public static func resolveBirthdate(
         store: CNContactStore = CamiHelper.contactStore,
@@ -70,7 +69,7 @@ struct ContactHelper {
     ) -> DateComponents? {
         let fetchedBirthdate: DateComponents?
         do {
-            fetchedBirthdate = try store.unifiedContact(withIdentifier: identifier,keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]).birthday
+            fetchedBirthdate = try store.unifiedContact(withIdentifier: identifier, keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]).birthday
         } catch {
             print(
                 error.localizedDescription
@@ -80,13 +79,13 @@ struct ContactHelper {
         return fetchedBirthdate
     }
 
-    ///Resolve contact name from a specified contact identifier using `unifiedContact`.
+    /// Resolve contact name from a specified contact identifier using `unifiedContact`.
     ///
-    ///- Parameters:
+    /// - Parameters:
     ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///     - identifier: The contact identifier `String` to resolve the unified contact from.
     ///
-    ///- Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
+    /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
     public static func resolveContactName(
@@ -110,7 +109,7 @@ struct ContactHelper {
         }
         return [
             fetchedContact?.nickname ?? "",
-            fetchedContact?.givenName ?? "",
+            fetchedContact?.givenName ?? ""
         ].first(where: {string in !string.isEmpty}) ?? ""
     }
 

@@ -37,16 +37,16 @@ struct WidgetFamilySet: OptionSet, Hashable {
 extension WidgetFamilySet {
     public static func convert(_ widgetFamily: WidgetFamily) -> WidgetFamilySet {
         switch widgetFamily {
-            case .systemExtraLarge:
-                return .systemExtraLarge
-            case .systemLarge:
-                return .systemLarge
-            case .systemMedium:
-                return .systemMedium
-            case .systemSmall:
-                return .systemSmall
-            default:
-                return .none
+        case .systemExtraLarge:
+            return .systemExtraLarge
+        case .systemLarge:
+            return .systemLarge
+        case .systemMedium:
+            return .systemMedium
+        case .systemSmall:
+            return .systemSmall
+        default:
+            return .none
         }
     }
 }

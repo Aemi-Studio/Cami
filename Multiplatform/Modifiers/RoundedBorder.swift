@@ -9,9 +9,9 @@ import SwiftUI
 
 struct RoundedBorder: ViewModifier {
 
-    let color:          CGColor
-    let last:           Bool
-    let bordered:       Bool
+    let color: CGColor
+    let last: Bool
+    let bordered: Bool
 
     init(
         _ color: CGColor = .init(red: 1, green: 1, blue: 1, alpha: 1),
@@ -39,8 +39,8 @@ struct RoundedBorder: ViewModifier {
     func body(content: Content) -> some View {
         if last {
             content
-                .padding(.vertical,2)
-                .padding(.horizontal,8)
+                .padding(.vertical, 2)
+                .padding(.horizontal, 8)
                 .background(.clear)
                 .background(Color(cgColor: color).opacity(opacity))
                 .overlay {
@@ -50,7 +50,7 @@ struct RoundedBorder: ViewModifier {
                         bottomTrailing: bottomCornerRadius,
                         topTrailing: standardCornerRadius
                     ) )
-                    .stroke(Color(cgColor: color).opacity(0.25),lineWidth: strokeWidth)
+                    .stroke(Color(cgColor: color).opacity(0.25), lineWidth: strokeWidth)
                 }
                 .clipShape(UnevenRoundedRectangle(cornerRadii: .init(
                     topLeading: standardCornerRadius,
@@ -60,13 +60,13 @@ struct RoundedBorder: ViewModifier {
                 ) ) )
         } else {
             content
-                .padding(.vertical,2)
-                .padding(.horizontal,4)
+                .padding(.vertical, 2)
+                .padding(.horizontal, 4)
                 .background(.clear)
                 .background(Color(cgColor: color).opacity(opacity))
                 .overlay {
                     RoundedRectangle(cornerRadius: standardCornerRadius)
-                        .stroke(Color(cgColor: color).opacity(0.25),lineWidth: strokeWidth)
+                        .stroke(Color(cgColor: color).opacity(0.25), lineWidth: strokeWidth)
                 }
                 .clipShape(RoundedRectangle(cornerRadius: standardCornerRadius))
         }
@@ -78,5 +78,3 @@ extension View {
         modifier(RoundedBorder(color, last: last, bordered: bordered))
     }
 }
-
-

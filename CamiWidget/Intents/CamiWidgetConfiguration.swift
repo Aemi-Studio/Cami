@@ -9,10 +9,10 @@ import Foundation
 
 final class CamiWidgetConfiguration {
 
-    let allDayStyle:       AllDayStyleEnum
-    let displayBirthdays:  Bool
-    let displayOngoingEvents:  Bool
-    let groupEvents:       Bool
+    let allDayStyle: AllDayStyleEnum
+    let displayBirthdays: Bool
+    let displayOngoingEvents: Bool
+    let groupEvents: Bool
 
     init() {
         self.allDayStyle            = .event

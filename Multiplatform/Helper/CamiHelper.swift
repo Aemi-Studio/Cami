@@ -65,7 +65,6 @@ struct CamiHelper {
         }
     }
 
-
     public static var birthdayCalendar: EKCalendar? {
         (self.eventStore.calendars(for: .event).first { calendar in
             calendar.type == .birthday

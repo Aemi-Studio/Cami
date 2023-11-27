@@ -9,11 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @Bindable var model: ViewModel
+    @Bindable
+    var model: ViewModel
 
     var body: some View {
         NavigationStack(path: $model.path) {
-            MainView()
+            CalendarView()
+                .navigationDestination(for: Day.self) { day in
+                    DayView(day)
+                }
         }
     }
 }

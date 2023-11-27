@@ -18,15 +18,13 @@ extension Events {
         })
     }
 
-    private func similarEvents(_ event: EKEvent) -> [(EKEvent,Int)] {
-        var outputList: [(EKEvent,Int)] = []
-        for (index,_event) in self.enumerated() {
-            if (
-                event.eventIdentifier != _event.eventIdentifier &&
-                event.title == _event.title &&
-                event.calendar.calendarIdentifier == _event.calendar.calendarIdentifier
-            ) {
-                outputList.append((_event,index))
+    private func similarEvents(_ event: EKEvent) -> [(EKEvent, Int)] {
+        var outputList: [(EKEvent, Int)] = []
+        for (index, potentialSimilarEvent) in self.enumerated() {
+            if event.eventIdentifier != potentialSimilarEvent.eventIdentifier &&
+                event.title == potentialSimilarEvent.title &&
+                event.calendar.calendarIdentifier == potentialSimilarEvent.calendar.calendarIdentifier {
+                outputList.append((potentialSimilarEvent, index))
             }
         }
         return outputList
@@ -35,20 +33,20 @@ extension Events {
     func reduced() -> [(EKEvent, Events)] {
         var result: [(EKEvent, Events)] = []
         var ignoredEvents: Set<Int> = Set<Int>()
-        for (index,event) in self.enumerated() {
+        for (index, event) in self.enumerated() {
             if !ignoredEvents.contains( index ) {
-                ///Get events with similar name of the same calendar
-                let similarEvents: [(EKEvent,Int)] = self.similarEvents(event)
-                ///Save indiced in the ignored list
+                /// Get events with similar name of the same calendar
+                let similarEvents: [(EKEvent, Int)] = self.similarEvents(event)
+                /// Save indiced in the ignored list
                 for value in similarEvents {
                     ignoredEvents.insert( value.1 )
                 }
-                ///Extract the dates from the event list
-                var __events = [event]
-                __events.append(
-                    contentsOf: similarEvents.map { (__event,_) in __event }
+                /// Extract the dates from the event list
+                var events = [event]
+                events.append(
+                    contentsOf: similarEvents.map { (event, _) in event }
                 )
-                result.append((event,__events))
+                result.append((event, events))
             }
         }
         return result

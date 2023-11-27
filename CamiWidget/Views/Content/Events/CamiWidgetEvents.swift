@@ -12,7 +12,7 @@ struct CamiWidgetEvents: View {
     @EnvironmentObject var entry: CamiWidgetEntry
 
     var body: some View {
-        
+
         var dates: Dates {
             Set<Date>().union(entry.events.keys).union(entry.inlineEvents.keys).sorted()
         }
@@ -24,12 +24,12 @@ struct CamiWidgetEvents: View {
                     EmptyView()
                 } else {
                     ViewThatFits {
-                        let _events: Events = entry.events[date] ?? []
-                        let _inlineEvents: Events = entry.inlineEvents[date] ?? []
+                        let eventsForDate: Events = entry.events[date] ?? []
+                        let inlineEventsForDate: Events = entry.inlineEvents[date] ?? []
                         CamiWidgetEventsByDate(
                             date: date,
-                            events: _events,
-                            inlineEvents: _inlineEvents
+                            events: eventsForDate,
+                            inlineEvents: inlineEventsForDate
                         )
                     }
                 }

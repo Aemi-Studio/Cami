@@ -10,22 +10,23 @@ import WidgetKit
 
 struct Rounded: ViewModifier {
 
-    @Environment(\.widgetFamily) var _widgetFamily: WidgetFamily
+    @Environment(\.widgetFamily)
+    private var _widgetFamily: WidgetFamily
 
     private func getCorrespondingRadii(
         _ widgetFamily: WidgetFamily,
         radii: [WidgetFamilySet: RectangleCornerRadii]
     ) -> RectangleCornerRadii {
-        for (widgetSet,_radii) in radii {
+        for (widgetSet, radius) in radii {
             if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
-                return _radii
+                return radius
             }
         }
         return RectangleCornerRadii()
     }
 
     var radii: [WidgetFamilySet: RectangleCornerRadii]
-    var widgetFamily: WidgetFamily? = nil
+    var widgetFamily: WidgetFamily?
 
     func body(content: Content) -> some View {
         content
@@ -59,5 +60,3 @@ extension View {
         ))
     }
 }
-
-

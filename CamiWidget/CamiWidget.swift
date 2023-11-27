@@ -20,7 +20,7 @@ struct CamiWidget: Widget {
             provider: CamiWidgetProvider()
         ) { entry in
             CamiWidgetView(for: entry)
-                .containerBackground(Color(white:0.1), for: .widget)
+                .containerBackground(Color(white: 0.1), for: .widget)
         }
         .containerBackgroundRemovable()
         .contentMarginsDisabled()

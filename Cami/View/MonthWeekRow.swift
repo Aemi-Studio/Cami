@@ -25,28 +25,31 @@ struct MonthWeekRow: View {
     }
 
     var body: some View {
-            Grid {
-                GridRow {
-                    if firstWeekOfTheMonth {
-                        ForEach(0..<model.weekdaysCount - week.count, id: \.self) { _ in
-                            Color.clear
-                        }
+        Grid {
+            GridRow {
+                if firstWeekOfTheMonth {
+                    ForEach(0..<model.weekdaysCount - week.count, id: \.self) { _ in
+                        Color.clear
                     }
-                    ForEach(week, id: \.self) { day in
-                        MonthDayCell(day: day)
-                            .foregroundStyle(.foreground)
-                            .frame(maxWidth: .infinity)
-                            .background {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .foregroundStyle( day.date.isToday ? .gray.opacity(0.32) : .clear )
-                            }
-                    }
-                    if lastWeekOfTheMonth {
-                        ForEach(0..<model.weekdaysCount - week.count, id: \.self) { _ in
-                            Color.clear
+                }
+                ForEach(week, id: \.self) { day in
+                    MonthDayCell(day: day)
+                        .foregroundStyle(.foreground)
+                        .frame(maxWidth: .infinity)
+                        .background {
+                            RoundedRectangle(cornerRadius: 12)
+                                .foregroundStyle( day.date.isToday
+                                                    ? .gray.opacity(0.32)
+                                                    : .clear
+                                )
                         }
+                }
+                if lastWeekOfTheMonth {
+                    ForEach(0..<model.weekdaysCount - week.count, id: \.self) { _ in
+                        Color.clear
                     }
                 }
             }
+        }
     }
 }

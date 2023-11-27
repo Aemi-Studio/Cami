@@ -6,19 +6,24 @@
 //
 
 import SwiftUI
+import EventKit
 
 struct MonthDayCell: View {
 
     @Environment(ViewModel.self)
     private var model: ViewModel
 
+    @State
+    private var colors: [Generic<Color>]?
+
     let day: Day
 
     var body: some View {
-        NavigationLink(value: day) {
+        Button {
+            model.path.append(day)
+        } label: {
             VStack(alignment: .center, spacing: 6) {
                 HStack {
-                    
                     Text(day.date.formatted(.dateTime.day(.defaultDigits)))
                         .font(.title3)
                         .fontWeight(.bold)
@@ -28,25 +33,26 @@ struct MonthDayCell: View {
                         .padding(0)
                 }
 
-                HStack(alignment:.center, spacing: 3) {
-                    let calendars: Calendars = Array(model.calendars.intersection(day.calendars)).asEKCalendars()
-                    if calendars.count > 0 {
-                        ForEach(Array(model.calendars.intersection(day.calendars)).asEKCalendars(), id: \.self) { cal in
+                HStack(alignment: .center, spacing: 3) {
+                    if colors != nil && colors!.count > 0 {
+                        ForEach(colors!) { color in
                             Circle()
                                 .frame(width: 6, height: 6)
-                                .foregroundStyle(Color(cgColor: cal.cgColor))
+                                .foregroundStyle( color.value )
                         }
                     } else {
-                        Circle()
-                            .frame(height: 6)
-                            .frame(maxWidth: .infinity)
-                            .foregroundStyle(Color.clear)
+                        Color.clear.frame(height: 6)
                     }
                 }
             }
             .padding(.vertical, 8)
         }
         .buttonStyle(PlainButtonStyle())
-
+        .task(priority: .low) {
+            let calendars: Set<String> = await day.lazyInitCalendars()
+            colors = Array(model.calendars.intersection( calendars ))
+                .asEKCalendars()
+                .map { Generic<Color>(Color(cgColor: $0.cgColor)) }
+        }
     }
 }

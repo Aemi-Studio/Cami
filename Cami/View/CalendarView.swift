@@ -9,18 +9,20 @@ import SwiftUI
 
 struct CalendarView: View {
 
-    @Environment(ViewModel.self)
-    private var model: ViewModel
+    @EnvironmentObject
+    var model: ViewModel
 
     @Environment(\.verticalSizeClass)
     private var sizeClass: UserInterfaceSizeClass?
 
-    @State private var wasNotAuthorized: Bool = true
-    @State private var isSettingsViewPresented: Bool = false
-    @State private var isCalendarSelectionViewPresented: Bool = false
-    @State var position: Int? = 0
+    @State
+    private var wasNotAuthorized: Bool = true
 
-    private let rows: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 0, maximum: .infinity)),count: 7)
+    @State
+    private var isSettingsViewPresented: Bool = false
+
+    @State
+    private var isCalendarSelectionViewPresented: Bool = false
 
     var body: some View {
         ScrollView(.vertical) {
@@ -33,19 +35,7 @@ struct CalendarView: View {
             .scrollTargetLayout()
         }
         .scrollIndicators(.hidden)
-        .scrollPosition(id: $position)
-        .onChange(of: position) {
-            Task {
-                if position! >= model.last.id - 4 {
-                    model.next()
-                }
-            }
-            Task {
-                if position! <= model.first.id + 4 {
-                    model.prev()
-                }
-            }
-        }
+        .scrollPosition(id: $model.position)
         .sheet(isPresented: $isCalendarSelectionViewPresented) {
             CalendarSelectionView().presentationDragIndicator(.visible)
         }
@@ -61,9 +51,8 @@ struct CalendarView: View {
                 }
         }
         .toolbar {
-            
             ToolbarItemGroup(placement: .navigation) {
-                if let month = model.get(id: position!) {
+                if let month = model.first(id: model.position!) {
                     HStack {
                         VStack {
                             Text(month.date.formatted(.dateTime.year(.defaultDigits)))
@@ -73,8 +62,8 @@ struct CalendarView: View {
                                 .foregroundStyle(.background)
                                 .fixedSize()
                         }
-                        .padding(.vertical,2)
-                        .padding(.horizontal,8)
+                        .padding(.vertical, 2)
+                        .padding(.horizontal, 8)
                         .background(.foreground)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
 
@@ -89,21 +78,17 @@ struct CalendarView: View {
                     EmptyView()
                 }
             }
-
-            ToolbarItemGroup(placement: .bottomBar) {
-
+            #if os(macOS)
+            ToolbarItemGroup(placement: .principal) {
                 HStack(alignment: .center, spacing: 8) {
-
                     Spacer()
-
                     Button {
                         isCalendarSelectionViewPresented.toggle()
                     } label: {
                         Label("Calendars", systemImage: "calendar")
                             .labelStyle(.iconOnly)
                     }
-
-                    Button{
+                    Button {
                         isSettingsViewPresented.toggle()
                     } label: {
                         Label("Settings", systemImage: "gear")
@@ -111,10 +96,31 @@ struct CalendarView: View {
                     }
                 }
             }
+            #else
+            ToolbarItemGroup(placement: .bottomBar) {
+                HStack(alignment: .center, spacing: 8) {
+                    Spacer()
+                    Button {
+                        isCalendarSelectionViewPresented.toggle()
+                    } label: {
+                        Label("Calendars", systemImage: "calendar")
+                            .labelStyle(.iconOnly)
+                    }
+                    Button {
+                        isSettingsViewPresented.toggle()
+                    } label: {
+                        Label("Settings", systemImage: "gear")
+                            .labelStyle(.iconOnly)
+                    }
+                }
+            }
+            #endif
         }
+        #if os(iOS)
         .toolbar(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .bottomBar)
+        #endif
         .onAppear {
             wasNotAuthorized = model.authStatus.calendars.status != .authorized
             if wasNotAuthorized {
@@ -122,8 +128,4 @@ struct CalendarView: View {
             }
         }
     }
-}
-
-#Preview {
-    CalendarView()
 }

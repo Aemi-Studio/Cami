@@ -27,7 +27,7 @@ struct CamiWidgetHeaderBirthdays: View {
 
     private let bCalColor: Color = Color(
         cgColor: CamiHelper.birthdayCalendar?.cgColor
-        ?? .init(red: 1, green: 0, blue: 0, alpha: 1)
+            ?? .init(red: 1, green: 0, blue: 0, alpha: 1)
     )
 
     private var todayBirthdayEvent: EKEvent? {
@@ -42,7 +42,7 @@ struct CamiWidgetHeaderBirthdays: View {
             var peopleBirthdays: [String] = birthdays.filter { event in
                 event.isSameDay(as: firstBirthday) && event != firstBirthday
             }.map { event in
-                ContactHelper.resolveContactName( 
+                ContactHelper.resolveContactName(
                     event.birthdayContactIdentifier!
                 )
             }
@@ -58,9 +58,8 @@ struct CamiWidgetHeaderBirthdays: View {
                 Int(firstBirthday.endDate.zero - entry.date.zero) as Seconds,
                 peopleBirthdays
             )
-        }
-        else {
-            return (0 as Seconds,[])
+        } else {
+            return (0 as Seconds, [])
         }
     }
 
@@ -90,7 +89,7 @@ struct CamiWidgetHeaderBirthdays: View {
                                 .lineSpacing(0)
                         }
                         .miniBadge(color: bCalColor)
-                        
+
                         Text("\(name)")
                             .hiddenIf(isSmall)
                     }

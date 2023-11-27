@@ -10,15 +10,16 @@ import WidgetKit
 
 struct Pad: ViewModifier {
 
-    @Environment(\.widgetFamily) var _widgetFamily: WidgetFamily
+    @Environment(\.widgetFamily)
+    var envWidgetFamily: WidgetFamily
 
     private func getCorrespondingInsets(
         _ widgetFamily: WidgetFamily,
         insets: [WidgetFamilySet: EdgeInsets]
     ) -> EdgeInsets {
-        for (widgetSet,_insets) in insets {
+        for (widgetSet, inset) in insets {
             if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
-                return _insets
+                return inset
             }
         }
         return EdgeInsets()
@@ -26,21 +27,21 @@ struct Pad: ViewModifier {
 
     private func getCorrespondingEdgeSet(
         _ widgetFamily: WidgetFamily,
-        edgeSets: [WidgetFamilySet: (Edge.Set,CGFloat)]
-    ) -> (Edge.Set,CGFloat) {
-        for (widgetSet,edgeSet) in edgeSets {
+        edgeSets: [WidgetFamilySet: (Edge.Set, CGFloat)]
+    ) -> (Edge.Set, CGFloat) {
+        for (widgetSet, edgeSet) in edgeSets {
             if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
                 return edgeSet
             }
         }
-        return (Edge.Set(),0)
+        return (Edge.Set(), 0)
     }
 
     private func getCorrespondingPadding(
         _ widgetFamily: WidgetFamily,
         paddings: [WidgetFamilySet: CGFloat]
     ) -> CGFloat {
-        for (widgetSet,padding) in paddings {
+        for (widgetSet, padding) in paddings {
             if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
                 return padding
             }
@@ -48,10 +49,10 @@ struct Pad: ViewModifier {
         return 0
     }
 
-    var insets: [WidgetFamilySet: EdgeInsets]? = nil
-    var edgeSets: [WidgetFamilySet: (Edge.Set,CGFloat)]? = nil
-    var paddings: [WidgetFamilySet: CGFloat]? = nil
-    var widgetFamily: WidgetFamily? = nil
+    var insets: [WidgetFamilySet: EdgeInsets]?
+    var edgeSets: [WidgetFamilySet: (Edge.Set, CGFloat)]?
+    var paddings: [WidgetFamilySet: CGFloat]?
+    var widgetFamily: WidgetFamily?
 
     init(
         insets: [WidgetFamilySet: EdgeInsets],
@@ -62,7 +63,7 @@ struct Pad: ViewModifier {
     }
 
     init(
-        edgeSets: [WidgetFamilySet: (Edge.Set,CGFloat)],
+        edgeSets: [WidgetFamilySet: (Edge.Set, CGFloat)],
         widgetFamily: WidgetFamily? = nil
     ) {
         self.edgeSets = edgeSets
@@ -83,13 +84,13 @@ struct Pad: ViewModifier {
             content
                 .padding(
                     getCorrespondingInsets(
-                        widgetFamily ?? _widgetFamily,
+                        widgetFamily ?? envWidgetFamily,
                         insets: insets!
                     )
                 )
         } else if edgeSets != nil {
-            let padding: (Edge.Set,CGFloat) = getCorrespondingEdgeSet(
-                widgetFamily ?? _widgetFamily,
+            let padding: (Edge.Set, CGFloat) = getCorrespondingEdgeSet(
+                widgetFamily ?? envWidgetFamily,
                 edgeSets: edgeSets!
             )
             content
@@ -98,12 +99,11 @@ struct Pad: ViewModifier {
             content
                 .padding(
                     getCorrespondingPadding(
-                        widgetFamily ?? _widgetFamily,
+                        widgetFamily ?? envWidgetFamily,
                         paddings: paddings!
                     )
                 )
         }
-
 
     }
 }
@@ -120,7 +120,7 @@ extension View {
     }
 
     func pad(
-        _ edgeSets: [WidgetFamilySet: (Edge.Set,CGFloat)],
+        _ edgeSets: [WidgetFamilySet: (Edge.Set, CGFloat)],
         widgetFamily: WidgetFamily? = nil
     ) -> some View {
         modifier(Pad(
@@ -139,5 +139,3 @@ extension View {
         ))
     }
 }
-
-

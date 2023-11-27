@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CamiWidgetView : View {
+struct CamiWidgetView: View {
 
     let entry: CamiWidgetEntry
 
@@ -22,10 +22,9 @@ struct CamiWidgetView : View {
             VStack(spacing: 6) {
 
                 CamiWidgetHeader()
-                
 
                 Color.clear
-                    .overlay(alignment:.top) {
+                    .overlay(alignment: .top) {
                         CamiWidgetEvents()
                             .accessibilityAddTraits(.updatesFrequently)
                     }

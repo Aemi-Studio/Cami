@@ -14,7 +14,7 @@ extension Seconds {
     }
 
     var toDays: String {
-        var component : DateComponents = DateComponents()
+        var component: DateComponents = DateComponents()
         component.day = self.days
 
         let formatter = DateComponentsFormatter()

@@ -28,6 +28,6 @@ struct SettingsAdditionalInformation: View {
     }
 }
 
-//#Preview {
+// #Preview {
 //    SettingsAdditionalInformation()
-//}
+// }

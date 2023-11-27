@@ -13,10 +13,10 @@ struct CalendarHelper {
     public static var authorizationStatus: Bool {
         let authorizationStatus: EKAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
         return switch authorizationStatus {
-            case .fullAccess:
-                true
-            default:
-                false
+        case .fullAccess:
+            true
+        default:
+            false
         }
     }
 
@@ -35,11 +35,11 @@ struct CalendarHelper {
         store: EKEventStore = CamiHelper.eventStore,
         _ callback: @escaping (AuthSet) -> Void
     ) {
-        store.requestFullAccessToEvents() { result, error in
+        store.requestFullAccessToEvents { result, error in
             if error != nil {
-#if DEBUG
+                #if DEBUG
                 print(error!.localizedDescription)
-#endif
+                #endif
                 callback(.none)
             } else {
                 callback(result ? .calendars : .none)
@@ -93,7 +93,7 @@ struct CalendarHelper {
         )
 
         // Create the predicate from the event store's instance method.
-        var predicate: NSPredicate? = nil
+        var predicate: NSPredicate?
         if let anAgo = today, let aNow = oneMonthFromNow {
             predicate = store.predicateForEvents(
                 withStart: anAgo,
@@ -140,7 +140,7 @@ struct CalendarHelper {
         )
 
         // Create the predicate from the event store's instance method.
-        var predicate: NSPredicate? = nil
+        var predicate: NSPredicate?
         if let anAgo = today, let aNow = endDate {
             predicate = store.predicateForEvents(
                 withStart: anAgo,

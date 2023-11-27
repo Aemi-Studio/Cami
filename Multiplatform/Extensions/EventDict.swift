@@ -10,7 +10,7 @@ import EventKit
 
 extension EventDict {
 
-    mutating func append(to date: Date,_ event: EKEvent) {
+    mutating func append(to date: Date, _ event: EKEvent) {
         if self[date] != nil {
             self[date]!.append(event)
         } else {

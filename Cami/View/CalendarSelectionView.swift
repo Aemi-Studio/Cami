@@ -21,14 +21,14 @@ struct CalendarSelectionView: View {
     }
 
     var calendarsAsDict: [String: Calendars] {
-        CamiHelper.allCalendars.reduce(into: [String: Calendars]()) { r, c in
-            let sourceTitle: String = c.source.title
-            if let oldValue = r[sourceTitle] {
+        CamiHelper.allCalendars.reduce(into: [String: Calendars]()) { result, calendar in
+            let sourceTitle: String = calendar.source.title
+            if let oldValue = result[sourceTitle] {
                 var newValue = oldValue
-                newValue.append(c)
-                r.updateValue(newValue, forKey: sourceTitle)
+                newValue.append(calendar)
+                result.updateValue(newValue, forKey: sourceTitle)
             } else {
-                r[sourceTitle] = [c]
+                result[sourceTitle] = [calendar]
             }
         }
     }
@@ -49,8 +49,8 @@ struct CalendarSelectionView: View {
                                 HStack(alignment: .center, spacing: 8) {
                                     VStack(alignment: .leading) {
                                         let imageName = isSelected(calendar.calendarIdentifier)
-                                        ? "checkmark.circle.fill"
-                                        : "circle"
+                                            ? "checkmark.circle.fill"
+                                            : "circle"
                                         Label("\(calendar.source.title) - \(calendar.title)", systemImage: imageName)
                                             .labelStyle(.iconOnly)
                                             .foregroundStyle(Color(cgColor: calendar.cgColor))

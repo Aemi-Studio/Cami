@@ -33,9 +33,9 @@ struct CamiWidgetEventsByDate: View {
             if entry.config.allDayStyle == .hidden {
                 return events.filter({ event in !(
                     event.isAllDay
-                )}).map( { ($0,[$0]) } )
+                )}).map({ ($0, [$0]) })
             }
-            return events.map( { ($0,[$0]) } )
+            return events.map({ ($0, [$0]) })
         }
     }
 
@@ -66,8 +66,8 @@ struct CamiWidgetEventsByDate: View {
                         } else {
                             Group {
                                 Text(date.formattedAfterTomorrow) +
-                                Text(" • ") +
-                                Text(date.relativeToNow)
+                                    Text(" • ") +
+                                    Text(date.relativeToNow)
                             }
                             .accessibilityLabel("Events for \(date.formattedAfterTomorrow), \(date.relativeToNow)")
                         }
@@ -84,7 +84,7 @@ struct CamiWidgetEventsByDate: View {
                                     Text("\(inlineEvents.count)")
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color(white: 0.1))
-                                        .padding(.horizontal,2)
+                                        .padding(.horizontal, 2)
                                         .background(.white.opacity(0.25))
                                         .clipShape(RoundedRectangle(cornerRadius: 2))
                                         .accessibilityLabel("You have \(inlineEvents.count) all-day events.")
@@ -98,7 +98,7 @@ struct CamiWidgetEventsByDate: View {
                                     Text("+\(inlineEvents.count - 1)")
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color(white: 0.1))
-                                        .padding(.horizontal,2)
+                                        .padding(.horizontal, 2)
                                         .background(.white.opacity(0.25))
                                         .clipShape(RoundedRectangle(cornerRadius: 2))
                                         .accessibilityLabel("And you have also \(inlineEvents.count - 1) other all-day events.")
@@ -113,7 +113,6 @@ struct CamiWidgetEventsByDate: View {
                 .fontDesign(.rounded)
                 .font(.caption2)
                 .padding(.horizontal, 1)
-
 
                 VStack(spacing: 2) {
                     ForEach(0..<reducedEvents.count, id: \.self) { index in

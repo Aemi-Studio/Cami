@@ -4,14 +4,14 @@
 <dict>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Cami only uses your data locally to display events. It does not edit or delete them nor sends them away.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Cami only uses your data locally to display events and reminders customization. It does not edit or delete them nor sends them away.</string>
-	<key>NSRemindersFullAccessUsageDescription</key>
-	<string>Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
 	</dict>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.</string>
+	<key>User Script Sandboxing</key>
+	<true/>
 </dict>
 </plist>

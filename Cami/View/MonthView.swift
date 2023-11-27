@@ -12,7 +12,6 @@ struct MonthView: View {
     @Environment(ViewModel.self)
     private var model: ViewModel
 
-
     let date: Date
 
     private var weeks: Weeks {
@@ -25,12 +24,11 @@ struct MonthView: View {
                 .font(.subheadline)
                 .fontWeight(.bold)
                 .textCase(.uppercase)
-            VStack(alignment: .leading, spacing: 16) {
+            LazyVStack(alignment: .leading, spacing: 16) {
                 ForEach(weeks, id: \.self) { week in
                     MonthWeekRow(week: week)
                 }
             }
         }
-        .frame(maxWidth: .infinity)
     }
 }

@@ -13,17 +13,19 @@ extension Date {
 
     func getDates(from component: Calendar.Component) -> Dates {
         switch component {
-            case .month, .weekOfMonth, .weekOfYear:
-                var dates: Dates = .init()
-                let _component: Int = self.get(component)
-                var currentDay: Date = self.startOfMonth.zero
-                repeat {
-                    dates.append(currentDay)
-                    currentDay = currentDay + DateComponents(day: 1)
-                } while currentDay.get(component) == _component
-                return dates
-            default:
-                return Dates(arrayLiteral:self)
+        case .month, .weekOfMonth, .weekOfYear:
+            var dates: Dates = .init()
+            let value: Int = self.get(component)
+            var currentDay: Date = self.startOfMonth.zero
+            repeat {
+                dates.append(currentDay)
+                // swiftlint:disable shorthand_operator
+                currentDay = currentDay + DateComponents(day: 1)
+                // swiftlint:enable shorthand_operator
+            } while currentDay.get(component) == value
+            return dates
+        default:
+            return Dates(arrayLiteral: self)
         }
     }
 
@@ -44,21 +46,21 @@ extension Dates {
         let dates: Dates = self.sorted(.orderedAscending)
         return dates.reduce(into: [Int: Dates]()) { dictionary, date in
             let week: Int = date.get(.weekOfYear)
-            var _dates: Dates
+            var currentDates: Dates
             if dictionary[week] != nil {
-                _dates = dictionary[week]!
-                if _dates.contains(where: { date.get(.weekday) == $0.get(.weekday) }) {
+                currentDates = dictionary[week]!
+                if currentDates.contains(where: { date.get(.weekday) == $0.get(.weekday) }) {
                     dictionary.updateValue([date], forKey: week + 1)
                 } else {
-                    _dates.append(date)
-                    dictionary.updateValue(_dates, forKey: week)
+                    currentDates.append(date)
+                    dictionary.updateValue(currentDates, forKey: week)
                 }
             } else {
                 dictionary.updateValue([date], forKey: week)
             }
         }
-        .map { (key,value) in value }
-        .sorted { (first,second) in
+        .map { (_, value) in value }
+        .sorted { (first, second) in
             first.first!.compare(second.first!) == .orderedAscending
         }
     }

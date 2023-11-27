@@ -12,7 +12,7 @@ import ActivityKit
 import WidgetKit
 import SwiftUI
 
-//struct CamiWidgetAttributes: ActivityAttributes {
+// struct CamiWidgetAttributes: ActivityAttributes {
 //    public struct ContentState: Codable, Hashable {
 //        // Dynamic stateful properties about your activity go here!
 //        var emoji: String
@@ -20,10 +20,10 @@ import SwiftUI
 //
 //    // Fixed non-changing properties about your activity go here!
 //    var name: String
-//}
+// }
 //
-//struct CamiWidgetLiveActivity: Widget {
-//    
+// struct CamiWidgetLiveActivity: Widget {
+//
 //    var events: EventList {
 //    }
 //
@@ -61,27 +61,27 @@ import SwiftUI
 //            .keylineTint(Color.red)
 //        }
 //    }
-//}
+// }
 //
-//extension CamiWidgetAttributes {
+// extension CamiWidgetAttributes {
 //    fileprivate static var preview: CamiWidgetAttributes {
 //        CamiWidgetAttributes(name: "World")
 //    }
-//}
+// }
 //
-//extension CamiWidgetAttributes.ContentState {
+// extension CamiWidgetAttributes.ContentState {
 //    fileprivate static var smiley: CamiWidgetAttributes.ContentState {
 //        CamiWidgetAttributes.ContentState(emoji: "😀")
 //     }
-//     
+//
 //     fileprivate static var starEyes: CamiWidgetAttributes.ContentState {
 //         CamiWidgetAttributes.ContentState(emoji: "🤩")
 //     }
-//}
+// }
 //
-//#Preview("Notification", as: .content, using: CamiWidgetAttributes.preview) {
+// #Preview("Notification", as: .content, using: CamiWidgetAttributes.preview) {
 //   CamiWidgetLiveActivity()
-//} contentStates: {
+// } contentStates: {
 //    CamiWidgetAttributes.ContentState.smiley
 //    CamiWidgetAttributes.ContentState.starEyes
-//}
+// }

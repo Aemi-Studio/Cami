@@ -19,37 +19,32 @@ struct CamiWidgetHeaderDate: View {
 
     private var datePrefix: Int {
         return switch widgetFamily {
-            case .systemExtraLarge:
-                Int.max
-            case .systemSmall:
-                1
-            default:
-                3
+        case .systemExtraLarge:
+            Int.max
+        case .systemSmall:
+            1
+        default:
+            3
         }
     }
 
     var body: some View {
         HStack {
-            let dateComponents: (
-                day:String,
-                date:String,
-                month:String,
-                year:String
-            ) = entry.date.literals
+            let dateComponents: [String: String] = entry.date.literals
 
             Group {
                 Group {
                     Text(
-                        "\(dateComponents.day)"
+                        "\(dateComponents["day"]!)"
                             .uppercased()
                             .prefix(datePrefix)
                     )
                     .fontWeight(.heavy)
                     .foregroundStyle(.white)
                     +
-                    Text("\(dateComponents.date)")
-                        .fontWeight(.heavy)
-                        .foregroundStyle(.red)
+                    Text("\(dateComponents["date"]!)")
+                    .fontWeight(.heavy)
+                    .foregroundStyle(.red)
                 }
             }
         }

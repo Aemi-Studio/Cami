@@ -18,22 +18,22 @@ struct SettingsView: View {
 
     private func statusToSymbolName(_ status: AuthSet.Status) -> String {
         switch status {
-            case .authorized:
-                "checkmark.circle.fill"
-            case .restricted:
-                "xmark.circle.fill"
-            case .notDetermined:
-                "circle"
+        case .authorized:
+            "checkmark.circle.fill"
+        case .restricted:
+            "xmark.circle.fill"
+        case .notDetermined:
+            "circle"
         }
     }
     private func statusToStatusColor(_ status: AuthSet.Status) -> Color {
         switch status {
-            case .authorized:
-                    .blue
-            case .restricted:
-                    .red
-            case .notDetermined:
-                    .gray
+        case .authorized:
+            .blue
+        case .restricted:
+            .red
+        case .notDetermined:
+            .gray
         }
     }
 
@@ -113,7 +113,6 @@ struct SettingsView: View {
                     .font(.title)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(model.authStatus.reminders.status == .authorized)
-
 
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {

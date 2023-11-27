@@ -17,17 +17,16 @@ enum AllDayStyleEnum: String, CaseIterable, AppEnum {
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 
-    static var caseDisplayRepresentations: [AllDayStyleEnum : DisplayRepresentation] = [
+    static var caseDisplayRepresentations: [AllDayStyleEnum: DisplayRepresentation] = [
         .hidden: .init(stringLiteral: "Hidden"),
         .event: .init(stringLiteral: "Event"),
-        .bordered: .init(stringLiteral: "Event Bordered"),
+        .bordered: .init(stringLiteral: "Event Bordered")
     ]
 
     var title: String {
         self.rawValue
     }
 }
-
 
 struct AllDayStyleOptionsProvider: DynamicOptionsProvider {
     func results() async throws -> [AllDayStyleEnum] {

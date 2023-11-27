@@ -10,11 +10,11 @@ import EventKit
 
 struct EventView: View {
 
-    @State private var editMode: EditMode = EditMode.inactive
-
-    private var isEditing: Bool {
-        editMode == .active
-    }
+    //    @State private var editMode: EditMode = EditMode.inactive
+    //
+    //    private var isEditing: Bool {
+    //        editMode == .active
+    //    }
 
     var event: EKEvent?
 
@@ -23,23 +23,25 @@ struct EventView: View {
             VStack(alignment: .leading) {
                 Group {
                     Text(event!.title)
-//                    Text(event.isAllDay.description)
-//                    Text(event.startDate)
-//                    Text(event.endDate)
+                    //                    Text(event.isAllDay.description)
+                    //                    Text(event.startDate)
+                    //                    Text(event.endDate)
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Details")
         .padding()
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                EditButton()
-            }
+        ToolbarItemGroup(placement: .topBarTrailing) {
+        EditButton()
         }
+        }
+        #endif
     }
 }
 
 #Preview {
- EventView()
+    EventView()
 }

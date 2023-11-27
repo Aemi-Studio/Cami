@@ -12,7 +12,7 @@ struct CamiWidgetEvent: View {
 
     @EnvironmentObject private var entry: CamiWidgetEntry
 
-    var event: (EKEvent,Events)
+    var event: (EKEvent, Events)
 
     private var _event: EKEvent {
         return event.0
@@ -24,7 +24,7 @@ struct CamiWidgetEvent: View {
 
     var body: some View {
 
-        HStack(alignment:.center) {
+        HStack(alignment: .center) {
 
             VStack(alignment: .leading) {
                 Text(_event.title)
@@ -39,21 +39,23 @@ struct CamiWidgetEvent: View {
             Spacer(minLength: 8)
 
             if !_event.isAllDay || entry.config.displayOngoingEvents && _event.spansMore(than: entry.date) {
-                VStack(alignment: .trailing,spacing: 1) {
+                VStack(alignment: .trailing, spacing: 1) {
                     Group {
-                        ForEach(_other, id: \.self) { __event in
+                        ForEach(_other, id: \.self) { otherEvent in
                             RemainingTimeComponent(
-                                from: __event.startDate,
-                                to: __event.endDate,
-                                accuracy: __event.spansMore(than: entry.date) ? [.day,.hour] : [.day,.hour,.minute]
+                                from: otherEvent.startDate,
+                                to: otherEvent.endDate,
+                                accuracy: otherEvent.spansMore(than: entry.date)
+                                    ? [.day, .hour]
+                                    : [.day, .hour, .minute]
                             )
-                                .font(.caption)
-                                .foregroundStyle(Color(cgColor: __event.calendar.cgColor))
+                            .font(.caption)
+                            .foregroundStyle(Color(cgColor: otherEvent.calendar.cgColor))
                         }
                     }
                     .accessibilityLabel(
                         _other.count > 1
-                        ? "This event happens \(_other.count) times in your day." : "")
+                            ? "This event happens \(_other.count) times in your day." : "")
                 }
             }
 

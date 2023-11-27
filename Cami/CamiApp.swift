@@ -16,6 +16,7 @@ struct CamiApp: App {
         WindowGroup {
             ContentView(model: model)
                 .environment(model)
+                .environmentObject(model)
         }
     }
 }
