@@ -10,7 +10,8 @@ import SwiftUI
 @main
 struct CamiApp: App {
 
-    @State private var model: ViewModel = ViewModel(for: Date.now)
+    @State
+    private var model: ViewModel = ViewModel(for: Date.now)
 
     var body: some Scene {
         WindowGroup {

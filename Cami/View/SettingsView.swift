@@ -38,7 +38,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        ScrollView(.vertical) {
             VStack(spacing: 16) {
                 HStack(alignment: .center, spacing: 16) {
                     Button {
@@ -58,45 +58,30 @@ struct SettingsView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("Calendars Access")
-                                .font(.title)
+                            Text("Calendars")
+                                .font(.title2)
                                 .fontWeight(.semibold)
-
-                            Spacer()
-
-                            Button {
-                                calInfo.toggle()
-                            } label: {
-                                Label("Information", systemImage: "info.circle")
-                                    .labelStyle(.iconOnly)
-                            }
-                            .foregroundStyle(.foreground.secondary)
-                            .buttonStyle(PlainButtonStyle())
-                            .navigationDestination(isPresented: $calInfo) {
-                                ScrollView {
-                                    VStack(alignment: .leading, spacing: 16) {
-                                        Text("Calendars Access")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                        Text("""
-        Cami only uses your data locally to display events. It does not edit or delete them nor sends them away.
-        """)
-                                    }
-                                    .padding()
-                                }
-                            }
                         }
 
-                        Text("Used to display events in the calendar and the widget.")
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.foreground.secondary)
-                            .multilineTextAlignment(.leading)
+                        Group {
+                            Text("""
+    Cami ONLY uses your on-device calendar information to display events in widgets.
+    """)
+                            Text("""
+    Cami DOES NOT edit or delete or send those information away.
+    """)
+                        }
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.foreground.secondary)
+                        .multilineTextAlignment(.leading)
                     }
                 }
+                .frame(maxWidth: .infinity)
                 .padding()
                 .background(.regularMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                #if DEBUG
                 HStack(alignment: .center, spacing: 16) {
 
                     Button {
@@ -156,8 +141,8 @@ struct SettingsView: View {
                 .padding()
                 .background(.regularMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                #endif
                 HStack(alignment: .center, spacing: 16) {
-
                     Button {
                         Task {
                             if !Bool(model.authStatus.contacts.status) {
@@ -175,48 +160,39 @@ struct SettingsView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("Contacts Access")
-                                .font(.title)
+                            Text("Contacts")
+                                .font(.title2)
                                 .fontWeight(.semibold)
-
-                            Spacer()
-
-                            Button {
-                                conInfo.toggle()
-                            } label: {
-                                Label("Information", systemImage: "info.circle")
-                                    .labelStyle(.iconOnly)
-                            }
-                            .foregroundStyle(.foreground.secondary)
-                            .buttonStyle(PlainButtonStyle())
-                            .navigationDestination(isPresented: $conInfo) {
-                                ScrollView {
-                                    VStack(alignment: .leading, spacing: 16) {
-                                        Text("Contact Access Information")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                        Text("""
-            Cami only uses your contacts information locally to display events and reminders customization. It does not edit or delete them nor sends them away.
-            """)
-                                    }
-                                    .padding()
-                                }
-                            }
                         }
 
-                        Text("Used to display and customize events and reminders in the calendar and the widget.")
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.foreground.secondary)
-                            .multilineTextAlignment(.leading)
+                        Group {
+                            Text("""
+    Cami ONLY uses your on-device contacts information to display birthday information in widgets.
+    """)
+                            Text("""
+    Cami DOES NOT edit or delete or send those information away.
+    """)
+                        }
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.foreground.secondary)
+                        .multilineTextAlignment(.leading)
                     }
                 }
+                .frame(maxWidth: .infinity)
                 .padding()
                 .background(.regularMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                SettingsLinkView(radius: 8)
+                WidgetHelpView(
+                    title: "Privacy Policy",
+                    url: "https://aemi.studio/privacy",
+                    description: "Review how Cami handles your data.",
+                    radius: 8
+                )
             }
-            .font(.title2)
             .padding()
+            .lineLimit(10)
         }
     }
 }

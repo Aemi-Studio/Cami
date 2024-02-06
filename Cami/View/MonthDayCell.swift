@@ -48,7 +48,7 @@ struct MonthDayCell: View {
             .padding(.vertical, 8)
         }
         .buttonStyle(PlainButtonStyle())
-        .task(priority: .low) {
+        .task {
             let calendars: Set<String> = await day.lazyInitCalendars()
             colors = Array(model.calendars.intersection( calendars ))
                 .asEKCalendars()

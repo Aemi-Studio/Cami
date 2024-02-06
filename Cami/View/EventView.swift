@@ -7,41 +7,41 @@
 
 import SwiftUI
 import EventKit
+import Contacts
 
 struct EventView: View {
 
-    //    @State private var editMode: EditMode = EditMode.inactive
-    //
-    //    private var isEditing: Bool {
-    //        editMode == .active
-    //    }
+    @State
+    private var showEventEditView: Bool = false
 
-    var event: EKEvent?
+    var event: EKEvent
+
+    init(_ event: EKEvent) {
+        self.event = event
+    }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
-                Group {
-                    Text(event!.title)
-                    //                    Text(event.isAllDay.description)
-                    //                    Text(event.startDate)
-                    //                    Text(event.endDate)
+            EventViewController(event: event)
+        }
+        .navigationTitle("Details")
+        .toolbar {
+            if event.calendar.allowsContentModifications {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button("Edit") {
+                        self.showEventEditView.toggle()
+                    }
                 }
             }
         }
-        .navigationTitle("Details")
-        .padding()
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-        ToolbarItemGroup(placement: .topBarTrailing) {
-        EditButton()
+        .sheet(isPresented: $showEventEditView) {
+            EditEventViewController(event: self.event)
+                .onDisappear {
+                    event.refresh()
+                }
         }
+        .onAppear {
+            event.refresh()
         }
-        #endif
     }
-}
-
-#Preview {
-    EventView()
 }

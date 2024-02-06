@@ -45,6 +45,8 @@ struct CalendarHelper {
                 callback(result ? .calendars : .none)
             }
         }
+
+        store.refreshSourcesIfNecessary()
     }
 
     public static func events(
@@ -70,6 +72,8 @@ struct CalendarHelper {
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> Events {
+
+        store.refreshSourcesIfNecessary()
 
         let calendar = Calendar.autoupdatingCurrent
 
@@ -119,6 +123,8 @@ struct CalendarHelper {
         from date: Date,
         during days: Int = 365
     ) -> Events {
+
+        store.refreshSourcesIfNecessary()
 
         let calendar = Calendar.autoupdatingCurrent
 

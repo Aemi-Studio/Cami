@@ -113,4 +113,38 @@ struct ContactHelper {
         ].first(where: {string in !string.isEmpty}) ?? ""
     }
 
+    /// Resolve contact name from a specified contact predicate using `unifiedContact`.
+    ///
+    /// - Parameters:
+    ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
+    ///     - predicate: The contact predicate `NSPredicate` to resolve the unified contact from.
+    ///
+    /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
+    /// it fallbacks to the given name (first name).
+    ///
+    public static func resolveContactName(
+        store: CNContactStore = CamiHelper.contactStore,
+        _ predicate: NSPredicate
+    ) -> String {
+        let fetchedContact: CNContact?
+        do {
+            fetchedContact = try store.unifiedContacts(
+                matching: predicate,
+                keysToFetch: [
+                    CNContactNicknameKey as CNKeyDescriptor,
+                    CNContactGivenNameKey as CNKeyDescriptor
+                ]
+            ).first
+        } catch {
+            print(
+                error.localizedDescription
+            )
+            fetchedContact = nil
+        }
+        return [
+            fetchedContact?.nickname ?? "",
+            fetchedContact?.givenName ?? ""
+        ].first(where: {string in !string.isEmpty}) ?? ""
+    }
+
 }
