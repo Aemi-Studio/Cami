@@ -7,6 +7,7 @@
 
 import SwiftUI
 import EventKit
+import WidgetKit
 
 struct ContentView: View {
 
@@ -34,9 +35,10 @@ struct ContentView: View {
                 .navigationDestination(for: Day.self, destination: DayView.init)
                 .navigationDestination(for: EKEvent.self, destination: EventView.init)
         }
-        #else
+        #elseif !DEBUG
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
+
                 VStack(alignment: .center, spacing: 0) {
                     Spacer(minLength: 32)
                     VStack {
@@ -90,6 +92,12 @@ struct ContentView: View {
                 .padding()
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
+                .contextMenu {
+                    Button("Refresh Widgets", systemImage: "arrow.clockwise") {
+                        WidgetCenter.shared.reloadAllTimelines()
+                    }
+                }
+
                 SettingsLinkView()
                 WidgetHelpView(
                     title: "Privacy Policy",
