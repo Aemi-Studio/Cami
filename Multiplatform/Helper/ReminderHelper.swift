@@ -14,7 +14,7 @@ struct ReminderHelper {
         store: EKEventStore = CamiHelper.eventStore
     ) async -> AuthSet {
         do {
-            return try await  store.requestFullAccessToReminders() ? .reminders : .none
+            return try await  store.requestFullAccessToReminders() ? .reminders : .restrictedReminders
         } catch {
             print(error.localizedDescription)
         }

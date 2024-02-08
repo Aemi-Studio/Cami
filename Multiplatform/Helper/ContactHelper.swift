@@ -23,12 +23,12 @@ struct ContactHelper {
         do {
             return try await store.requestAccess(
                 for: .contacts
-            ) ? .contacts : .none
+            ) ? .contacts : .restrictedContacts
         } catch {
             #if DEBUG
             print(error.localizedDescription)
             #endif
-            return .none
+            return .restrictedContacts
         }
     }
 
@@ -48,9 +48,9 @@ struct ContactHelper {
                 #if DEBUG
                 print(error!.localizedDescription)
                 #endif
-                callback(.none)
+                callback(.restrictedContacts)
             } else {
-                callback(result ? .contacts : .none)
+                callback(result ? .contacts : .restrictedContacts)
             }
         }
     }

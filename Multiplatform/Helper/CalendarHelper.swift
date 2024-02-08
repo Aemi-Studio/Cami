@@ -24,7 +24,7 @@ struct CalendarHelper {
         store: EKEventStore = CamiHelper.eventStore
     ) async -> AuthSet {
         do {
-            return try await store.requestFullAccessToEvents() ? .calendars : .none
+            return try await store.requestFullAccessToEvents() ? .calendars : .restrictedCalendars
         } catch {
             print(error.localizedDescription)
         }

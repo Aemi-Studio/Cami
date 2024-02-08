@@ -22,6 +22,9 @@ struct ContentView: View {
 
     @State
     private var authorized: Bool = false
+
+    @State
+    private var restricted: Bool = false
     #endif
 
     var body: some View {
@@ -51,28 +54,35 @@ struct ContentView: View {
     """)
                     Spacer(minLength: 32)
                     if !authorized {
-                        Button {
-                            isModalPresented.toggle()
-                        } label: {
-                            var desc = "Cami needs you to grant it access to your calendar and contacts information to work properly."
-                            ButtonInnerBody(label: "Grant Access", description: desc, systemImage: "checkmark.circle.badge.questionmark", radius: 12)
-                                .tint(.orange)
-                        }
-                        .sheet(isPresented: $isModalPresented) {
-                            SettingsView()
-                                .presentationDragIndicator(.visible)
-                                .presentationDetents([.fraction(0.75)])
-                                .presentationContentInteraction(.scrolls)
-                                .onDisappear {
-                                    authorized = model.authStatus.calendars.status == .authorized
-                                    if wasNotAuthorized && authorized {
-                                        model.reset()
-                                    }
+
+                        if restricted {
+                            Button {
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
                                 }
+                            } label: {
+                                ButtonInnerBody(
+                                    label: "Restricted",
+                                    description: "Review Cami access to data.",
+                                    systemImage: "gear",
+                                    radius: 8,
+                                    border: true
+                                )
+                                .tint(.red)
+                            }
+                        } else {
+                            Button {
+                                isModalPresented.toggle()
+                            } label: {
+                                var desc = "Cami needs you to grant it access to your calendar and contacts information to work properly."
+                                ButtonInnerBody(label: "Grant Access", description: desc, systemImage: "checkmark.circle.badge.questionmark", radius: 8, border: true)
+                                    .tint(.orange)
+                            }
                         }
+
                     } else {
-                        Text("Stay tuned for next Cami updates.")
-                        Spacer(minLength: 32)
+                        ButtonInnerBody(label: "Everything is fine.", description: "Stay tuned for next Cami updates", radius: 8, alignment: .center, noIcon: true)
+                            .tint(.green)
                     }
                 }
                 .multilineTextAlignment(.center)
@@ -96,8 +106,26 @@ struct ContentView: View {
             .padding()
         }
         .onAppear {
-            wasNotAuthorized = model.authStatus.calendars.status != .authorized
+            wasNotAuthorized = model.authStatus.status != .authorized
             authorized = model.authStatus.calendars.status == .authorized
+                && model.authStatus.contacts.status == .authorized
+            restricted = model.authStatus.calendars.status == .restricted
+                && model.authStatus.contacts.status == .restricted
+        }
+        .sheet(isPresented: $isModalPresented) {
+            SettingsView()
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.fraction(0.75)])
+                .presentationContentInteraction(.scrolls)
+                .onDisappear {
+                    authorized = model.authStatus.calendars.status == .authorized
+                        && model.authStatus.contacts.status == .authorized
+                    restricted = model.authStatus.calendars.status == .restricted
+                        && model.authStatus.contacts.status == .restricted
+                    if wasNotAuthorized && authorized {
+                        model.reset()
+                    }
+                }
         }
         #endif
     }
