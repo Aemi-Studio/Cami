@@ -39,7 +39,3 @@ struct CamiWidgetEvents: View {
 
     }
 }
-
-#Preview {
-    CamiWidgetEvents()
-}
