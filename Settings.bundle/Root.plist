@@ -38,6 +38,25 @@
 			<key>File</key>
 			<string>Third Party Library</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Developer Features</string>
+			<key>FooterText</key>
+			<string>As much as we can guarantee that we don&apos;t do anything with your data, the features you would get by enabling any of the above settings could make you able to alterate your data by yourself.
+Please do not reach out if you experience any problem by using those features, we do not support them yet and this is why you have to enable them with those settings.</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Access Work-In-Progress Features</string>
+			<key>Key</key>
+			<string>accessWorkInProgressFeatures</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
 	</array>
 </dict>
 </plist>

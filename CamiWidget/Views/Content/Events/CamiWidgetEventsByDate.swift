@@ -25,14 +25,14 @@ struct CamiWidgetEventsByDate: View {
         if entry.config.groupEvents {
             if entry.config.allDayStyle == .hidden {
                 return events.filter({ event in !(
-                    event.isAllDay
+                    event.isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
                 )}).reduced()
             }
             return events.reduced()
         } else {
             if entry.config.allDayStyle == .hidden {
                 return events.filter({ event in !(
-                    event.isAllDay
+                    event.isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
                 )}).map({ ($0, [$0]) })
             }
             return events.map({ ($0, [$0]) })

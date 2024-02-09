@@ -33,7 +33,6 @@ struct InformationModalView: View {
                     FAQInformationModel.shared.list.first(where: { i in information.key == i.id })!
                 }
             return results
-
         }
     }
 
@@ -59,6 +58,10 @@ struct InformationModalView: View {
         }
         .navigationTitle("Information")
         .navigationBarTitleDisplayMode(.inline)
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "What do you want to know?")
+        .searchable(
+            text: $searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: "What do you want to know?"
+        )
     }
 }

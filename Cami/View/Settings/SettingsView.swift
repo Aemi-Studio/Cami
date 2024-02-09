@@ -16,6 +16,9 @@ struct SettingsView: View {
     @State private var remInfo: Bool = false
     @State private var conInfo: Bool = false
 
+    @AppStorage("accessWorkInProgressFeatures")
+    private var accessWorkInProgressFeatures = false
+
     private func statusToSymbolName(_ status: AuthSet.Status) -> String {
         switch status {
         case .authorized:
@@ -102,65 +105,65 @@ struct SettingsView: View {
                 .padding()
                 .background(.regularMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                #if DEBUG
 
-                VStack(alignment: .leading, spacing: 16) {
-                    HStack(spacing: 8) {
-                        Group {
-                            Text("Reminders Access")
-                                .font(.title2)
+                if accessWorkInProgressFeatures {
+                    VStack(alignment: .leading, spacing: 16) {
+                        HStack(spacing: 8) {
+                            Group {
+                                Text("Reminders")
+                                    .font(.title2)
 
-                            if model.authStatus.reminders.status == .authorized {
-                                Label("Access to reminders authorized", systemImage: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                                    .labelStyle(.iconOnly)
-                            }
-                        }
-                        .fontWeight(.semibold)
-
-                        Spacer()
-                    }
-
-                    Text("Used to display reminders in the calendar and the widget.")
-                        .font(.caption)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.foreground.secondary)
-
-                    switch model.authStatus.reminders.status {
-                    case .notDetermined:
-                        Button {
-                            Task {
-                                if !Bool(model.authStatus.reminders.status) {
-                                    model.authStatus.insert(await ReminderHelper.requestAccess())
+                                if model.authStatus.reminders.status == .authorized {
+                                    Label("Access to reminders authorized", systemImage: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                        .labelStyle(.iconOnly)
                                 }
                             }
-                        } label: {
-                            ButtonInnerBody(label: "Authorize", radius: 8, border: true, noIcon: true)
-                                .tint(.blue)
+                            .fontWeight(.semibold)
+
+                            Spacer()
                         }
-                    case .authorized:
-                        EmptyView()
-                    case .restricted:
-                        Button {
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+
+                        Text("Used to display reminders in the calendar and the widget.")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.foreground.secondary)
+
+                        switch model.authStatus.reminders.status {
+                        case .notDetermined:
+                            Button {
+                                Task {
+                                    if !Bool(model.authStatus.reminders.status) {
+                                        model.authStatus.insert(await ReminderHelper.requestAccess())
+                                    }
+                                }
+                            } label: {
+                                ButtonInnerBody(label: "Authorize", radius: 8, border: true, noIcon: true)
+                                    .tint(.blue)
                             }
-                        } label: {
-                            ButtonInnerBody(
-                                label: "Restricted",
-                                description: "Review Cami access to your reminders.",
-                                systemImage: "gear",
-                                radius: 8,
-                                border: true
-                            )
-                            .tint(.red)
+                        case .authorized:
+                            EmptyView()
+                        case .restricted:
+                            Button {
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            } label: {
+                                ButtonInnerBody(
+                                    label: "Restricted",
+                                    description: "Review Cami access to your reminders.",
+                                    systemImage: "gear",
+                                    radius: 8,
+                                    border: true
+                                )
+                                .tint(.red)
+                            }
                         }
                     }
+                    .padding()
+                    .background(.regularMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-                .padding()
-                .background(.regularMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                #endif
 
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(spacing: 8) {
@@ -236,7 +239,6 @@ struct SettingsView: View {
                     description: "Review how Cami handles your data.",
                     radius: 12
                 )
-
             }
             .padding()
         }
