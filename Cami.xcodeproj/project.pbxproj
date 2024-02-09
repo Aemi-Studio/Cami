@@ -823,7 +823,7 @@
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LLVM_LTO = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
@@ -888,7 +888,7 @@
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LLVM_LTO = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
@@ -910,7 +910,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = Cami/Cami.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -922,7 +922,7 @@
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -937,7 +937,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.11;
+				MARKETING_VERSION = 0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -962,7 +962,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = Cami/Cami.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -974,7 +974,7 @@
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -989,7 +989,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.11;
+				MARKETING_VERSION = 0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1012,7 +1012,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = CamiWidget/CamiWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1023,7 +1023,7 @@
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1036,7 +1036,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.11;
+				MARKETING_VERSION = 0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1058,7 +1058,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = CamiWidget/CamiWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1069,7 +1069,7 @@
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1082,7 +1082,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.11;
+				MARKETING_VERSION = 0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
