@@ -26,9 +26,9 @@ struct AuthorizationSet: Observable, OptionSet {
     static let restrictedContacts   = AuthorizationSet(rawValue: 1 << 5)
 
     var status: Status {
-        if !(self.intersection(.all).isEmpty) {
+        if !(self.isDisjoint(with: .all)) {
             return .authorized
-        } else if !(self.intersection(.restricted).isEmpty) {
+        } else if !(self.isDisjoint(with: .restricted)) {
             return .restricted
         }
         return .notDetermined

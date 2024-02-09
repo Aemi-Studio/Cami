@@ -69,7 +69,10 @@ struct ContactHelper {
     ) -> DateComponents? {
         let fetchedBirthdate: DateComponents?
         do {
-            fetchedBirthdate = try store.unifiedContact(withIdentifier: identifier, keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]).birthday
+            fetchedBirthdate = try store.unifiedContact(
+                withIdentifier: identifier,
+                keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]
+            ).birthday
         } catch {
             print(
                 error.localizedDescription

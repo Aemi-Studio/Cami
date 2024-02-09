@@ -33,21 +33,19 @@ extension Events {
     func reduced() -> [(EKEvent, Events)] {
         var result: [(EKEvent, Events)] = []
         var ignoredEvents: Set<Int> = Set<Int>()
-        for (index, event) in self.enumerated() {
-            if !ignoredEvents.contains( index ) {
-                /// Get events with similar name of the same calendar
-                let similarEvents: [(EKEvent, Int)] = self.similarEvents(event)
-                /// Save indiced in the ignored list
-                for value in similarEvents {
-                    ignoredEvents.insert( value.1 )
-                }
-                /// Extract the dates from the event list
-                var events = [event]
-                events.append(
-                    contentsOf: similarEvents.map { (event, _) in event }
-                )
-                result.append((event, events))
+        for (index, event) in self.enumerated() where !ignoredEvents.contains( index ) {
+            /// Get events with similar name of the same calendar
+            let similarEvents: [(EKEvent, Int)] = self.similarEvents(event)
+            /// Save indiced in the ignored list
+            for value in similarEvents {
+                ignoredEvents.insert( value.1 )
             }
+            /// Extract the dates from the event list
+            var events = [event]
+            events.append(
+                contentsOf: similarEvents.map { (event, _) in event }
+            )
+            result.append((event, events))
         }
         return result
     }

@@ -121,14 +121,21 @@ struct DayView: View {
                                                 )
                                             }
                                         }
-                                        .frame(height: adaptive(size: getEventSize(of: event), factor: (1 + zoom * savedZoom)))
+                                        .frame(
+                                            height: adaptive(
+                                                size: getEventSize(of: event),
+                                                factor: (1 + zoom * savedZoom)
+                                            )
+                                        )
                                         .roundedBorder(event.calendar.cgColor)
                                     }
                                     .buttonStyle(PlainButtonStyle())
                                     .gesture(magnifyGesture)
                                     .offset(CGSize(
                                         width: 0,
-                                        height: responsiveStartPoint(factor: event.startDate.getStartPosition() * (1 + zoom * savedZoom))
+                                        height: responsiveStartPoint(
+                                            factor: event.startDate.getStartPosition() * (1 + zoom * savedZoom)
+                                        )
                                     ))
                                 }
                             } else {
@@ -142,7 +149,9 @@ struct DayView: View {
                 VStack(spacing: 0) {
                     ForEach(0..<48) { incr in
                         VStack {
-                            let date = Calendar.autoupdatingCurrent.date(from: DateComponents(minute: incr * 30))!
+                            let date = Calendar.autoupdatingCurrent.date(
+                                from: DateComponents(minute: incr * 30)
+                            )!
                             Text(date.formatter { formatter in
                                 formatter.dateStyle = .none
                                 formatter.timeStyle = .short
@@ -151,7 +160,10 @@ struct DayView: View {
                             .font(.caption)
                             .fontWeight(.medium)
                             .foregroundStyle(.secondary)
-                            .offset(.init(width: 0, height: adaptive(factor: savedZoom * zoom) / 2 * -1))
+                            .offset(.init(
+                                        width: 0,
+                                        height: adaptive(factor: savedZoom * zoom) / 2 * -1)
+                            )
                         }
                         .frame(minHeight: adaptive(factor: savedZoom * zoom))
                         .frame(maxHeight: adaptive(factor: savedZoom * zoom))
@@ -163,7 +175,11 @@ struct DayView: View {
             }
             .padding(0)
             .gesture(magnifyGesture)
-            .navigationTitle(day.date.formatted(.dateTime.day(.defaultDigits).day().month(.abbreviated).year()))
+            .navigationTitle(
+                day.date.formatted(
+                    .dateTime.day(.defaultDigits).day().month(.abbreviated).year()
+                )
+            )
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 Task {

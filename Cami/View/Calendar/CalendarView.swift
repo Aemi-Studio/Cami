@@ -41,6 +41,7 @@ struct CalendarView: View {
         }
         .sheet(isPresented: $isSettingsViewPresented) {
             SettingsView()
+                .environmentObject(model)
                 .presentationDragIndicator(model.authStatus.calendars.status == .authorized ? .visible : .hidden)
                 .presentationDetents([.medium])
                 .interactiveDismissDisabled(model.authStatus.calendars.status != .authorized)

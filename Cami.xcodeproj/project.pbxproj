@@ -32,6 +32,7 @@
 		461D69162B0E22A700A600D7 /* Weeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461D69152B0E22A700A600D7 /* Weeks.swift */; };
 		46225B012B58970900765185 /* EditEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46225B002B58970900765185 /* EditEventViewController.swift */; };
 		46225B032B589CDE00765185 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46225B022B589CDE00765185 /* EventViewController.swift */; };
+		46498EC22B76C19C00FC480C /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46498EC12B76C19C00FC480C /* OnboardingView.swift */; };
 		465159262B712D2D0073544A /* WidgetHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465159252B712D2D0073544A /* WidgetHelpView.swift */; };
 		465159282B712DAC0073544A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465159272B712DAC0073544A /* WebView.swift */; };
 		4651592A2B7133830073544A /* SettingsLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465159292B7133830073544A /* SettingsLinkView.swift */; };
@@ -159,6 +160,7 @@
 		46225B002B58970900765185 /* EditEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventViewController.swift; sourceTree = "<group>"; };
 		46225B022B589CDE00765185 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		462861FE2AF7E616004FDC9E /* CamiWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetView.swift; sourceTree = "<group>"; };
+		46498EC12B76C19C00FC480C /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		465159252B712D2D0073544A /* WidgetHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetHelpView.swift; sourceTree = "<group>"; };
 		465159272B712DAC0073544A /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		465159292B7133830073544A /* SettingsLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinkView.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				465159272B712DAC0073544A /* WebView.swift */,
 				4651592B2B7134DA0073544A /* ButtonInnerBody.swift */,
 				46E58C702B75A468003B48A0 /* InformationModalView.swift */,
+				46498EC12B76C19C00FC480C /* OnboardingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 				460CAB272B06C2EC0059B2F7 /* MiniBadge.swift in Sources */,
 				461CF4A02B035F15003D9293 /* AuthorizationSet.swift in Sources */,
 				46E58C732B75A4A1003B48A0 /* FAQInformation.swift in Sources */,
+				46498EC22B76C19C00FC480C /* OnboardingView.swift in Sources */,
 				469E05802B08172700F3263D /* AllDayStyleEnum.swift in Sources */,
 				46968DB82B0518AB00EA1C8D /* CamiHelper.swift in Sources */,
 				469E059C2B0956B500F3263D /* EventDict.swift in Sources */,

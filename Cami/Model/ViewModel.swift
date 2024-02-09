@@ -56,10 +56,9 @@ import Collections
     ) -> Deque<Month> {
         let fixedCount: Int = count % 2 == 0 ? count + 1 : count
         let startIndex: Int = -(fixedCount / 2) + shift
-        var months: Deque<Month?> = Deque<Month?>(repeating: nil, count: count)
+        let months: Deque<Month?> = Deque<Month?>(repeating: nil, count: count)
         let newDate: Date = (startDate.startOfMonth + DateComponents(month: startIndex)).startOfMonth
-        return months.reduce(into: [Month(newDate, id: startIndex)], {
-            result, _ in
+        return months.reduce(into: [Month(newDate, id: startIndex)], { result, _ in
             result.append(result.last!.next())
         })
     }

@@ -24,15 +24,13 @@ struct InformationModalView: View {
                     forKey: information.id
                 )
             }
-            var sortedWeights = weights.sorted(by: { a, b in
-                return a.value > b.value
-            })
-            var results: [FAQInformation] = sortedWeights
+            let sortedWeights = weights.sorted(by: { a, b in a.value > b.value })
+
+            return sortedWeights
                 .filter({ i in i.value > -1 })
                 .map { information in
                     FAQInformationModel.shared.list.first(where: { i in information.key == i.id })!
                 }
-            return results
         }
     }
 

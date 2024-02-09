@@ -17,10 +17,8 @@ struct Pad: ViewModifier {
         _ widgetFamily: WidgetFamily,
         insets: [WidgetFamilySet: EdgeInsets]
     ) -> EdgeInsets {
-        for (widgetSet, inset) in insets {
-            if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
-                return inset
-            }
+        for (widgetSet, inset) in insets where widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
+            return inset
         }
         return EdgeInsets()
     }
@@ -29,10 +27,8 @@ struct Pad: ViewModifier {
         _ widgetFamily: WidgetFamily,
         edgeSets: [WidgetFamilySet: (Edge.Set, CGFloat)]
     ) -> (Edge.Set, CGFloat) {
-        for (widgetSet, edgeSet) in edgeSets {
-            if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
-                return edgeSet
-            }
+        for (widgetSet, edgeSet) in edgeSets where widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
+            return edgeSet
         }
         return (Edge.Set(), 0)
     }
@@ -41,10 +37,8 @@ struct Pad: ViewModifier {
         _ widgetFamily: WidgetFamily,
         paddings: [WidgetFamilySet: CGFloat]
     ) -> CGFloat {
-        for (widgetSet, padding) in paddings {
-            if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
-                return padding
-            }
+        for (widgetSet, padding) in paddings where widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
+            return padding
         }
         return 0
     }

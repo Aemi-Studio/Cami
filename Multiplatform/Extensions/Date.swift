@@ -69,7 +69,7 @@ extension Date {
         _ formatterType: T.Type,
         _ setup: @escaping (T) -> Void
     ) -> T {
-        var outputFormatter = formatterType.init()
+        let outputFormatter = formatterType.init()
         setup(outputFormatter)
         return outputFormatter
     }

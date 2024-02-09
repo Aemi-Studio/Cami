@@ -27,7 +27,7 @@ extension Array<String> {
         }
         return optionalCalendarList.filter { calendar in
             calendar != nil
-        } as Calendars
+        } as? Calendars ?? []
 
     }
 

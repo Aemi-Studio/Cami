@@ -27,7 +27,10 @@ struct EditEventViewController: UIViewControllerRepresentable {
             self.parent = controller
         }
 
-        func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        func eventEditViewController(
+            _ controller: EKEventEditViewController,
+            didCompleteWith action: EKEventEditViewAction
+        ) {
             self.parent.dismiss()
         }
     }

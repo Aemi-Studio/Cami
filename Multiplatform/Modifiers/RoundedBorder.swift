@@ -26,14 +26,10 @@ struct RoundedBorder: ViewModifier {
     private let standardCornerRadius: Double = 4
     private let bottomCornerRadius: Double = 18
     private var strokeWidth: Double {
-        get {
-            self.bordered ? 2 : 0
-        }
+        self.bordered ? 2 : 0
     }
     private var opacity: Double {
-        get {
-            self.bordered ? 0 : 0.1
-        }
+        self.bordered ? 0 : 0.1
     }
 
     func body(content: Content) -> some View {

@@ -41,26 +41,39 @@ struct WidgetHelpView: View {
                         Button {
                             isModalPresentedWebView.toggle()
                         } label: {
-                            Label("Exit", systemImage: "xmark.circle.fill")
+                            HStack(alignment: .center) {
+                                Label(
+                                    "Exit",
+                                    systemImage: "xmark.circle.fill"
+                                )
                                 .fontWeight(.bold)
                                 .font(.title2)
+                            }
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 12)
+                            .background(.ultraThinMaterial)
+                            .background(Color(
+                                white: 0,
+                                opacity: 0.7
+                            ))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
 
                         }
-                        .tint(Color(white: 0, opacity: 0.7))
-                        .buttonStyle(.borderedProminent)
-                        .buttonBorderShape(.capsule)
+                        .tint(
+                            Color(
+                                white: 0,
+                                opacity: 0.7
+                            )
+                        )
+                        .buttonStyle(.plain)
                         Spacer()
                     }
                     .padding()
-
+                    .padding(.bottom)
                 }
             }
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
         }
     }
-}
-
-#Preview {
-    WidgetHelpView(title: "How to add and edit widgets on iPhone", url: "https://support.apple.com/en-us/HT207122", description: "Visit Apple Support.")
 }

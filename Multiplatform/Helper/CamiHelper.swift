@@ -97,7 +97,14 @@ struct CamiHelper {
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> EventDict {
-        return CalendarHelper.events(from: calendars, during: days, where: filter, relativeTo: date).mapped(relativeTo: date)
+        return CalendarHelper.events(
+            from: calendars,
+            during: days,
+            where: filter,
+            relativeTo: date
+        ).mapped(
+            relativeTo: date
+        )
     }
 
     public static func events(
@@ -106,7 +113,14 @@ struct CamiHelper {
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> EventDict {
-        return CalendarHelper.events(from: calendars, during: days, where: filter, relativeTo: date).mapped(relativeTo: date)
+        return CalendarHelper.events(
+            from: calendars,
+            during: days,
+            where: filter,
+            relativeTo: date
+        ).mapped(
+            relativeTo: date
+        )
     }
 
     public static func events(
@@ -127,7 +141,10 @@ struct CamiHelper {
         from date: Date,
         during days: Int = 365
     ) -> Events {
-        return CalendarHelper.birthdays(from: date, during: days)
+        return CalendarHelper.birthdays(
+            from: date,
+            during: days
+        )
     }
 
 }

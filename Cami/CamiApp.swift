@@ -11,7 +11,7 @@ import SwiftUI
 struct CamiApp: App {
 
     @State
-    private var model: ViewModel = ViewModel(for: Date.now)
+    private var model: ViewModel = .init(for: Date.now)
 
     var body: some Scene {
         WindowGroup {

@@ -17,10 +17,8 @@ struct Rounded: ViewModifier {
         _ widgetFamily: WidgetFamily,
         radii: [WidgetFamilySet: RectangleCornerRadii]
     ) -> RectangleCornerRadii {
-        for (widgetSet, radius) in radii {
-            if widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
-                return radius
-            }
+        for (widgetSet, radius) in radii where widgetSet.contains(WidgetFamilySet.convert(widgetFamily)) {
+            return radius
         }
         return RectangleCornerRadii()
     }
