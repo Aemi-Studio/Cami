@@ -107,6 +107,9 @@
 		46CC7E142AF7944800607AAF /* EKEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E132AF7944800607AAF /* EKEvent.swift */; };
 		46CC7E172AF7946700607AAF /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E162AF7946700607AAF /* Date.swift */; };
 		46CC7E1E2AF795EF00607AAF /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E1D2AF795EF00607AAF /* CalendarHelper.swift */; };
+		46E58C712B75A468003B48A0 /* InformationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E58C702B75A468003B48A0 /* InformationModalView.swift */; };
+		46E58C732B75A4A1003B48A0 /* FAQInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E58C722B75A4A1003B48A0 /* FAQInformation.swift */; };
+		46E58C752B75A4E7003B48A0 /* FAQInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E58C742B75A4E7003B48A0 /* FAQInformationModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,6 +211,9 @@
 		46CC7E132AF7944800607AAF /* EKEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEvent.swift; sourceTree = "<group>"; };
 		46CC7E162AF7946700607AAF /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		46CC7E1D2AF795EF00607AAF /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
+		46E58C702B75A468003B48A0 /* InformationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationModalView.swift; sourceTree = "<group>"; };
+		46E58C722B75A4A1003B48A0 /* FAQInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQInformation.swift; sourceTree = "<group>"; };
+		46E58C742B75A4E7003B48A0 /* FAQInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQInformationModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +332,7 @@
 				465159272B712DAC0073544A /* WebView.swift */,
 				465159292B7133830073544A /* SettingsLinkView.swift */,
 				4651592B2B7134DA0073544A /* ButtonInnerBody.swift */,
+				46E58C702B75A468003B48A0 /* InformationModalView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -422,6 +429,8 @@
 			isa = PBXGroup;
 			children = (
 				46A4F6882B0BB69200C0A0DC /* ViewModel.swift */,
+				46E58C722B75A4A1003B48A0 /* FAQInformation.swift */,
+				46E58C742B75A4E7003B48A0 /* FAQInformationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -651,7 +660,9 @@
 				461D69112B0DF2B000A600D7 /* EventView.swift in Sources */,
 				46CC7E1E2AF795EF00607AAF /* CalendarHelper.swift in Sources */,
 				46225B012B58970900765185 /* EditEventViewController.swift in Sources */,
+				46E58C752B75A4E7003B48A0 /* FAQInformationModel.swift in Sources */,
 				469E058A2B086C3100F3263D /* WidgetCalendarEntity.swift in Sources */,
+				46E58C712B75A468003B48A0 /* InformationModalView.swift in Sources */,
 				469E05832B0848AE00F3263D /* Seconds.swift in Sources */,
 				460CAB152B0652470059B2F7 /* WidgetFamilySet.swift in Sources */,
 				4651592C2B7134DA0073544A /* ButtonInnerBody.swift in Sources */,
@@ -659,6 +670,7 @@
 				4655330D2AF4EA69000B537B /* CamiApp.swift in Sources */,
 				460CAB272B06C2EC0059B2F7 /* MiniBadge.swift in Sources */,
 				461CF4A02B035F15003D9293 /* AuthorizationSet.swift in Sources */,
+				46E58C732B75A4A1003B48A0 /* FAQInformation.swift in Sources */,
 				469E05802B08172700F3263D /* AllDayStyleEnum.swift in Sources */,
 				46968DB82B0518AB00EA1C8D /* CamiHelper.swift in Sources */,
 				469E059C2B0956B500F3263D /* EventDict.swift in Sources */,

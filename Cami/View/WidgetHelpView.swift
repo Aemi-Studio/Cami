@@ -23,6 +23,13 @@ struct WidgetHelpView: View {
         } label: {
             ButtonInnerBody(label: title, description: description, radius: radius)
         }
+        .contextMenu {
+            Button("Open in your default browser", systemImage: "arrow.up.forward.square") {
+                if let url = URL(string: url) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        }
         .sheet(isPresented: $isModalPresentedWebView) {
             ZStack {
                 WebView(url: URL(string: url)!)

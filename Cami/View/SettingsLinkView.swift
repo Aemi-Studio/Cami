@@ -15,7 +15,12 @@ struct SettingsLinkView: View {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         } label: {
-            ButtonInnerBody(label: "Settings", description: "Review Cami access to your data.", systemImage: "gear", radius: radius)
+            ButtonInnerBody(
+                label: "Settings",
+                description: "Review Cami access to your data.",
+                systemImage: "gear",
+                radius: radius
+            )
         }
 
     }

@@ -11,12 +11,18 @@ import WidgetKit
 
 struct ContentView: View {
 
+    @Environment(\.scenePhase)
+    var scenePhase: ScenePhase
+
     @Bindable
     var model: ViewModel
 
     #if !DEBUG
     @State
     private var isModalPresented: Bool = false
+
+    @State
+    private var isInformationModalPresented: Bool = false
 
     @State
     private var wasNotAuthorized: Bool = true
@@ -83,7 +89,7 @@ struct ContentView: View {
                         }
 
                     } else {
-                        ButtonInnerBody(label: "Everything is fine.", description: "Stay tuned for next Cami updates", radius: 8, alignment: .center, noIcon: true)
+                        ButtonInnerBody(label: "Everything is fine.", description: "Stay tuned for next Cami updates.", radius: 8, alignment: .center, noIcon: true)
                             .tint(.green)
                     }
                 }
@@ -97,18 +103,26 @@ struct ContentView: View {
                         WidgetCenter.shared.reloadAllTimelines()
                     }
                 }
-
-                SettingsLinkView()
-                WidgetHelpView(
-                    title: "Privacy Policy",
-                    url: "https://aemi.studio/privacy",
-                    description: "Review how Cami handles your data."
-                )
                 WidgetHelpView(
                     title: "How to add and edit widgets on iPhone",
                     url: "https://support.apple.com/en-us/HT207122",
                     description: "Visit Apple Support."
                 )
+
+                Button {
+                    isInformationModalPresented.toggle()
+                }label: {
+                    ButtonInnerBody(label: "Information", description: "Understand how Cami works.", systemImage: "info.circle")
+                        .tint(.blue)
+                }
+
+                WidgetHelpView(
+                    title: "Privacy Policy",
+                    url: "https://aemi.studio/privacy",
+                    description: "Review how Cami handles your data."
+                )
+
+                SettingsLinkView()
             }
             .lineLimit(10)
             .padding()
@@ -119,6 +133,16 @@ struct ContentView: View {
                 && model.authStatus.contacts.status == .authorized
             restricted = model.authStatus.calendars.status == .restricted
                 && model.authStatus.contacts.status == .restricted
+
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+        .onChange(of: scenePhase) { newPhase in
+            switch newPhase {
+            case .active:
+                WidgetCenter.shared.reloadAllTimelines()
+            case .inactive, .background:
+                WidgetCenter.shared.reloadAllTimelines()
+            }
         }
         .sheet(isPresented: $isModalPresented) {
             SettingsView()
@@ -134,6 +158,12 @@ struct ContentView: View {
                         model.reset()
                     }
                 }
+        }
+        .sheet(isPresented: $isInformationModalPresented) {
+            InformationModalView()
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+                .presentationContentInteraction(.scrolls)
         }
         #endif
     }
