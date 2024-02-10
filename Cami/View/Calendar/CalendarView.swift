@@ -12,6 +12,9 @@ struct CalendarView: View {
     @EnvironmentObject
     var model: ViewModel
 
+    @EnvironmentObject
+    var perms: PermissionModel
+
     @Environment(\.verticalSizeClass)
     private var sizeClass: UserInterfaceSizeClass?
 
@@ -19,7 +22,7 @@ struct CalendarView: View {
     private var wasNotAuthorized: Bool = true
 
     @State
-    private var isSettingsViewPresented: Bool = false
+    private var isSettingsViewPresented: Bool = !Bool(PermissionModel.shared.global.status)
 
     @State
     private var isCalendarSelectionViewPresented: Bool = false
@@ -41,15 +44,9 @@ struct CalendarView: View {
         }
         .sheet(isPresented: $isSettingsViewPresented) {
             SettingsView()
-                .environmentObject(model)
-                .presentationDragIndicator(model.authStatus.calendars.status == .authorized ? .visible : .hidden)
+                .presentationDragIndicator(Bool(perms.global.status) ? .visible : .hidden)
                 .presentationDetents([.medium])
-                .interactiveDismissDisabled(model.authStatus.calendars.status != .authorized)
-                .onDisappear {
-                    if wasNotAuthorized && model.authStatus.calendars.status == .authorized {
-                        model.reset()
-                    }
-                }
+                .interactiveDismissDisabled(!Bool(perms.global.status))
         }
         .toolbar {
             ToolbarItemGroup(placement: .navigation) {
@@ -122,11 +119,5 @@ struct CalendarView: View {
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .bottomBar)
         #endif
-        .onAppear {
-            wasNotAuthorized = model.authStatus.calendars.status != .authorized
-            if wasNotAuthorized {
-                isSettingsViewPresented.toggle()
-            }
-        }
     }
 }

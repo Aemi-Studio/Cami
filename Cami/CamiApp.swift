@@ -11,13 +11,21 @@ import SwiftUI
 struct CamiApp: App {
 
     @State
-    private var model: ViewModel = .init(for: Date.now)
+    private var model: ViewModel = .shared
+
+    @State
+    private var permissions: PermissionModel = .shared
 
     var body: some Scene {
         WindowGroup {
-            ContentView(model: model)
-                .environment(model)
-                .environmentObject(model)
+            ContentView(
+                model: model,
+                perms: permissions
+            )
+            .environment(model)
+            .environmentObject(model)
+            .environment(permissions)
+            .environmentObject(permissions)
         }
     }
 }

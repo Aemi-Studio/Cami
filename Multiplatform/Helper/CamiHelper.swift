@@ -11,48 +11,8 @@ import Contacts
 
 struct CamiHelper {
 
-    public static var eventStore: EKEventStore = EKEventStore()
-    public static var contactStore: CNContactStore = CNContactStore()
-
-    public static func authorizationStatus() -> AuthorizationSet {
-
-        let calendarsAuthStatus: AuthSet = switch EKEventStore.authorizationStatus(for: .event) {
-        case .fullAccess:
-            AuthSet.calendars
-        case .notDetermined:
-            AuthSet.none
-        default:
-            AuthSet.restrictedCalendars
-        }
-
-        let remindersAuthStatus: AuthSet = switch EKEventStore.authorizationStatus(for: .reminder) {
-        case .fullAccess:
-            AuthSet.reminders
-        case .notDetermined:
-            AuthSet.none
-        default:
-            AuthSet.restrictedReminders
-        }
-
-        let contactsAuthStatus = switch CNContactStore.authorizationStatus(for: .contacts) {
-        case .authorized:
-            AuthSet.contacts
-        case .notDetermined:
-            AuthSet.none
-        default:
-            AuthSet.restrictedContacts
-        }
-
-        return AuthSet([
-            calendarsAuthStatus,
-            remindersAuthStatus,
-            contactsAuthStatus
-        ])
-
-    }
-
     public static var allCalendars: Calendars {
-        self.eventStore.calendars(for: .event).filter { calendar in
+        EventHelper.store.calendars(for: .event).filter { calendar in
             calendar.type != .birthday
         }
     }
@@ -66,29 +26,25 @@ struct CamiHelper {
     }
 
     public static var birthdayCalendar: EKCalendar? {
-        (self.eventStore.calendars(for: .event).first { calendar in
+        (EventHelper.store.calendars(for: .event).first { calendar in
             calendar.type == .birthday
         })
     }
 
-    public static func requestEventAccess() async -> AuthSet {
-        await CalendarHelper.requestAccess(store: self.eventStore)
+    public static func requestEventAccess() {
+        NotificationCenter.default.post(name: .requestEventsAccess, object: nil)
     }
 
-    public static func requestReminderAccess() async -> AuthSet {
-        await ReminderHelper.requestAccess(store: self.eventStore)
+    public static func requestReminderAccess() {
+        NotificationCenter.default.post(name: .requestRemindersAccess, object: nil)
     }
 
-    public static func requestContactAccess() async -> AuthSet {
-        await ContactHelper.requestAccess(store: self.contactStore)
+    public static func requestContactAccess() {
+        NotificationCenter.default.post(name: .requestContactsAccess, object: nil)
     }
 
-    public static func requestAccess() async -> AuthSet {
-        return AuthSet([
-            await requestEventAccess(),
-            await requestReminderAccess(),
-            await requestContactAccess()
-        ])
+    public static func requestAccess() {
+        NotificationCenter.default.post(name: .requestAccess, object: nil)
     }
 
     public static func events(

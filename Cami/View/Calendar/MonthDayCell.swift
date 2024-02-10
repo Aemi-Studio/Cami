@@ -48,11 +48,15 @@ struct MonthDayCell: View {
             .padding(.vertical, 8)
         }
         .buttonStyle(PlainButtonStyle())
-        .task {
-            let calendars: Set<String> = await day.lazyInitCalendars()
-            colors = Array(model.calendars.intersection( calendars ))
-                .asEKCalendars()
-                .map { Generic<Color>(Color(cgColor: $0.cgColor)) }
+        .onAppear {
+            DispatchQueue.main.async {
+                Task {
+                    let calendars: Set<String> = await day.lazyInitCalendars()
+                    colors = Array(model.calendars.intersection( calendars ))
+                        .asEKCalendars()
+                        .map { Generic<Color>(Color(cgColor: $0.cgColor)) }
+                }
+            }
         }
     }
 }

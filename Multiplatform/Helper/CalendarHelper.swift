@@ -20,11 +20,11 @@ struct CalendarHelper {
         }
     }
 
-    public static func requestAccess(
-        store: EKEventStore = CamiHelper.eventStore
-    ) async -> AuthSet {
+    public static func requestAccess() async -> AuthSet {
         do {
-            return try await store.requestFullAccessToEvents() ? .calendars : .restrictedCalendars
+            return try await EventHelper.store.requestFullAccessToEvents()
+                ? .calendars
+                : .restrictedCalendars
         } catch {
             print(error.localizedDescription)
         }
@@ -32,33 +32,26 @@ struct CalendarHelper {
     }
 
     public static func requestAccess(
-        store: EKEventStore = CamiHelper.eventStore,
         _ callback: @escaping (AuthSet) -> Void
     ) {
-        store.requestFullAccessToEvents { result, error in
+        EventHelper.store.requestFullAccessToEvents { result, error in
             if error != nil {
-                #if DEBUG
-                print(error!.localizedDescription)
-                #endif
                 callback(.none)
             } else {
                 callback(result ? .calendars : .none)
             }
         }
-
-        store.refreshSourcesIfNecessary()
+        EventHelper.store.refreshSourcesIfNecessary()
     }
 
     public static func events(
-        store: EKEventStore = CamiHelper.eventStore,
         from calendars: [String] = CamiHelper.allCalendars.asIdentifiers,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> Events {
         CalendarHelper.events(
-            store: store,
-            from: calendars.asEKCalendars(with: store),
+            from: calendars.asEKCalendars(),
             during: days,
             where: filter,
             relativeTo: date
@@ -66,14 +59,13 @@ struct CalendarHelper {
     }
 
     public static func events(
-        store: EKEventStore = CamiHelper.eventStore,
         from calendars: Calendars = CamiHelper.allCalendars,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> Events {
 
-        store.refreshSourcesIfNecessary()
+        EventHelper.store.refreshSourcesIfNecessary()
 
         let calendar = Calendar.autoupdatingCurrent
 
@@ -99,7 +91,7 @@ struct CalendarHelper {
         // Create the predicate from the event store's instance method.
         var predicate: NSPredicate?
         if let anAgo = today, let aNow = oneMonthFromNow {
-            predicate = store.predicateForEvents(
+            predicate = EventHelper.store.predicateForEvents(
                 withStart: anAgo,
                 end: aNow,
                 calendars: calendars.count > 0 ? calendars : CamiHelper.allCalendars
@@ -108,7 +100,9 @@ struct CalendarHelper {
 
         // Fetch all events that match the predicate.
         if let aPredicate = predicate {
-            events = store.events(matching: aPredicate).sorted(.orderedAscending)
+            events = EventHelper.store
+                .events(matching: aPredicate)
+                .sorted(.orderedAscending)
         }
 
         if filter != nil {
@@ -119,12 +113,11 @@ struct CalendarHelper {
     }
 
     public static func birthdays(
-        store: EKEventStore = CamiHelper.eventStore,
         from date: Date,
         during days: Int = 365
     ) -> Events {
 
-        store.refreshSourcesIfNecessary()
+        EventHelper.store.refreshSourcesIfNecessary()
 
         let calendar = Calendar.autoupdatingCurrent
 
@@ -148,7 +141,7 @@ struct CalendarHelper {
         // Create the predicate from the event store's instance method.
         var predicate: NSPredicate?
         if let anAgo = today, let aNow = endDate {
-            predicate = store.predicateForEvents(
+            predicate = EventHelper.store.predicateForEvents(
                 withStart: anAgo,
                 end: aNow,
                 calendars: CamiHelper.birthdayCalendar != nil ? [CamiHelper.birthdayCalendar!] : []
@@ -157,7 +150,9 @@ struct CalendarHelper {
 
         // Fetch all events that match the predicate.
         if let aPredicate = predicate {
-            return store.events(matching: aPredicate).sorted(.orderedAscending)
+            return EventHelper.store
+                .events(matching: aPredicate)
+                .sorted(.orderedAscending)
         }
 
         return Events()

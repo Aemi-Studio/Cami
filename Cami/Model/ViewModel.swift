@@ -8,8 +8,13 @@
 import Foundation
 import SwiftUI
 import Collections
+import EventKit
+import Contacts
 
-@Observable final class ViewModel: ObservableObject {
+@Observable
+final class ViewModel: ObservableObject {
+
+    static let shared: ViewModel = .init(for: .now)
 
     class Month: Identifiable, Hashable {
 
@@ -68,7 +73,6 @@ import Collections
         self.months = self.generate(from: self.date)
     }
 
-    public var authStatus: AuthorizationSet
     public var date: Date
     public var position: Int? = 0 {
         willSet {
@@ -87,12 +91,10 @@ import Collections
         Calendar.autoupdatingCurrent.maximumRange(of: .weekday)!.count
     }
 
-    init(for date: Date, path: NavigationPath) {
-        let authStatus = CamiHelper.authorizationStatus()
-        self.authStatus = authStatus
+    private init(for date: Date, path: NavigationPath) {
         self.date = date
         self.path = path
-        self.calendars = if authStatus.calendars.status == .authorized {
+        self.calendars = if PermissionModel.shared.global.status == .authorized {
             .init(CamiHelper.allCalendars.asIdentifiers)
         } else {
             .init()
@@ -100,12 +102,10 @@ import Collections
         self.months = self.generate(from: date)
     }
 
-    init(for date: Date) {
-        let authStatus = CamiHelper.authorizationStatus()
-        self.authStatus = authStatus
+    private init(for date: Date) {
         self.date = date
         self.path = NavigationPath()
-        self.calendars = if authStatus.calendars.status == .authorized {
+        self.calendars = if PermissionModel.shared.global.status == .authorized {
             .init(CamiHelper.allCalendars.asIdentifiers)
         } else {
             .init()

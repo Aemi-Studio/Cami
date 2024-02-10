@@ -90,7 +90,7 @@ import EventKit
     }
 
     @discardableResult
-    func lazyInitCalendars(from events: Events? = nil) async -> Set<String> {
+    func lazyInitCalendars() async -> Set<String> {
         if events == nil && self.calendars == nil {
             let unwrappedEvents: Events = events
                 ?? self.events

@@ -10,11 +10,11 @@ import EventKit
 
 struct ReminderHelper {
 
-    public static func requestAccess(
-        store: EKEventStore = CamiHelper.eventStore
-    ) async -> AuthSet {
+    public static func requestAccess() async -> AuthorizationSet {
         do {
-            return try await  store.requestFullAccessToReminders() ? .reminders : .restrictedReminders
+            return try await  EventHelper.store.requestFullAccessToReminders()
+                ? .reminders
+                : .restrictedReminders
         } catch {
             print(error.localizedDescription)
         }
@@ -22,14 +22,10 @@ struct ReminderHelper {
     }
 
     public static func requestAccess(
-        store: EKEventStore = CamiHelper.eventStore,
-        callback: @escaping (AuthSet) -> Void
+        callback: @escaping (AuthorizationSet) -> Void
     ) {
-        store.requestFullAccessToReminders { result, error in
+        EventHelper.store.requestFullAccessToReminders { result, error in
             if error != nil {
-                #if DEBUG
-                print(error!.localizedDescription)
-                #endif
                 callback(.none)
             } else {
                 callback(result ? .reminders : .none)

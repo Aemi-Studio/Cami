@@ -18,6 +18,9 @@ struct ContentView: View {
     @Bindable
     var model: ViewModel
 
+    @Bindable
+    var perms: PermissionModel
+
     @State
     private var isModalPresented: Bool = false
 
@@ -28,10 +31,10 @@ struct ContentView: View {
     private var wasNotAuthorized: Bool = true
 
     @State
-    private var authorized: Bool = false
+    private var authorized: Bool = PermissionModel.shared.global.status == .authorized
 
     @State
-    private var restricted: Bool = false
+    private var restricted: Bool = PermissionModel.shared.global.status != .authorized
 
     @AppStorage("accessWorkInProgressFeatures")
     private var accessWorkInProgressFeatures: Bool = false
@@ -54,12 +57,11 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            wasNotAuthorized = model.authStatus.status != .authorized
-            authorized = model.authStatus.calendars.status == .authorized
-                && model.authStatus.contacts.status == .authorized
-            restricted = model.authStatus.calendars.status == .restricted
-                && model.authStatus.contacts.status == .restricted
-
+            wasNotAuthorized = perms.global.status != .authorized
+            authorized = perms.global.calendars.status == .authorized
+                && perms.global.contacts.status == .authorized
+            restricted = perms.global.calendars.status == .restricted
+                && perms.global.contacts.status == .restricted
             WidgetCenter.shared.reloadAllTimelines()
         }
         .onChange(of: scenePhase) { _, newPhase in
@@ -80,10 +82,10 @@ struct ContentView: View {
                 .presentationDetents([.large])
                 .presentationContentInteraction(.scrolls)
                 .onDisappear {
-                    authorized = model.authStatus.calendars.status == .authorized
-                        && model.authStatus.contacts.status == .authorized
-                    restricted = model.authStatus.calendars.status == .restricted
-                        && model.authStatus.contacts.status == .restricted
+                    authorized = perms.global.calendars.status == .authorized
+                        && perms.global.contacts.status == .authorized
+                    restricted = perms.global.calendars.status == .restricted
+                        && perms.global.contacts.status == .restricted
                     if wasNotAuthorized && authorized {
                         model.reset()
                     }

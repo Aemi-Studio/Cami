@@ -9,8 +9,11 @@ import SwiftUI
 
 struct SettingsView: View {
 
-    @Environment(ViewModel.self)
-    private var model: ViewModel
+    @Environment(\.dismiss)
+    private var dismiss: DismissAction
+
+    @Environment(PermissionModel.self)
+    private var perms: PermissionModel
 
     @State private var calInfo: Bool = false
     @State private var remInfo: Bool = false
@@ -18,27 +21,6 @@ struct SettingsView: View {
 
     @AppStorage("accessWorkInProgressFeatures")
     private var accessWorkInProgressFeatures = false
-
-    private func statusToSymbolName(_ status: AuthSet.Status) -> String {
-        switch status {
-        case .authorized:
-            "checkmark.circle.fill"
-        case .restricted:
-            "xmark.circle.fill"
-        case .notDetermined:
-            "circle"
-        }
-    }
-    private func statusToStatusColor(_ status: AuthSet.Status) -> Color {
-        switch status {
-        case .authorized:
-            .blue
-        case .restricted:
-            .red
-        case .notDetermined:
-            .gray
-        }
-    }
 
     var body: some View {
         ScrollView(.vertical) {
@@ -49,7 +31,7 @@ struct SettingsView: View {
                             Text("Calendars")
                                 .font(.title2)
 
-                            if model.authStatus.calendars.status == .authorized {
+                            if perms.global.calendars.status == .authorized {
                                 Label("Access to calendars authorized", systemImage: "checkmark.circle.fill")
                                     .foregroundStyle(.green)
                                     .labelStyle(.iconOnly)
@@ -70,14 +52,10 @@ struct SettingsView: View {
                     .foregroundStyle(.foreground.secondary)
                     .multilineTextAlignment(.leading)
 
-                    switch model.authStatus.calendars.status {
+                    switch perms.global.calendars.status {
                     case .notDetermined:
                         Button {
-                            Task {
-                                if !Bool(model.authStatus.calendars.status) {
-                                    model.authStatus.insert(await CalendarHelper.requestAccess())
-                                }
-                            }
+                            NotificationCenter.default.post(name: .requestEventsAccess, object: nil)
                         } label: {
                             ButtonInnerBody(label: "Authorize", radius: 8, border: true, noIcon: true)
                                 .tint(.blue)
@@ -113,7 +91,7 @@ struct SettingsView: View {
                                 Text("Reminders")
                                     .font(.title2)
 
-                                if model.authStatus.reminders.status == .authorized {
+                                if perms.global.reminders.status == .authorized {
                                     Label("Access to reminders authorized", systemImage: "checkmark.circle.fill")
                                         .foregroundStyle(.green)
                                         .labelStyle(.iconOnly)
@@ -129,14 +107,10 @@ struct SettingsView: View {
                             .fontWeight(.medium)
                             .foregroundStyle(.foreground.secondary)
 
-                        switch model.authStatus.reminders.status {
+                        switch perms.global.reminders.status {
                         case .notDetermined:
                             Button {
-                                Task {
-                                    if !Bool(model.authStatus.reminders.status) {
-                                        model.authStatus.insert(await ReminderHelper.requestAccess())
-                                    }
-                                }
+                                NotificationCenter.default.post(name: .requestRemindersAccess, object: nil)
                             } label: {
                                 ButtonInnerBody(label: "Authorize", radius: 8, border: true, noIcon: true)
                                     .tint(.blue)
@@ -171,7 +145,7 @@ struct SettingsView: View {
                             Text("Contacts")
                                 .font(.title2)
 
-                            if model.authStatus.contacts.status == .authorized {
+                            if perms.global.contacts.status == .authorized {
                                 Label("Access to contacts authorized", systemImage: "checkmark.circle.fill")
                                     .foregroundStyle(.green)
                                     .labelStyle(.iconOnly)
@@ -192,24 +166,29 @@ struct SettingsView: View {
                     .foregroundStyle(.foreground.secondary)
                     .multilineTextAlignment(.leading)
 
-                    switch model.authStatus.contacts.status {
+                    switch perms.global.contacts.status {
                     case .notDetermined:
                         Button {
-                            Task {
-                                if !Bool(model.authStatus.contacts.status) {
-                                    model.authStatus.insert(await ContactHelper.requestAccess())
-                                }
-                            }
+                            NotificationCenter.default.post(name: .requestContactsAccess, object: nil)
                         } label: {
-                            ButtonInnerBody(label: "Authorize", radius: 8, border: true, noIcon: true)
-                                .tint(.blue)
+                            ButtonInnerBody(
+                                label: "Authorize",
+                                radius: 8,
+                                border: true,
+                                noIcon: true
+                            )
+                            .tint(.blue)
                         }
                     case .authorized:
                         EmptyView()
                     case .restricted:
                         Button {
                             if let url = URL(string: UIApplication.openSettingsURLString) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                UIApplication.shared.open(
+                                    url,
+                                    options: [:],
+                                    completionHandler: nil
+                                )
                             }
                         } label: {
                             ButtonInnerBody(
@@ -228,8 +207,8 @@ struct SettingsView: View {
                 .background(.regularMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
-                if model.authStatus.calendars.status == .authorized
-                    && model.authStatus.contacts.status == .authorized {
+                if perms.global.calendars.status == .authorized
+                    && perms.global.contacts.status == .authorized {
                     SettingsLinkView(radius: 12)
                 }
 

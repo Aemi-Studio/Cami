@@ -182,8 +182,10 @@ struct DayView: View {
             )
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                Task {
-                    events = await day.lazyInitEvents()
+                DispatchQueue.main.async {
+                    Task {
+                        events = await day.lazyInitEvents()
+                    }
                 }
             }
             .padding()

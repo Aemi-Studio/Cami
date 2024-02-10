@@ -17,18 +17,12 @@ extension Calendars: Observable {
 }
 
 extension Array<String> {
-
-    func asEKCalendars(
-        with store: EKEventStore = CamiHelper.eventStore
-    ) -> Calendars {
-
+    func asEKCalendars() -> Calendars {
         let optionalCalendarList = self.map { calendar in
-            store.calendar(withIdentifier: calendar)
+            EventHelper.store.calendar(withIdentifier: calendar)
         }
         return optionalCalendarList.filter { calendar in
             calendar != nil
         } as? Calendars ?? []
-
     }
-
 }

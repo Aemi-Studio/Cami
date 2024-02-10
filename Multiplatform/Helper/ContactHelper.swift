@@ -10,24 +10,19 @@ import Contacts
 
 struct ContactHelper {
 
+    static let store: CNContactStore = .init()
+
     /// Request access to contacts data in an asynchronous way.
     ///
-    /// - Parameters:
-    ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///
-    /// - Returns: The access status as an `AuthenticationSet` object.
+    /// - Returns: The access status as an `AuthorizationSet` object.
     ///
-    public static func requestAccess(
-        store: CNContactStore = CamiHelper.contactStore
-    ) async -> AuthSet {
+    public static func requestAccess() async -> AuthorizationSet {
         do {
-            return try await store.requestAccess(
+            return try await Self.store.requestAccess(
                 for: .contacts
             ) ? .contacts : .restrictedContacts
         } catch {
-            #if DEBUG
-            print(error.localizedDescription)
-            #endif
             return .restrictedContacts
         }
     }
@@ -35,19 +30,14 @@ struct ContactHelper {
     /// Request access to contacts data in a synchronous way, providing a callback.
     ///
     /// - Parameters:
-    ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///     - callback: The callback function to interact with the access status.
-    ///     The status is passed to the callback as an `AuthenticationSet` object.
+    ///     The status is passed to the callback as an `AuthorizationSet` object.
     ///
     public static func requestAccess(
-        store: CNContactStore = CamiHelper.contactStore,
-        _ callback: @escaping (AuthSet) -> Void
+        _ callback: @escaping (AuthorizationSet) -> Void
     ) {
-        store.requestAccess(for: .contacts) { result, error in
+        Self.store.requestAccess(for: .contacts) { result, error in
             if error != nil {
-                #if DEBUG
-                print(error!.localizedDescription)
-                #endif
                 callback(.restrictedContacts)
             } else {
                 callback(result ? .contacts : .restrictedContacts)
@@ -58,18 +48,16 @@ struct ContactHelper {
     /// Resolve contact birthdate from a specified contact identifier using `unifiedContact`.
     ///
     /// - Parameters:
-    ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///     - identifier: The contact identifier `String` to resolve the unified contact from.
     ///
     /// - Returns: The birthdate of the contact.
     ///
     public static func resolveBirthdate(
-        store: CNContactStore = CamiHelper.contactStore,
         _ identifier: String
     ) -> DateComponents? {
         let fetchedBirthdate: DateComponents?
         do {
-            fetchedBirthdate = try store.unifiedContact(
+            fetchedBirthdate = try Self.store.unifiedContact(
                 withIdentifier: identifier,
                 keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]
             ).birthday
@@ -85,19 +73,17 @@ struct ContactHelper {
     /// Resolve contact name from a specified contact identifier using `unifiedContact`.
     ///
     /// - Parameters:
-    ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///     - identifier: The contact identifier `String` to resolve the unified contact from.
     ///
     /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
     public static func resolveContactName(
-        store: CNContactStore = CamiHelper.contactStore,
         _ identifier: String
     ) -> String {
         let fetchedContact: CNContact?
         do {
-            fetchedContact = try store.unifiedContact(
+            fetchedContact = try Self.store.unifiedContact(
                 withIdentifier: identifier,
                 keysToFetch: [
                     CNContactNicknameKey as CNKeyDescriptor,
@@ -119,19 +105,17 @@ struct ContactHelper {
     /// Resolve contact name from a specified contact predicate using `unifiedContact`.
     ///
     /// - Parameters:
-    ///     - store: The `CNContactStore` to use to fetch information. Defaults to `CamiHelper.contactStore`.
     ///     - predicate: The contact predicate `NSPredicate` to resolve the unified contact from.
     ///
     /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
     public static func resolveContactName(
-        store: CNContactStore = CamiHelper.contactStore,
         _ predicate: NSPredicate
     ) -> String {
         let fetchedContact: CNContact?
         do {
-            fetchedContact = try store.unifiedContacts(
+            fetchedContact = try Self.store.unifiedContacts(
                 matching: predicate,
                 keysToFetch: [
                     CNContactNicknameKey as CNKeyDescriptor,

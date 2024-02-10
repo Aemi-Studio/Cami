@@ -6,9 +6,6 @@
 //
 
 import EventKit
-#if os(iOS) || os(watchOS) || os(tvOS)
-import ActivityKit
-#endif
 import WidgetKit
 import SwiftUI
 
