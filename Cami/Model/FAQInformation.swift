@@ -13,49 +13,66 @@ struct FAQInformation: Hashable, Identifiable {
     var title: String
     var description: String
 
-    public func search(
-        text: String,
-        exact: Bool = true,
-        anyInsteadOfAll: Bool = true
-    ) -> Int {
+    public func lookForString(_ text: String, _ weight: Int = 0) -> Int {
+
         if text == "" {
-            return 0
+            return 0 + weight
         }
+
         let newText = text.lowercased()
         let title = self.title.lowercased()
         let description = self.description.lowercased()
+
         if title.lowercased().contains(newText) || description.lowercased().contains(newText) {
-            return 1
+            return 0 + weight
         }
-        if exact {
-            return -1
-        }
+
+        return -1
+    }
+
+    public func lookForPart(_ text: String, _ weight: Int = 0, all: Bool = false) -> Int {
+        let text = text.lowercased()
+
         var isInTitle: Bool = true
         var isInDescription: Bool = true
-        var isInAnyAtSomePoint = false
-        for textPart in newText.split(separator: " ") {
+
+        var isInAnyAtSomePoint: Bool = false
+
+        for textPart in text.split(separator: " ") {
+
             let isInTitleLocal = title.contains(textPart)
             let isInDescriptionLocal = description.contains(textPart)
+
             isInTitle = isInTitle && isInTitleLocal
             isInDescription = isInDescription && isInDescriptionLocal
+
             if !isInAnyAtSomePoint {
                 isInAnyAtSomePoint = isInTitleLocal || isInDescriptionLocal
             }
+
+            if !all && isInAnyAtSomePoint {
+                return 0 + weight
+            }
+
         }
+
         if isInTitle || isInDescription {
-            return 2
+            return 0 + weight
         }
-        if !anyInsteadOfAll {
-            return -1
-        }
-        if isInAnyAtSomePoint {
-            return 3
-        }
-        var newTitle = title
-        var newDesc = description
-        isInTitle = true
-        isInDescription = true
-        for char in newText {
+
+        return -1
+    }
+
+    public func lookForCharsInOrder(_ text: String, _ weight: Int = 0) -> Int {
+        let text = text.lowercased()
+
+        var newTitle = self.title
+        var newDesc = self.description
+
+        var isInTitle: Bool = true
+        var isInDescription: Bool = true
+
+        for char in text {
             if isInTitle, let newTitleIndex = newTitle.firstIndex(of: char) {
                 newTitle = String(newTitle[newTitle.index(after: newTitleIndex)...])
             } else {
@@ -71,9 +88,47 @@ struct FAQInformation: Hashable, Identifiable {
             }
         }
         return if isInTitle || isInDescription {
-            4
+            0 + weight
         } else {
             -1
         }
+    }
+
+    public func lookFor(
+        text: String,
+        exact: Bool = false,
+        all: Bool = false
+    ) -> Int {
+
+        if text == "" {
+            return 0
+        }
+
+        let text = text.lowercased()
+
+        let exactLookupResult: Int = self.lookForString(text, 1)
+
+        if exactLookupResult >= 0 {
+            return exactLookupResult
+        } else if exact {
+            return -1
+        }
+
+        let allLookupResult: Int = self.lookForPart(text, 2, all: true)
+
+        if allLookupResult >= 0 {
+            return allLookupResult
+        } else if all {
+            return -1
+        }
+
+        let partLookupResult: Int = self.lookForPart(text, 3, all: false)
+
+        if partLookupResult >= 0 {
+            return partLookupResult
+        }
+
+        return self.lookForCharsInOrder(text, 4)
+
     }
 }

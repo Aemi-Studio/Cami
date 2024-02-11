@@ -26,7 +26,7 @@
 		461817AE2B10BBBD004D692A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 461817AD2B10BBBD004D692A /* OrderedCollections */; };
 		4619D6D62B0CB7740046A7B5 /* DateComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4619D6D52B0CB7740046A7B5 /* DateComponents.swift */; };
 		4619D6E02B0CDFD10046A7B5 /* DateComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4619D6D52B0CB7740046A7B5 /* DateComponents.swift */; };
-		461CF4A02B035F15003D9293 /* AuthorizationSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF49F2B035F15003D9293 /* AuthorizationSet.swift */; };
+		461CF4A02B035F15003D9293 /* PermissionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF49F2B035F15003D9293 /* PermissionSet.swift */; };
 		461D69112B0DF2B000A600D7 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461D69102B0DF2B000A600D7 /* EventView.swift */; };
 		461D69132B0E1D6E00A600D7 /* Dates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461D69122B0E1D6E00A600D7 /* Dates.swift */; };
 		461D69162B0E22A700A600D7 /* Weeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461D69152B0E22A700A600D7 /* Weeks.swift */; };
@@ -45,6 +45,11 @@
 		46589F2E2B77E86100DB9211 /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46589F2C2B77E86100DB9211 /* EventHelper.swift */; };
 		46688DA02B07658400AD28F4 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688D9F2B07658400AD28F4 /* Events.swift */; };
 		46688DA42B07ACB800AD28F4 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46688DA32B07ACB800AD28F4 /* Bool.swift */; };
+		467344982B79055300470979 /* PermissionAccessButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467344972B79055300470979 /* PermissionAccessButton.swift */; };
+		4673449A2B7905E000470979 /* PermissionSettingsFallbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467344992B7905E000470979 /* PermissionSettingsFallbackButton.swift */; };
+		4673449C2B79071600470979 /* PermissionAccessSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4673449B2B79071600470979 /* PermissionAccessSection.swift */; };
+		4673449E2B7907F400470979 /* PermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4673449D2B7907F400470979 /* PermissionStatus.swift */; };
+		4673449F2B7907FE00470979 /* PermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4673449D2B7907F400470979 /* PermissionStatus.swift */; };
 		467F3DCB2B04C49200F10899 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCA2B04C49200F10899 /* SettingsView.swift */; };
 		467F3DCD2B04C50B00F10899 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCC2B04C50B00F10899 /* CalendarView.swift */; };
 		467F3DCF2B04C76400F10899 /* ContactHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCE2B04C76400F10899 /* ContactHelper.swift */; };
@@ -88,7 +93,7 @@
 		46B160932B07D90D00A44FBF /* CamiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB72B0518AB00EA1C8D /* CamiHelper.swift */; };
 		46B160942B07D90D00A44FBF /* ReminderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB42B05188A00EA1C8D /* ReminderHelper.swift */; };
 		46B160952B07D91000A44FBF /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBFA2AFA8AED00B4C7CB /* TypeAliases.swift */; };
-		46B160962B07D91000A44FBF /* AuthorizationSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF49F2B035F15003D9293 /* AuthorizationSet.swift */; };
+		46B160962B07D91000A44FBF /* PermissionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF49F2B035F15003D9293 /* PermissionSet.swift */; };
 		46B160972B07D91000A44FBF /* WidgetFamilySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB142B0652470059B2F7 /* WidgetFamilySet.swift */; };
 		46B160992B07D92F00A44FBF /* CamiWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465533282AF4EA7A000B537B /* CamiWidgetLiveActivity.swift */; };
 		46B1609C2B07D9A100A44FBF /* CamiWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465533262AF4EA7A000B537B /* CamiWidgetBundle.swift */; };
@@ -102,7 +107,6 @@
 		46B160A52B07D9A100A44FBF /* CamiWidgetHeaderBirthdays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675FC622B0379800050F0FC /* CamiWidgetHeaderBirthdays.swift */; };
 		46B160A62B07D9A100A44FBF /* CamiWidgetEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF4A32B036A80003D9293 /* CamiWidgetEvents.swift */; };
 		46B160A72B07D9A100A44FBF /* CamiWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462861FE2AF7E616004FDC9E /* CamiWidgetView.swift */; };
-		46B5C4672B0EE6E200FAC90A /* SettingsAdditionalInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B5C4662B0EE6E200FAC90A /* SettingsAdditionalInformation.swift */; };
 		46BDFBEF2AFA2CC600B4C7CB /* RoundedBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBEE2AFA2CC600B4C7CB /* RoundedBorder.swift */; };
 		46BDFBFB2AFA8AED00B4C7CB /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBFA2AFA8AED00B4C7CB /* TypeAliases.swift */; };
 		46CC7E142AF7944800607AAF /* EKEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E132AF7944800607AAF /* EKEvent.swift */; };
@@ -156,7 +160,7 @@
 		461649392B09B57400F7E7E1 /* MonthWeekRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthWeekRow.swift; sourceTree = "<group>"; };
 		4616493B2B09B58900F7E7E1 /* MonthDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDayCell.swift; sourceTree = "<group>"; };
 		4619D6D52B0CB7740046A7B5 /* DateComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponents.swift; sourceTree = "<group>"; };
-		461CF49F2B035F15003D9293 /* AuthorizationSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSet.swift; sourceTree = "<group>"; };
+		461CF49F2B035F15003D9293 /* PermissionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionSet.swift; sourceTree = "<group>"; };
 		461CF4A32B036A80003D9293 /* CamiWidgetEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEvents.swift; sourceTree = "<group>"; };
 		461D69102B0DF2B000A600D7 /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		461D69122B0E1D6E00A600D7 /* Dates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dates.swift; sourceTree = "<group>"; };
@@ -180,6 +184,10 @@
 		46589F2C2B77E86100DB9211 /* EventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
 		46688D9F2B07658400AD28F4 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		46688DA32B07ACB800AD28F4 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
+		467344972B79055300470979 /* PermissionAccessButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAccessButton.swift; sourceTree = "<group>"; };
+		467344992B7905E000470979 /* PermissionSettingsFallbackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionSettingsFallbackButton.swift; sourceTree = "<group>"; };
+		4673449B2B79071600470979 /* PermissionAccessSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionAccessSection.swift; sourceTree = "<group>"; };
+		4673449D2B7907F400470979 /* PermissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionStatus.swift; sourceTree = "<group>"; };
 		4675FC5C2B0370520050F0FC /* CamiWidgetEventsByDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEventsByDate.swift; sourceTree = "<group>"; };
 		4675FC5F2B0370CB0050F0FC /* CamiWidgetEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEvent.swift; sourceTree = "<group>"; };
 		4675FC622B0379800050F0FC /* CamiWidgetHeaderBirthdays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetHeaderBirthdays.swift; sourceTree = "<group>"; };
@@ -207,7 +215,6 @@
 		46B1606A2B07D87100A44FBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		46B1606C2B07D87100A44FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46B1606D2B07D87100A44FBF /* CamiWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CamiWidget.entitlements; sourceTree = "<group>"; };
-		46B5C4662B0EE6E200FAC90A /* SettingsAdditionalInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdditionalInformation.swift; sourceTree = "<group>"; };
 		46BDFBED2AF8536700B4C7CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		46BDFBEE2AFA2CC600B4C7CB /* RoundedBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBorder.swift; sourceTree = "<group>"; };
 		46BDFBF72AFA607A00B4C7CB /* RemainingTimeComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingTimeComponent.swift; sourceTree = "<group>"; };
@@ -268,13 +275,12 @@
 		465533002AF4EA69000B537B = {
 			isa = PBXGroup;
 			children = (
-				46934D912B78F5130025ADF2 /* sonar-project.properties */,
-				4651592F2B7252AB0073544A /* Settings.bundle */,
-				461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */,
 				461CF4A22B035F1E003D9293 /* Multiplatform */,
 				4655330B2AF4EA69000B537B /* Cami */,
 				46B160652B07D87000A44FBF /* CamiWidget */,
-				465533202AF4EA7A000B537B /* Frameworks */,
+				4651592F2B7252AB0073544A /* Settings.bundle */,
+				461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */,
+				46934D912B78F5130025ADF2 /* sonar-project.properties */,
 				4655330A2AF4EA69000B537B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -300,13 +306,6 @@
 				465533102AF4EA6A000B537B /* Assets.xcassets */,
 			);
 			path = Cami;
-			sourceTree = "<group>";
-		};
-		465533202AF4EA7A000B537B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		46688DA22B07834800AD28F4 /* Intents */ = {
@@ -416,9 +415,10 @@
 			children = (
 				46BDFBFA2AFA8AED00B4C7CB /* TypeAliases.swift */,
 				46152C7F2B12463800EF7F39 /* Generics.swift */,
-				461CF49F2B035F15003D9293 /* AuthorizationSet.swift */,
+				461CF49F2B035F15003D9293 /* PermissionSet.swift */,
 				460CAB142B0652470059B2F7 /* WidgetFamilySet.swift */,
 				469853152B0C9B4100A1F35B /* Day.swift */,
+				4673449D2B7907F400470979 /* PermissionStatus.swift */,
 			);
 			path = "Custom Types";
 			sourceTree = "<group>";
@@ -501,8 +501,10 @@
 			isa = PBXGroup;
 			children = (
 				467F3DCA2B04C49200F10899 /* SettingsView.swift */,
-				46B5C4662B0EE6E200FAC90A /* SettingsAdditionalInformation.swift */,
 				465159292B7133830073544A /* SettingsLinkView.swift */,
+				467344972B79055300470979 /* PermissionAccessButton.swift */,
+				467344992B7905E000470979 /* PermissionSettingsFallbackButton.swift */,
+				4673449B2B79071600470979 /* PermissionAccessSection.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -561,7 +563,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					465533082AF4EA69000B537B = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -659,6 +661,7 @@
 			files = (
 				469E05932B0919A000F3263D /* CamiWidgetIntent.swift in Sources */,
 				467F3DCF2B04C76400F10899 /* ContactHelper.swift in Sources */,
+				4673449E2B7907F400470979 /* PermissionStatus.swift in Sources */,
 				467F3DCD2B04C50B00F10899 /* CalendarView.swift in Sources */,
 				4619D6D62B0CB7740046A7B5 /* DateComponents.swift in Sources */,
 				46BDFBEF2AFA2CC600B4C7CB /* RoundedBorder.swift in Sources */,
@@ -667,7 +670,6 @@
 				4616493A2B09B57500F7E7E1 /* MonthWeekRow.swift in Sources */,
 				46F331422B7812D70060FA8B /* Notifications.swift in Sources */,
 				460CAB122B0650370059B2F7 /* Rounded.swift in Sources */,
-				46B5C4672B0EE6E200FAC90A /* SettingsAdditionalInformation.swift in Sources */,
 				46968DB52B05188A00EA1C8D /* ReminderHelper.swift in Sources */,
 				460CAB1E2B06602E0059B2F7 /* Pad.swift in Sources */,
 				469E05992B0922B600F3263D /* CamiWidgetConfiguration.swift in Sources */,
@@ -688,15 +690,17 @@
 				46225B012B58970900765185 /* EditEventViewController.swift in Sources */,
 				46E58C752B75A4E7003B48A0 /* FAQInformationModel.swift in Sources */,
 				469E058A2B086C3100F3263D /* WidgetCalendarEntity.swift in Sources */,
+				4673449C2B79071600470979 /* PermissionAccessSection.swift in Sources */,
 				46589F2D2B77E86100DB9211 /* EventHelper.swift in Sources */,
 				46E58C712B75A468003B48A0 /* InformationModalView.swift in Sources */,
 				469E05832B0848AE00F3263D /* Seconds.swift in Sources */,
 				460CAB152B0652470059B2F7 /* WidgetFamilySet.swift in Sources */,
+				467344982B79055300470979 /* PermissionAccessButton.swift in Sources */,
 				4651592C2B7134DA0073544A /* ButtonInnerBody.swift in Sources */,
 				46BDFBFB2AFA8AED00B4C7CB /* TypeAliases.swift in Sources */,
 				4655330D2AF4EA69000B537B /* CamiApp.swift in Sources */,
 				460CAB272B06C2EC0059B2F7 /* MiniBadge.swift in Sources */,
-				461CF4A02B035F15003D9293 /* AuthorizationSet.swift in Sources */,
+				461CF4A02B035F15003D9293 /* PermissionSet.swift in Sources */,
 				46E58C732B75A4A1003B48A0 /* FAQInformation.swift in Sources */,
 				46498EC22B76C19C00FC480C /* OnboardingView.swift in Sources */,
 				469E05802B08172700F3263D /* AllDayStyleEnum.swift in Sources */,
@@ -707,6 +711,7 @@
 				46688DA42B07ACB800AD28F4 /* Bool.swift in Sources */,
 				46688DA02B07658400AD28F4 /* Events.swift in Sources */,
 				4616493C2B09B58900F7E7E1 /* MonthDayCell.swift in Sources */,
+				4673449A2B7905E000470979 /* PermissionSettingsFallbackButton.swift in Sources */,
 				4651592A2B7133830073544A /* SettingsLinkView.swift in Sources */,
 				460CAB212B0669900059B2F7 /* EdgeInsets.swift in Sources */,
 				46F331402B7811470060FA8B /* PermissionModel.swift in Sources */,
@@ -730,7 +735,7 @@
 				46F331442B781B170060FA8B /* PermissionModel.swift in Sources */,
 				46B160892B07D90A00A44FBF /* Events.swift in Sources */,
 				46B160A62B07D9A100A44FBF /* CamiWidgetEvents.swift in Sources */,
-				46B160962B07D91000A44FBF /* AuthorizationSet.swift in Sources */,
+				46B160962B07D91000A44FBF /* PermissionSet.swift in Sources */,
 				469E05942B0919A800F3263D /* CamiWidgetIntent.swift in Sources */,
 				46B160932B07D90D00A44FBF /* CamiHelper.swift in Sources */,
 				46B160992B07D92F00A44FBF /* CamiWidgetLiveActivity.swift in Sources */,
@@ -750,6 +755,7 @@
 				46B1608F2B07D90A00A44FBF /* Calendars.swift in Sources */,
 				46B160832B07D90500A44FBF /* Pad.swift in Sources */,
 				469E059D2B0956B500F3263D /* EventDict.swift in Sources */,
+				4673449F2B7907FE00470979 /* PermissionStatus.swift in Sources */,
 				46589F2E2B77E86100DB9211 /* EventHelper.swift in Sources */,
 				46B160942B07D90D00A44FBF /* ReminderHelper.swift in Sources */,
 				46B160842B07D90500A44FBF /* MiniBadge.swift in Sources */,
@@ -839,6 +845,10 @@
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -953,6 +963,9 @@
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1009,11 +1022,13 @@
 				CODE_SIGN_ENTITLEMENTS = Cami/Cami.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_HEADERS_RUN_UNIFDEF = YES;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cami/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
@@ -1036,7 +1051,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.14;
+				MARKETING_VERSION = 0.15;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1062,11 +1077,13 @@
 				CODE_SIGN_ENTITLEMENTS = Cami/Cami.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_HEADERS_RUN_UNIFDEF = YES;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cami/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
@@ -1089,7 +1106,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.14;
+				MARKETING_VERSION = 0.15;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1113,10 +1130,11 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = CamiWidget/CamiWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CamiWidget/Info.plist;
@@ -1137,7 +1155,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.14;
+				MARKETING_VERSION = 0.15;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1160,10 +1178,11 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = CamiWidget/CamiWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CamiWidget/Info.plist;
@@ -1184,7 +1203,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.14;
+				MARKETING_VERSION = 0.15;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

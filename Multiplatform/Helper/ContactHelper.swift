@@ -17,7 +17,7 @@ struct ContactHelper {
     ///
     /// - Returns: The access status as an `AuthorizationSet` object.
     ///
-    public static func requestAccess() async -> AuthorizationSet {
+    public static func requestAccess() async -> PermissionSet {
         do {
             return try await Self.store.requestAccess(
                 for: .contacts
@@ -34,7 +34,7 @@ struct ContactHelper {
     ///     The status is passed to the callback as an `AuthorizationSet` object.
     ///
     public static func requestAccess(
-        _ callback: @escaping (AuthorizationSet) -> Void
+        _ callback: @escaping (PermissionSet) -> Void
     ) {
         Self.store.requestAccess(for: .contacts) { result, error in
             if error != nil {

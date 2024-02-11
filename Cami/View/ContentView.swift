@@ -4,7 +4,6 @@
 //
 //  Created by Guillaume Coquard on 03/11/23.
 //
-// swiftlint:disable line_length
 
 import SwiftUI
 import EventKit
@@ -15,26 +14,27 @@ struct ContentView: View {
     @Environment(\.scenePhase)
     var scenePhase: ScenePhase
 
-    @Bindable
-    var model: ViewModel
+    @EnvironmentObject
+    private var perms: PermissionModel
 
-    @Bindable
-    var perms: PermissionModel
-
-    @State
-    private var isModalPresented: Bool = false
+    @EnvironmentObject
+    private var model: ViewModel
 
     @State
-    private var isInformationModalPresented: Bool = false
+    private var areSettingsPresented: Bool = false
 
     @State
-    private var wasNotAuthorized: Bool = true
+    private var areInformationsPresented: Bool = false
 
-    @State
-    private var authorized: Bool = PermissionModel.shared.global.status == .authorized
+    private var wasNotAuthorized: Bool = PermissionModel.shared.global.status == .restricted
 
-    @State
-    private var restricted: Bool = PermissionModel.shared.global.status != .authorized
+    private var authorized: Bool {
+        PermissionModel.shared.global == .authorized
+    }
+
+    private var restricted: Bool {
+        PermissionModel.shared.global == .restricted
+    }
 
     @AppStorage("accessWorkInProgressFeatures")
     private var accessWorkInProgressFeatures: Bool = false
@@ -43,61 +43,39 @@ struct ContentView: View {
         Group {
             if accessWorkInProgressFeatures {
                 NavigationStack(path: $model.path) {
-                    CalendarView()
-                        .navigationDestination(for: Day.self, destination: DayView.init)
-                        .navigationDestination(for: EKEvent.self, destination: EventView.init)
+                    CalendarView(
+                        areSettingsPresented: $areSettingsPresented
+                    )
+                    .navigationDestination(for: Day.self, destination: DayView.init)
+                    .navigationDestination(for: EKEvent.self, destination: EventView.init)
                 }
             } else {
                 OnboardingView(
-                    authorized: $authorized,
-                    restricted: $restricted,
-                    isModalPresented: $isModalPresented,
-                    isInformationModalPresented: $isInformationModalPresented
+                    areSettingsPresented: $areSettingsPresented,
+                    areInformationsPresented: $areInformationsPresented
                 )
                 .frame(maxWidth: 720)
             }
         }
-        .onAppear {
-            wasNotAuthorized = perms.global.status != .authorized
-            authorized = perms.global.calendars.status == .authorized
-                && perms.global.contacts.status == .authorized
-            restricted = perms.global.calendars.status == .restricted
-                && perms.global.contacts.status == .restricted
+        .onChange(of: scenePhase) { _, _ in
             WidgetCenter.shared.reloadAllTimelines()
         }
-        .onChange(of: scenePhase) { _, newPhase in
-            switch newPhase {
-            case .active:
-                WidgetCenter.shared.reloadAllTimelines()
-            case .inactive, .background:
-                WidgetCenter.shared.reloadAllTimelines()
-            @unknown default:
-                WidgetCenter.shared.reloadAllTimelines()
-
-            }
+        .onChange(of: perms.global) { _, _ in
+            model.reset()
+            WidgetCenter.shared.reloadAllTimelines()
         }
-        .sheet(isPresented: $isModalPresented) {
+        .sheet(isPresented: $areSettingsPresented) {
             SettingsView()
                 .environmentObject(model)
                 .environmentObject(perms)
                 .presentationDragIndicator(.visible)
-                .presentationDetents([.large])
+                .presentationDetents([.medium, .large])
                 .presentationContentInteraction(.scrolls)
-                .onDisappear {
-                    authorized = perms.global.calendars.status == .authorized
-                        && perms.global.contacts.status == .authorized
-                    restricted = perms.global.calendars.status == .restricted
-                        && perms.global.contacts.status == .restricted
-                    if wasNotAuthorized && authorized {
-                        model.reset()
-                    }
-                }
         }
-        .sheet(isPresented: $isInformationModalPresented) {
+        .sheet(isPresented: $areInformationsPresented) {
             InformationModalView()
                 .environmentObject(model)
-                .environmentObject(perms)
-                .presentationDetents([.large])
+                .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
                 .presentationContentInteraction(.scrolls)
         }

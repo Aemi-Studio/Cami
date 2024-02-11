@@ -4,7 +4,6 @@
 //
 //  Created by Guillaume Coquard on 09/02/24.
 //
-// swiftlint:disable identifier_name
 
 import SwiftUI
 
@@ -20,17 +19,19 @@ struct InformationModalView: View {
             var weights: [UUID: Int] = [:]
             for information in FAQInformationModel.shared.list {
                 weights.updateValue(
-                    information.search(text: searchText),
+                    information.lookFor(text: searchText),
                     forKey: information.id
                 )
             }
-            let sortedWeights = weights.sorted(by: { a, b in a.value > b.value })
+            // swiftlint:disable identifier_name
+            let sortedWeights = weights.sorted(by: { a, b in a.value < b.value })
 
             return sortedWeights
                 .filter({ i in i.value > -1 })
                 .map { information in
                     FAQInformationModel.shared.list.first(where: { i in information.key == i.id })!
                 }
+            // swiftlint:enable identifier_name
         }
     }
 

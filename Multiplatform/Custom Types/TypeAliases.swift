@@ -14,7 +14,7 @@ typealias Dates         = [Date]
 typealias Weeks         = [Dates]
 
 typealias Birthdays     = Events
-typealias AuthSet       = AuthorizationSet
+typealias AuthSet       = PermissionSet
 typealias Seconds       = Int
 
 typealias DateRange     = ClosedRange<Date>

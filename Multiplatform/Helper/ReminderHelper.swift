@@ -10,7 +10,7 @@ import EventKit
 
 struct ReminderHelper {
 
-    public static func requestAccess() async -> AuthorizationSet {
+    public static func requestAccess() async -> PermissionSet {
         do {
             return try await  EventHelper.store.requestFullAccessToReminders()
                 ? .reminders
@@ -22,7 +22,7 @@ struct ReminderHelper {
     }
 
     public static func requestAccess(
-        callback: @escaping (AuthorizationSet) -> Void
+        callback: @escaping (PermissionSet) -> Void
     ) {
         EventHelper.store.requestFullAccessToReminders { result, error in
             if error != nil {
