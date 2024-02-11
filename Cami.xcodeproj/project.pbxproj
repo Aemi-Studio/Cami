@@ -188,6 +188,7 @@
 		467F3DCA2B04C49200F10899 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		467F3DCC2B04C50B00F10899 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		467F3DCE2B04C76400F10899 /* ContactHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactHelper.swift; sourceTree = "<group>"; };
+		46934D912B78F5130025ADF2 /* sonar-project.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = "sonar-project.properties"; sourceTree = "<group>"; };
 		46968DB42B05188A00EA1C8D /* ReminderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderHelper.swift; sourceTree = "<group>"; };
 		46968DB72B0518AB00EA1C8D /* CamiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiHelper.swift; sourceTree = "<group>"; };
 		46968DC32B06148500EA1C8D /* Calendars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendars.swift; sourceTree = "<group>"; };
@@ -267,6 +268,7 @@
 		465533002AF4EA69000B537B = {
 			isa = PBXGroup;
 			children = (
+				46934D912B78F5130025ADF2 /* sonar-project.properties */,
 				4651592F2B7252AB0073544A /* Settings.bundle */,
 				461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */,
 				461CF4A22B035F1E003D9293 /* Multiplatform */,
