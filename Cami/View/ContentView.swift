@@ -65,16 +65,8 @@ struct ContentView: View {
                 && perms.global.contacts.status == .restricted
             WidgetCenter.shared.reloadAllTimelines()
         }
-        .onChange(of: scenePhase) { _, newPhase in
-            switch newPhase {
-            case .active:
-                WidgetCenter.shared.reloadAllTimelines()
-            case .inactive, .background:
-                WidgetCenter.shared.reloadAllTimelines()
-            @unknown default:
-                WidgetCenter.shared.reloadAllTimelines()
-
-            }
+        .onChange(of: scenePhase) { _, _ in
+            WidgetCenter.shared.reloadAllTimelines()
         }
         .sheet(isPresented: $isModalPresented) {
             SettingsView()
