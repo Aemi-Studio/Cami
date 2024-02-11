@@ -18,14 +18,11 @@ struct CamiApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(
-                model: model,
-                perms: perms
-            )
-            .environment(model)
-            .environmentObject(model)
-            .environment(perms)
-            .environmentObject(perms)
+            ContentView()
+                .environment(model)
+                .environmentObject(model)
+                .environment(perms)
+                .environmentObject(perms)
         }
     }
 }

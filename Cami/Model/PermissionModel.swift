@@ -16,23 +16,23 @@ final class PermissionModel: ObservableObject {
 
     private let center: NotificationCenter = .default
 
-    private var events: AuthorizationSet = .none {
+    private var events: PermissionSet = .none {
         didSet {
             self.center.post(name: .eventsAccessUpdated, object: nil)
         }
     }
-    private var contacts: AuthorizationSet = .none {
+    private var contacts: PermissionSet = .none {
         didSet {
             self.center.post(name: .contactsAccessUpdated, object: nil)
         }
     }
-    private var reminders: AuthorizationSet = .none {
+    private var reminders: PermissionSet = .none {
         didSet {
             self.center.post(name: .remindersAccessUpdated, object: nil)
         }
     }
 
-    var global: AuthorizationSet = .none {
+    var global: PermissionSet = .none {
         didSet {
             self.center.post(name: .accessUpdated, object: nil)
         }
@@ -67,7 +67,7 @@ final class PermissionModel: ObservableObject {
             AuthSet.restrictedReminders
         }
 
-        self.global = AuthorizationSet([
+        self.global = PermissionSet([
             self.events,
             self.contacts,
             self.reminders
@@ -110,7 +110,7 @@ extension PermissionModel {
     }
 
     @objc private func updateAccess() {
-        self.global = AuthorizationSet([
+        self.global = PermissionSet([
             self.events,
             self.contacts,
             self.reminders

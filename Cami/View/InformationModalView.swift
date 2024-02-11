@@ -4,7 +4,6 @@
 //
 //  Created by Guillaume Coquard on 09/02/24.
 //
-// swiftlint:disable identifier_name
 
 import SwiftUI
 
@@ -24,6 +23,7 @@ struct InformationModalView: View {
                     forKey: information.id
                 )
             }
+            // swiftlint:disable identifier_name
             let sortedWeights = weights.sorted(by: { a, b in a.value < b.value })
 
             return sortedWeights
@@ -31,6 +31,7 @@ struct InformationModalView: View {
                 .map { information in
                     FAQInformationModel.shared.list.first(where: { i in information.key == i.id })!
                 }
+            // swiftlint:enable identifier_name
         }
     }
 

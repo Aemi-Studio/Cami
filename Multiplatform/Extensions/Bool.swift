@@ -12,7 +12,7 @@ extension Bool {
         self.init(integer > 0)
     }
 
-    init(_ authorizationStatus: AuthorizationSet.Status) {
-        self.init(authorizationStatus.rawValue)
+    init(_ permissionStatus: PermissionStatus) {
+        self.init(permissionStatus.rawValue)
     }
 }

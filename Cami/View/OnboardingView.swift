@@ -11,19 +11,35 @@ import WidgetKit
 struct OnboardingView: View {
 
     @Environment(ViewModel.self)
-    private var viewModel: ViewModel
+    private var model: ViewModel
+
+    @Environment(PermissionModel.self)
+    private var perms: PermissionModel
 
     @Binding
-    var authorized: Bool
+    var areSettingsPresented: Bool
 
     @Binding
-    var restricted: Bool
+    var areInformationsPresented: Bool
 
-    @Binding
-    var isModalPresented: Bool
+    @AppStorage("accessWorkInProgressFeatures")
+    private var accessWorkInProgressFeatures = false
 
-    @Binding
-    var isInformationModalPresented: Bool
+    private var authorized: Bool {
+        return if accessWorkInProgressFeatures {
+            perms.global == ._beta_authorized
+        } else {
+            perms.global.isSuperset(of: .authorized)
+        }
+    }
+
+    private var restricted: Bool {
+        return if accessWorkInProgressFeatures {
+            !perms.global.isDisjoint(with: .restricted)
+        } else {
+            !perms.global.isDisjoint(with: [.restrictedCalendars, .restrictedContacts])
+        }
+    }
 
     var body: some View {
         ScrollView(.vertical) {
@@ -46,7 +62,6 @@ struct OnboardingView: View {
         """)
                     Spacer(minLength: 32)
                     if !authorized {
-
                         if restricted {
                             Button {
                                 if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -64,8 +79,9 @@ struct OnboardingView: View {
                             }
                         } else {
                             Button {
-                                isModalPresented.toggle()
+                                areSettingsPresented.toggle()
                             } label: {
+                                // swiftlint:disable line_length
                                 ButtonInnerBody(
                                     label: "Grant Access",
                                     description: "Cami needs you to grant it access to your calendar and contacts information to work properly.",
@@ -74,9 +90,9 @@ struct OnboardingView: View {
                                     border: true
                                 )
                                 .tint(.orange)
+                                // swiftlint:enable line_length
                             }
                         }
-
                     } else {
                         ButtonInnerBody(
                             label: "Everything is fine.",
@@ -105,7 +121,7 @@ struct OnboardingView: View {
                 )
 
                 Button {
-                    isInformationModalPresented.toggle()
+                    areInformationsPresented.toggle()
                 }label: {
                     ButtonInnerBody(
                         label: "Information",

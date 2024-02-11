@@ -13,8 +13,18 @@ struct MonthDayCell: View {
     @Environment(ViewModel.self)
     private var model: ViewModel
 
+    @EnvironmentObject
+    private var perms: PermissionModel
+
     @State
     private var colors: [Generic<Color>]?
+
+    private func updateColors() async {
+        let calendars: Set<String> = await day.lazyInitCalendars()
+        self.colors = Array(model.calendars.intersection( calendars ))
+            .asEKCalendars()
+            .map { Generic<Color>(Color(cgColor: $0.cgColor)) }
+    }
 
     let day: Day
 
@@ -51,10 +61,14 @@ struct MonthDayCell: View {
         .onAppear {
             DispatchQueue.main.async {
                 Task {
-                    let calendars: Set<String> = await day.lazyInitCalendars()
-                    colors = Array(model.calendars.intersection( calendars ))
-                        .asEKCalendars()
-                        .map { Generic<Color>(Color(cgColor: $0.cgColor)) }
+                    await self.updateColors()
+                }
+            }
+        }
+        .onChange(of: perms.global) { _, _ in
+            DispatchQueue.main.async {
+                Task {
+                    await self.updateColors()
                 }
             }
         }

@@ -21,8 +21,8 @@ struct CalendarView: View {
     @State
     private var wasNotAuthorized: Bool = true
 
-    @State
-    private var isSettingsViewPresented: Bool = !Bool(PermissionModel.shared.global.status)
+    @Binding
+    var areSettingsPresented: Bool
 
     @State
     private var isCalendarSelectionViewPresented: Bool = false
@@ -40,15 +40,8 @@ struct CalendarView: View {
         .scrollIndicators(.hidden)
         .scrollPosition(id: $model.position)
         .sheet(isPresented: $isCalendarSelectionViewPresented) {
-            CalendarSelectionView().presentationDragIndicator(.visible)
-        }
-        .sheet(isPresented: $isSettingsViewPresented) {
-            SettingsView()
-                .environmentObject(model)
-                .environmentObject(perms)
-                .presentationDragIndicator(Bool(perms.global.status) ? .visible : .hidden)
-                .presentationDetents([.medium])
-                .interactiveDismissDisabled(!Bool(perms.global.status))
+            CalendarSelectionView()
+                .presentationDragIndicator(.visible)
         }
         .toolbar {
             ToolbarItemGroup(placement: .navigation) {
@@ -89,7 +82,7 @@ struct CalendarView: View {
                             .labelStyle(.iconOnly)
                     }
                     Button {
-                        isSettingsViewPresented.toggle()
+                        areSettingsPresented.toggle()
                     } label: {
                         Label("Settings", systemImage: "gear")
                             .labelStyle(.iconOnly)
@@ -107,7 +100,7 @@ struct CalendarView: View {
                             .labelStyle(.iconOnly)
                     }
                     Button {
-                        isSettingsViewPresented.toggle()
+                        areSettingsPresented.toggle()
                     } label: {
                         Label("Settings", systemImage: "gear")
                             .labelStyle(.iconOnly)
