@@ -20,11 +20,11 @@ struct InformationModalView: View {
             var weights: [UUID: Int] = [:]
             for information in FAQInformationModel.shared.list {
                 weights.updateValue(
-                    information.search(text: searchText),
+                    information.lookFor(text: searchText),
                     forKey: information.id
                 )
             }
-            let sortedWeights = weights.sorted(by: { a, b in a.value > b.value })
+            let sortedWeights = weights.sorted(by: { a, b in a.value < b.value })
 
             return sortedWeights
                 .filter({ i in i.value > -1 })
