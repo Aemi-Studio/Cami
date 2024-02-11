@@ -39,13 +39,16 @@ struct InformationModalView: View {
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(searchResult) { result in
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(result.title)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Text(result.description)
+                        HStack {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(result.title)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                Text(result.description)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Spacer()
                         }
-                        .frame(maxHeight: .infinity)
                         .padding()
                         .background(.regularMaterial)
                         .clipShape(RoundedRectangle(cornerRadius: 12))

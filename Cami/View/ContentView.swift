@@ -54,6 +54,7 @@ struct ContentView: View {
                     isModalPresented: $isModalPresented,
                     isInformationModalPresented: $isInformationModalPresented
                 )
+                .frame(maxWidth: 720)
             }
         }
         .onAppear {
@@ -78,6 +79,7 @@ struct ContentView: View {
         .sheet(isPresented: $isModalPresented) {
             SettingsView()
                 .environmentObject(model)
+                .environmentObject(perms)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.large])
                 .presentationContentInteraction(.scrolls)
@@ -94,6 +96,7 @@ struct ContentView: View {
         .sheet(isPresented: $isInformationModalPresented) {
             InformationModalView()
                 .environmentObject(model)
+                .environmentObject(perms)
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
                 .presentationContentInteraction(.scrolls)

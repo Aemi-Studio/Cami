@@ -51,20 +51,13 @@ struct WidgetHelpView: View {
                             }
                             .padding(.vertical, 8)
                             .padding(.horizontal, 12)
-                            .background(.ultraThinMaterial)
-                            .background(Color(
-                                white: 0,
-                                opacity: 0.7
-                            ))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .padding(.trailing, 2)
+                            .background(.regularMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                            .shadow(color: Color(white: 0, opacity: 0.175), radius: 10, y: 4)
 
                         }
-                        .tint(
-                            Color(
-                                white: 0,
-                                opacity: 0.7
-                            )
-                        )
+                        .tint(.black)
                         .buttonStyle(.plain)
                         Spacer()
                     }

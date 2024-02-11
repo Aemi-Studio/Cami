@@ -14,18 +14,18 @@ struct CamiApp: App {
     private var model: ViewModel = .shared
 
     @State
-    private var permissions: PermissionModel = .shared
+    private var perms: PermissionModel = .shared
 
     var body: some Scene {
         WindowGroup {
             ContentView(
                 model: model,
-                perms: permissions
+                perms: perms
             )
             .environment(model)
             .environmentObject(model)
-            .environment(permissions)
-            .environmentObject(permissions)
+            .environment(perms)
+            .environmentObject(perms)
         }
     }
 }
