@@ -9,13 +9,11 @@ import SwiftUI
 
 struct PermissionAccessButton: View {
 
-    var name: Notification.Name?
+    var name: Notification.Name = .requestAccess
 
     var body: some View {
         Button {
-            if let name = self.name {
-                NotificationCenter.default.post(name: name, object: nil)
-            }
+            PermissionModel.center.post(name: self.name, object: self)
         } label: {
             ButtonInnerBody(
                 label: "Authorize",

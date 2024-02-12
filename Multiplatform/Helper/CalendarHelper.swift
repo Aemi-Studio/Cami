@@ -7,8 +7,11 @@
 
 import Foundation
 import EventKit
+import OSLog
 
 struct CalendarHelper {
+
+    static let store: EKEventStore = .init()
 
     public static var authorizationStatus: Bool {
         let authorizationStatus: EKAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
@@ -22,26 +25,28 @@ struct CalendarHelper {
 
     public static func requestAccess() async -> AuthSet {
         do {
-            return try await EventHelper.store.requestFullAccessToEvents()
-                ? .calendars
-                : .restrictedCalendars
+            let result = try await Self.store.requestFullAccessToEvents()
+            Logger.perms.info("CalendarHelper -> \(String(describing: result))")
+            return result ? .calendars : .restrictedCalendars
         } catch {
-            print(error.localizedDescription)
+            Logger.perms.error("\(String(describing: error))")
         }
         return .none
     }
 
     public static func requestAccess(
-        _ callback: @escaping (AuthSet) -> Void
+        _ callback: @escaping (PermissionSet) -> Void
     ) {
-        EventHelper.store.requestFullAccessToEvents { result, error in
+        Self.store.requestFullAccessToEvents { result, error in
             if error != nil {
+                Logger.perms.error("\(String(describing: error))")
                 callback(.none)
             } else {
+                Logger.perms.error("CalendarHelper -> \(String(describing: result))")
                 callback(result ? .calendars : .none)
             }
         }
-        EventHelper.store.refreshSourcesIfNecessary()
+        Self.store.refreshSourcesIfNecessary()
     }
 
     public static func events(
@@ -65,7 +70,7 @@ struct CalendarHelper {
         relativeTo date: Date
     ) -> Events {
 
-        EventHelper.store.refreshSourcesIfNecessary()
+        Self.store.refreshSourcesIfNecessary()
 
         let calendar = Calendar.autoupdatingCurrent
 
@@ -91,7 +96,7 @@ struct CalendarHelper {
         // Create the predicate from the event store's instance method.
         var predicate: NSPredicate?
         if let anAgo = today, let aNow = oneMonthFromNow {
-            predicate = EventHelper.store.predicateForEvents(
+            predicate = Self.store.predicateForEvents(
                 withStart: anAgo,
                 end: aNow,
                 calendars: calendars.count > 0 ? calendars : CamiHelper.allCalendars
@@ -100,7 +105,7 @@ struct CalendarHelper {
 
         // Fetch all events that match the predicate.
         if let aPredicate = predicate {
-            events = EventHelper.store
+            events = Self.store
                 .events(matching: aPredicate)
                 .sorted(.orderedAscending)
         }
@@ -117,7 +122,7 @@ struct CalendarHelper {
         during days: Int = 365
     ) -> Events {
 
-        EventHelper.store.refreshSourcesIfNecessary()
+        Self.store.refreshSourcesIfNecessary()
 
         let calendar = Calendar.autoupdatingCurrent
 
@@ -141,7 +146,7 @@ struct CalendarHelper {
         // Create the predicate from the event store's instance method.
         var predicate: NSPredicate?
         if let anAgo = today, let aNow = endDate {
-            predicate = EventHelper.store.predicateForEvents(
+            predicate = Self.store.predicateForEvents(
                 withStart: anAgo,
                 end: aNow,
                 calendars: CamiHelper.birthdayCalendar != nil ? [CamiHelper.birthdayCalendar!] : []
@@ -150,7 +155,7 @@ struct CalendarHelper {
 
         // Fetch all events that match the predicate.
         if let aPredicate = predicate {
-            return EventHelper.store
+            return Self.store
                 .events(matching: aPredicate)
                 .sorted(.orderedAscending)
         }

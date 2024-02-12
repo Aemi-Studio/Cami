@@ -7,6 +7,7 @@
 
 import Foundation
 import Contacts
+import OSLog
 
 struct ContactHelper {
 
@@ -19,10 +20,13 @@ struct ContactHelper {
     ///
     public static func requestAccess() async -> PermissionSet {
         do {
-            return try await Self.store.requestAccess(
+            let result = try await Self.store.requestAccess(
                 for: .contacts
-            ) ? .contacts : .restrictedContacts
+            )
+            Logger.perms.error("ContactHelper -> \(String(describing: result))")
+            return result ? .contacts : .restrictedContacts
         } catch {
+            Logger.perms.error("\(String(describing: error))")
             return .restrictedContacts
         }
     }
@@ -38,8 +42,10 @@ struct ContactHelper {
     ) {
         Self.store.requestAccess(for: .contacts) { result, error in
             if error != nil {
+                Logger.perms.error("\(String(describing: error))")
                 callback(.restrictedContacts)
             } else {
+                Logger.perms.error("ContactHelper -> \(String(describing: result))")
                 callback(result ? .contacts : .restrictedContacts)
             }
         }

@@ -19,7 +19,7 @@ extension Calendars: Observable {
 extension Array<String> {
     func asEKCalendars() -> Calendars {
         let optionalCalendarList = self.map { calendar in
-            EventHelper.store.calendar(withIdentifier: calendar)
+            CalendarHelper.store.calendar(withIdentifier: calendar)
         }
         return optionalCalendarList.filter { calendar in
             calendar != nil

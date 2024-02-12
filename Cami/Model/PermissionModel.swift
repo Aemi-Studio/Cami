@@ -8,37 +8,23 @@
 import Foundation
 import EventKit
 import Contacts
+import OSLog
+import Combine
 
 @Observable
 final class PermissionModel: ObservableObject {
 
     static let shared: PermissionModel = .init()
+    static let center: NotificationCenter = .init()
 
-    private let center: NotificationCenter = .default
+    private var events: PermissionSet
+    private var contacts: PermissionSet
+    private var reminders: PermissionSet
 
-    private var events: PermissionSet = .none {
-        didSet {
-            self.center.post(name: .eventsAccessUpdated, object: nil)
-        }
-    }
-    private var contacts: PermissionSet = .none {
-        didSet {
-            self.center.post(name: .contactsAccessUpdated, object: nil)
-        }
-    }
-    private var reminders: PermissionSet = .none {
-        didSet {
-            self.center.post(name: .remindersAccessUpdated, object: nil)
-        }
-    }
-
-    var global: PermissionSet = .none {
-        didSet {
-            self.center.post(name: .accessUpdated, object: nil)
-        }
-    }
+    var global: PermissionSet = .none
 
     private init() {
+        Logger.perms.debug("Initializing Permissions Statuses")
 
         self.events = switch EKEventStore.authorizationStatus(for: .event) {
         case .fullAccess:
@@ -85,31 +71,67 @@ final class PermissionModel: ObservableObject {
 // MARK: Notification Observer
 extension PermissionModel {
 
-    @objc private func requestAccess() {
+    @objc func requestAccess() async {
+        Logger.perms.debug("Requesting Full Access")
         self.requestEventsAccess()
         self.requestContactsAccess()
         self.requestRemindersAccess()
     }
 
-    @objc private func requestEventsAccess() {
+    @objc func requestEventsAccess() {
+        Logger.perms.debug("Requesting Calendars Access")
         CalendarHelper.requestAccess { result in
-            self.events = result
+            Logger.perms.debug("\(String(describing: result))")
+            Self.center.post(name: .eventsAccessUpdated, object: nil)
         }
     }
 
-    @objc private func requestContactsAccess() {
+    @objc func requestContactsAccess() {
+        Logger.perms.debug("Requesting Contacts Access")
         ContactHelper.requestAccess { result in
-            self.contacts = result
+            Logger.perms.debug("\(String(describing: result))")
+            Self.center.post(name: .contactsAccessUpdated, object: nil)
         }
     }
 
-    @objc private func requestRemindersAccess() {
+    @objc func requestRemindersAccess() {
+        Logger.perms.debug("Requesting Reminders Access")
         ReminderHelper.requestAccess { result in
-            self.reminders = result
+            Logger.perms.debug("\(String(describing: result))")
+            Self.center.post(name: .remindersAccessUpdated, object: nil)
         }
     }
 
     @objc private func updateAccess() {
+        Logger.perms.debug("Updating Access")
+
+        self.events = switch EKEventStore.authorizationStatus(for: .event) {
+        case .fullAccess:
+            AuthSet.calendars
+        case .notDetermined:
+            AuthSet.none
+        default:
+            AuthSet.restrictedCalendars
+        }
+
+        self.contacts = switch CNContactStore.authorizationStatus(for: .contacts) {
+        case .authorized:
+            AuthSet.contacts
+        case .notDetermined:
+            AuthSet.none
+        default:
+            AuthSet.restrictedContacts
+        }
+
+        self.reminders = switch EKEventStore.authorizationStatus(for: .reminder) {
+        case .fullAccess:
+            AuthSet.reminders
+        case .notDetermined:
+            AuthSet.none
+        default:
+            AuthSet.restrictedReminders
+        }
+
         self.global = PermissionSet([
             self.events,
             self.contacts,
@@ -118,38 +140,38 @@ extension PermissionModel {
     }
 
     private func addObservers() {
-        self.center.addObserver(
+        Self.center.addObserver(
             self,
             selector: #selector(requestAccess),
             name: .requestAccess, object: nil
         )
-        self.center.addObserver(
+        Self.center.addObserver(
             self,
             selector: #selector(requestEventsAccess),
             name: .requestEventsAccess, object: nil
         )
-        self.center.addObserver(
+        Self.center.addObserver(
             self,
             selector: #selector(requestContactsAccess),
             name: .requestContactsAccess, object: nil
         )
-        self.center.addObserver(
+        Self.center.addObserver(
             self,
             selector: #selector(requestRemindersAccess),
             name: .requestRemindersAccess, object: nil
         )
 
-        self.center.addObserver(
+        Self.center.addObserver(
             self,
             selector: #selector(updateAccess),
             name: .eventsAccessUpdated, object: nil
         )
-        self.center.addObserver(
+        Self.center.addObserver(
             self,
             selector: #selector(updateAccess),
             name: .contactsAccessUpdated, object: nil
         )
-        self.center.addObserver(
+        Self.center.addObserver(
             self,
             selector: #selector(updateAccess),
             name: .remindersAccessUpdated, object: nil
@@ -157,13 +179,13 @@ extension PermissionModel {
     }
 
     private func removeObservers() {
-        self.center.removeObserver(self, name: .requestAccess, object: nil)
-        self.center.removeObserver(self, name: .requestEventsAccess, object: nil)
-        self.center.removeObserver(self, name: .requestContactsAccess, object: nil)
-        self.center.removeObserver(self, name: .requestRemindersAccess, object: nil)
-        self.center.removeObserver(self, name: .eventsAccessUpdated, object: nil)
-        self.center.removeObserver(self, name: .contactsAccessUpdated, object: nil)
-        self.center.removeObserver(self, name: .remindersAccessUpdated, object: nil)
+        Self.center.removeObserver(self, name: .requestAccess, object: nil)
+        Self.center.removeObserver(self, name: .requestEventsAccess, object: nil)
+        Self.center.removeObserver(self, name: .requestContactsAccess, object: nil)
+        Self.center.removeObserver(self, name: .requestRemindersAccess, object: nil)
+        Self.center.removeObserver(self, name: .eventsAccessUpdated, object: nil)
+        Self.center.removeObserver(self, name: .contactsAccessUpdated, object: nil)
+        Self.center.removeObserver(self, name: .remindersAccessUpdated, object: nil)
     }
 
 }

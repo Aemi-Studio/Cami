@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingsView: View {
+struct PermissionsView: View {
 
     @Environment(\.dismiss)
     private var dismiss: DismissAction
