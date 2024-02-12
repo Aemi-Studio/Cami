@@ -50,7 +50,6 @@
 		467F3DCB2B04C49200F10899 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCA2B04C49200F10899 /* PermissionsView.swift */; };
 		467F3DCD2B04C50B00F10899 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCC2B04C50B00F10899 /* CalendarView.swift */; };
 		467F3DCF2B04C76400F10899 /* ContactHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCE2B04C76400F10899 /* ContactHelper.swift */; };
-		46968DB52B05188A00EA1C8D /* ReminderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB42B05188A00EA1C8D /* ReminderHelper.swift */; };
 		46968DB82B0518AB00EA1C8D /* CamiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB72B0518AB00EA1C8D /* CamiHelper.swift */; };
 		46968DC42B06148500EA1C8D /* Calendars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC32B06148500EA1C8D /* Calendars.swift */; };
 		469853122B0C19AF00A1F35B /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469853112B0C19AF00A1F35B /* DayView.swift */; };
@@ -85,10 +84,9 @@
 		46B1608C2B07D90A00A44FBF /* EdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB202B0669900059B2F7 /* EdgeInsets.swift */; };
 		46B1608D2B07D90A00A44FBF /* EKEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E132AF7944800607AAF /* EKEvent.swift */; };
 		46B1608F2B07D90A00A44FBF /* Calendars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DC32B06148500EA1C8D /* Calendars.swift */; };
-		46B160912B07D90D00A44FBF /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E1D2AF795EF00607AAF /* CalendarHelper.swift */; };
+		46B160912B07D90D00A44FBF /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E1D2AF795EF00607AAF /* EventHelper.swift */; };
 		46B160922B07D90D00A44FBF /* ContactHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467F3DCE2B04C76400F10899 /* ContactHelper.swift */; };
 		46B160932B07D90D00A44FBF /* CamiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB72B0518AB00EA1C8D /* CamiHelper.swift */; };
-		46B160942B07D90D00A44FBF /* ReminderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46968DB42B05188A00EA1C8D /* ReminderHelper.swift */; };
 		46B160952B07D91000A44FBF /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBFA2AFA8AED00B4C7CB /* TypeAliases.swift */; };
 		46B160962B07D91000A44FBF /* PermissionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CF49F2B035F15003D9293 /* PermissionSet.swift */; };
 		46B160972B07D91000A44FBF /* WidgetFamilySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460CAB142B0652470059B2F7 /* WidgetFamilySet.swift */; };
@@ -108,7 +106,7 @@
 		46BDFBFB2AFA8AED00B4C7CB /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BDFBFA2AFA8AED00B4C7CB /* TypeAliases.swift */; };
 		46CC7E142AF7944800607AAF /* EKEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E132AF7944800607AAF /* EKEvent.swift */; };
 		46CC7E172AF7946700607AAF /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E162AF7946700607AAF /* Date.swift */; };
-		46CC7E1E2AF795EF00607AAF /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E1D2AF795EF00607AAF /* CalendarHelper.swift */; };
+		46CC7E1E2AF795EF00607AAF /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CC7E1D2AF795EF00607AAF /* EventHelper.swift */; };
 		46E0222F2B7A72B7005725B0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E0222E2B7A72B7005725B0 /* Collections */; };
 		46E022312B7A72B7005725B0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022302B7A72B7005725B0 /* DequeModule */; };
 		46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022322B7A72B7005725B0 /* OrderedCollections */; };
@@ -200,7 +198,6 @@
 		467F3DCC2B04C50B00F10899 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		467F3DCE2B04C76400F10899 /* ContactHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactHelper.swift; sourceTree = "<group>"; };
 		46934D912B78F5130025ADF2 /* sonar-project.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = "sonar-project.properties"; sourceTree = "<group>"; };
-		46968DB42B05188A00EA1C8D /* ReminderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderHelper.swift; sourceTree = "<group>"; };
 		46968DB72B0518AB00EA1C8D /* CamiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiHelper.swift; sourceTree = "<group>"; };
 		46968DC32B06148500EA1C8D /* Calendars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendars.swift; sourceTree = "<group>"; };
 		469853112B0C19AF00A1F35B /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
@@ -226,7 +223,7 @@
 		46CC7E102AF78DC700607AAF /* CamiWidgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamiWidgetEntry.swift; sourceTree = "<group>"; };
 		46CC7E132AF7944800607AAF /* EKEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEvent.swift; sourceTree = "<group>"; };
 		46CC7E162AF7946700607AAF /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		46CC7E1D2AF795EF00607AAF /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
+		46CC7E1D2AF795EF00607AAF /* EventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
 		46E0221A2B7A6B57005725B0 /* CamiWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CamiWidgetExtension.entitlements; sourceTree = "<group>"; };
 		46E58C702B75A468003B48A0 /* InformationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationModalView.swift; sourceTree = "<group>"; };
 		46E58C722B75A4A1003B48A0 /* FAQInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQInformation.swift; sourceTree = "<group>"; };
@@ -484,9 +481,8 @@
 			isa = PBXGroup;
 			children = (
 				46968DB72B0518AB00EA1C8D /* CamiHelper.swift */,
-				46CC7E1D2AF795EF00607AAF /* CalendarHelper.swift */,
+				46CC7E1D2AF795EF00607AAF /* EventHelper.swift */,
 				467F3DCE2B04C76400F10899 /* ContactHelper.swift */,
-				46968DB42B05188A00EA1C8D /* ReminderHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -691,7 +687,6 @@
 				4616493A2B09B57500F7E7E1 /* MonthWeekRow.swift in Sources */,
 				46F331422B7812D70060FA8B /* Notifications.swift in Sources */,
 				460CAB122B0650370059B2F7 /* Rounded.swift in Sources */,
-				46968DB52B05188A00EA1C8D /* ReminderHelper.swift in Sources */,
 				460CAB1E2B06602E0059B2F7 /* Pad.swift in Sources */,
 				469E05992B0922B600F3263D /* CamiWidgetConfiguration.swift in Sources */,
 				4611A4BE2B7A5287007D85ED /* OSLog.swift in Sources */,
@@ -708,7 +703,7 @@
 				460CAB2A2B06C5410059B2F7 /* HiddenIf.swift in Sources */,
 				4655330F2AF4EA69000B537B /* ContentView.swift in Sources */,
 				461D69112B0DF2B000A600D7 /* EventView.swift in Sources */,
-				46CC7E1E2AF795EF00607AAF /* CalendarHelper.swift in Sources */,
+				46CC7E1E2AF795EF00607AAF /* EventHelper.swift in Sources */,
 				46225B012B58970900765185 /* EditEventViewController.swift in Sources */,
 				46E58C752B75A4E7003B48A0 /* FAQInformationModel.swift in Sources */,
 				469E058A2B086C3100F3263D /* WidgetCalendarEntity.swift in Sources */,
@@ -777,14 +772,13 @@
 				46B160832B07D90500A44FBF /* Pad.swift in Sources */,
 				469E059D2B0956B500F3263D /* EventDict.swift in Sources */,
 				4673449F2B7907FE00470979 /* PermissionStatus.swift in Sources */,
-				46B160942B07D90D00A44FBF /* ReminderHelper.swift in Sources */,
 				46B160842B07D90500A44FBF /* MiniBadge.swift in Sources */,
 				46B1608B2B07D90A00A44FBF /* Bool.swift in Sources */,
 				46B160872B07D90A00A44FBF /* RectangleCornerRadii.swift in Sources */,
 				469E05812B08172700F3263D /* AllDayStyleEnum.swift in Sources */,
 				46B1609F2B07D9A100A44FBF /* CamiWidgetProvider.swift in Sources */,
 				46F331432B781AFA0060FA8B /* Notifications.swift in Sources */,
-				46B160912B07D90D00A44FBF /* CalendarHelper.swift in Sources */,
+				46B160912B07D90D00A44FBF /* EventHelper.swift in Sources */,
 				46B160A42B07D9A100A44FBF /* RemainingTimeComponent.swift in Sources */,
 				46B160862B07D90A00A44FBF /* Date.swift in Sources */,
 				46B160922B07D90D00A44FBF /* ContactHelper.swift in Sources */,

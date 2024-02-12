@@ -36,7 +36,7 @@ struct PermissionsView: View {
                     status: perms.global.calendars,
                     title: "Calendars",
                     label: "Access to calendars authorized",
-                    notificationName: .requestEventsAccess,
+                    notificationName: .requestCalendarsAccess,
                     description: "Cami ONLY uses your calendars informations to display events in widgets.",
                     restrictedDescription: "Review Cami access to your calendars."
                 )

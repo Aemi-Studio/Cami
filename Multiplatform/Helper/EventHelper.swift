@@ -9,11 +9,11 @@ import Foundation
 import EventKit
 import OSLog
 
-struct CalendarHelper {
+struct EventHelper {
 
     static let store: EKEventStore = .init()
 
-    public static var authorizationStatus: Bool {
+    public static var calendarsAccess: Bool {
         let authorizationStatus: EKAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
         return switch authorizationStatus {
         case .fullAccess:
@@ -23,7 +23,17 @@ struct CalendarHelper {
         }
     }
 
-    public static func requestAccess() async -> AuthSet {
+    public static var remindersAccess: Bool {
+        let authorizationStatus: EKAuthorizationStatus = EKEventStore.authorizationStatus(for: .reminder)
+        return switch authorizationStatus {
+        case .fullAccess:
+            true
+        default:
+            false
+        }
+    }
+
+    public static func requestCalendarsAccess() async -> PermissionSet {
         do {
             let result = try await Self.store.requestFullAccessToEvents()
             Logger.perms.info("CalendarHelper -> \(String(describing: result))")
@@ -34,7 +44,7 @@ struct CalendarHelper {
         return .none
     }
 
-    public static func requestAccess(
+    public static func requestCalendarsAccess(
         _ callback: @escaping (PermissionSet) -> Void
     ) {
         Self.store.requestFullAccessToEvents { result, error in
@@ -49,13 +59,39 @@ struct CalendarHelper {
         Self.store.refreshSourcesIfNecessary()
     }
 
+    public static func requestRemindersAccess() async -> PermissionSet {
+        do {
+            return try await Self.store.requestFullAccessToReminders()
+                ? .reminders
+                : .restrictedReminders
+        } catch {
+            Logger.perms.error("\(String(describing: error))")
+        }
+        Logger.perms.error("ReminderHelper() -> .none")
+        return .none
+    }
+
+    public static func requestRemindersAccess(
+        callback: @escaping (PermissionSet) -> Void
+    ) {
+        Self.store.requestFullAccessToReminders { result, error in
+            if error != nil {
+                Logger.perms.error("\(String(describing: error))")
+                callback(.none)
+            } else {
+                Logger.perms.error("ReminderHelper() -> \(result.description)")
+                callback(result ? .reminders : .none)
+            }
+        }
+    }
+
     public static func events(
         from calendars: [String] = CamiHelper.allCalendars.asIdentifiers,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> Events {
-        CalendarHelper.events(
+        EventHelper.events(
             from: calendars.asEKCalendars(),
             during: days,
             where: filter,

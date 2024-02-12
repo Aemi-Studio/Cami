@@ -12,7 +12,7 @@ import Contacts
 struct CamiHelper {
 
     public static var allCalendars: Calendars {
-        CalendarHelper.store.calendars(for: .event).filter { calendar in
+        EventHelper.store.calendars(for: .event).filter { calendar in
             calendar.type != .birthday
         }
     }
@@ -26,13 +26,13 @@ struct CamiHelper {
     }
 
     public static var birthdayCalendar: EKCalendar? {
-        CalendarHelper.store.calendars(for: .event).first { calendar in
+        EventHelper.store.calendars(for: .event).first { calendar in
             calendar.type == .birthday
         }
     }
 
     public static func requestEventAccess() {
-        PermissionModel.center.post(name: .requestEventsAccess, object: nil)
+        PermissionModel.center.post(name: .requestCalendarsAccess, object: nil)
     }
 
     public static func requestReminderAccess() {
@@ -53,7 +53,7 @@ struct CamiHelper {
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> EventDict {
-        return CalendarHelper.events(
+        return EventHelper.events(
             from: calendars,
             during: days,
             where: filter,
@@ -69,7 +69,7 @@ struct CamiHelper {
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
     ) -> EventDict {
-        return CalendarHelper.events(
+        return EventHelper.events(
             from: calendars,
             during: days,
             where: filter,
@@ -97,7 +97,7 @@ struct CamiHelper {
         from date: Date,
         during days: Int = 365
     ) -> Events {
-        return CalendarHelper.birthdays(
+        return EventHelper.birthdays(
             from: date,
             during: days
         )
