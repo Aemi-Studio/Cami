@@ -68,7 +68,7 @@ import EventKit
             let calendars = self.sourceCalendars?.ekCalendars
                 ?? self.sourceCalendars?.identifiers?.asEKCalendars()
                 ?? CamiHelper.allCalendars
-            self.events = CalendarHelper.events(from: calendars, during: 1, relativeTo: date )
+            self.events = EventHelper.events(from: calendars, during: 1, relativeTo: date )
         }
         return self.events!
     }
@@ -76,7 +76,7 @@ import EventKit
     @discardableResult
     func lazyInitEvents(from calendars: [String]) async -> Events {
         if self.events == nil {
-            self.events = CalendarHelper.events(from: calendars.asEKCalendars(), during: 1, relativeTo: date )
+            self.events = EventHelper.events(from: calendars.asEKCalendars(), during: 1, relativeTo: date )
         }
         return self.events!
     }
@@ -84,7 +84,7 @@ import EventKit
     @discardableResult
     func lazyInitEvents(from calendars: Calendars) async -> Events {
         if self.events == nil {
-            self.events = CalendarHelper.events(from: calendars, during: 1, relativeTo: date )
+            self.events = EventHelper.events(from: calendars, during: 1, relativeTo: date )
         }
         return self.events!
     }
@@ -94,7 +94,7 @@ import EventKit
         if events == nil && self.calendars == nil {
             let unwrappedEvents: Events = events
                 ?? self.events
-                ?? CalendarHelper.events(
+                ?? EventHelper.events(
                     from: CamiHelper.allCalendars,
                     during: 1,
                     relativeTo: self.date
@@ -110,7 +110,7 @@ import EventKit
     @discardableResult
     func lazyBirthdays() async -> Events {
         if self.birthdays == nil {
-            self.birthdays = CalendarHelper.birthdays(from: self.date, during: 1)
+            self.birthdays = EventHelper.birthdays(from: self.date, during: 1)
         }
         return self.birthdays!
     }

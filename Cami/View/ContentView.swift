@@ -65,7 +65,7 @@ struct ContentView: View {
             WidgetCenter.shared.reloadAllTimelines()
         }
         .sheet(isPresented: $areSettingsPresented) {
-            SettingsView()
+            PermissionsView()
                 .environmentObject(model)
                 .environmentObject(perms)
                 .presentationDragIndicator(.visible)

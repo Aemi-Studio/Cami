@@ -2,19 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>com.apple.security.personal-information.calendars</key>
-	<true/>
-	<key>com.apple.security.personal-information.addressbook</key>
-	<true/>
 	<key>INIntentsSupported</key>
 	<array>
 		<string>CamiWidgetIntent</string>
 	</array>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>Cami only uses your data locally to display events. It does not edit or delete them nor sends them away.</string>
+	<string>Cami ONLY uses your on-device calendar information to display events in widgets.
+Cami DOES NOT edit or delete or send those information away.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Cami ONLY uses your on-device contact information to display birthdays in widgets.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
-	<string>Cami only uses your data locally to display reminders. It does not edit or delete them nor sends them away.</string>
+	<string>Cami ONLY uses your on-device reminders information to display them in widgets and the application.
+Cami DOES NOT edit or delete or send those information away.</string>
 	<key>User Script Sandboxing</key>
 	<false/>
+	<key>com.apple.security.personal-information.addressbook</key>
+	<true/>
+	<key>com.apple.security.personal-information.calendars</key>
+	<true/>
 </dict>
 </plist>
