@@ -8,9 +8,11 @@
 	<array>
 		<dict>
 			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>FooterText</key>
-			<string>Cami Calendar uses "Swift Collections" Swift library available at https://github.com/apple/swift-collections.</string>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>swift-collections</string>
+			<key>File</key>
+			<string>Third Party Library/swift-collections/swift-collections</string>
 		</dict>
 	</array>
 </dict>

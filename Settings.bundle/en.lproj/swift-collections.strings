@@ -1,0 +1,8 @@
+"Cami Calendar uses \"swift-collections\", a Swift library maintained by Apple available at:
+- https://github.com/apple/swift-collections
+
+\"swift-collections\" is currently used in work-in-progress features you can enable in the settings, and more specifically the scrolling Calendar view." = "Cami Calendar uses \"swift-collections\", a Swift library maintained by Apple available at:
+- https://github.com/apple/swift-collections
+
+\"swift-collections\" is currently used in work-in-progress features you can enable in the settings, and more specifically the scrolling Calendar view.";
+"License" = "License";
