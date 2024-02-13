@@ -78,22 +78,28 @@ struct OnboardingView: View {
                                 .tint(.red)
                             }
                         } else {
-                            VStack(spacing: 16) {
+                            VStack(alignment: .leading, spacing: 16) {
                                 VStack(alignment: .leading, spacing: 3) {
-                                    Group {
+                                    HStack {
                                         Text("Set Up Cami")
                                             .font(.title3)
                                             .fontWeight(.medium)
                                             .foregroundStyle(.tint)
+                                        Spacer()
+                                    }
+                                    HStack {
                                         Text("""
-Cami needs access to your calendars to work properly.
-It can also use your contacts information to display birthdays in widgets.
-""")
+    Cami needs access to your calendars to work properly.
+    It can also use your contacts information to display birthdays in widgets.
+    """)
                                             .font(.body)
                                             .fontWeight(.regular)
                                             .foregroundStyle(.tint.opacity(0.8))
+
+                                        Spacer()
                                     }
                                 }
+                                .frame(maxWidth: .infinity)
                                 .multilineTextAlignment(.leading)
 
                                 Button {
