@@ -20,11 +20,11 @@
 			<key>Title</key>
 			<string>About</string>
 			<key>File</key>
-			<string>About</string>
+			<string>About/About</string>
 		</dict>
 		<dict>
 			<key>File</key>
-			<string>Privacy Policy</string>
+			<string>Privacy Policy/Privacy Policy</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
@@ -36,7 +36,7 @@
 			<key>Title</key>
 			<string>Third Party Library</string>
 			<key>File</key>
-			<string>Third Party Library</string>
+			<string>Third Party Library/Third Party Library</string>
 		</dict>
 		<dict>
 			<key>Type</key>

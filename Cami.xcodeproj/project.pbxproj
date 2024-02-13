@@ -287,7 +287,6 @@
 				461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */,
 				46934D912B78F5130025ADF2 /* sonar-project.properties */,
 				4655330A2AF4EA69000B537B /* Products */,
-				46E0222D2B7A72B0005725B0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -485,13 +484,6 @@
 				467F3DCE2B04C76400F10899 /* ContactHelper.swift */,
 			);
 			path = Helper;
-			sourceTree = "<group>";
-		};
-		46E0222D2B7A72B0005725B0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		46F31B6E2B765C920016799F /* Calendar */ = {
@@ -1072,6 +1064,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_HEADERS_RUN_UNIFDEF = YES;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_PREVIEWS = YES;
@@ -1129,6 +1122,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_HEADERS_RUN_UNIFDEF = YES;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_PREVIEWS = YES;
@@ -1181,7 +1175,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = CamiWidgetExtension.entitlements;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1229,7 +1223,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = CamiWidgetExtension.entitlements;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = NP94WB3P75;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1307,8 +1301,9 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.6;
+				kind = versionRange;
+				maximumVersion = 10.0.0;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>swift-collections</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>Cami Calendar uses &quot;Swift Collections&quot;, a Swift library maintained by Apple available at:
+- https://github.com/apple/swift-collections
+
+&quot;swift-collections&quot; is currently used in work-in-progress features you can enable in the settings, and more specifically the scrolling Calendar view.</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string></string>
+			<key>File</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>License</string>
+			<key>File</key>
+			<string>Third Party Library/swift-collections/swift-collections-license</string>
+		</dict>
+	</array>
+</dict>
+</plist>
