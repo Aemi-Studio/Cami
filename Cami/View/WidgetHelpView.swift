@@ -15,7 +15,7 @@ struct WidgetHelpView: View {
     var title: String
     var url: String
     var description: String?
-    var radius: Double?
+    var radius: Double = 16
 
     var body: some View {
         Button {

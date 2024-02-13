@@ -1,1 +1,19 @@
-"Cami Calendar DOES NOT store or send away any of its users' data." = "Cami Calendar DOES NOT store or send away any of its users' data.";
+"Cami ONLY uses your on-device calendar information to display events in widgets.
+Cami DOES NOT edit, delete, save or send those information away.
+
+Cami ONLY uses your on-device contacts information to display birthdays information in widgets.
+Cami DOES NOT edit, delete, save or send those information away.
+
+Cami ONLY uses your on-device reminders information to display them in widgets and the application.
+Cami DOES NOT edit, delete, save or send those information away.
+
+Cami Calendar DOES NOT store or send away any of its users' data." = "Cami ONLY uses your on-device calendar information to display events in widgets.
+Cami DOES NOT edit, delete, save or send those information away.
+
+Cami ONLY uses your on-device contacts information to display birthdays information in widgets.
+Cami DOES NOT edit, delete, save or send those information away.
+
+Cami ONLY uses your on-device reminders information to display them in widgets and the application.
+Cami DOES NOT edit, delete, save or send those information away.
+
+Cami Calendar DOES NOT store or send away any of its users' data.";

@@ -37,7 +37,7 @@ struct PermissionsView: View {
                     title: "Calendars",
                     label: "Access to calendars authorized",
                     notificationName: .requestCalendarsAccess,
-                    description: "Cami ONLY uses your calendars informations to display events in widgets.",
+                    description: "Cami ONLY uses your on-device calendar information to display events in widgets.\n\nCami DOES NOT edit, delete, save or send those information away.",
                     restrictedDescription: "Review Cami access to your calendars."
                 )
 
@@ -46,7 +46,7 @@ struct PermissionsView: View {
                     title: "Contacts",
                     label: "Access to contacts authorized",
                     notificationName: .requestContactsAccess,
-                    description: "Cami ONLY uses your contacts informations to display birthday information in widgets.",
+                    description: "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\n\nCami DOES NOT edit, delete, save or send those information away.",
                     restrictedDescription: "Review Cami access to your contacts."
                 )
 
@@ -56,7 +56,7 @@ struct PermissionsView: View {
                         title: "Reminders",
                         label: "Access to reminders authorized",
                         notificationName: .requestRemindersAccess,
-                        description: "Cami ONLY uses your reminders informations to display them in widgets.",
+                        description: "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\n\nCami DOES NOT edit, delete, save or send those information away.",
                         restrictedDescription: "Review Cami access to your reminders."
                     )
                 }

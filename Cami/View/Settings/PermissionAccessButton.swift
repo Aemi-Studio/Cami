@@ -16,10 +16,11 @@ struct PermissionAccessButton: View {
             PermissionModel.center.post(name: self.name, object: self)
         } label: {
             ButtonInnerBody(
-                label: "Authorize",
+                label: "Continue",
+                systemImage: "arrow.forward.square",
                 radius: 8,
                 border: true,
-                noIcon: true
+                opacity: 1.0
             )
             .tint(.blue)
         }
