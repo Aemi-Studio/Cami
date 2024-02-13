@@ -898,10 +898,10 @@
 				GENERATE_PROFILING_CODE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -1026,10 +1026,10 @@
 				GENERATE_PROFILING_CODE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -1074,10 +1074,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -1132,10 +1132,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -1183,10 +1183,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = CamiWidget;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1231,10 +1231,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = CamiWidget;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit or delete or send those information away.";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthday information in widgets.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cami ONLY uses your on-device calendar information to display events in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
-				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit or delete or send those information away.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (

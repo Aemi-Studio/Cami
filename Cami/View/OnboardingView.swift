@@ -78,19 +78,51 @@ struct OnboardingView: View {
                                 .tint(.red)
                             }
                         } else {
-                            Button {
-                                areSettingsPresented.toggle()
-                            } label: {
-                                // swiftlint:disable line_length
-                                ButtonInnerBody(
-                                    label: "Grant Access",
-                                    description: "Cami needs you to grant it access to your calendar and contacts information to work properly.",
-                                    systemImage: "checkmark.circle.badge.questionmark",
-                                    radius: 8,
-                                    border: true
-                                )
-                                .tint(.orange)
-                                // swiftlint:enable line_length
+                            VStack(alignment: .leading, spacing: 16) {
+                                VStack(alignment: .leading, spacing: 3) {
+                                    HStack {
+                                        Text("Set Up Cami")
+                                            .font(.title3)
+                                            .fontWeight(.medium)
+                                            .foregroundStyle(.tint)
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Text("""
+    Cami needs access to your calendars to work properly.
+    It can also use your contacts information to display birthdays in widgets.
+    """)
+                                            .font(.body)
+                                            .fontWeight(.regular)
+                                            .foregroundStyle(.tint.opacity(0.8))
+
+                                        Spacer()
+                                    }
+                                }
+                                .frame(maxWidth: .infinity)
+                                .multilineTextAlignment(.leading)
+
+                                Button {
+                                    areSettingsPresented.toggle()
+                                } label: {
+                                    ButtonInnerBody(
+                                        label: "Continue",
+                                        systemImage: "arrow.forward.square",
+                                        radius: 8,
+                                        border: false,
+                                        opacity: 1
+                                    )
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(.ultraThinMaterial.opacity(0.5))
+                            .background(.tint.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(.tint, lineWidth: 0.5)
+                                    .foregroundStyle(.clear)
                             }
                         }
                     } else {

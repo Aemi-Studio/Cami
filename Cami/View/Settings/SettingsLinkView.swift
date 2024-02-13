@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsLinkView: View {
-    var radius: Double?
+    var radius: Double = 16
     var body: some View {
         Button {
             if let url = URL(string: UIApplication.openSettingsURLString) {

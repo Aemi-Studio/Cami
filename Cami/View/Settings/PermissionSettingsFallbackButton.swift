@@ -10,7 +10,7 @@ import SwiftUI
 struct PermissionSettingsFallbackButton: View {
 
     var description: String = ""
-    var radius: Double? = 8.0
+    var radius: Double = 8.0
 
     var body: some View {
         Button {
