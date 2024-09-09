@@ -21,6 +21,7 @@ struct CamiWidget: Widget {
         ) { entry in
             CamiWidgetView(for: entry)
                 .containerBackground(Color(white: 0.1), for: .widget)
+                .environment(\.locale, Locale(identifier: Locale.preferredLanguages.first!))
         }
         .containerBackgroundRemovable()
         .contentMarginsDisabled()

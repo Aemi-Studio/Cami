@@ -9,9 +9,12 @@ import SwiftUI
 
 struct CamiWidgetEvents: View {
 
-    @EnvironmentObject var entry: CamiWidgetEntry
+    @Environment(CamiWidgetEntry.self)
+    var entry: CamiWidgetEntry
 
     var body: some View {
+
+        @Bindable var entry = entry
 
         var dates: Dates {
             Set<Date>().union(entry.events.keys).union(entry.inlineEvents.keys).sorted()

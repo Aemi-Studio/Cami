@@ -10,7 +10,8 @@ import EventKit
 
 struct CamiWidgetEvent: View {
 
-    @EnvironmentObject private var entry: CamiWidgetEntry
+    @Environment(CamiWidgetEntry.self)
+    private var entry: CamiWidgetEntry
 
     var event: (EKEvent, Events)
 

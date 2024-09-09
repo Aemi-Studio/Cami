@@ -12,7 +12,7 @@ struct PermissionsView: View {
     @Environment(\.dismiss)
     private var dismiss: DismissAction
 
-    @EnvironmentObject
+    @Environment(PermissionModel.self)
     private var perms: PermissionModel
 
     @State
@@ -28,6 +28,9 @@ struct PermissionsView: View {
     private var accessWorkInProgressFeatures = false
 
     var body: some View {
+
+        @Bindable var perms = perms
+
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
 

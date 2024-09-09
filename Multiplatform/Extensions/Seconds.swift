@@ -20,6 +20,7 @@ extension Seconds {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = .day
         formatter.unitsStyle = .abbreviated
+        formatter.calendar?.locale = Locale(identifier: Locale.preferredLanguages.first!)
 
         return formatter.string(from: component)!
     }

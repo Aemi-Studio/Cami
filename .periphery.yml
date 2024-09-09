@@ -1,0 +1,7 @@
+project: Cami.xcodeproj
+retain_objc_accessible: true
+schemes:
+- Cami
+targets:
+- Cami
+- CamiWidgetExtension

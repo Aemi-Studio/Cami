@@ -10,10 +10,12 @@ import EventKit
 
 struct CamiWidgetHeader: View {
 
-    @EnvironmentObject
+    @Environment(CamiWidgetEntry.self)
     private var entry: CamiWidgetEntry
 
     var body: some View {
+
+        @Bindable var entry = entry
 
         HStack(spacing: 0) {
 

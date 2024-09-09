@@ -14,10 +14,10 @@ struct ContentView: View {
     @Environment(\.scenePhase)
     var scenePhase: ScenePhase
 
-    @EnvironmentObject
+    @Environment(PermissionModel.self)
     private var perms: PermissionModel
 
-    @EnvironmentObject
+    @Environment(ViewModel.self)
     private var model: ViewModel
 
     @State
@@ -40,6 +40,10 @@ struct ContentView: View {
     private var accessWorkInProgressFeatures: Bool = false
 
     var body: some View {
+
+        @Bindable var perms = perms
+        @Bindable var model = model
+
         Group {
             if accessWorkInProgressFeatures {
                 NavigationStack(path: $model.path) {
@@ -66,18 +70,22 @@ struct ContentView: View {
         }
         .sheet(isPresented: $areSettingsPresented) {
             PermissionsView()
-                .environmentObject(model)
-                .environmentObject(perms)
+                .environment(model)
+                .environment(perms)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.medium, .large])
                 .presentationContentInteraction(.scrolls)
         }
         .sheet(isPresented: $areInformationsPresented) {
             InformationModalView()
-                .environmentObject(model)
+                .environment(model)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
                 .presentationContentInteraction(.scrolls)
         }
     }
+}
+
+#Preview {
+    ContentView()
 }
