@@ -7,7 +7,8 @@
 
 import WidgetKit
 
-final class CamiWidgetEntry: TimelineEntry, ObservableObject {
+@Observable
+final class CamiWidgetEntry: TimelineEntry {
 
     let date: Date
     let config: CamiWidgetConfiguration

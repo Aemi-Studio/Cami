@@ -11,11 +11,11 @@ import WidgetKit
 
 struct CamiWidgetEventsByDate: View {
 
-    @EnvironmentObject
+    @Environment(CamiWidgetEntry.self)
     private var entry: CamiWidgetEntry
 
     @Environment(\.widgetFamily)
-    var widgetFamily: WidgetFamily
+    private var widgetFamily: WidgetFamily
 
     var date: Date
     var events: Events = []

@@ -48,7 +48,7 @@ struct CamiWidgetView: View {
 
             }
         }
-        .environmentObject(entry)
+        .environment(entry)
 
     }
 }

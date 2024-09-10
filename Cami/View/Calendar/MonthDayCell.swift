@@ -13,7 +13,7 @@ struct MonthDayCell: View {
     @Environment(ViewModel.self)
     private var model: ViewModel
 
-    @EnvironmentObject
+    @Environment(PermissionModel.self)
     private var perms: PermissionModel
 
     @State
@@ -29,6 +29,9 @@ struct MonthDayCell: View {
     let day: Day
 
     var body: some View {
+
+        @Bindable var perms = perms
+
         Button {
             model.path.append(day)
         } label: {

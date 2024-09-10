@@ -14,7 +14,7 @@ struct CamiWidgetHeaderBirthdays: View {
     @Environment(\.widgetFamily)
     private var widgetFamily: WidgetFamily
 
-    @EnvironmentObject
+    @Environment(CamiWidgetEntry.self)
     private var entry: CamiWidgetEntry
 
     private var birthdays: Events {

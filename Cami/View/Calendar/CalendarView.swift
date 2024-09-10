@@ -9,11 +9,11 @@ import SwiftUI
 
 struct CalendarView: View {
 
-    @EnvironmentObject
-    var model: ViewModel
+    @Environment(ViewModel.self)
+    private var model: ViewModel
 
-    @EnvironmentObject
-    var perms: PermissionModel
+    @Environment(PermissionModel.self)
+    private var perms: PermissionModel
 
     @Environment(\.verticalSizeClass)
     private var sizeClass: UserInterfaceSizeClass?
@@ -28,6 +28,10 @@ struct CalendarView: View {
     private var isCalendarSelectionViewPresented: Bool = false
 
     var body: some View {
+
+        @Bindable var model = model
+        @Bindable var perms = perms
+
         ScrollView(.vertical) {
             LazyVStack(spacing: 8) {
                 ForEach(model.months!) { month in

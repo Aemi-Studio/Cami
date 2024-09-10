@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RemainingTimeComponent: View {
 
-    @EnvironmentObject private var entry: CamiWidgetEntry
+    @Environment(CamiWidgetEntry.self)
+    private var entry: CamiWidgetEntry
 
     private let startDate: Date
     private let endDate: Date
@@ -28,7 +29,6 @@ struct RemainingTimeComponent: View {
     var body: some View {
 
         HStack(spacing: 2) {
-
             if startDate < entry.date {
                 let remainingTime: String = entry.date.remainingTime(
                     until: endDate,

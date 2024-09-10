@@ -29,12 +29,7 @@ extension Date {
 
     /// Same date but at midnight
     var zero: Date {
-        Calendar.autoupdatingCurrent.date(
-            bySettingHour: 0,
-            minute: 0,
-            second: 0,
-            of: self
-        )!
+        Calendar.autoupdatingCurrent.startOfDay(for: self)
     }
 
     /// Is the date of the same day as today
@@ -49,7 +44,9 @@ extension Date {
 
     var literals: [String: String] {
         [
-            "day": self.formatter { $0.dateFormat = "EEEE" },
+            "short": self.formatter { $0.dateFormat = "EEEEE" },
+            "medium": self.formatter { $0.dateFormat = "EEE" },
+            "long": self.formatter { $0.dateFormat = "EEEE" },
             "date": self.formatter { $0.dateFormat = "d"    },
             "month": self.formatter { $0.dateFormat = "MMMM" },
             "year": self.formatter { $0.dateFormat = "YYYY" }
@@ -60,7 +57,7 @@ extension Date {
         _ setup: @escaping (DateFormatter) -> Void
     ) -> String {
         let formatter: DateFormatter = .init()
-        formatter.locale = Locale.autoupdatingCurrent
+        formatter.locale = Locale(identifier: Locale.preferredLanguages.first!)
         setup(formatter)
         return formatter.string(from: self)
     }
@@ -84,11 +81,12 @@ extension Date {
 
     var formattedAfterTomorrow: String {
         self.formatter { $0.dateFormat = "EEE d" }
+            .capitalized(with: Locale(identifier: Locale.preferredLanguages.first!))
     }
 
     var relativeToNow: String {
         self.formatter(RelativeDateTimeFormatter.self) {
-            $0.locale = Locale.autoupdatingCurrent
+            $0.locale = Locale(identifier: Locale.preferredLanguages.first!)
         }.string(for: self)!
     }
 

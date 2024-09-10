@@ -12,41 +12,40 @@ import WidgetKit
 struct CamiWidgetHeaderDate: View {
 
     @Environment(\.widgetFamily)
-    var widgetFamily: WidgetFamily
+    private var widgetFamily: WidgetFamily
 
-    @EnvironmentObject
+    @Environment(CamiWidgetEntry.self)
     private var entry: CamiWidgetEntry
 
-    private var datePrefix: Int {
+    private var dayLength: String {
         return switch widgetFamily {
         case .systemExtraLarge:
-            Int.max
+            "long"
         case .systemSmall:
-            1
+            "short"
         default:
-            3
+            "medium"
         }
     }
 
     var body: some View {
-        HStack {
+
+        @Bindable var entry = entry
+
+        HStack(spacing: 0) {
             let dateComponents: [String: String] = entry.date.literals
 
-            Group {
-                Group {
-                    Text(
-                        "\(dateComponents["day"]!)"
-                            .uppercased()
-                            .prefix(datePrefix)
-                    )
-                    .fontWeight(.heavy)
-                    .foregroundStyle(.white)
-                    +
-                    Text("\(dateComponents["date"]!)")
-                    .fontWeight(.heavy)
-                    .foregroundStyle(.red)
-                }
-            }
+            Text(
+                "\(dateComponents[dayLength]!)"
+                    .uppercased()
+            )
+            .fontWeight(.heavy)
+            .foregroundStyle(.white)
+
+            Text("\(dateComponents["date"]!)")
+                .fontWeight(.heavy)
+                .foregroundStyle(.red)
+
         }
         .font(.title3)
         .lineSpacing(0)
