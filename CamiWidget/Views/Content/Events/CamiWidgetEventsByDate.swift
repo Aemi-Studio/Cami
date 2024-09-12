@@ -59,7 +59,9 @@ struct CamiWidgetEventsByDate: View {
                 HStack {
                     Group {
                         if ongoingEvents {
-                            Text("Ongoing Events")
+                            Text(
+                                NSLocalizedString("ongoingEvents.Title", comment: "")
+                            )
                         } else if isUpToTomorrow {
                             Text(date.formattedUntilTomorrow)
                                 .accessibilityLabel(
@@ -67,7 +69,7 @@ struct CamiWidgetEventsByDate: View {
                                 )
                         } else {
                             Group {
-                                Text(date.formattedAfterTomorrow) +
+                                Text(date.formattedAfterTomorrow.capitalized(with: .prefered)) +
                                     Text(" • ") +
                                     Text(date.relativeToNow)
                             }
@@ -80,6 +82,7 @@ struct CamiWidgetEventsByDate: View {
                     .fontWeight(.medium)
                     .foregroundStyle(.white.opacity(0.25))
                     .lineLimit(1)
+
                     Spacer()
                     if !ongoingEvents && inlineEvents.count > 0 {
                         HStack {

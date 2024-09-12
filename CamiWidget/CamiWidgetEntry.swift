@@ -44,7 +44,7 @@ final class CamiWidgetEntry: TimelineEntry {
             inlineCalendars: (intent.inlineCalendars.map { $0.calendar }).asEKCalendars(),
             events: CamiHelper.events(from: intent.calendars, relativeTo: date),
             inlineEvents: CamiHelper.events(from: intent.inlineCalendars, where: { $0.isAllDay }, relativeTo: date),
-            birthdays: intent.displayBirthdays
+            birthdays: intent.cornerComplication == .birthdays
                 ? CamiHelper.birthdays(from: date)
                 : []
         )

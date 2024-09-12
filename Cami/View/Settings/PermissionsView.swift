@@ -24,7 +24,7 @@ struct PermissionsView: View {
     @State
     private var conInfo: Bool = false
 
-    @AppStorage("accessWorkInProgressFeatures")
+    @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
     private var accessWorkInProgressFeatures = false
 
     var body: some View {

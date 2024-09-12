@@ -26,6 +26,7 @@ struct MiniBadge: ViewModifier {
         content
             .fontWeight(.bold)
             .foregroundStyle(Color.init(white: 0.1))
+            .fixedSize(horizontal: true, vertical: true)
             .pad([
                 .notSmall: .init(
                     vertical: 2,

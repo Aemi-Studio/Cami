@@ -8,6 +8,7 @@
 import Foundation
 import EventKit
 import OSLog
+import SwiftUI
 
 struct EventHelper {
 
@@ -197,6 +198,11 @@ struct EventHelper {
         }
 
         return Events()
+    }
+
+    public static func event(for id: String) -> EKEvent? {
+        Self.store.refreshSourcesIfNecessary()
+        return Self.store.event(withIdentifier: id)
     }
 
 }

@@ -17,7 +17,7 @@ struct PermissionAccessSection: View {
     var restrictedDescription: String
     var radius: Double = 12
 
-    @AppStorage("accessWorkInProgressFeatures")
+    @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
     private var accessWorkInProgressFeatures: Bool = false
 
     private var consideringReminders: Bool {
