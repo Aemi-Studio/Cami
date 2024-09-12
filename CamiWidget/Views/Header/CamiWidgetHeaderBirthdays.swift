@@ -64,64 +64,68 @@ struct CamiWidgetHeaderBirthdays: View {
     }
 
     var body: some View {
-        if nextBirthdays.1.count > 0 {
-            HStack(alignment: .center, spacing: 4) {
-                if todayBirthdayEvent != nil {
+        if !entry.birthdays.isEmpty && nextBirthdays.1.count > 0 {
+            Link(destination: CamiHelper.destination(for: birthdays.first!)) {
+                HStack(alignment: .center, spacing: 4) {
+                    if todayBirthdayEvent != nil {
 
-                    let name = ContactHelper.resolveContactName(
-                        todayBirthdayEvent!.birthdayContactIdentifier!
-                    )
+                        let name = ContactHelper.resolveContactName(
+                            todayBirthdayEvent!.birthdayContactIdentifier!
+                        )
 
-                    let age = ContactHelper.resolveBirthdate(
-                        todayBirthdayEvent!.birthdayContactIdentifier!
-                    )!.yearsAgo
+                        let age = ContactHelper.resolveBirthdate(
+                            todayBirthdayEvent!.birthdayContactIdentifier!
+                        )!.yearsAgo
 
-                    Group {
-                        HStack(spacing: 0) {
-
-                            Text("\(age)")
-                                .hiddenIf(isSmall)
-
-                            Label("\(age) years old", systemImage: "birthday.cake.fill")
-                                .labelStyle(.iconOnly)
-                                .font(.caption2)
-                                .scaleEffect(0.8)
-                                .lineSpacing(0)
-                        }
-                        .miniBadge(color: bCalColor)
-
-                        Text("\(name)")
-                            .hiddenIf(isSmall)
-                    }
-                    .accessibilityLabel(
-                        "It is \(name)'s birthday today. \(name) is now \(age) years old"
-                    )
-
-                } else {
-                    let daysToGo: String = nextBirthdays.0.toDays
-                    if nextBirthdays.1.count > 1 {
-                        let birthdaysCount = nextBirthdays.1.count
                         Group {
-                            Text(daysToGo)
-                                .miniBadge(color: bCalColor)
+                            HStack(spacing: 0) {
 
-                            Text("\(birthdaysCount)")
+                                Text("\(age)")
+                                    .hiddenIf(isSmall)
+
+                                Label("\(age) years old", systemImage: "birthday.cake.fill")
+                                    .labelStyle(.iconOnly)
+                                    .font(.caption2)
+                                    .scaleEffect(0.8)
+                                    .lineSpacing(0)
+                            }
+                            .miniBadge(color: bCalColor)
+
+                            Text("\(name)")
                                 .hiddenIf(isSmall)
                         }
                         .accessibilityLabel(
-                            "You have \(birthdaysCount) in \(daysToGo) days."
+                            "It is \(name)'s birthday today. \(name) is now \(age) years old"
                         )
+
                     } else {
-                        let people: String = nextBirthdays.1[0]
-                        Group {
-                            Text(daysToGo)
+                        let daysToGo: String = nextBirthdays.0.toDays
+                        if nextBirthdays.1.count > 1 {
+                            let birthdaysCount = nextBirthdays.1.count
+                            Group {
+                                HStack {
+                                    Text(daysToGo)
+                                }
                                 .miniBadge(color: bCalColor)
-                            Text(people)
-                                .hiddenIf(isSmall)
+
+                                Text("\(birthdaysCount)")
+                                    .hiddenIf(isSmall)
+                            }
+                            .accessibilityLabel(
+                                "You have \(birthdaysCount) in \(daysToGo) days."
+                            )
+                        } else {
+                            let people: String = nextBirthdays.1[0]
+                            Group {
+                                Text(daysToGo)
+                                    .miniBadge(color: bCalColor)
+                                Text(people)
+                                    .hiddenIf(isSmall)
+                            }
+                            .accessibilityLabel(
+                                "The next birthday is in \(daysToGo). It will be \(people)'s birthday."
+                            )
                         }
-                        .accessibilityLabel(
-                            "The next birthday is in \(daysToGo). It will be \(people)'s birthday."
-                        )
                     }
                 }
             }

@@ -22,7 +22,7 @@ struct OnboardingView: View {
     @Binding
     var areInformationsPresented: Bool
 
-    @AppStorage("accessWorkInProgressFeatures")
+    @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
     private var accessWorkInProgressFeatures = false
 
     private var authorized: Bool {

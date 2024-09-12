@@ -19,6 +19,7 @@ struct CamiApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onOpenURL(perform: Router.shared.handleURL)
                 .environment(model)
                 .environment(perms)
         }

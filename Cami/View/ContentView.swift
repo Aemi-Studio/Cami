@@ -36,7 +36,7 @@ struct ContentView: View {
         PermissionModel.shared.global == .restricted
     }
 
-    @AppStorage("accessWorkInProgressFeatures")
+    @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
     private var accessWorkInProgressFeatures: Bool = false
 
     var body: some View {
@@ -44,22 +44,23 @@ struct ContentView: View {
         @Bindable var perms = perms
         @Bindable var model = model
 
-        Group {
-            if accessWorkInProgressFeatures {
-                NavigationStack(path: $model.path) {
+        NavigationStack(path: $model.path) {
+
+            Group {
+                if accessWorkInProgressFeatures {
                     CalendarView(
                         areSettingsPresented: $areSettingsPresented
                     )
-                    .navigationDestination(for: Day.self, destination: DayView.init)
-                    .navigationDestination(for: EKEvent.self, destination: EventView.init)
+                } else {
+                    OnboardingView(
+                        areSettingsPresented: $areSettingsPresented,
+                        areInformationsPresented: $areInformationsPresented
+                    )
+                    .frame(maxWidth: 720)
                 }
-            } else {
-                OnboardingView(
-                    areSettingsPresented: $areSettingsPresented,
-                    areInformationsPresented: $areInformationsPresented
-                )
-                .frame(maxWidth: 720)
             }
+            .navigationDestination(for: Day.self, destination: DayView.init)
+            .navigationDestination(for: EKEvent.self, destination: EventView.init)
         }
         .onChange(of: scenePhase) { _, _ in
             WidgetCenter.shared.reloadAllTimelines()

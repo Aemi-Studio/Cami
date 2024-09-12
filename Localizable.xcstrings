@@ -1,0 +1,201 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    " • " : {
+
+    },
+    "%@" : {
+
+    },
+    "%@ - %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ - %2$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld years old" : {
+
+    },
+    "+%lld" : {
+
+    },
+    "All-Day Events Style" : {
+
+    },
+    "All-Day Inline Calendars" : {
+
+    },
+    "And you have also %lld other all-day events." : {
+
+    },
+    "Birthdays" : {
+
+    },
+    "Calendar" : {
+
+    },
+    "Calendars" : {
+
+    },
+    "Cami Calendar" : {
+
+    },
+    "Cami Calendar Minimal Widget Configuration" : {
+
+    },
+    "Cami Calendar, in its current version, is only a widget.\nWe propose it as a better and improved way to display your current native calendar content on your homescreen." : {
+
+    },
+    "Cami needs access to your calendars to work properly.\nIt can also use your contacts information to display birthdays in widgets." : {
+
+    },
+    "Configuration" : {
+
+    },
+    "Corner Complication" : {
+
+    },
+    "Details" : {
+
+    },
+    "Display Ongoing Events" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Event" : {
+
+    },
+    "Event Bordered" : {
+
+    },
+    "Events for %@" : {
+
+    },
+    "Events for %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Events for %1$@, %2$@"
+          }
+        }
+      }
+    },
+    "Exit" : {
+
+    },
+    "Group Similar Events" : {
+
+    },
+    "Hidden" : {
+
+    },
+    "Information" : {
+
+    },
+    "It is %@'s birthday today. %@ is now %lld years old" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It is %1$@'s birthday today. %2$@ is now %3$lld years old"
+          }
+        }
+      }
+    },
+    "No Events for Today." : {
+
+    },
+    "noEventToday.complication" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Events"
+          }
+        }
+      }
+    },
+    "ongoingEvents.Title" : {
+
+    },
+    "Open in your default browser" : {
+
+    },
+    "Refresh Widgets" : {
+
+    },
+    "Remaining Time: %@" : {
+
+    },
+    "Set Up Cami" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Style" : {
+
+    },
+    "Summary" : {
+
+    },
+    "The next birthday is in %@. It will be %@'s birthday." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The next birthday is in %1$@. It will be %2$@'s birthday."
+          }
+        }
+      }
+    },
+    "This event ends in %@." : {
+
+    },
+    "This event happens %lld times in your day." : {
+
+    },
+    "This event starts at %@." : {
+
+    },
+    "Today have %@ as first all-day events." : {
+
+    },
+    "Welcome to" : {
+
+    },
+    "What do you want to know?" : {
+
+    },
+    "You have %lld all-day events." : {
+
+    },
+    "You have %lld in %@ days." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You have %1$lld in %2$@ days."
+          }
+        }
+      }
+    },
+    "You have an event titled: %@." : {
+
+    }
+  },
+  "version" : "1.0"
+}

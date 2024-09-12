@@ -9,8 +9,6 @@
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Cami ONLY uses your on-device calendar information to display events in widgets.
 Cami DOES NOT edit or delete or send those information away.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Cami ONLY uses your on-device contact information to display birthdays in widgets.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
 	<string>Cami ONLY uses your on-device reminders information to display them in widgets and the application.
 Cami DOES NOT edit or delete or send those information away.</string>
@@ -20,5 +18,16 @@ Cami DOES NOT edit or delete or send those information away.</string>
 	<true/>
 	<key>com.apple.security.personal-information.calendars</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>camical</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
