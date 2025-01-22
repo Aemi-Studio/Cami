@@ -9,26 +9,17 @@ import SwiftUI
 
 struct PermissionsView: View {
 
-    @Environment(\.dismiss)
-    private var dismiss: DismissAction
+    @Environment(\.dismiss) private var dismiss: DismissAction
+    @Environment(\.permissions) private var permissions
 
-    @Environment(\.permissions)
-    private var permissions
-
-    @State
-    private var calInfo: Bool = false
-
-    @State
-    private var remInfo: Bool = false
-
-    @State
-    private var conInfo: Bool = false
+    @State private var calInfo: Bool = false
+    @State private var remInfo: Bool = false
+    @State private var conInfo: Bool = false
 
     @AppStorage("accessWorkInProgressFeatures")
     private var accessWorkInProgressFeatures = false
 
     var body: some View {
-
         if let permissions {
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 16) {
@@ -76,6 +67,13 @@ struct PermissionsView: View {
                     )
                 }
                 .padding()
+            }
+            .if(permissions.global.isDisjoint(with: .restricted)) { view in
+                NavigationView {
+                    view
+                        .navigationTitle("Permissions")
+                        .navigationBarTitleDisplayMode(.inline)
+                }
             }
         }
     }

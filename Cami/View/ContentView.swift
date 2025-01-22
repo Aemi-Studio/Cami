@@ -15,11 +15,8 @@ struct ContentView: View {
     @Environment(\.permissions) private var permissions
     @Environment(\.views)       private var views
 
-    @State
-    private var areSettingsPresented: Bool = false
-
-    @State
-    private var areInformationsPresented: Bool = false
+    @State private var areSettingsPresented: Bool = false
+    @State private var areInformationsPresented: Bool = false
 
     private var wasNotAuthorized: Bool = PermissionModel.shared.global.status == .restricted
 
@@ -38,8 +35,8 @@ struct ContentView: View {
         Group {
             if accessWorkInProgressFeatures {
                 if let views {
-                    @Bindable var model = views
-                    NavigationStack(path: $model.path) {
+                    @Bindable var views = views
+                    NavigationStack(path: $views.path) {
                         CalendarView(
                             areSettingsPresented: $areSettingsPresented
                         )
@@ -64,15 +61,15 @@ struct ContentView: View {
         }
         .sheet(isPresented: $areSettingsPresented) {
             PermissionsView()
-                .environment(views)
-                .environment(permissions)
+                .environment(\.views, views)
+                .environment(\.permissions, permissions)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.medium, .large])
                 .presentationContentInteraction(.scrolls)
         }
         .sheet(isPresented: $areInformationsPresented) {
             InformationModalView()
-                .environment(views)
+                .environment(\.views, views)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
                 .presentationContentInteraction(.scrolls)
@@ -82,4 +79,22 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+
+
+extension View {
+    
+    @ViewBuilder
+    func awareSheet(
+        isPresented condition: Binding<Bool>,
+        environmentValues: [PartialKeyPath<EnvironmentValues>: Any],
+        @ViewBuilder content: @escaping () -> some View
+    ) -> some View {
+        self
+            .sheet(isPresented: condition) {
+                content()
+            
+            }
+    }
+    
 }
