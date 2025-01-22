@@ -13,8 +13,6 @@ Cami DOES NOT edit or delete or send those information away.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
 	<string>Cami ONLY uses your on-device reminders information to display them in widgets and the application.
 Cami DOES NOT edit or delete or send those information away.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Cami ONLY uses your on-device contacts information to display birthdays in widgets.</string>
 	<key>User Script Sandboxing</key>
 	<false/>
 </dict>

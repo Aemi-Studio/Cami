@@ -9,7 +9,7 @@ import Foundation
 import EventKit
 import OSLog
 
-struct EventHelper {
+struct EventHelper: Loggable {
 
     static let store: EKEventStore = .init()
 
@@ -36,10 +36,10 @@ struct EventHelper {
     public static func requestCalendarsAccess() async -> PermissionSet {
         do {
             let result = try await Self.store.requestFullAccessToEvents()
-            Logger.perms.info("CalendarHelper -> \(String(describing: result))")
+            log.info("CalendarHelper -> \(String(describing: result))")
             return result ? .calendars : .restrictedCalendars
         } catch {
-            Logger.perms.error("\(String(describing: error))")
+            log.error("\(String(describing: error))")
         }
         return .none
     }
@@ -49,10 +49,10 @@ struct EventHelper {
     ) {
         Self.store.requestFullAccessToEvents { result, error in
             if error != nil {
-                Logger.perms.error("\(String(describing: error))")
+                log.error("\(String(describing: error))")
                 callback(.none)
             } else {
-                Logger.perms.error("CalendarHelper -> \(String(describing: result))")
+                log.error("CalendarHelper -> \(String(describing: result))")
                 callback(result ? .calendars : .none)
             }
         }
@@ -65,9 +65,9 @@ struct EventHelper {
                 ? .reminders
                 : .restrictedReminders
         } catch {
-            Logger.perms.error("\(String(describing: error))")
+            log.error("\(String(describing: error))")
         }
-        Logger.perms.error("ReminderHelper() -> .none")
+        log.error("ReminderHelper() -> .none")
         return .none
     }
 
@@ -76,17 +76,17 @@ struct EventHelper {
     ) {
         Self.store.requestFullAccessToReminders { result, error in
             if error != nil {
-                Logger.perms.error("\(String(describing: error))")
+                log.error("\(String(describing: error))")
                 callback(.none)
             } else {
-                Logger.perms.error("ReminderHelper() -> \(result.description)")
+                log.error("ReminderHelper() -> \(result.description)")
                 callback(result ? .reminders : .none)
             }
         }
     }
 
     public static func events(
-        from calendars: [String] = CamiHelper.allCalendars.asIdentifiers,
+        from calendars: [String],
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
@@ -100,7 +100,7 @@ struct EventHelper {
     }
 
     public static func events(
-        from calendars: Calendars = CamiHelper.allCalendars,
+        from calendars: Calendars,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool)? = nil,
         relativeTo date: Date
@@ -153,10 +153,7 @@ struct EventHelper {
         return events
     }
 
-    public static func birthdays(
-        from date: Date,
-        during days: Int = 365
-    ) -> Events {
+    public static func birthdays(from date: Date, during days: Int = 365) -> Events {
 
         Self.store.refreshSourcesIfNecessary()
 

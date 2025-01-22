@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-struct WidgetCalendarEntity: AppEntity {
+struct WidgetCalendarEntity: Sendable, AppEntity {
     var id: String
     var calendar: String
 

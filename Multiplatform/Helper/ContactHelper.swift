@@ -9,7 +9,7 @@ import Foundation
 import Contacts
 import OSLog
 
-struct ContactHelper {
+struct ContactHelper: Loggable {
 
     static let store: CNContactStore = .init()
 
@@ -20,13 +20,11 @@ struct ContactHelper {
     ///
     public static func requestAccess() async -> PermissionSet {
         do {
-            let result = try await Self.store.requestAccess(
-                for: .contacts
-            )
-            Logger.perms.error("ContactHelper -> \(String(describing: result))")
+            let result = try await Self.store.requestAccess(for: .contacts)
+            log.error("ContactHelper -> \(String(describing: result))")
             return result ? .contacts : .restrictedContacts
         } catch {
-            Logger.perms.error("\(String(describing: error))")
+            log.error("\(String(describing: error))")
             return .restrictedContacts
         }
     }
@@ -42,10 +40,10 @@ struct ContactHelper {
     ) {
         Self.store.requestAccess(for: .contacts) { result, error in
             if error != nil {
-                Logger.perms.error("\(String(describing: error))")
+                log.error("\(String(describing: error))")
                 callback(.restrictedContacts)
             } else {
-                Logger.perms.error("ContactHelper -> \(String(describing: result))")
+                log.error("ContactHelper -> \(String(describing: result))")
                 callback(result ? .contacts : .restrictedContacts)
             }
         }
@@ -68,9 +66,7 @@ struct ContactHelper {
                 keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]
             ).birthday
         } catch {
-            print(
-                error.localizedDescription
-            )
+            log.error("\(String(describing: error))")
             fetchedBirthdate = nil
         }
         return fetchedBirthdate
@@ -84,9 +80,7 @@ struct ContactHelper {
     /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
-    public static func resolveContactName(
-        _ identifier: String
-    ) -> String {
+    public static func resolveContactName(_ identifier: String) -> String {
         let fetchedContact: CNContact?
         do {
             fetchedContact = try Self.store.unifiedContact(
@@ -97,9 +91,7 @@ struct ContactHelper {
                 ]
             )
         } catch {
-            print(
-                error.localizedDescription
-            )
+            log.error("\(String(describing: error))")
             fetchedContact = nil
         }
         return [
@@ -129,9 +121,7 @@ struct ContactHelper {
                 ]
             ).first
         } catch {
-            print(
-                error.localizedDescription
-            )
+            log.error("\(String(describing: error))")
             fetchedContact = nil
         }
         return [

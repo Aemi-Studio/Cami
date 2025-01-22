@@ -10,8 +10,7 @@ import EventKit
 
 struct DayView: View {
 
-    @Environment(ViewModel.self)
-    private var model: ViewModel
+    @Environment(\.views) private var views
 
     private let defaultSpace: Double = 24
 
@@ -94,10 +93,10 @@ struct DayView: View {
                         ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
                             if events != nil && events!.count > 0 {
                                 ForEach(events!.filter {
-                                    model.calendars.contains($0.calendar.calendarIdentifier)
+                                    views?.calendars.contains($0.calendar.calendarIdentifier) == .some(true)
                                 }, id: \.self) { event in
                                     Button {
-                                        model.path.append(event)
+                                        views?.path.append(event)
                                     } label: {
                                         HStack(alignment: .center, spacing: 0) {
                                             VStack {

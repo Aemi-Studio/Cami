@@ -9,8 +9,11 @@ import SwiftUI
 
 struct MonthWeekRow: View {
 
-    @Environment(ViewModel.self)
-    private var model: ViewModel
+    @Environment(\.views) private var views
+
+    private var weekdaysCount: Int {
+        views?.weekdaysCount ?? 7
+    }
 
     let week: Days
     let firstWeekOfTheMonth: Bool
@@ -28,7 +31,7 @@ struct MonthWeekRow: View {
         Grid {
             GridRow {
                 if firstWeekOfTheMonth {
-                    ForEach(0..<model.weekdaysCount - week.count, id: \.self) { _ in
+                    ForEach(0..<weekdaysCount - week.count, id: \.self) { _ in
                         Color.clear
                     }
                 }
@@ -45,7 +48,7 @@ struct MonthWeekRow: View {
                         }
                 }
                 if lastWeekOfTheMonth {
-                    ForEach(0..<model.weekdaysCount - week.count, id: \.self) { _ in
+                    ForEach(0..<weekdaysCount - week.count, id: \.self) { _ in
                         Color.clear
                     }
                 }

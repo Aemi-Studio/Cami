@@ -12,7 +12,7 @@ import EventKit
 import Contacts
 
 @Observable
-final class ViewModel: ObservableObject {
+final class ViewModel: Loggable {
 
     static let shared: ViewModel = .init(for: .now)
 
@@ -196,4 +196,8 @@ final class ViewModel: ObservableObject {
 private enum Side: Int {
     case prev = -1
     case next = 1
+}
+
+extension EnvironmentValues {
+    @Entry var views: ViewModel?
 }

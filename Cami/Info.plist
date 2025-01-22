@@ -2,15 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>INIntentsSupported</key>
-	<array>
-		<string>CamiWidgetIntent</string>
-	</array>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Cami ONLY uses your on-device calendar information to display events in widgets.
 Cami DOES NOT edit or delete or send those information away.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Cami ONLY uses your on-device contact information to display birthdays in widgets.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
 	<string>Cami ONLY uses your on-device reminders information to display them in widgets and the application.
 Cami DOES NOT edit or delete or send those information away.</string>

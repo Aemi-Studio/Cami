@@ -10,11 +10,7 @@ import WidgetKit
 
 struct OnboardingView: View {
 
-    @Environment(ViewModel.self)
-    private var model: ViewModel
-
-    @Environment(PermissionModel.self)
-    private var perms: PermissionModel
+    @Environment(\.permissions) private var permissions
 
     @Binding
     var areSettingsPresented: Bool
@@ -27,17 +23,17 @@ struct OnboardingView: View {
 
     private var authorized: Bool {
         return if accessWorkInProgressFeatures {
-            perms.global == ._beta_authorized
+            permissions?.global == .some(._beta_authorized)
         } else {
-            perms.global.isSuperset(of: .authorized)
+            permissions?.global.isSuperset(of: .authorized) == .some(true)
         }
     }
 
     private var restricted: Bool {
         return if accessWorkInProgressFeatures {
-            !perms.global.isDisjoint(with: .restricted)
+            permissions?.global.isDisjoint(with: .restricted) == .some(false)
         } else {
-            !perms.global.isDisjoint(with: [.restrictedCalendars, .restrictedContacts])
+            permissions?.global.isDisjoint(with: [.restrictedCalendars, .restrictedContacts])  == .some(false)
         }
     }
 

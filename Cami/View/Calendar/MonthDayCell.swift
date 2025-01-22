@@ -10,30 +10,17 @@ import EventKit
 
 struct MonthDayCell: View {
 
-    @Environment(ViewModel.self)
-    private var model: ViewModel
-
-    @Environment(PermissionModel.self)
-    private var perms: PermissionModel
+    @Environment(\.views) private var model
+    @Environment(\.permissions) private var perms
 
     @State
     private var colors: [Generic<Color>]?
 
-    private func updateColors() async {
-        let calendars: Set<String> = await day.lazyInitCalendars()
-        self.colors = Array(model.calendars.intersection( calendars ))
-            .asEKCalendars()
-            .map { Generic<Color>(Color(cgColor: $0.cgColor)) }
-    }
-
     let day: Day
 
     var body: some View {
-
-        @Bindable var perms = perms
-
         Button {
-            model.path.append(day)
+            model?.path.append(day)
         } label: {
             VStack(alignment: .center, spacing: 6) {
                 HStack {
@@ -61,19 +48,19 @@ struct MonthDayCell: View {
             .padding(.vertical, 8)
         }
         .buttonStyle(PlainButtonStyle())
-        .onAppear {
-            DispatchQueue.main.async {
-                Task {
-                    await self.updateColors()
-                }
+        .task { @MainActor in
+            await self.updateColors()
+        }
+        .onChange(of: perms?.global) { _, _ in
+            Task { @MainActor in
+                await self.updateColors()
             }
         }
-        .onChange(of: perms.global) { _, _ in
-            DispatchQueue.main.async {
-                Task {
-                    await self.updateColors()
-                }
-            }
-        }
+    }
+
+    private func updateColors() async {
+        let calendars: Set<String> = await day.lazyInitCalendars()
+        let ekCalendars = Array(model?.calendars.intersection(calendars) ?? []).asEKCalendars()
+        self.colors = ekCalendars.map { Generic<Color>(Color(cgColor: $0.cgColor)) }
     }
 }

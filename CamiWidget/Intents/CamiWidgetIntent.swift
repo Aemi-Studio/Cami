@@ -10,8 +10,12 @@ import AppIntents
 
 struct CamiWidgetIntent: WidgetConfigurationIntent {
 
-    static let title: LocalizedStringResource = "Configuration"
-    static let description = IntentDescription("Cami Calendar Minimal Widget Configuration")
+    static var title: LocalizedStringResource {
+        "Configuration"
+    }
+    static var description: IntentDescription {
+        "Cami Calendar Minimal Widget Configuration"
+    }
 
     @Parameter(title: "Calendars", default: [])
     var calendars: [WidgetCalendarEntity]

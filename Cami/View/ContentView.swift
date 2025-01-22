@@ -11,14 +11,9 @@ import WidgetKit
 
 struct ContentView: View {
 
-    @Environment(\.scenePhase)
-    var scenePhase: ScenePhase
-
-    @Environment(PermissionModel.self)
-    private var perms: PermissionModel
-
-    @Environment(ViewModel.self)
-    private var model: ViewModel
+    @Environment(\.scenePhase)  private var scenePhase: ScenePhase
+    @Environment(\.permissions) private var permissions
+    @Environment(\.views)       private var views
 
     @State
     private var areSettingsPresented: Bool = false
@@ -29,29 +24,28 @@ struct ContentView: View {
     private var wasNotAuthorized: Bool = PermissionModel.shared.global.status == .restricted
 
     private var authorized: Bool {
-        PermissionModel.shared.global == .authorized
+        permissions?.global == .some(.authorized)
     }
 
     private var restricted: Bool {
-        PermissionModel.shared.global == .restricted
+        permissions?.global == .some(.restricted)
     }
 
     @AppStorage("accessWorkInProgressFeatures")
     private var accessWorkInProgressFeatures: Bool = false
 
     var body: some View {
-
-        @Bindable var perms = perms
-        @Bindable var model = model
-
         Group {
             if accessWorkInProgressFeatures {
-                NavigationStack(path: $model.path) {
-                    CalendarView(
-                        areSettingsPresented: $areSettingsPresented
-                    )
-                    .navigationDestination(for: Day.self, destination: DayView.init)
-                    .navigationDestination(for: EKEvent.self, destination: EventView.init)
+                if let views {
+                    @Bindable var model = views
+                    NavigationStack(path: $model.path) {
+                        CalendarView(
+                            areSettingsPresented: $areSettingsPresented
+                        )
+                        .navigationDestination(for: Day.self, destination: DayView.init)
+                        .navigationDestination(for: EKEvent.self, destination: EventView.init)
+                    }
                 }
             } else {
                 OnboardingView(
@@ -64,21 +58,21 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, _ in
             WidgetCenter.shared.reloadAllTimelines()
         }
-        .onChange(of: perms.global) { _, _ in
-            model.reset()
+        .onChange(of: permissions?.global) { _, _ in
+            views?.reset()
             WidgetCenter.shared.reloadAllTimelines()
         }
         .sheet(isPresented: $areSettingsPresented) {
             PermissionsView()
-                .environment(model)
-                .environment(perms)
+                .environment(views)
+                .environment(permissions)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.medium, .large])
                 .presentationContentInteraction(.scrolls)
         }
         .sheet(isPresented: $areInformationsPresented) {
             InformationModalView()
-                .environment(model)
+                .environment(views)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
                 .presentationContentInteraction(.scrolls)

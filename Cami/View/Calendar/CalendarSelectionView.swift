@@ -9,12 +9,7 @@ import SwiftUI
 
 struct CalendarSelectionView: View {
 
-    @Environment(ViewModel.self)
-    private var model: ViewModel
-
-    private func isSelected(_ calendar: String) -> Bool {
-        model.calendars.contains(calendar)
-    }
+    @Environment(\.views) private var views
 
     var allCalendars: Calendars {
         CamiHelper.allCalendars
@@ -41,9 +36,9 @@ struct CalendarSelectionView: View {
                         ForEach(calendarsAsDict[source]!, id: \.self) { calendar in
                             Button {
                                 if !isSelected(calendar.calendarIdentifier) {
-                                    model.calendars.insert(calendar.calendarIdentifier)
+                                    views?.calendars.insert(calendar.calendarIdentifier)
                                 } else {
-                                    model.calendars.remove(calendar.calendarIdentifier)
+                                    views?.calendars.remove(calendar.calendarIdentifier)
                                 }
                             } label: {
                                 HStack(alignment: .center, spacing: 8) {
@@ -79,6 +74,10 @@ struct CalendarSelectionView: View {
         }
         .safeAreaPadding(.top)
         .padding()
+    }
+
+    private func isSelected(_ calendar: String) -> Bool {
+        views?.calendars.contains(calendar) ?? false
     }
 }
 

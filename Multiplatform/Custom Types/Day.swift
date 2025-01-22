@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 import EventKit
 
-@Observable class Day: Identifiable, Hashable {
+@Observable
+final class Day: Identifiable, Hashable {
 
     private struct SourceCalendars {
         var identifiers: [String]?

@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct MonthView: View {
-
-    @Environment(ViewModel.self)
-    private var model: ViewModel
-
     let date: Date
 
     private var weeks: Weeks {

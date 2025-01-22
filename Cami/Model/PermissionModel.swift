@@ -5,26 +5,25 @@
 //  Created by Guillaume Coquard on 10/02/24.
 //
 
-import Foundation
 import EventKit
 import Contacts
-import OSLog
 import Combine
+import SwiftUI
 
 @Observable
-final class PermissionModel: ObservableObject {
+final class PermissionModel: Loggable {
 
     static let shared: PermissionModel = .init()
     static let center: NotificationCenter = .init()
 
-    private var events: PermissionSet
-    private var contacts: PermissionSet
-    private var reminders: PermissionSet
+    private(set) var events: PermissionSet = .none
+    private(set) var contacts: PermissionSet = .none
+    private(set) var reminders: PermissionSet = .none
 
     var global: PermissionSet = .none
 
     private init() {
-        Logger.perms.debug("Initializing Permissions Statuses")
+        log.debug("Initializing Permissions Statuses")
 
         self.events = switch EKEventStore.authorizationStatus(for: .event) {
         case .fullAccess:
@@ -65,45 +64,44 @@ final class PermissionModel: ObservableObject {
     deinit {
         removeObservers()
     }
-
 }
 
 // MARK: Notification Observer
 extension PermissionModel {
 
     @objc func requestAccess() async {
-        Logger.perms.debug("Requesting Full Access")
+        log.debug("Requesting Full Access")
         self.requestCalendarsAccess()
         self.requestContactsAccess()
         self.requestRemindersAccess()
     }
 
     @objc func requestCalendarsAccess() {
-        Logger.perms.debug("Requesting Calendars Access")
+        log.debug("Requesting Calendars Access")
         EventHelper.requestCalendarsAccess { result in
-            Logger.perms.debug("\(String(describing: result))")
+            self.log.debug("\(String(describing: result))")
             Self.center.post(name: .calendarsAccessUpdated, object: nil)
         }
     }
 
     @objc func requestContactsAccess() {
-        Logger.perms.debug("Requesting Contacts Access")
+        log.debug("Requesting Contacts Access")
         ContactHelper.requestAccess { result in
-            Logger.perms.debug("\(String(describing: result))")
+            self.log.debug("\(String(describing: result))")
             Self.center.post(name: .contactsAccessUpdated, object: nil)
         }
     }
 
     @objc func requestRemindersAccess() {
-        Logger.perms.debug("Requesting Reminders Access")
+        log.debug("Requesting Reminders Access")
         EventHelper.requestRemindersAccess { result in
-            Logger.perms.debug("\(String(describing: result))")
+            self.log.debug("\(String(describing: result))")
             Self.center.post(name: .remindersAccessUpdated, object: nil)
         }
     }
 
     @objc private func updateAccess() {
-        Logger.perms.debug("Updating Access")
+        log.debug("Updating Access")
 
         self.events = switch EKEventStore.authorizationStatus(for: .event) {
         case .fullAccess:
@@ -188,4 +186,8 @@ extension PermissionModel {
         Self.center.removeObserver(self, name: .remindersAccessUpdated, object: nil)
     }
 
+}
+
+extension EnvironmentValues {
+    @Entry var permissions: PermissionModel?
 }
