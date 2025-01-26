@@ -38,7 +38,7 @@ struct EditEventViewController: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> EKEventEditViewController {
         let eventEditViewController = EKEventEditViewController()
         eventEditViewController.event = event
-        eventEditViewController.eventStore = EventHelper.store
+        eventEditViewController.eventStore = DataContext.shared.store
         eventEditViewController.editViewDelegate = context.coordinator
         return eventEditViewController
     }

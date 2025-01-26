@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-// swiftlint:disable identifier_name
+// swiftlint:disable identifier_name large_tuple
 
 // MARK: - Internal APIs
 
@@ -131,3 +131,5 @@ extension Color {
         }
     }
 }
+
+// swiftlint:enable identifier_name large_tuple

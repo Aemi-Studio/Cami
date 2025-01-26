@@ -10,13 +10,14 @@ import SwiftUI
 struct CalendarSelectionView: View {
 
     @Environment(\.views) private var views
+    @Environment(\.data) private var data
 
-    var allCalendars: Calendars {
-        CamiHelper.allCalendars
+    var calendars: Calendars {
+        data?.calendars ?? []
     }
 
     var calendarsAsDict: [String: Calendars] {
-        CamiHelper.allCalendars.reduce(into: [String: Calendars]()) { result, calendar in
+        calendars.reduce(into: [String: Calendars]()) { result, calendar in
             let sourceTitle: String = calendar.source.title
             if let oldValue = result[sourceTitle] {
                 var newValue = oldValue

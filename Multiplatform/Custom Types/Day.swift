@@ -10,110 +10,111 @@ import SwiftUI
 import EventKit
 
 @Observable
-final class Day: Identifiable, Hashable {
+final class Day: Identifiable, @unchecked Sendable {
 
-    private struct SourceCalendars {
+    typealias ID = UUID
+
+    private struct SourceCalendars: Equatable, Hashable {
         var identifiers: [String]?
         var ekCalendars: Calendars?
     }
 
-    static func == (lhs: Day, rhs: Day) -> Bool {
-        lhs.date == rhs.date
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
-        hasher.combine(date)
-    }
-
-    let identifier: UUID = UUID()
-    let date: Date
-
     private var sourceCalendars: SourceCalendars?
 
+    let id: ID = ID()
+    let date: Date
+
     var calendars: Set<String>?
-    var events: Events?
-    var birthdays: Events?
+    var events: CItems?
+    var birthdays: CItems?
+    var reminders: CItems?
 
     init(_ date: Date) {
         self.date = date
     }
 
-    init(
-        _ date: Date,
-        from calendars: [String]
-    ) {
+    init(_ date: Date, from calendars: [String]) {
         self.date = date
         self.sourceCalendars = SourceCalendars(identifiers: calendars)
     }
 
-    init(
-        _ date: Date,
-        from calendars: Calendars
-    ) {
+    init(_ date: Date, from calendars: Calendars) {
         self.date = date
         self.sourceCalendars = SourceCalendars(ekCalendars: calendars)
     }
 
     @discardableResult
-    func lazyInit() async -> Day {
-        await self.lazyInitEvents()
-        await self.lazyInitCalendars()
-        await self.lazyBirthdays()
+    func lazyInit() -> Day {
+        self.lazyInitEvents()
+        self.lazyInitCalendars()
+        self.lazyBirthdays()
+        self.lazyReminders()
         return self
     }
 
     @discardableResult
-    func lazyInitEvents() async -> Events {
-        if self.events == nil {
-            let calendars = self.sourceCalendars?.ekCalendars
-                ?? self.sourceCalendars?.identifiers?.asEKCalendars()
-                ?? CamiHelper.allCalendars
-            self.events = EventHelper.events(from: calendars, during: 1, relativeTo: date )
-        }
-        return self.events!
+    func lazyInitEvents() -> CItems {
+        if let events { return events }
+
+        let calendars = self.sourceCalendars?.ekCalendars
+            ?? self.sourceCalendars?.identifiers?.asEKCalendars()
+            ?? DataContext.shared.allCalendars
+
+        events = DataContext.shared.events(from: calendars, during: 1, relativeTo: date)
+        return events ?? []
     }
 
     @discardableResult
-    func lazyInitEvents(from calendars: [String]) async -> Events {
-        if self.events == nil {
-            self.events = EventHelper.events(from: calendars.asEKCalendars(), during: 1, relativeTo: date )
-        }
-        return self.events!
+    func lazyInitEvents(from calendars: [String]) -> CItems {
+        if let events { return events }
+
+        events = DataContext.shared.events(from: calendars.asEKCalendars(), during: 1, relativeTo: date)
+        return events ?? []
     }
 
     @discardableResult
-    func lazyInitEvents(from calendars: Calendars) async -> Events {
-        if self.events == nil {
-            self.events = EventHelper.events(from: calendars, during: 1, relativeTo: date )
-        }
-        return self.events!
+    func lazyInitEvents(from calendars: Calendars) -> CItems {
+        if let events { return events }
+
+        events = DataContext.shared.events(from: calendars, during: 1, relativeTo: date )
+        return events ?? []
     }
 
     @discardableResult
-    func lazyInitCalendars() async -> Set<String> {
-        if events == nil && self.calendars == nil {
-            let unwrappedEvents: Events = events
-                ?? self.events
-                ?? EventHelper.events(
-                    from: CamiHelper.allCalendars,
-                    during: 1,
-                    relativeTo: self.date
-                )
+    func lazyInitCalendars() -> Set<String> {
+        guard let calendars else {
+            let events = events ?? DataContext.shared.events(during: 1, relativeTo: date)
 
-            self.calendars = unwrappedEvents.reduce(into: Set<String>()) { result, event in
-                result.insert( event.calendar.calendarIdentifier )
-            }
+            calendars = events.reduce(into: Set<String>()) { $0.insert($1.calendar.calendarIdentifier) }
+            return calendars ?? []
         }
-        return self.calendars!
+        return calendars
     }
 
     @discardableResult
-    func lazyBirthdays() async -> Events {
-        if self.birthdays == nil {
-            self.birthdays = EventHelper.birthdays(from: self.date, during: 1)
-        }
-        return self.birthdays!
+    func lazyBirthdays() -> CItems {
+        if let birthdays { return birthdays }
+
+        birthdays = DataContext.shared.birthdays(from: date, during: 1)
+        return self.birthdays ?? []
     }
 
+    @discardableResult
+    func lazyReminders() -> CItems {
+        if let reminders { return reminders }
+
+        reminders = DataContext.shared.reminders(where: Filters.any(of: [Filters.dueToday, Filters.open]).filter)
+        return reminders ?? []
+    }
+
+}
+
+extension Day: Hashable, Equatable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(date)
+    }
+
+    static func == (lhs: Day, rhs: Day) -> Bool {
+        lhs.date == rhs.date
+    }
 }

@@ -50,16 +50,18 @@ extension Events {
         return result
     }
 
-    func mapped(relativeTo date: Date) -> EventDict {
-        var eventsDictionary: EventDict = [:]
-        for event in self {
-            if event.spansMore(than: date) {
-                eventsDictionary.append(to: (date + DateComponents(day: -1)).zero, event)
+}
+
+extension CItems {
+    func mapped(relativeTo date: Date) -> CIDict {
+        var itemsDictionary: CIDict = [:]
+        for item in self {
+            if item.spansMore(than: date) {
+                itemsDictionary.append(to: (date + DateComponents(day: -1)).zero, item)
             } else {
-                eventsDictionary.append(to: event.startDate.zero, event)
+                itemsDictionary.append(to: item.beginDate.zero, item)
             }
         }
-        return eventsDictionary
+        return itemsDictionary
     }
-
 }

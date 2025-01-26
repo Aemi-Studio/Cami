@@ -38,6 +38,9 @@
     "And you have also %lld other all-day events." : {
 
     },
+    "Birthdays" : {
+
+    },
     "Calendar" : {
 
     },
@@ -56,16 +59,37 @@
     "Cami needs access to your calendars to work properly.\nIt can also use your contacts information to display birthdays in widgets." : {
 
     },
+    "Cancel" : {
+
+    },
+    "Close" : {
+
+    },
     "Configuration" : {
+
+    },
+    "Corner Complication" : {
+
+    },
+    "Create a reminder" : {
+
+    },
+    "Create a Reminder" : {
+
+    },
+    "Date" : {
 
     },
     "Details" : {
 
     },
-    "Display Birthdays" : {
+    "Display Ongoing Events" : {
 
     },
-    "Display Ongoing Events" : {
+    "Done" : {
+
+    },
+    "Due Today" : {
 
     },
     "Edit" : {
@@ -96,6 +120,9 @@
     "Group Similar Events" : {
 
     },
+    "Happens Today" : {
+
+    },
     "Hidden" : {
 
     },
@@ -112,22 +139,163 @@
         }
       }
     },
-    "No Events for Today." : {
+    "Next" : {
 
     },
-    "Ongoing Events" : {
+    "noEventToday.complication" : {
+
+    },
+    "ongoingEvents.Title" : {
+
+    },
+    "Open" : {
 
     },
     "Open in your default browser" : {
 
     },
+    "Overdue" : {
+
+    },
     "Permissions" : {
 
+    },
+    "perms.calendars.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami ONLY uses your on-device calendar information to display events in widgets.\n\nCami DOES NOT edit, delete, save or send those information away."
+          }
+        }
+      }
+    },
+    "perms.calendars.label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Access to calendars authorized"
+          }
+        }
+      }
+    },
+    "perms.calendars.restricted" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review Cami access to your calendars."
+          }
+        }
+      }
+    },
+    "perms.calendars.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendars"
+          }
+        }
+      }
+    },
+    "perms.contacts.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\n\nCami DOES NOT edit, delete, save or send those information away."
+          }
+        }
+      }
+    },
+    "perms.contacts.label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Access to contacts authorized"
+          }
+        }
+      }
+    },
+    "perms.contacts.restricted" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review Cami access to your contacts."
+          }
+        }
+      }
+    },
+    "perms.contacts.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contacts"
+          }
+        }
+      }
+    },
+    "perms.reminders.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\n\nCami DOES NOT edit, delete, save or send those information away."
+          }
+        }
+      }
+    },
+    "perms.reminders.label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Access to reminders authorized"
+          }
+        }
+      }
+    },
+    "perms.reminders.restricted" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review Cami access to your reminders."
+          }
+        }
+      }
+    },
+    "perms.reminders.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders"
+          }
+        }
+      }
     },
     "Refresh Widgets" : {
 
     },
     "Remaining Time: %@" : {
+
+    },
+    "Review" : {
+
+    },
+    "Save" : {
 
     },
     "Set Up Cami" : {
@@ -137,6 +305,9 @@
 
     },
     "Style" : {
+
+    },
+    "Summary" : {
 
     },
     "The next birthday is in %@. It will be %@'s birthday." : {
@@ -158,8 +329,21 @@
     "This event starts at %@." : {
 
     },
+    "Title" : {
+
+    },
     "Today have %@ as first all-day events." : {
 
+    },
+    "view.permissions.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permissions"
+          }
+        }
+      }
     },
     "Welcome to" : {
 

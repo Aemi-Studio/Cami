@@ -5,75 +5,75 @@
 //  Created by Guillaume Coquard on 15/11/23.
 //
 
+extension Binding {
+
+    var forcedProjectedValue: Binding<Value> {
+        Binding<Value> {
+            self.wrappedValue
+        } set: { _ in }
+    }
+
+}
+
 import SwiftUI
 
 struct PermissionsView: View {
 
-    @Environment(\.dismiss) private var dismiss: DismissAction
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.viewKind) private var viewKind
     @Environment(\.permissions) private var permissions
-
-    @State private var calInfo: Bool = false
-    @State private var remInfo: Bool = false
-    @State private var conInfo: Bool = false
-
-    @AppStorage("accessWorkInProgressFeatures")
-    private var accessWorkInProgressFeatures = false
 
     var body: some View {
         if let permissions {
-            ScrollView(.vertical) {
-                VStack(alignment: .leading, spacing: 16) {
+            NavigationView {
+                ScrollView(.vertical) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        @Bindable var permissions = permissions
 
-                    // swiftlint:disable line_length
-                    PermissionAccessSection(
-                        status: permissions.global.calendars,
-                        title: "Calendars",
-                        label: "Access to calendars authorized",
-                        notificationName: .requestCalendarsAccess,
-                        description: "Cami ONLY uses your on-device calendar information to display events in widgets.\n\nCami DOES NOT edit, delete, save or send those information away.",
-                        restrictedDescription: "Review Cami access to your calendars."
-                    )
-
-                    PermissionAccessSection(
-                        status: permissions.global.contacts,
-                        title: "Contacts",
-                        label: "Access to contacts authorized",
-                        notificationName: .requestContactsAccess,
-                        description: "Cami ONLY uses your on-device contacts information to display birthdays information in widgets.\n\nCami DOES NOT edit, delete, save or send those information away.",
-                        restrictedDescription: "Review Cami access to your contacts."
-                    )
-
-                    if accessWorkInProgressFeatures {
-                        PermissionAccessSection(
-                            status: permissions.global.reminders,
-                            title: "Reminders",
-                            label: "Access to reminders authorized",
-                            notificationName: .requestRemindersAccess,
-                            description: "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\n\nCami DOES NOT edit, delete, save or send those information away.",
-                            restrictedDescription: "Review Cami access to your reminders."
+                        AccessToggle(
+                            isOn: permissions.calendars,
+                            title: NSLocalizedString("perms.calendars.title", comment: ""),
+                            description: NSLocalizedString("perms.calendars.description", comment: ""),
+                            action: { await permissions.request(access: .calendars) }
                         )
-                    }
-                    // swiftlint:enable line_length
 
-                    if permissions.global.isDisjoint(with: .restricted) {
-                        SettingsLinkView(radius: 12)
-                    }
+                        AccessToggle(
+                            isOn: permissions.contacts,
+                            title: NSLocalizedString("perms.contacts.title", comment: ""),
+                            description: NSLocalizedString("perms.contacts.description", comment: ""),
+                            action: { await permissions.request(access: .contacts) }
+                        )
 
-                    WidgetHelpView(
-                        title: "Privacy Policy",
-                        url: "https://aemi.studio/privacy",
-                        description: "Review how Cami handles your data.",
-                        radius: 12
-                    )
+                        AccessToggle(
+                            isOn: permissions.reminders,
+                            title: NSLocalizedString("perms.reminders.title", comment: ""),
+                            description: NSLocalizedString("perms.reminders.description", comment: ""),
+                            action: { await permissions.request(access: .reminders) }
+                        )
+
+                        if permissions.global == .authorized {
+                            SettingsLinkView(radius: 12)
+                            WidgetHelpView(
+                                title: "Privacy Policy",
+                                url: "https://aemi.studio/privacy",
+                                description: "Review how Cami handles your data.",
+                                radius: 12
+                            )
+                        } else {
+                            WidgetHelpView(
+                                title: "Privacy Policy",
+                                url: "https://aemi.studio/privacy",
+                                description: "Review how Cami handles your data.",
+                                radius: 12
+                            )
+                            SettingsLinkView(radius: 12)
+                        }
+
+                    }
+                    .padding()
                 }
-                .padding()
-            }
-            .if(permissions.global.isDisjoint(with: .restricted)) { view in
-                NavigationView {
-                    view
-                        .navigationTitle("Permissions")
-                        .navigationBarTitleDisplayMode(.inline)
-                }
+                .navigationTitle(NSLocalizedString("view.permissions.title", comment: ""))
+                .navigationBarTitleDisplayMode(viewKind == .sheet ? .inline : .large)
             }
         }
     }

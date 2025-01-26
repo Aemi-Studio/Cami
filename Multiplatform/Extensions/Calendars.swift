@@ -19,7 +19,7 @@ extension Calendars {
 extension Array<String> {
     func asEKCalendars() -> Calendars {
         let optionalCalendarList = self.map { calendar in
-            EventHelper.store.calendar(withIdentifier: calendar)
+            DataContext.shared.get(calendar: calendar)
         }
         return optionalCalendarList.filter { calendar in
             calendar != nil

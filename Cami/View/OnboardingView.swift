@@ -10,28 +10,15 @@ import WidgetKit
 
 struct OnboardingView: View {
 
+    @Environment(\.presentation) private var presentation
     @Environment(\.permissions) private var permissions
 
-    @Binding var areSettingsPresented: Bool
-    @Binding var areInformationsPresented: Bool
-
-    @AppStorage("accessWorkInProgressFeatures")
-    private var accessWorkInProgressFeatures = false
-
     private var authorized: Bool {
-        return if accessWorkInProgressFeatures {
-            permissions?.global == .some(._beta_authorized)
-        } else {
-            permissions?.global.isSuperset(of: .authorized) == .some(true)
-        }
+        permissions?.global == .authorized
     }
 
     private var restricted: Bool {
-        return if accessWorkInProgressFeatures {
-            permissions?.global.isDisjoint(with: .restricted) == .some(false)
-        } else {
-            permissions?.global.isDisjoint(with: [.restrictedCalendars, .restrictedContacts])  == .some(false)
-        }
+        permissions?.global == .restricted
     }
 
     var body: some View {
@@ -68,9 +55,7 @@ struct OnboardingView: View {
             if !authorized {
                 if restricted {
                     Button {
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                        }
+                        AppContext.open(.settings)
                     } label: {
                         ButtonInnerBody(
                             label: "Restricted",
@@ -107,7 +92,7 @@ struct OnboardingView: View {
                         .multilineTextAlignment(.leading)
 
                         Button {
-                            areSettingsPresented.toggle()
+                            presentation?.areSettingsPresented.toggle()
                         } label: {
                             ButtonInnerBody(
                                 label: "Continue",
@@ -161,7 +146,7 @@ struct OnboardingView: View {
         )
 
         Button {
-            areInformationsPresented.toggle()
+            presentation?.areInformationsPresented.toggle()
         } label: {
             ButtonInnerBody(
                 label: "Information",
@@ -171,17 +156,15 @@ struct OnboardingView: View {
             .tint(.blue)
         }
 
-        if !restricted {
-            Button {
-                areSettingsPresented.toggle()
-            } label: {
-                ButtonInnerBody(
-                    label: "Permissions",
-                    description: "Check what Cami can access.",
-                    systemImage: "info.circle"
-                )
-                .tint(.blue)
-            }
+        Button {
+            presentation?.areSettingsPresented.toggle()
+        } label: {
+            ButtonInnerBody(
+                label: "Permissions",
+                description: "Check what Cami can access.",
+                systemImage: "hand.raised.square"
+            )
+            .tint(.blue)
         }
 
         WidgetHelpView(

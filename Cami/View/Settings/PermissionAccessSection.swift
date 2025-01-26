@@ -9,23 +9,13 @@ import SwiftUI
 
 struct PermissionAccessSection: View {
 
-    var status: PermissionSet
+    var status: Access.Status
     var title: String
     var label: String
     var notificationName: Notification.Name
     var description: String
     var restrictedDescription: String
     var radius: Double = 12
-
-    @AppStorage("accessWorkInProgressFeatures")
-    private var accessWorkInProgressFeatures: Bool = false
-
-    private var consideringReminders: Bool {
-        accessWorkInProgressFeatures && !status.isDisjoint(with: [.reminders, .restrictedReminders])
-    }
-    private var areRemindersAuthorized: Bool {
-        accessWorkInProgressFeatures && status.contains(.reminders)
-    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -34,7 +24,7 @@ struct PermissionAccessSection: View {
                     Text(title)
                         .font(.title2)
 
-                    if status.status == .authorized || areRemindersAuthorized {
+                    if status == .authorized {
                         Label(
                             label,
                             systemImage: "checkmark.circle.fill"
@@ -57,21 +47,13 @@ struct PermissionAccessSection: View {
             .foregroundStyle(.foreground.secondary)
             .multilineTextAlignment(.leading)
 
-            switch status.status {
-            case .notDetermined:
-                if consideringReminders {
-                    EmptyView()
-                } else {
-                    PermissionAccessButton(
-                        name: notificationName
-                    )
-                }
+            switch status {
+            case .none, .notDetermined:
+                PermissionAccessButton(name: notificationName)
             case .authorized:
                 EmptyView()
             case .restricted:
-                PermissionSettingsFallbackButton(
-                    description: restrictedDescription
-                )
+                PermissionSettingsFallbackButton(description: restrictedDescription)
             }
         }
         .frame(maxHeight: .infinity)

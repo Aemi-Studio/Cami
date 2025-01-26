@@ -8,13 +8,18 @@
 import EventKit
 
 typealias Calendars     = [EKCalendar]
+typealias TaskLists     = [EKCalendar]
 typealias Events        = [EKEvent]
+typealias Reminders     = [EKReminder]
+typealias CItems        = [EKCalendarItem]
 typealias EventDict     = [Date: [EKEvent]]
+typealias CIDict        = [Date: [EKCalendarItem]]
 typealias Dates         = [Date]
 typealias Weeks         = [Dates]
 
+typealias CItem         = EKCalendarItem
+
 typealias Birthdays     = Events
-typealias AuthSet       = PermissionSet
 typealias Seconds       = Int
 
 typealias DateRange     = ClosedRange<Date>

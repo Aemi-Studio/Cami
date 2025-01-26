@@ -27,8 +27,8 @@ struct CamiWidgetEvents: View {
                     EmptyView()
                 } else {
                     ViewThatFits {
-                        let eventsForDate: Events = entry.events[date] ?? []
-                        let inlineEventsForDate: Events = entry.inlineEvents[date] ?? []
+                        let eventsForDate: CItems = entry.events[date] ?? []
+                        let inlineEventsForDate: CItems = entry.inlineEvents[date] ?? []
                         CamiWidgetEventsByDate(
                             date: date,
                             events: eventsForDate,

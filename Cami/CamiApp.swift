@@ -12,8 +12,19 @@ struct CamiApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.views, .shared)
-                .environment(\.permissions, .shared)
+                .configureEnvironmentValues()
+                .environment(\.viewKind, .standard)
         }
+    }
+}
+
+extension View {
+    func configureEnvironmentValues() -> some View {
+        self
+            .environment(\.data, .shared)
+            .environment(\.views, .shared)
+            .environment(\.permissions, .shared)
+            .environment(\.presentation, .shared)
+            .onOpenURL(perform: Router.shared.handleURL)
     }
 }

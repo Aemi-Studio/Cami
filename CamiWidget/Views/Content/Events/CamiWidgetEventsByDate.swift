@@ -18,24 +18,26 @@ struct CamiWidgetEventsByDate: View {
     private var widgetFamily: WidgetFamily
 
     var date: Date
-    var events: Events = []
-    var inlineEvents: Events = []
+    var events: CItems = []
+    var inlineEvents: CItems = []
 
     private var reducedEvents: [(EKEvent, Events)] {
         if entry.config.groupEvents {
             if entry.config.allDayStyle == .hidden {
-                return events.filter({ event in !(
-                    event.isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
-                )}).reduced()
+                let calendarItems: CItems = events.filter({ event in !( // swiftlint:disable:next force_cast
+                    (event as! EKEvent).isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
+                )})
+                return (calendarItems as! Events).reduced() // swiftlint:disable:this force_cast
             }
-            return events.reduced()
+            return (events as! Events).reduced() // swiftlint:disable:this force_cast
         } else {
             if entry.config.allDayStyle == .hidden {
-                return events.filter({ event in !(
-                    event.isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
+                let calendarItems: [(EKCalendarItem, [EKCalendarItem])] = events.filter({ event in !( // swiftlint:disable:next force_cast
+                    (event as! EKEvent).isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
                 )}).map({ ($0, [$0]) })
+                return calendarItems as! [(EKEvent, Events)] // swiftlint:disable:this force_cast
             }
-            return events.map({ ($0, [$0]) })
+            return (events as! Events).map({ ($0, [$0]) }) // swiftlint:disable:this force_cast
         }
     }
 
@@ -59,7 +61,9 @@ struct CamiWidgetEventsByDate: View {
                 HStack {
                     Group {
                         if ongoingEvents {
-                            Text("Ongoing Events")
+                            Text(
+                                NSLocalizedString("ongoingEvents.Title", comment: "")
+                            )
                         } else if isUpToTomorrow {
                             Text(date.formattedUntilTomorrow)
                                 .accessibilityLabel(
@@ -67,7 +71,7 @@ struct CamiWidgetEventsByDate: View {
                                 )
                         } else {
                             Group {
-                                Text(date.formattedAfterTomorrow) +
+                                Text(date.formattedAfterTomorrow.capitalized(with: .prefered)) +
                                     Text(" • ") +
                                     Text(date.relativeToNow)
                             }
@@ -80,6 +84,7 @@ struct CamiWidgetEventsByDate: View {
                     .fontWeight(.medium)
                     .foregroundStyle(.white.opacity(0.25))
                     .lineLimit(1)
+
                     Spacer()
                     if !ongoingEvents && inlineEvents.count > 0 {
                         HStack {

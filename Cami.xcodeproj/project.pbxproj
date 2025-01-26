@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -61,53 +61,82 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		464F11292D406EB800F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		464F11292D406EB800F73884 /* Exceptions for "CamiWidget" folder in "Cami" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Intents/CamiWidgetConfiguration.swift,
 				Intents/CamiWidgetIntent.swift,
 				"Intents/Intents Parameters/AllDayStyleEnum.swift",
+				"Intents/Intents Parameters/CornerComplicationEnum.swift",
 				"Intents/Intents Parameters/WidgetCalendarEntity.swift",
 			);
 			target = 465533082AF4EA69000B537B /* Cami */;
 		};
-		464F112A2D406EB800F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		464F112A2D406EB800F73884 /* Exceptions for "CamiWidget" folder in "CamiWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
-		464F11AF2D4079F300F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		464F11AF2D4079F300F73884 /* Exceptions for "Cami" folder in "Cami" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = 465533082AF4EA69000B537B /* Cami */;
 		};
-		464F11B02D4079F300F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		464F11B02D4079F300F73884 /* Exceptions for "Cami" folder in "CamiWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Components/VariableBlur.swift,
 				Extensions/Notifications.swift,
 				Model/PermissionModel.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
-		464F121F2D4079F600F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		464F121F2D4079F600F73884 /* Exceptions for "Multiplatform" folder in "CamiWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Custom Types/Day.swift",
 				"Custom Types/Generics.swift",
 				Extensions/Weeks.swift,
+				"Helper/DeepLink+woDay.swift",
+				Modifiers/Modal.swift,
+				Modifiers/PageModifier.swift,
+				Router.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		464F11112D406EB800F73884 /* CamiWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (464F11292D406EB800F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 464F112A2D406EB800F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CamiWidget; sourceTree = "<group>"; };
-		464F118F2D4079F300F73884 /* Cami */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (464F11AF2D4079F300F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 464F11B02D4079F300F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Cami; sourceTree = "<group>"; };
-		464F11DA2D4079F600F73884 /* Multiplatform */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (464F121F2D4079F600F73884 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Multiplatform; sourceTree = "<group>"; };
+		464F11112D406EB800F73884 /* CamiWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				464F11292D406EB800F73884 /* Exceptions for "CamiWidget" folder in "Cami" target */,
+				464F112A2D406EB800F73884 /* Exceptions for "CamiWidget" folder in "CamiWidgetExtension" target */,
+			);
+			path = CamiWidget;
+			sourceTree = "<group>";
+		};
+		464F118F2D4079F300F73884 /* Cami */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				464F11AF2D4079F300F73884 /* Exceptions for "Cami" folder in "Cami" target */,
+				464F11B02D4079F300F73884 /* Exceptions for "Cami" folder in "CamiWidgetExtension" target */,
+			);
+			path = Cami;
+			sourceTree = "<group>";
+		};
+		464F11DA2D4079F600F73884 /* Multiplatform */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				464F121F2D4079F600F73884 /* Exceptions for "Multiplatform" folder in "CamiWidgetExtension" target */,
+			);
+			path = Multiplatform;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,7 +278,6 @@
 				};
 			};
 			buildConfigurationList = 465533042AF4EA69000B537B /* Build configuration list for PBXProject "Cami" */;
-			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -260,6 +288,7 @@
 			packageReferences = (
 				461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 4655330A2AF4EA69000B537B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -632,6 +661,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Cami/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -690,6 +720,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Cami/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cami;
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";

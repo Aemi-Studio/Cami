@@ -1,53 +1,16 @@
 //
-//  ContactHelper.swift
+//  DataContext+Contacts.swift
 //  Cami
 //
-//  Created by Guillaume Coquard on 15/11/23.
+//  Created by Guillaume Coquard on 26/01/25.
 //
 
 import Foundation
 import Contacts
-import OSLog
 
-struct ContactHelper: Loggable {
+// MARK: - Contacts
 
-    static let store: CNContactStore = .init()
-
-    /// Request access to contacts data in an asynchronous way.
-    ///
-    ///
-    /// - Returns: The access status as an `AuthorizationSet` object.
-    ///
-    public static func requestAccess() async -> PermissionSet {
-        do {
-            let result = try await Self.store.requestAccess(for: .contacts)
-            log.error("ContactHelper -> \(String(describing: result))")
-            return result ? .contacts : .restrictedContacts
-        } catch {
-            log.error("\(String(describing: error))")
-            return .restrictedContacts
-        }
-    }
-
-    /// Request access to contacts data in a synchronous way, providing a callback.
-    ///
-    /// - Parameters:
-    ///     - callback: The callback function to interact with the access status.
-    ///     The status is passed to the callback as an `AuthorizationSet` object.
-    ///
-    public static func requestAccess(
-        _ callback: @escaping (PermissionSet) -> Void
-    ) {
-        Self.store.requestAccess(for: .contacts) { result, error in
-            if error != nil {
-                log.error("\(String(describing: error))")
-                callback(.restrictedContacts)
-            } else {
-                log.error("ContactHelper -> \(String(describing: result))")
-                callback(result ? .contacts : .restrictedContacts)
-            }
-        }
-    }
+extension DataContext {
 
     /// Resolve contact birthdate from a specified contact identifier using `unifiedContact`.
     ///
@@ -56,12 +19,12 @@ struct ContactHelper: Loggable {
     ///
     /// - Returns: The birthdate of the contact.
     ///
-    public static func resolveBirthdate(
+    public func resolveBirthdate(
         _ identifier: String
     ) -> DateComponents? {
         let fetchedBirthdate: DateComponents?
         do {
-            fetchedBirthdate = try Self.store.unifiedContact(
+            fetchedBirthdate = try contactStore.unifiedContact(
                 withIdentifier: identifier,
                 keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]
             ).birthday
@@ -80,10 +43,10 @@ struct ContactHelper: Loggable {
     /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
-    public static func resolveContactName(_ identifier: String) -> String {
+    public func resolveContactName(_ identifier: String) -> String {
         let fetchedContact: CNContact?
         do {
-            fetchedContact = try Self.store.unifiedContact(
+            fetchedContact = try contactStore.unifiedContact(
                 withIdentifier: identifier,
                 keysToFetch: [
                     CNContactNicknameKey as CNKeyDescriptor,
@@ -108,12 +71,12 @@ struct ContactHelper: Loggable {
     /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
-    public static func resolveContactName(
+    public func resolveContactName(
         _ predicate: NSPredicate
     ) -> String {
         let fetchedContact: CNContact?
         do {
-            fetchedContact = try Self.store.unifiedContacts(
+            fetchedContact = try contactStore.unifiedContacts(
                 matching: predicate,
                 keysToFetch: [
                     CNContactNicknameKey as CNKeyDescriptor,

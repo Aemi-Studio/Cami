@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-struct WidgetCalendarEntity: Sendable, AppEntity {
+struct WidgetCalendarEntity: AppEntity {
     var id: String
     var calendar: String
 
@@ -19,7 +19,7 @@ struct WidgetCalendarEntity: Sendable, AppEntity {
         DisplayRepresentation(title: "\(id)")
     }
 
-    static let allCalendars: [WidgetCalendarEntity] = CamiHelper.allCalendars.map { calendar in
+    static let allCalendars: [WidgetCalendarEntity] = DataContext.shared.calendars.map { calendar in
         WidgetCalendarEntity(
             id: "\(calendar.source.title) - \(calendar.title)",
             calendar: calendar.calendarIdentifier

@@ -13,7 +13,7 @@ public protocol Loggable {
 
 public extension Loggable {
     static var log: Logger {
-        Logger(subsystem: "Cami", category: String(describing: Self.self))
+        Logger(subsystem: Bundle.main.bundleIdentifier ?? "", category: String(describing: Self.self))
     }
     var log: Logger {
         Self.log

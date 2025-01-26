@@ -49,17 +49,15 @@ struct MonthDayCell: View {
         }
         .buttonStyle(PlainButtonStyle())
         .task { @MainActor in
-            await self.updateColors()
+            self.updateColors()
         }
-        .onChange(of: perms?.global) { _, _ in
-            Task { @MainActor in
-                await self.updateColors()
-            }
+        .onChange(of: perms?.global) { @MainActor _, _ in
+            self.updateColors()
         }
     }
 
-    private func updateColors() async {
-        let calendars: Set<String> = await day.lazyInitCalendars()
+    private func updateColors() {
+        let calendars: Set<String> = day.lazyInitCalendars()
         let ekCalendars = Array(model?.calendars.intersection(calendars) ?? []).asEKCalendars()
         self.colors = ekCalendars.map { Generic<Color>(Color(cgColor: $0.cgColor)) }
     }

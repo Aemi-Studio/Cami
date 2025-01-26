@@ -11,14 +11,14 @@ import WidgetKit
 
 struct ContentView: View {
 
-    @Environment(\.scenePhase)  private var scenePhase: ScenePhase
-    @Environment(\.permissions) private var permissions
-    @Environment(\.views)       private var views
+    @Environment(\.scenePhase)   private var scenePhase
+    @Environment(\.presentation) private var presentation
+    @Environment(\.permissions)  private var permissions
+    @Environment(\.views)        private var views
 
-    @State private var areSettingsPresented: Bool = false
-    @State private var areInformationsPresented: Bool = false
+    @State private var pages: [Page] = [.onboarding, .day(Date.now), .permissions]
 
-    private var wasNotAuthorized: Bool = PermissionModel.shared.global.status == .restricted
+    private var wasNotAuthorized: Bool = PermissionModel.shared.global == .restricted
 
     private var authorized: Bool {
         permissions?.global == .some(.authorized)
@@ -28,51 +28,51 @@ struct ContentView: View {
         permissions?.global == .some(.restricted)
     }
 
-    @AppStorage("accessWorkInProgressFeatures")
-    private var accessWorkInProgressFeatures: Bool = false
-
     var body: some View {
-        Group {
-            if accessWorkInProgressFeatures {
-                if let views {
-                    @Bindable var views = views
-                    NavigationStack(path: $views.path) {
-                        CalendarView(
-                            areSettingsPresented: $areSettingsPresented
-                        )
-                        .navigationDestination(for: Day.self, destination: DayView.init)
-                        .navigationDestination(for: EKEvent.self, destination: EventView.init)
-                    }
-                }
-            } else {
-                OnboardingView(
-                    areSettingsPresented: $areSettingsPresented,
-                    areInformationsPresented: $areInformationsPresented
-                )
-                .frame(maxWidth: 720)
+        ScrollableHome(pages)
+            .onChange(of: scenePhase) { _, _ in
+                WidgetCenter.shared.reloadAllTimelines()
             }
-        }
-        .onChange(of: scenePhase) { _, _ in
-            WidgetCenter.shared.reloadAllTimelines()
-        }
-        .onChange(of: permissions?.global) { _, _ in
-            views?.reset()
-            WidgetCenter.shared.reloadAllTimelines()
-        }
-        .sheet(isPresented: $areSettingsPresented) {
-            PermissionsView()
-                .environment(\.views, views)
-                .environment(\.permissions, permissions)
-                .presentationDragIndicator(.visible)
-                .presentationDetents([.medium, .large])
-                .presentationContentInteraction(.scrolls)
-        }
-        .sheet(isPresented: $areInformationsPresented) {
-            InformationModalView()
-                .environment(\.views, views)
-                .presentationDetents([.medium, .large])
-                .presentationDragIndicator(.visible)
-                .presentationContentInteraction(.scrolls)
+            .onChange(of: permissions?.global) { _, _ in
+                views?.reset()
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+            .onReceive(DataContext.shared.publishEventStoreChanges()) { _ in
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+            .if(presentation != nil) { view in
+                @Bindable var presentation = presentation!
+                view
+                    .modal(isPresented: $presentation.areSettingsPresented) {
+                        PermissionsView()
+                            .presentationDragIndicator(.visible)
+                            .presentationDetents([.medium, .large])
+                            .presentationContentInteraction(.scrolls)
+                    }
+                    .modal(isPresented: $presentation.areInformationsPresented) {
+                        InformationModalView()
+                            .presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.visible)
+                            .presentationContentInteraction(.scrolls)
+                    }
+                    .modal(isPresented: $presentation.isReminderCreationSheetPresented) {
+                        CreateReminderView()
+                            .presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.visible)
+                            .presentationContentInteraction(.scrolls)
+                    }
+            }
+    }
+
+    @ViewBuilder
+    var otherContent: some View {
+        if let views {
+            @Bindable var views = views
+            NavigationStack(path: $views.path) {
+                CalendarView()
+                    //                    .navigationDestination(for: Day.self, destination: DayView.init)
+                    .navigationDestination(for: EKEvent.self, destination: EventView.init)
+            }
         }
     }
 }
@@ -81,20 +81,50 @@ struct ContentView: View {
     ContentView()
 }
 
+struct CreateReminderView: View {
 
-extension View {
-    
-    @ViewBuilder
-    func awareSheet(
-        isPresented condition: Binding<Bool>,
-        environmentValues: [PartialKeyPath<EnvironmentValues>: Any],
-        @ViewBuilder content: @escaping () -> some View
-    ) -> some View {
-        self
-            .sheet(isPresented: condition) {
-                content()
-            
-            }
+    @Environment(\.data) private var data
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var title: String = ""
+    @State private var date: Date = .now
+
+    var readyToSave: Bool {
+        !title.isEmpty
     }
-    
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                TextField("Title", text: $title)
+                    .font(.title2)
+                    .foregroundStyle(.primary)
+                    .padding(.bottom, 16)
+                DatePicker("Date", selection: $date)
+                    .font(.title2)
+                    .foregroundStyle(.primary)
+                    .padding(.bottom, 16)
+            }
+            .padding()
+            .navigationTitle("Create a Reminder")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItemGroup(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                ToolbarItemGroup(placement: .confirmationAction) {
+                    Button("Save") {
+                        if readyToSave,
+                           let data,
+                           (try? data.createReminder(title: title)) != nil {
+                            dismiss()
+                        }
+                    }
+                    .disabled(!readyToSave)
+                }
+            }
+        }
+    }
 }

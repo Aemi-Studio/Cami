@@ -15,5 +15,18 @@ Cami DOES NOT edit or delete or send those information away.</string>
 Cami DOES NOT edit or delete or send those information away.</string>
 	<key>User Script Sandboxing</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>camical</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>Cami ONLY uses your on-device contacts information to display birthdays in widgets.</string>
 </dict>
 </plist>

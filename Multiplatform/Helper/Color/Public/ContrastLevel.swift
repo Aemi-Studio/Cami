@@ -19,7 +19,7 @@ public enum ContrastLevel: String {
     case aaLarge = "AA Large"
 
     /// Standard contrast level for normal text size, ensuring clear readability.
-    case aa = "AA"
+    case aa = "AA" // swiftlint:disable:this identifier_name
 
     /// Highest contrast level, recommended for the best readability in all contexts.
     case aaa = "AAA"

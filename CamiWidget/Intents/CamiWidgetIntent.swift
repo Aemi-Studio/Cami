@@ -33,8 +33,12 @@ struct CamiWidgetIntent: WidgetConfigurationIntent {
     @Parameter(title: "Group Similar Events", default: true)
     var groupEvents: Bool
 
-    @Parameter(title: "Display Birthdays", default: true)
-    var displayBirthdays: Bool
+    @Parameter(
+        title: "Corner Complication",
+        default: .birthdays,
+        optionsProvider: CornerComplicationOptionsProvider()
+    )
+    var cornerComplication: CornerComplicationEnum
 
     @Parameter(title: "Display Ongoing Events", default: true)
     var displayOngoingEvents: Bool

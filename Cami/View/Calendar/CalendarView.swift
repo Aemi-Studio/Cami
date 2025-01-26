@@ -9,17 +9,14 @@ import SwiftUI
 
 struct CalendarView: View {
 
-    @Environment(\.views)
-    private var views
+    @Environment(\.views) private var views
+    @Environment(\.presentation) private var presentation
 
     @Environment(\.verticalSizeClass)
     private var sizeClass: UserInterfaceSizeClass?
 
     @State
     private var wasNotAuthorized: Bool = true
-
-    @Binding
-    var areSettingsPresented: Bool
 
     @State
     private var isCalendarSelectionViewPresented: Bool = false
@@ -92,6 +89,7 @@ struct CalendarView: View {
                 }
                 #else
                 ToolbarItemGroup(placement: .bottomBar) {
+
                     HStack(alignment: .center, spacing: 8) {
                         Spacer()
                         Button {
@@ -100,11 +98,15 @@ struct CalendarView: View {
                             Label("Calendars", systemImage: "calendar")
                                 .labelStyle(.iconOnly)
                         }
-                        Button {
-                            areSettingsPresented.toggle()
-                        } label: {
-                            Label("Settings", systemImage: "gear")
-                                .labelStyle(.iconOnly)
+
+                        if let presentation {
+                            @Bindable var presentation = presentation
+                            Button {
+                                presentation.areSettingsPresented.toggle()
+                            } label: {
+                                Label("Settings", systemImage: "gear")
+                                    .labelStyle(.iconOnly)
+                            }
                         }
                     }
                 }

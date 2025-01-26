@@ -77,3 +77,5 @@ extension StandardizedColor {
             pow((component + kHighRGBLuminanceAddend) / kHighRGBLuminanceMultiplier, kLuminancePower)
     }
 }
+
+// swiftlint:enable identifier_name

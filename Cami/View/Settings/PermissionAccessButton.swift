@@ -13,7 +13,7 @@ struct PermissionAccessButton: View {
 
     var body: some View {
         Button {
-            PermissionModel.center.post(name: self.name, object: self)
+            //            PermissionModel.center.post(name: self.name, object: self)
         } label: {
             ButtonInnerBody(
                 label: "Continue",

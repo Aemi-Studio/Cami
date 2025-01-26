@@ -10,15 +10,6 @@ import SwiftUI
 extension View {
 
     @ViewBuilder
-    public func `if`(_ condition: Bool) -> some View {
-        if condition {
-            self
-        } else {
-            EmptyView()
-        }
-    }
-    
-    @ViewBuilder
     public func `if`(_ condition: Bool...) -> some View {
         if condition.allSatisfy({ $0 }) {
             self
@@ -26,7 +17,7 @@ extension View {
             EmptyView()
         }
     }
-    
+
     @ViewBuilder
     func `if`(_ condition: Bool, @ViewBuilder modifier: @escaping (Self) -> some View) -> some View {
         if condition {

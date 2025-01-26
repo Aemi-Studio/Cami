@@ -12,47 +12,9 @@ import EventKit
 import Contacts
 
 @Observable
-final class ViewModel: Loggable {
+@MainActor final class ViewModel: Loggable {
 
     static let shared: ViewModel = .init(for: .now)
-
-    class Month: Identifiable, Hashable {
-
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(self.date)
-        }
-
-        static func == (lhs: ViewModel.Month, rhs: ViewModel.Month) -> Bool {
-            lhs.date == rhs.date
-        }
-
-        let date: Date
-        let id: Int
-
-        public func next() -> Month {
-            Month(self.date.startOfNextMonth, prev: self.id)
-        }
-
-        public func prev() -> Month {
-            Month(self.date.startOfPreviousMonth, next: self.id)
-        }
-
-        init(
-            _ date: Date = Date.now.startOfMonth,
-            prev: Int? = nil,
-            next: Int? = nil,
-            id: Int = 0
-        ) {
-            self.date = date
-            if prev != nil {
-                self.id = prev! + 1
-            } else if next != nil {
-                self.id = next! - 1
-            } else {
-                self.id = id
-            }
-        }
-    }
 
     private func generate(
         from startDate: Date,
@@ -69,7 +31,7 @@ final class ViewModel: Loggable {
     }
 
     public func reset() {
-        self.calendars = Set(CamiHelper.allCalendars.asIdentifiers)
+        self.calendars = Set(DataContext.shared.allCalendars.asIdentifiers)
         self.months = self.generate(from: self.date)
     }
 
@@ -87,6 +49,7 @@ final class ViewModel: Loggable {
     public var months: Deque<Month>?
     public var path: NavigationPath
     public var calendars: Set<String>
+
     public var weekdaysCount: Int {
         Calendar.autoupdatingCurrent.maximumRange(of: .weekday)!.count
     }
@@ -94,10 +57,10 @@ final class ViewModel: Loggable {
     private init(for date: Date, path: NavigationPath) {
         self.date = date
         self.path = path
-        self.calendars = if PermissionModel.shared.global.status == .authorized {
-            .init(CamiHelper.allCalendars.asIdentifiers)
+        self.calendars = if PermissionModel.shared.global == .authorized {
+            Set(DataContext.shared.allCalendars.asIdentifiers)
         } else {
-            .init()
+            Set()
         }
         self.months = self.generate(from: date)
     }
@@ -105,10 +68,10 @@ final class ViewModel: Loggable {
     private init(for date: Date) {
         self.date = date
         self.path = NavigationPath()
-        self.calendars = if PermissionModel.shared.global.status == .authorized {
-            .init(CamiHelper.allCalendars.asIdentifiers)
+        self.calendars = if PermissionModel.shared.global == .authorized {
+            Set(DataContext.shared.allCalendars.asIdentifiers)
         } else {
-            .init()
+            Set()
         }
         self.months = self.generate(from: date)
     }
@@ -200,4 +163,44 @@ private enum Side: Int {
 
 extension EnvironmentValues {
     @Entry var views: ViewModel?
+}
+
+class Month: Identifiable, Hashable {
+
+    typealias ID = Int
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.date)
+    }
+
+    static func == (lhs: Month, rhs: Month) -> Bool {
+        lhs.date == rhs.date
+    }
+
+    let id: ID
+    let date: Date
+
+    public func next() -> Month {
+        Month(self.date.startOfNextMonth, prev: self.id)
+    }
+
+    public func prev() -> Month {
+        Month(self.date.startOfPreviousMonth, next: self.id)
+    }
+
+    init(
+        _ date: Date = Date.now.startOfMonth,
+        prev: Month.ID? = nil,
+        next: Month.ID? = nil,
+        id: ID = 0
+    ) {
+        self.date = date
+        if prev != nil {
+            self.id = prev! + 1
+        } else if next != nil {
+            self.id = next! - 1
+        } else {
+            self.id = id
+        }
+    }
 }

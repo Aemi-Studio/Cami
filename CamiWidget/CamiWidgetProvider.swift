@@ -15,8 +15,9 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> Entry {
         let date: Date = Date.now
         return CamiWidgetEntry(
-            events: CamiHelper.events(from: [] as [String], relativeTo: date),
-            birthdays: CamiHelper.birthdays(from: date)
+            events: DataContext.shared.events(from: [String](), relativeTo: date),
+            birthdays: DataContext.shared.birthdays(from: date),
+            reminders: DataContext.shared.reminders(where: Filters.any(of: [Filters.open, Filters.dueToday]).filter)
         )
     }
 
