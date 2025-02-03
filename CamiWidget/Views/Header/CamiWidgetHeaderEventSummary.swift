@@ -5,12 +5,11 @@
 //  Created by Guillaume Coquard on 11/09/24.
 //
 
+import EventKit
 import SwiftUI
 import WidgetKit
-import EventKit
 
 struct CamiWidgetHeaderEventSummary: View {
-
     @Environment(\.widgetFamily)
     private var widgetFamily: WidgetFamily
 
@@ -38,7 +37,6 @@ struct CamiWidgetHeaderEventSummary: View {
     }
 
     var text: some View {
-
         var text: String
 
         if numberOfEvents < 1 {
@@ -51,7 +49,6 @@ struct CamiWidgetHeaderEventSummary: View {
     }
 
     var body: some View {
-
         HStack(alignment: .center, spacing: 3) {
             if numberOfEvents > 0 {
                 Image(systemName: "circle.fill")

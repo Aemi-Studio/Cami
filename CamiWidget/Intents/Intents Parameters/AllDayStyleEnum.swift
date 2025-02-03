@@ -5,15 +5,15 @@
 //  Created by Guillaume Coquard on 17/11/23.
 //
 
-import Foundation
 import AppIntents
+import Foundation
 
 enum AllDayStyleEnum: String, CaseIterable, AppEnum {
     typealias RawValue = String
 
-    case hidden     = "Hidden"
-    case event      = "Event"
-    case bordered   = "Event Bordered"
+    case hidden = "Hidden"
+    case event = "Event"
+    case bordered = "Event Bordered"
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 
@@ -24,7 +24,7 @@ enum AllDayStyleEnum: String, CaseIterable, AppEnum {
     ]
 
     var title: String {
-        self.rawValue
+        rawValue
     }
 }
 

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingsNavigationLinksSection: View {
-
     var body: some View {
         CustomSection {
             Label(

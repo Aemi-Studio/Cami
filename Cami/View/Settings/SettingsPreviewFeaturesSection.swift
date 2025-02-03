@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingsPreviewFeaturesSection: View {
-
     @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
     private var accessWorkInProgressFeatures: Bool = false
 

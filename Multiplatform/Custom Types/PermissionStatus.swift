@@ -5,19 +5,18 @@
 //  Created by Guillaume Coquard on 11/02/24.
 //
 
-import Foundation
-import EventKit
 import Contacts
+import EventKit
+import Foundation
 
 @MainActor
 enum Access: CaseIterable, Hashable, Equatable {
-
     case calendars
     case contacts
     case reminders
 
     var status: Status {
-        self.retrieve()
+        retrieve()
     }
 
     func request() async {
@@ -51,7 +50,7 @@ enum Access: CaseIterable, Hashable, Equatable {
 }
 
 extension Access.Status {
-    internal init(from status: EKAuthorizationStatus) {
+    init(from status: EKAuthorizationStatus) {
         self = switch status {
         case .notDetermined: .notDetermined
         case .authorized, .fullAccess: .authorized
@@ -61,7 +60,7 @@ extension Access.Status {
 }
 
 extension Access.Status {
-    internal init(from status: CNAuthorizationStatus) {
+    init(from status: CNAuthorizationStatus) {
         self = switch status {
         case .notDetermined: .notDetermined
         case .authorized: .authorized

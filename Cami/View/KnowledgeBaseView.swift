@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct KnowledgeBaseView: View {
-
     @Environment(\.navigation) private var navigation
 
     @State private var context = KnowledgeBaseContext()
@@ -59,26 +58,5 @@ struct KnowledgeBaseView: View {
                     )
                 }
             }
-    }
-}
-
-struct KnowledgeBaseItemView: View {
-
-    let item: KnowledgeBaseItem
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(item.title)
-                .font(.title2)
-                .fontWeight(.bold)
-            Text(item.description)
-        }
-        .lineLimit(nil)
-        .multilineTextAlignment(.leading)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .fixedSize(horizontal: false, vertical: true)
-        .padding()
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 12))
     }
 }

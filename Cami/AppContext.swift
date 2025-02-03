@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct AppContext {
+enum AppContext {
     enum Destination {
         case settings
     }

@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct RefreshWidgetsModifier: ViewModifier {
-
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.permissions) private var permissions
     @Environment(\.views) private var views

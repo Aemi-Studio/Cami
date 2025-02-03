@@ -1,15 +1,14 @@
 //
-//  EditEventView.swift
+//  EditEventViewController.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 18/01/24.
 //
 
-import SwiftUI
 import EventKitUI
+import SwiftUI
 
 struct EditEventViewController: UIViewControllerRepresentable {
-
     @Environment(\.dismiss)
     var dismiss: DismissAction
 
@@ -20,18 +19,17 @@ struct EditEventViewController: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, EKEventEditViewDelegate {
-
         var parent: EditEventViewController
 
         init(_ controller: EditEventViewController) {
-            self.parent = controller
+            parent = controller
         }
 
         func eventEditViewController(
-            _ controller: EKEventEditViewController,
-            didCompleteWith action: EKEventEditViewAction
+            _: EKEventEditViewController,
+            didCompleteWith _: EKEventEditViewAction
         ) {
-            self.parent.dismiss()
+            parent.dismiss()
         }
     }
 
@@ -43,5 +41,5 @@ struct EditEventViewController: UIViewControllerRepresentable {
         return eventEditViewController
     }
 
-    func updateUIViewController(_ uiViewController: EKEventEditViewController, context: Context) {}
+    func updateUIViewController(_: EKEventEditViewController, context _: Context) {}
 }

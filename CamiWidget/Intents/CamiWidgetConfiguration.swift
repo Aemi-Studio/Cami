@@ -8,24 +8,22 @@
 import Foundation
 
 final class CamiWidgetConfiguration {
-
     let allDayStyle: AllDayStyleEnum
     let cornerComplication: CornerComplicationEnum
     let displayOngoingEvents: Bool
     let groupEvents: Bool
 
     init() {
-        self.allDayStyle            = .event
-        self.cornerComplication     = .birthdays
-        self.displayOngoingEvents   = true
-        self.groupEvents            = true
+        allDayStyle = .event
+        cornerComplication = .birthdays
+        displayOngoingEvents = true
+        groupEvents = true
     }
 
     init(from intent: CamiWidgetIntent) {
-        self.allDayStyle            = intent.allDayStyle
-        self.cornerComplication     = intent.cornerComplication
-        self.displayOngoingEvents   = intent.displayOngoingEvents
-        self.groupEvents            = intent.groupEvents
+        allDayStyle = intent.allDayStyle
+        cornerComplication = intent.cornerComplication
+        displayOngoingEvents = intent.displayOngoingEvents
+        groupEvents = intent.groupEvents
     }
-
 }

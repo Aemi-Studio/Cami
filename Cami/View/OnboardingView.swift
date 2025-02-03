@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct OnboardingView: View {
-
     @Environment(\.presentation) private var presentation
     @Environment(\.permissions) private var permissions
 

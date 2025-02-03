@@ -14,7 +14,6 @@ import Foundation
 /// - AAA: Enhanced contrast for improved readability.
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public enum ContrastLevel: String {
-
     /// Contrast level for large text, typically for visual accessibility.
     case aaLarge = "AA Large"
 

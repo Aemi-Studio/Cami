@@ -5,11 +5,10 @@
 //  Created by Guillaume Coquard on 19/11/23.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 
 struct MonthDayCell: View {
-
     @Environment(\.views) private var model
     @Environment(\.permissions) private var perms
 
@@ -38,7 +37,7 @@ struct MonthDayCell: View {
                         ForEach(colors!) { color in
                             Circle()
                                 .frame(width: 6, height: 6)
-                                .foregroundStyle( color.value )
+                                .foregroundStyle(color.value)
                         }
                     } else {
                         Color.clear.frame(height: 6)
@@ -59,6 +58,6 @@ struct MonthDayCell: View {
     private func updateColors() {
         let calendars: Set<String> = day.lazyInitCalendars()
         let ekCalendars = Array(model?.calendars.intersection(calendars) ?? []).asEKCalendars()
-        self.colors = ekCalendars.map { Generic<Color>(Color(cgColor: $0.cgColor)) }
+        colors = ekCalendars.map { Generic<Color>(Color(cgColor: $0.cgColor)) }
     }
 }

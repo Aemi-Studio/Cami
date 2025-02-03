@@ -9,7 +9,6 @@ import AemiUI
 import SwiftUI
 
 struct AccessCheckbox: View {
-
     let status: Access.Status
 
     private var tint: Color? {

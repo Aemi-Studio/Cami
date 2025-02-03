@@ -1,17 +1,16 @@
 //
-//  CustomDayView.swift
+//  SingleDayView.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 23/01/25.
 //
 
 import Combine
-import SwiftUI
 import EventKit
+import SwiftUI
 
 @Observable
 final class SingleDayContext {
-
     let date: Date
     let context: DataContext
 
@@ -25,8 +24,8 @@ final class SingleDayContext {
     init(for date: Date, in context: DataContext) {
         self.date = date
         self.context = context
-        self.update()
-        self.subscribe()
+        update()
+        subscribe()
     }
 
     func subscribe() {
@@ -52,15 +51,14 @@ final class SingleDayContext {
     }
 
     func update() {
-        self.events = getEvents()
-        self.reminders = getReminders()
-        self.overdueReminders = getOverdueReminders()
-        self.openReminders = getOpenReminders()
+        events = getEvents()
+        reminders = getReminders()
+        overdueReminders = getOverdueReminders()
+        openReminders = getOpenReminders()
     }
 }
 
 struct SingleDayView: View {
-
     @Environment(\.presentation) private var presentation
 
     @State private var reminderFilters: [Filters] = [
@@ -78,7 +76,7 @@ struct SingleDayView: View {
 
     init(date: Date) {
         self.date = date
-        self.context = SingleDayContext(
+        context = SingleDayContext(
             for: date,
             in: DataContext.shared
         )
@@ -104,11 +102,9 @@ struct SingleDayView: View {
 }
 
 struct PreviewCalItemView: View {
-
     let item: CalItem
 
     var body: some View {
-
         VStack(alignment: .leading) {
             HStack {
                 Text(item.title)
@@ -116,7 +112,6 @@ struct PreviewCalItemView: View {
                     .fontDesign(.rounded)
                     .fontWeight(.semibold)
             }
-
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -127,17 +122,13 @@ struct PreviewCalItemView: View {
                 .fill(.clear)
                 .stroke(Color.primary.quaternary, lineWidth: 0.5)
         }
-
     }
-
 }
 
 struct PreviewEventView: View {
-
     let event: EKEvent
 
     var body: some View {
-
         VStack(alignment: .leading) {
             HStack {
                 Text(event.title)
@@ -155,17 +146,13 @@ struct PreviewEventView: View {
                 .fill(.clear)
                 .stroke(Color.primary.quaternary, lineWidth: 0.5)
         }
-
     }
-
 }
 
 struct PreviewReminderView: View {
-
     let reminder: EKReminder
 
     var body: some View {
-
         VStack(alignment: .leading) {
             HStack {
                 Text(reminder.title)
@@ -183,9 +170,7 @@ struct PreviewReminderView: View {
                 .fill(.clear)
                 .stroke(Color.primary.quaternary, lineWidth: 0.5)
         }
-
     }
-
 }
 
 typealias CalItem = EKCalendarItem

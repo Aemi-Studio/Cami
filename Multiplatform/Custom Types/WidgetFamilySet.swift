@@ -9,13 +9,12 @@ import Foundation
 import WidgetKit
 
 struct WidgetFamilySet: OptionSet, Hashable {
-
     let rawValue: Int
 
-    static let systemSmall          = WidgetFamilySet(rawValue: 1 << 0)
-    static let systemMedium         = WidgetFamilySet(rawValue: 1 << 1)
-    static let systemLarge          = WidgetFamilySet(rawValue: 1 << 2)
-    static let systemExtraLarge     = WidgetFamilySet(rawValue: 1 << 3)
+    static let systemSmall = WidgetFamilySet(rawValue: 1 << 0)
+    static let systemMedium = WidgetFamilySet(rawValue: 1 << 1)
+    static let systemLarge = WidgetFamilySet(rawValue: 1 << 2)
+    static let systemExtraLarge = WidgetFamilySet(rawValue: 1 << 3)
 
     static let notSmall: WidgetFamilySet = [
         .systemMedium,
@@ -23,15 +22,14 @@ struct WidgetFamilySet: OptionSet, Hashable {
         .systemExtraLarge
     ]
 
-    static let all: WidgetFamilySet        = [
+    static let all: WidgetFamilySet = [
         .systemSmall,
         .systemMedium,
         .systemLarge,
         .systemExtraLarge
     ]
 
-    static let none: WidgetFamilySet       = []
-
+    static let none: WidgetFamilySet = []
 }
 
 extension WidgetFamilySet {

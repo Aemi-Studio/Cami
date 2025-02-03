@@ -1,24 +1,21 @@
 //
-//  SettingsView.swift
+//  PermissionsView.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 15/11/23.
 //
 
 extension Binding {
-
     var forcedProjectedValue: Binding<Value> {
         Binding<Value> {
             self.wrappedValue
         } set: { _ in }
     }
-
 }
 
 import SwiftUI
 
 struct PermissionsView: View {
-
     @Environment(\.dismiss) private var dismiss
     @Environment(\.viewKind) private var viewKind
     @Environment(\.permissions) private var permissions
@@ -31,7 +28,6 @@ struct PermissionsView: View {
                     @Bindable var permissions = permissions
 
                     CustomSection {
-
                         AccessToggle(
                             isOn: permissions.calendars,
                             title: NSLocalizedString("perms.calendars.title", comment: ""),
@@ -58,7 +54,6 @@ struct PermissionsView: View {
                         PrivacyPolicyButton()
                         SystemSettingsButton()
                     }
-
                 }
                 .padding(.horizontal)
             }

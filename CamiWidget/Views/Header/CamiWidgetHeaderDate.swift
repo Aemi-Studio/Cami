@@ -10,7 +10,6 @@ import SwiftUI
 import WidgetKit
 
 struct CamiWidgetHeaderDate: View {
-
     @Environment(\.widgetFamily)
     private var widgetFamily: WidgetFamily
 
@@ -29,7 +28,6 @@ struct CamiWidgetHeaderDate: View {
     }
 
     var body: some View {
-
         @Bindable var entry = entry
 
         HStack(spacing: 0) {
@@ -45,7 +43,6 @@ struct CamiWidgetHeaderDate: View {
             Text("\(dateComponents["date"]!)")
                 .fontWeight(.heavy)
                 .foregroundStyle(.red)
-
         }
         .font(.title3)
         .lineSpacing(0)

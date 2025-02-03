@@ -10,7 +10,7 @@ import SwiftUI
 extension View {
     @ViewBuilder
     func modal(isPresented condition: Binding<Bool>, @ViewBuilder content: @escaping () -> some View) -> some View {
-        self.sheet(isPresented: condition) {
+        sheet(isPresented: condition) {
             NavigationStack {
                 content()
                     .configureEnvironmentValues()

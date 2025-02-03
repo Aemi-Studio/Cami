@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StorageContext {
+enum StorageContext {
     @AppStorage("accessWorkInProgressFeatures")
     static var accessWorkInProgressFeatures = false
 }

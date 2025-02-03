@@ -5,13 +5,12 @@
 //  Created by Guillaume Coquard on 21/11/23.
 //
 
+import EventKit
 import Foundation
 import SwiftUI
-import EventKit
 
 @Observable
 final class Day: Identifiable, @unchecked Sendable {
-
     typealias ID = UUID
 
     private struct SourceCalendars: Equatable, Hashable {
@@ -21,7 +20,7 @@ final class Day: Identifiable, @unchecked Sendable {
 
     private var sourceCalendars: SourceCalendars?
 
-    let id: ID = ID()
+    let id: ID = .init()
     let date: Date
 
     var calendars: Set<String>?
@@ -35,20 +34,20 @@ final class Day: Identifiable, @unchecked Sendable {
 
     init(_ date: Date, from calendars: [String]) {
         self.date = date
-        self.sourceCalendars = SourceCalendars(identifiers: calendars)
+        sourceCalendars = SourceCalendars(identifiers: calendars)
     }
 
     init(_ date: Date, from calendars: Calendars) {
         self.date = date
-        self.sourceCalendars = SourceCalendars(ekCalendars: calendars)
+        sourceCalendars = SourceCalendars(ekCalendars: calendars)
     }
 
     @discardableResult
     func lazyInit() -> Day {
-        self.lazyInitEvents()
-        self.lazyInitCalendars()
-        self.lazyBirthdays()
-        self.lazyReminders()
+        lazyInitEvents()
+        lazyInitCalendars()
+        lazyBirthdays()
+        lazyReminders()
         return self
     }
 
@@ -56,8 +55,8 @@ final class Day: Identifiable, @unchecked Sendable {
     func lazyInitEvents() -> CItems {
         if let events { return events }
 
-        let calendars = self.sourceCalendars?.ekCalendars
-            ?? self.sourceCalendars?.identifiers?.asEKCalendars()
+        let calendars = sourceCalendars?.ekCalendars
+            ?? sourceCalendars?.identifiers?.asEKCalendars()
             ?? DataContext.shared.allCalendars
 
         events = DataContext.shared.events(from: calendars, during: 1, relativeTo: date)
@@ -76,7 +75,7 @@ final class Day: Identifiable, @unchecked Sendable {
     func lazyInitEvents(from calendars: Calendars) -> CItems {
         if let events { return events }
 
-        events = DataContext.shared.events(from: calendars, during: 1, relativeTo: date )
+        events = DataContext.shared.events(from: calendars, during: 1, relativeTo: date)
         return events ?? []
     }
 
@@ -96,7 +95,7 @@ final class Day: Identifiable, @unchecked Sendable {
         if let birthdays { return birthdays }
 
         birthdays = DataContext.shared.birthdays(from: date, during: 1)
-        return self.birthdays ?? []
+        return birthdays ?? []
     }
 
     @discardableResult
@@ -106,7 +105,6 @@ final class Day: Identifiable, @unchecked Sendable {
         reminders = DataContext.shared.reminders(where: Filters.any(of: [Filters.dueToday, Filters.open]).filter)
         return reminders ?? []
     }
-
 }
 
 extension Day: Hashable, Equatable {

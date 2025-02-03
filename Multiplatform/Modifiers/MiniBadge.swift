@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct MiniBadge: ViewModifier {
-
     var color: Color? = .black
 
     init(color: Color = .black) {
@@ -17,7 +16,7 @@ struct MiniBadge: ViewModifier {
     }
 
     init(cgColor: CGColor?) {
-        self.color = Color(
+        color = Color(
             cgColor: cgColor ?? .init(red: 0, green: 0, blue: 0, alpha: 1)
         )
     }
@@ -25,7 +24,7 @@ struct MiniBadge: ViewModifier {
     func body(content: Content) -> some View {
         content
             .fontWeight(.bold)
-            .foregroundStyle(Color.init(white: 0.1))
+            .foregroundStyle(Color(white: 0.1))
             .fixedSize(horizontal: true, vertical: true)
             .pad([
                 .notSmall: .init(
@@ -37,7 +36,7 @@ struct MiniBadge: ViewModifier {
                     horizontal: 8
                 )
             ])
-            .background(self.color)
+            .background(color)
             .rounded([
                 .notSmall: .init(2),
                 .systemSmall: .init(
@@ -50,12 +49,12 @@ struct MiniBadge: ViewModifier {
     }
 }
 
-extension View {
-    public func miniBadge(color: Color) -> some View {
+public extension View {
+    func miniBadge(color: Color) -> some View {
         modifier(MiniBadge(color: color))
     }
 
-    public func miniBadge(cgColor: CGColor) -> some View {
+    func miniBadge(cgColor: CGColor) -> some View {
         modifier(MiniBadge(cgColor: cgColor))
     }
 }

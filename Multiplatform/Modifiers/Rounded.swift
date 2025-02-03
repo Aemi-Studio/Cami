@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct Rounded: ViewModifier {
-
     @Environment(\.widgetFamily)
     private var _widgetFamily: WidgetFamily
 

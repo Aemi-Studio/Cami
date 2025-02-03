@@ -5,12 +5,11 @@
 //  Created by Guillaume Coquard on 14/11/23.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 import WidgetKit
 
 struct CamiWidgetEventsByDate: View {
-
     @Environment(CamiWidgetEntry.self)
     private var entry: CamiWidgetEntry
 
@@ -24,20 +23,20 @@ struct CamiWidgetEventsByDate: View {
     private var reducedEvents: [(EKEvent, Events)] {
         if entry.config.groupEvents {
             if entry.config.allDayStyle == .hidden {
-                let calendarItems: CItems = events.filter({ event in !( // swiftlint:disable:next force_cast
+                let calendarItems: CItems = events.filter { event in !( // swiftlint:disable:next force_cast
                     (event as! EKEvent).isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
-                )})
+                ) }
                 return (calendarItems as! Events).reduced() // swiftlint:disable:this force_cast
             }
             return (events as! Events).reduced() // swiftlint:disable:this force_cast
         } else {
             if entry.config.allDayStyle == .hidden {
-                let calendarItems: [(EKCalendarItem, [EKCalendarItem])] = events.filter({ event in !( // swiftlint:disable:next force_cast
+                let calendarItems: [(EKCalendarItem, [EKCalendarItem])] = events.filter { event in !( // swiftlint:disable:next force_cast
                     (event as! EKEvent).isAllDay && !(event.spansMore(than: entry.date) && entry.config.displayOngoingEvents)
-                )}).map({ ($0, [$0]) })
+                ) }.map { ($0, [$0]) }
                 return calendarItems as! [(EKEvent, Events)] // swiftlint:disable:this force_cast
             }
-            return (events as! Events).map({ ($0, [$0]) }) // swiftlint:disable:this force_cast
+            return (events as! Events).map { ($0, [$0]) } // swiftlint:disable:this force_cast
         }
     }
 
@@ -50,13 +49,10 @@ struct CamiWidgetEventsByDate: View {
     }
 
     var body: some View {
-
         if inlineEvents.isEmpty && reducedEvents.isEmpty {
-
             EmptyView()
 
         } else {
-
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Group {
@@ -130,9 +126,9 @@ struct CamiWidgetEventsByDate: View {
                 .padding(.horizontal, 1)
 
                 VStack(spacing: 2) {
-                    ForEach(0..<reducedEvents.count, id: \.self) { index in
+                    ForEach(0 ..< reducedEvents.count, id: \.self) { index in
                         ViewThatFits {
-                            CamiWidgetEvent( event: reducedEvents[index] )
+                            CamiWidgetEvent(event: reducedEvents[index])
                         }
                     }
                 }

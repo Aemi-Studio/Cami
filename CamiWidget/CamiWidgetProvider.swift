@@ -8,12 +8,11 @@
 import WidgetKit
 
 struct CamiWidgetProvider: AppIntentTimelineProvider {
-
     typealias Entry = CamiWidgetEntry
     typealias Intent = CamiWidgetIntent
 
-    func placeholder(in context: Context) -> Entry {
-        let date: Date = Date.now
+    func placeholder(in _: Context) -> Entry {
+        let date = Date.now
         return CamiWidgetEntry(
             events: DataContext.shared.events(from: [String](), relativeTo: date),
             birthdays: DataContext.shared.birthdays(from: date),
@@ -21,11 +20,11 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
         )
     }
 
-    func snapshot(for intent: Intent, in context: Context) async -> Entry {
+    func snapshot(for intent: Intent, in _: Context) async -> Entry {
         CamiWidgetEntry(from: intent)
     }
 
-    func timeline(for intent: Intent, in context: Context) async -> Timeline<Entry> {
+    func timeline(for intent: Intent, in _: Context) async -> Timeline<Entry> {
         Timeline(
             entries: [
                 CamiWidgetEntry(from: intent)

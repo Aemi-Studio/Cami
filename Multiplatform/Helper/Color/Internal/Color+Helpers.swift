@@ -12,7 +12,6 @@ import SwiftUI
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 extension Color {
-
     /// Creates a color from specified HSL (Hue, Saturation, Lightness) components.
     ///
     /// The method calculates the corresponding RGB values using the HSL color model and
@@ -23,7 +22,7 @@ extension Color {
     ///   - saturation: The saturation of the color, specified as a fraction from 0.0 to 1.0.
     ///   - lightness: The lightness of the color, specified as a fraction from 0.0 to 1.0.
     /// - Returns: A SwiftUI Color object with the specified HSL values.
-    internal static func hsl(
+    static func hsl(
         hue: CGFloat,
         saturation: CGFloat,
         lightness: CGFloat
@@ -44,7 +43,7 @@ extension Color {
     ///
     /// - Returns: A tuple containing the hue, saturation, and lightness (brightness in UIKit)
     /// of the color.
-    internal func uiColorComponents() -> (hue: CGFloat, saturation: CGFloat, lightness: CGFloat) {
+    func uiColorComponents() -> (hue: CGFloat, saturation: CGFloat, lightness: CGFloat) {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
@@ -74,7 +73,7 @@ extension Color {
     ///   - maxRatio: The optional maximum contrast ratio to consider. If nil, there's no
     ///   upper limit.
     /// - Returns: The `Color` that provides the best contrast.
-    internal func calculateBestContrast(
+    func calculateBestContrast(
         for level: ContrastLevel,
         maxRatio: CGFloat? = nil
     ) -> Color {
@@ -102,7 +101,6 @@ extension Color {
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 extension Color {
-
     /// Converts hue value to RGB components.
     ///
     /// This function supports the conversion by determining which segment

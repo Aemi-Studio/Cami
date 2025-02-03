@@ -5,8 +5,8 @@
 //  Created by Guillaume Coquard on 18/11/23.
 //
 
-import Foundation
 import AppIntents
+import Foundation
 
 struct WidgetCalendarEntity: AppEntity {
     var id: String

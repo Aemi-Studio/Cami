@@ -5,14 +5,14 @@
 //  Created by Guillaume Coquard on 03/11/23.
 //
 
-import WidgetKit
 import AppIntents
+import WidgetKit
 
 struct CamiWidgetIntent: WidgetConfigurationIntent {
-
     static var title: LocalizedStringResource {
         "Configuration"
     }
+
     static var description: IntentDescription {
         "Cami Calendar Minimal Widget Configuration"
     }
@@ -42,5 +42,4 @@ struct CamiWidgetIntent: WidgetConfigurationIntent {
 
     @Parameter(title: "Display Ongoing Events", default: true)
     var displayOngoingEvents: Bool
-
 }

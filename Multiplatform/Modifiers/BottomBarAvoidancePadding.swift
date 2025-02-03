@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct BottomBarAvoidancePadding: ViewModifier {
-
     @Environment(\.presentation) private var presentation
 
     func body(content: Content) -> some View {

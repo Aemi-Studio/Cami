@@ -9,11 +9,9 @@ import SwiftUI
 import WidgetKit
 
 struct CamiWidget: Widget {
-
     let kind: String = "CamiWidget"
 
     var body: some WidgetConfiguration {
-
         AppIntentConfiguration(
             kind: kind,
             intent: CamiWidgetIntent.self,

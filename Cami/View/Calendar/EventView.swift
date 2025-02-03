@@ -1,16 +1,15 @@
 //
-//  AddEventView.swift
+//  EventView.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 22/11/23.
 //
 
-import SwiftUI
-import EventKit
 import Contacts
+import EventKit
+import SwiftUI
 
 struct EventView: View {
-
     @State
     private var showEventEditView: Bool = false
 

@@ -1,22 +1,20 @@
 //
-//  ReminderError.swift
+//  DataContext+Reminders.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 26/01/25.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 // MARK: - Reminders
 
 extension DataContext {
-
-    public func reminders(
+    func reminders(
         from calendars: Calendars? = nil,
         where filter: ((EKReminder) -> Bool) = { _ in true }
     ) async -> Reminders {
-
         let calendars = calendars ?? self.calendars
 
         eventStore.refreshSourcesIfNecessary()
@@ -38,11 +36,10 @@ extension DataContext {
         return reminders.filter(filter)
     }
 
-    public func reminders(
+    func reminders(
         from taskLists: TaskLists? = nil,
         where filter: ((EKReminder) -> Bool) = { _ in true }
     ) -> Reminders {
-
         let taskLists = taskLists ?? self.taskLists
 
         eventStore.refreshSourcesIfNecessary()
@@ -71,7 +68,6 @@ extension DataContext {
 }
 
 extension DataContext {
-
     func createReminder(
         title: String,
         date: Date? = nil,

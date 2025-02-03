@@ -9,19 +9,18 @@ import SwiftUI
 
 extension View {
     func blurredEdges() -> some View {
-        self
-            .overlay {
-                VStack(spacing: 0) {
-                    VariableBlurView(maxBlurRadius: 2, direction: .blurredTopClearBottom)
-                        .frame(maxHeight: 56)
+        overlay {
+            VStack(spacing: 0) {
+                VariableBlurView(maxBlurRadius: 2, direction: .blurredTopClearBottom)
+                    .frame(maxHeight: 56)
 
-                    Spacer()
+                Spacer()
 
-                    VariableBlurView(maxBlurRadius: 2, direction: .blurredBottomClearTop)
-                        .frame(maxHeight: 48)
-                }
-                .frame(maxWidth: .infinity)
-                .ignoresSafeArea(.all)
+                VariableBlurView(maxBlurRadius: 2, direction: .blurredBottomClearTop)
+                    .frame(maxHeight: 48)
             }
+            .frame(maxWidth: .infinity)
+            .ignoresSafeArea(.all)
+        }
     }
 }

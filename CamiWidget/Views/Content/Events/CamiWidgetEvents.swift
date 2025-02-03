@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct CamiWidgetEvents: View {
-
     @Environment(CamiWidgetEntry.self)
     var entry: CamiWidgetEntry
 
     var body: some View {
-
         @Bindable var entry = entry
 
         var dates: Dates {
@@ -21,7 +19,7 @@ struct CamiWidgetEvents: View {
         }
 
         VStack(spacing: 6) {
-            ForEach(0..<dates.count, id: \.self) { dateIndex in
+            ForEach(0 ..< dates.count, id: \.self) { dateIndex in
                 let date: Date = dates[dateIndex]
                 if date < entry.date.zero && !entry.config.displayOngoingEvents {
                     EmptyView()
@@ -37,8 +35,6 @@ struct CamiWidgetEvents: View {
                     }
                 }
             }
-
         }
-
     }
 }

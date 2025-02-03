@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CustomBordered<Content>: View
 where Content: View {
-
     private(set) var content: Content?
 
     private(set) var backgroundStyle: AnyShapeStyle?
@@ -68,6 +67,7 @@ where Content: View {
             }
         }
     }
+
     @ViewBuilder private func withPressedStyle(@ViewBuilder content: @escaping () -> some View) -> some View {
         if isPressed {
             content()
@@ -79,7 +79,6 @@ where Content: View {
 }
 
 extension CustomBordered {
-
     init(
         _ content: () -> Content,
         backgroundStyle: (any ShapeStyle)? = nil,

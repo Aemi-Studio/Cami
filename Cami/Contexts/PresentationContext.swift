@@ -5,12 +5,11 @@
 //  Created by Guillaume Coquard on 22/01/25.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 
 @Observable
 @MainActor final class PresentationContext {
-
     static let shared: PresentationContext = .init()
 
     var areInformationsPresented: Bool = false
@@ -43,7 +42,7 @@ import EventKit
             switch self {
             case .settings:
                 return "Settings"
-            case .new(let item):
+            case let .new(item):
                 var start = "New"
                 switch item {
                 case is EKEvent: start += " Event\(" " + (item?.calendarItemIdentifier ?? ""))"
@@ -58,7 +57,7 @@ import EventKit
 
         var value: CItem? {
             switch self {
-            case .new(let item):
+            case let .new(item):
                 return item
             default:
                 return nil

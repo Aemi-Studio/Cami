@@ -5,15 +5,14 @@
 //  Created by Guillaume Coquard on 26/01/25.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 // MARK: - Birthdays
 
 // MARK: - Computed Properties - Birthdays
 
 extension DataContext {
-
     var birthdayCalendar: EKCalendar? {
         allCalendars.first { calendar in
             calendar.type == .birthday
@@ -23,13 +22,10 @@ extension DataContext {
     var birthdays: Events {
         birthdays(from: .now, during: 365)
     }
-
 }
 
 extension DataContext {
-
-    public func birthdays(from date: Date, during days: Int = 365) -> Events {
-
+    func birthdays(from date: Date, during days: Int = 365) -> Events {
         log.debug("Retrieving birthdays.")
 
         guard let birthdayCalendar else { return Events() }
@@ -65,5 +61,4 @@ extension DataContext {
         log.debug("Returning the events. \(String(describing: events))")
         return events
     }
-
 }

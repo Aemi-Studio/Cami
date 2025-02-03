@@ -9,7 +9,6 @@ import SwiftUI
 
 @MainActor
 struct NavigationScroll: View {
-
     typealias Content = (any View)
 
     @Environment(\.presentation) private var presentation
@@ -17,7 +16,7 @@ struct NavigationScroll: View {
     @State private var navigation: NavigationContext
     @State private var topBarSize: CGSize? = .zero
 
-    private static let rootId: UUID = UUID(uuid: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    private static let rootId: UUID = .init(uuid: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
     private var positionBinding: Binding<UUID?> {
         Binding {
@@ -30,7 +29,7 @@ struct NavigationScroll: View {
     }
 
     init(@ViewBuilder content: @escaping () -> Content) {
-        self.navigation = NavigationContext(
+        navigation = NavigationContext(
             NavigationPage(content: content)
         )
     }
@@ -79,5 +78,4 @@ struct NavigationScroll: View {
             reset()
         }
     }
-
 }

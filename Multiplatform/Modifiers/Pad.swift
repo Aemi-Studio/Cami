@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct Pad: ViewModifier {
-
     @Environment(\.widgetFamily)
     var envWidgetFamily: WidgetFamily
 
@@ -73,7 +72,6 @@ struct Pad: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-
         if insets != nil {
             content
                 .padding(
@@ -98,7 +96,6 @@ struct Pad: ViewModifier {
                     )
                 )
         }
-
     }
 }
 

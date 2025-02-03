@@ -5,12 +5,11 @@
 //  Created by Guillaume Coquard on 14/11/23.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 import WidgetKit
 
 struct CamiWidgetHeaderBirthdays: View {
-
     @Environment(\.data) private var data
     @Environment(\.widgetFamily) private var widgetFamily
     @Environment(CamiWidgetEntry.self) private var entry
@@ -23,7 +22,7 @@ struct CamiWidgetHeaderBirthdays: View {
         widgetFamily == WidgetFamily.systemSmall
     }
 
-    private let bCalColor: Color = Color(
+    private let bCalColor: Color = .init(
         cgColor: DataContext.shared.birthdayCalendar?.cgColor
             ?? .init(red: 1, green: 0, blue: 0, alpha: 1)
     )
@@ -100,7 +99,6 @@ struct CamiWidgetHeaderBirthdays: View {
 
         Group {
             HStack(spacing: 0) {
-
                 if !isSmall {
                     Text("\(age)")
                 }
@@ -157,10 +155,9 @@ struct CamiWidgetHeaderBirthdays: View {
     }
 }
 
-fileprivate extension View {
+private extension View {
     func birthdayViewStyle(isSmall: Bool, backgroundColor: Color) -> some View {
-        self
-            .font(.caption)
+        font(.caption)
             .fontWeight(.bold)
             .fontWidth(.compressed)
             .pad([

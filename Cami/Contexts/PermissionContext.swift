@@ -5,14 +5,13 @@
 //  Created by Guillaume Coquard on 10/02/24.
 //
 
-import EventKit
-import Contacts
 import Combine
+import Contacts
+import EventKit
 import SwiftUI
 
 @Observable
 @MainActor final class PermissionContext: Loggable {
-
     static let shared: PermissionContext = .init()
 
     private let accesses: [Access] = [.calendars, .contacts, .reminders]
@@ -37,7 +36,6 @@ import SwiftUI
 }
 
 extension PermissionContext {
-
     func update(access: Access) {
         withAnimation {
             switch access {

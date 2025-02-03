@@ -5,8 +5,8 @@
 //  Created by Guillaume Coquard on 03/11/23.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 @main
 struct CamiWidgetBundle: WidgetBundle {

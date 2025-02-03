@@ -11,7 +11,6 @@ import SwiftUI
 
 @resultBuilder
 struct ButtonBuilder {
-
     private static let paddingVertical: CGFloat = 8
     private static let paddingHorizonal: CGFloat = 16
 
@@ -120,7 +119,6 @@ struct ButtonBuilder {
     static var conditionalStorage = ConditionalContent<AnyView?>()
 
     struct ConditionalContent<Content>: View where Content: View {
-
         var content: Content
 
         init() where Content == AnyView? {
@@ -135,7 +133,6 @@ struct ButtonBuilder {
             content
         }
     }
-
 }
 
 // swiftlint:enable identifier_name force_cast

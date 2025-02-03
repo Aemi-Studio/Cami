@@ -5,11 +5,10 @@
 //  Created by Guillaume Coquard on 14/11/23.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 
 struct CamiWidgetEvent: View {
-
     @Environment(\.data)
     private var data: DataContext!
 
@@ -31,7 +30,6 @@ struct CamiWidgetEvent: View {
     var body: some View {
         Link(destination: data.destination(for: _event, inPlace: openInPlace)) {
             HStack(alignment: .center) {
-
                 VStack(alignment: .leading) {
                     Text(_event.title)
                         .font(.caption)
@@ -64,7 +62,6 @@ struct CamiWidgetEvent: View {
                                 ? "This event happens \(_other.count) times in your day." : "")
                     }
                 }
-
             }
             .roundedBorder(
                 _event.calendar.cgColor,

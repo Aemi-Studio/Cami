@@ -7,16 +7,15 @@
 
 import Foundation
 
-typealias Days          = [Day]
+typealias Days = [Day]
 
 extension Date {
-
     func getDates(from component: Calendar.Component) -> Dates {
         switch component {
         case .month, .weekOfMonth, .weekOfYear:
             var dates: Dates = .init()
-            let value: Int = self.get(component)
-            var currentDay: Date = self.startOfMonth.zero
+            let value: Int = get(component)
+            var currentDay: Date = startOfMonth.zero
             repeat {
                 dates.append(currentDay)
                 // swiftlint:disable shorthand_operator
@@ -30,20 +29,19 @@ extension Date {
     }
 
     func getDays(from component: Calendar.Component) -> Days {
-        self.getDates(from: component).asDays()
+        getDates(from: component).asDays()
     }
 }
 
 extension Dates {
-
     func sorted(_ order: ComparisonResult = .orderedAscending) -> Dates {
-        self.sorted(by: { (first: Date, second: Date) in
+        sorted(by: { (first: Date, second: Date) in
             first.compare(second) == order
         })
     }
 
     var weeks: [Dates] {
-        let dates: Dates = self.sorted(.orderedAscending)
+        let dates: Dates = sorted(.orderedAscending)
         return dates.reduce(into: [Int: Dates]()) { dictionary, date in
             let week: Int = date.get(.weekOfYear)
             var currentDates: Dates
@@ -59,14 +57,13 @@ extension Dates {
                 dictionary.updateValue([date], forKey: week)
             }
         }
-        .map { (_, value) in value }
-        .sorted { (first, second) in
+        .map { _, value in value }
+        .sorted { first, second in
             first.first!.compare(second.first!) == .orderedAscending
         }
     }
 
     func asDays() -> [Day] {
-        self.map(Day.init)
+        map(Day.init)
     }
-
 }

@@ -8,9 +8,7 @@
 import Foundation
 
 extension Weeks {
-
     func asDays() -> [Days] {
-        self.map { $0.asDays() }
+        map { $0.asDays() }
     }
-
 }

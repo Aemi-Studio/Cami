@@ -11,11 +11,10 @@ import EventKit
 import SwiftUI
 
 final class DataContext {
+    static let shared: DataContext = .init()
 
-    static let shared: DataContext = DataContext()
-
-    internal var eventStore: EKEventStore = EKEventStore()
-    internal var contactStore: CNContactStore = CNContactStore()
+    var eventStore: EKEventStore = .init()
+    var contactStore: CNContactStore = .init()
 
     private(set) var allCalendars: Calendars = []
     private(set) var taskLists: Calendars = []
@@ -23,8 +22,8 @@ final class DataContext {
     private var cancellables: Set<AnyCancellable> = []
 
     private init() {
-        self.update()
-        self.subscribe()
+        update()
+        subscribe()
     }
 
     private func update() {
@@ -33,7 +32,7 @@ final class DataContext {
     }
 
     private func subscribe() {
-        self.publishEventStoreChanges()
+        publishEventStoreChanges()
             .sink { [weak self] _ in
                 self?.update()
             }
@@ -43,12 +42,13 @@ final class DataContext {
     private func getAllCalendarsForEvents() -> Calendars {
         eventStore.calendars(for: .event)
     }
+
     private func getAllCalendarsForReminders() -> Calendars {
         eventStore.calendars(for: .reminder)
     }
 
     var store: EKEventStore {
-        self.eventStore
+        eventStore
     }
 
     var calendars: Calendars {
@@ -56,7 +56,7 @@ final class DataContext {
     }
 
     var allCalendarColors: [String: Color] {
-        allCalendars.reduce(into: [String: Color]()) { (result, calendar) in
+        allCalendars.reduce(into: [String: Color]()) { result, calendar in
             if let color = calendar.cgColor {
                 result[calendar.calendarIdentifier] = Color(cgColor: color)
             }
@@ -64,7 +64,7 @@ final class DataContext {
     }
 
     var taskListsColors: [String: Color] {
-        taskLists.reduce(into: [String: Color]()) { (result, calendar) in
+        taskLists.reduce(into: [String: Color]()) { result, calendar in
             if let color = calendar.cgColor {
                 result[calendar.calendarIdentifier] = Color(cgColor: color)
             }
@@ -81,7 +81,6 @@ final class DataContext {
         }
         return nil
     }
-
 }
 
 extension DataContext: Loggable {}
@@ -89,7 +88,6 @@ extension DataContext: Loggable {}
 // MARK: Access Requests
 
 extension DataContext {
-
     public func requestCalendarsAccess() async {
         do {
             try await eventStore.requestFullAccessToEvents()
@@ -113,7 +111,6 @@ extension DataContext {
             log.error("Failed to request contacts access: \(error.localizedDescription)")
         }
     }
-
 }
 
 // MARK: - Environment Value
@@ -123,7 +120,6 @@ extension EnvironmentValues {
 }
 
 extension DataContext {
-
     func publishEventStoreChanges() -> AnyPublisher<Notification, Never> {
         NotificationCenter.default.publisher(for: .EKEventStoreChanged).eraseToAnyPublisher()
     }

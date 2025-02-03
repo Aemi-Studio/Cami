@@ -1,5 +1,5 @@
 //
-//  HomeController.swift
+//  ScrollableHomeContext.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 22/01/25.
@@ -12,7 +12,6 @@ import SwiftUI
 
 @Observable
 @MainActor final class HomeViewController {
-
     private(set) var scrollProxy: Optional<ScrollViewProxy>
 
     var scrollPosition: Optional<Page>
@@ -21,12 +20,12 @@ import SwiftUI
 
     init(_ context: PathContext) {
         self.context = context
-        self.scrollPosition = context.path.first
-        self.scrollProxy = nil
+        scrollPosition = context.path.first
+        scrollProxy = nil
     }
 
     func attach(_ proxy: ScrollViewProxy) {
-        self.scrollProxy = proxy
+        scrollProxy = proxy
     }
 }
 

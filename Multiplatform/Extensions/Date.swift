@@ -8,8 +8,8 @@
 import Foundation
 
 // MARK: Operators
-extension Date {
 
+extension Date {
     static func + (lhs: Date, rhs: DateComponents) -> Date {
         return Calendar.autoupdatingCurrent.date(byAdding: rhs, to: lhs)!
     }
@@ -21,12 +21,11 @@ extension Date {
     static func - (lhs: Date, rhs: Date) -> TimeInterval {
         return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
     }
-
 }
 
 // MARK: Basics
-extension Date {
 
+extension Date {
     /// Same date but at midnight
     var zero: Date {
         Calendar.autoupdatingCurrent.startOfDay(for: self)
@@ -34,22 +33,21 @@ extension Date {
 
     /// Is the date of the same day as today
     var isToday: Bool {
-        self.zero == Date.now.zero
+        zero == Date.now.zero
     }
-
 }
 
 // MARK: Date Formatting
-extension Date {
 
+extension Date {
     var literals: [String: String] {
         [
-            "short": self.formatter { $0.dateFormat = "EEEEE" },
-            "medium": self.formatter { $0.dateFormat = "EEE" },
-            "long": self.formatter { $0.dateFormat = "EEEE" },
-            "date": self.formatter { $0.dateFormat = "d"    },
-            "month": self.formatter { $0.dateFormat = "MMMM" },
-            "year": self.formatter { $0.dateFormat = "YYYY" }
+            "short": formatter { $0.dateFormat = "EEEEE" },
+            "medium": formatter { $0.dateFormat = "EEE" },
+            "long": formatter { $0.dateFormat = "EEEE" },
+            "date": formatter { $0.dateFormat = "d" },
+            "month": formatter { $0.dateFormat = "MMMM" },
+            "year": formatter { $0.dateFormat = "YYYY" }
         ]
     }
 
@@ -72,7 +70,7 @@ extension Date {
     }
 
     var formattedUntilTomorrow: String {
-        self.formatter {
+        formatter {
             $0.dateStyle = .long
             $0.timeStyle = .none
             $0.doesRelativeDateFormatting = true
@@ -80,12 +78,12 @@ extension Date {
     }
 
     var formattedAfterTomorrow: String {
-        self.formatter { $0.dateFormat = "EEE d" }
+        formatter { $0.dateFormat = "EEE d" }
             .capitalized(with: Locale(identifier: Locale.preferredLanguages.first!))
     }
 
     var relativeToNow: String {
-        self.formatter(RelativeDateTimeFormatter.self) {
+        formatter(RelativeDateTimeFormatter.self) {
             $0.locale = Locale(identifier: Locale.preferredLanguages.first!)
         }.string(for: self)!
     }
@@ -94,7 +92,7 @@ extension Date {
         until date: Date,
         accuracy: NSCalendar.Unit = [.day, .hour, .minute]
     ) -> String {
-        self.formatter(DateComponentsFormatter.self) {
+        formatter(DateComponentsFormatter.self) {
             $0.unitsStyle = .brief
             $0.zeroFormattingBehavior = .dropAll
             $0.allowedUnits = accuracy
@@ -102,18 +100,17 @@ extension Date {
     }
 
     var formattedHour: String {
-        self.formatter {
+        formatter {
             $0.dateStyle = .none
             $0.timeStyle = .short
             $0.formattingContext = .standalone
         }
     }
-
 }
 
 // MARK: Useful
-extension Date {
 
+extension Date {
     func get(
         _ components: Calendar.Component...,
         calendar: Calendar = Calendar.autoupdatingCurrent
@@ -130,57 +127,56 @@ extension Date {
 
     var startOfMonth: Date {
         Calendar.autoupdatingCurrent.date(
-            from: self.get(.year, .month)
+            from: get(.year, .month)
         )!.zero
     }
 
     var endOfPreviousMonth: Date {
-        self.startOfMonth + DateComponents(day: -1)
+        startOfMonth + DateComponents(day: -1)
     }
 
     var startOfPreviousMonth: Date {
         Calendar.autoupdatingCurrent.date(
-            from: (self.get(.year, .month) + DateComponents(month: -1)).get(.year, .month)
+            from: (get(.year, .month) + DateComponents(month: -1)).get(.year, .month)
         )!.zero
     }
 
     var endOfMonth: Date {
         Calendar.autoupdatingCurrent.date(
             byAdding: DateComponents(month: 1, day: -1),
-            to: self.startOfMonth
+            to: startOfMonth
         )!.zero
     }
 
     var startOfNextMonth: Date {
         Calendar.autoupdatingCurrent.date(
-            from: (self.get(.year, .month) + DateComponents(month: 1)).get(.year, .month)
+            from: (get(.year, .month) + DateComponents(month: 1)).get(.year, .month)
         )!.zero
     }
 
     var endOfNextMonth: Date {
-        self.startOfNextMonth.endOfMonth
+        startOfNextMonth.endOfMonth
     }
 
     var startOfWeek: Date {
         Calendar.autoupdatingCurrent.date(
-            from: self.get(.calendar, .yearForWeekOfYear, .weekOfYear)
+            from: get(.calendar, .yearForWeekOfYear, .weekOfYear)
         )!.zero
     }
 
     var endOfWeek: Date {
         Calendar.autoupdatingCurrent.date(
             byAdding: DateComponents(day: 6),
-            to: self.startOfWeek
+            to: startOfWeek
         )!.zero
     }
 
     func isSameMonth(as date: Date) -> Bool {
-        self.get(.month) == date.get(.month)
+        get(.month) == date.get(.month)
     }
 
     func isSameWeek(as date: Date) -> Bool {
-        self.get(.calendar, .yearForWeekOfYear, .weekOfYear) ==
+        get(.calendar, .yearForWeekOfYear, .weekOfYear) ==
             date.get(.calendar, .yearForWeekOfYear, .weekOfYear)
     }
-
 }

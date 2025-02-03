@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct WidgetTutorialButton: View {
-
     @State private var isTutorialPresented: Bool = false
 
     var body: some View {

@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct CustomSettingsView: View {
-
     @Environment(\.presentation) private var presentation
 
     var body: some View {

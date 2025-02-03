@@ -13,14 +13,14 @@ import AppKit.NSColor
 #endif
 
 // MARK: - Internal API
+
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 extension StandardizedColor {
-
     /// Computes the perceived luminance of the color using the sRGB formula.
     /// This method handles different color spaces including RGB and grayscale.
     ///
     /// - Returns: A CGFloat representing the luminance of the color.
-    internal func luminance() -> CGFloat {
+    func luminance() -> CGFloat {
         guard let components = cgColor.components else { return 0 }
         let numberOfComponents = components.count
         let r: CGFloat, g: CGFloat, b: CGFloat

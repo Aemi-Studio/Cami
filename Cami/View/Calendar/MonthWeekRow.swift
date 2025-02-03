@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MonthWeekRow: View {
-
     @Environment(\.views) private var views
 
     private var weekdaysCount: Int {
@@ -23,15 +22,15 @@ struct MonthWeekRow: View {
         week: Dates
     ) {
         self.week = week.asDays()
-        self.firstWeekOfTheMonth = week.first! == week.first!.startOfMonth
-        self.lastWeekOfTheMonth = week.last! == week.last!.endOfMonth
+        firstWeekOfTheMonth = week.first! == week.first!.startOfMonth
+        lastWeekOfTheMonth = week.last! == week.last!.endOfMonth
     }
 
     var body: some View {
         Grid {
             GridRow {
                 if firstWeekOfTheMonth {
-                    ForEach(0..<weekdaysCount - week.count, id: \.self) { _ in
+                    ForEach(0 ..< weekdaysCount - week.count, id: \.self) { _ in
                         Color.clear
                     }
                 }
@@ -41,14 +40,14 @@ struct MonthWeekRow: View {
                         .frame(maxWidth: .infinity)
                         .background {
                             RoundedRectangle(cornerRadius: 12)
-                                .foregroundStyle( day.date.isToday
+                                .foregroundStyle(day.date.isToday
                                                     ? .gray.opacity(0.32)
                                                     : .clear
                                 )
                         }
                 }
                 if lastWeekOfTheMonth {
-                    ForEach(0..<weekdaysCount - week.count, id: \.self) { _ in
+                    ForEach(0 ..< weekdaysCount - week.count, id: \.self) { _ in
                         Color.clear
                     }
                 }

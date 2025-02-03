@@ -9,7 +9,6 @@ import SwiftUI
 
 @Observable
 @MainActor final class PathContext {
-
     static let shared: PathContext = .init()
 
     private(set) var path: [Page] = []
@@ -22,11 +21,11 @@ import SwiftUI
     }
 
     func push(_ page: Page) {
-        self.path.append(page)
+        path.append(page)
     }
 
     func pop() {
-        self.path.removeLast()
+        path.removeLast()
     }
 }
 

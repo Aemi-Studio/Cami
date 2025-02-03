@@ -5,11 +5,10 @@
 //  Created by Guillaume Coquard on 18/01/24.
 //
 
-import SwiftUI
 import EventKitUI
+import SwiftUI
 
 struct EventViewController: UIViewControllerRepresentable {
-
     @Environment(\.dismiss)
     var dismiss: DismissAction
 
@@ -20,15 +19,14 @@ struct EventViewController: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, EKEventViewDelegate {
-
         var parent: EventViewController
 
         init(_ controller: EventViewController) {
-            self.parent = controller
+            parent = controller
         }
 
-        func eventViewController(_ controller: EKEventViewController, didCompleteWith action: EKEventViewAction) {
-            self.parent.dismiss()
+        func eventViewController(_: EKEventViewController, didCompleteWith _: EKEventViewAction) {
+            parent.dismiss()
         }
     }
 
@@ -39,5 +37,5 @@ struct EventViewController: UIViewControllerRepresentable {
         return eventEditViewController
     }
 
-    func updateUIViewController(_ uiViewController: EKEventViewController, context: Context) {}
+    func updateUIViewController(_: EKEventViewController, context _: Context) {}
 }

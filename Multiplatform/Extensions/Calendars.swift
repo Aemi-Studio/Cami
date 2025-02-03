@@ -5,20 +5,20 @@
 //  Created by Guillaume Coquard on 16/11/23.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 extension Calendars {
     var asIdentifiers: [String] {
-        self.map { calendar in
+        map { calendar in
             calendar.calendarIdentifier
         }
     }
 }
 
-extension Array<String> {
+extension [String] {
     func asEKCalendars() -> Calendars {
-        let optionalCalendarList = self.map { calendar in
+        let optionalCalendarList = map { calendar in
             DataContext.shared.get(calendar: calendar)
         }
         return optionalCalendarList.filter { calendar in

@@ -5,17 +5,16 @@
 //  Created by Guillaume Coquard on 03/11/23.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 import WidgetKit
 
 struct ContentView: View {
-
-    @Environment(\.scenePhase)   private var scenePhase
-    @Environment(\.path)         private var path
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.path) private var path
     @Environment(\.presentation) private var presentation
-    @Environment(\.permissions)  private var permissions
-    @Environment(\.views)        private var views
+    @Environment(\.permissions) private var permissions
+    @Environment(\.views) private var views
 
     private var wasNotAuthorized: Bool = PermissionContext.shared.global == .restricted
 
@@ -76,7 +75,6 @@ struct ContentView: View {
 }
 
 struct CreateReminderView: View {
-
     @Environment(\.data) private var data
     @Environment(\.dismiss) private var dismiss
 

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AccessToggle<A>: View {
-
     let status: Access.Status
     let title: String
     let description: String
@@ -17,7 +16,7 @@ struct AccessToggle<A>: View {
 
     private var isValid: Bool { status == .authorized }
     private var isUnknown: Bool { status != .restricted }
-    @State  private var isDescriptionOpen: Bool = false
+    @State private var isDescriptionOpen: Bool = false
     private var isDrawerOpen: Bool { !isValid || isDescriptionOpen }
 
     private var tint: Color? {
@@ -134,6 +133,7 @@ extension AccessToggle {
         self.description = description
         self.action = action
     }
+
     init(
         isOn status: Access.Status,
         title: String,
@@ -143,6 +143,6 @@ extension AccessToggle {
         self.status = status
         self.title = title
         self.description = description
-        self.asyncAction = action
+        asyncAction = action
     }
 }

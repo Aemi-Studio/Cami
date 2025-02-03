@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NavigationPageLink: View {
-
     @Environment(\.navigation) private var path
 
     typealias Content = (any View)

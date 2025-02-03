@@ -5,15 +5,15 @@
 //  Created by Guillaume Coquard on 11/09/24.
 //
 
-import Foundation
 import AppIntents
+import Foundation
 
 enum CornerComplicationEnum: String, CaseIterable, AppEnum {
     typealias RawValue = String
 
-    case hidden      = "Hidden"
-    case birthdays   = "Birthdays"
-    case summary     = "Summary"
+    case hidden = "Hidden"
+    case birthdays = "Birthdays"
+    case summary = "Summary"
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 
@@ -24,7 +24,7 @@ enum CornerComplicationEnum: String, CaseIterable, AppEnum {
     ]
 
     var title: String {
-        self.rawValue
+        rawValue
     }
 }
 

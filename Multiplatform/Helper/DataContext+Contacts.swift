@@ -5,13 +5,12 @@
 //  Created by Guillaume Coquard on 26/01/25.
 //
 
-import Foundation
 import Contacts
+import Foundation
 
 // MARK: - Contacts
 
 extension DataContext {
-
     /// Resolve contact birthdate from a specified contact identifier using `unifiedContact`.
     ///
     /// - Parameters:
@@ -19,7 +18,7 @@ extension DataContext {
     ///
     /// - Returns: The birthdate of the contact.
     ///
-    public func resolveBirthdate(
+    func resolveBirthdate(
         _ identifier: String
     ) -> DateComponents? {
         let fetchedBirthdate: DateComponents?
@@ -43,7 +42,7 @@ extension DataContext {
     /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
-    public func resolveContactName(_ identifier: String) -> String {
+    func resolveContactName(_ identifier: String) -> String {
         let fetchedContact: CNContact?
         do {
             fetchedContact = try contactStore.unifiedContact(
@@ -60,7 +59,7 @@ extension DataContext {
         return [
             fetchedContact?.nickname ?? "",
             fetchedContact?.givenName ?? ""
-        ].first(where: {string in !string.isEmpty}) ?? ""
+        ].first(where: { string in !string.isEmpty }) ?? ""
     }
 
     /// Resolve contact name from a specified contact predicate using `unifiedContact`.
@@ -71,7 +70,7 @@ extension DataContext {
     /// - Returns: The name of the contact. Preferably the nickname. If a nickname isn't provided,
     /// it fallbacks to the given name (first name).
     ///
-    public func resolveContactName(
+    func resolveContactName(
         _ predicate: NSPredicate
     ) -> String {
         let fetchedContact: CNContact?
@@ -90,7 +89,6 @@ extension DataContext {
         return [
             fetchedContact?.nickname ?? "",
             fetchedContact?.givenName ?? ""
-        ].first(where: {string in !string.isEmpty}) ?? ""
+        ].first(where: { string in !string.isEmpty }) ?? ""
     }
-
 }

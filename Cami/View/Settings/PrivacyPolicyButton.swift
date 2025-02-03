@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PrivacyPolicyButton: View {
-
     @State private var isPrivacyPolicyPresented: Bool = false
 
     var body: some View {
@@ -17,7 +16,6 @@ struct PrivacyPolicyButton: View {
             systemImage: "arrow.up.forward.square"
         ) {
             isPrivacyPolicyPresented.toggle()
-
         }
         .buttonStyle(
             .customBorderedButton(description: "Review how Cami handles your data.", outline: true)

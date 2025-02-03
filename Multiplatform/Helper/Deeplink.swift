@@ -1,5 +1,5 @@
 //
-//  +OpenIn.swift
+//  Deeplink.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 23/01/25.
@@ -9,8 +9,7 @@ import EventKit
 import Foundation
 
 extension DataContext {
-
-    public func destination(for event: EKEvent, inPlace: Bool = false) -> URL {
+    func destination(for event: EKEvent, inPlace: Bool = false) -> URL {
         if inPlace {
             guard let identifier = event.eventIdentifier else { return .init(string: "")! }
             return URL(string: "camical:event?id=\(identifier)")!
@@ -19,7 +18,7 @@ extension DataContext {
         }
     }
 
-    public func destination(for date: Date, inPlace: Bool = false) -> URL {
+    func destination(for date: Date, inPlace: Bool = false) -> URL {
         if inPlace {
             URL(string: "camical:day?time=\(date.timeIntervalSinceReferenceDate)")!
         } else {

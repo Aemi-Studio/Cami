@@ -9,8 +9,7 @@ import SwiftUI
 // MARK: - Public APIs
 
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
-extension Color {
-
+public extension Color {
     /// Adjusts the color based on the specified level and optionally adjusts for the
     /// specified color scheme.
     ///
@@ -18,9 +17,9 @@ extension Color {
     ///   - level: The specified `ColorLevel`.
     ///   - scheme: Optional `ColorScheme` to adjust for light or dark mode.
     /// - Returns: A `Color` adjusted for the specified level and color scheme.
-    public func level(_ level: ColorLevel, scheme: ColorScheme? = nil) -> Color {
+    func level(_ level: ColorLevel, scheme: ColorScheme? = nil) -> Color {
         let adjustedLevel = scheme == .dark ? level.correspondingDarkModeLevel : level
-        let components = self.uiColorComponents()
+        let components = uiColorComponents()
         return Color.hsl(
             hue: components.hue * 360,
             saturation: components.saturation,
@@ -32,22 +31,22 @@ extension Color {
     ///
     /// This property calculates the maximum contrast color available without any upper limit
     /// on the contrast ratio, aiming to enhance readability and accessibility.
-    public var highestRatedContrastLevel: Color {
+    var highestRatedContrastLevel: Color {
         calculateBestContrast(for: .aaa, maxRatio: CGFloat.infinity)
     }
 
     /// Direct access to a color that complies with the AAA contrast level requirements.
-    public var aaaContrastLevel: Color {
+    var aaaContrastLevel: Color {
         calculateBestContrast(for: .aaa)
     }
 
     /// Direct access to a color that complies with the AA contrast level requirements.
-    public var aaContrastLevel: Color {
+    var aaContrastLevel: Color {
         calculateBestContrast(for: .aa)
     }
 
     /// Direct access to a color that complies with the AA Large contrast level requirements.
-    public var aaLargeContrastLevel: Color {
+    var aaLargeContrastLevel: Color {
         calculateBestContrast(for: .aaLarge)
     }
 }

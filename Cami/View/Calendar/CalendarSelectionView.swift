@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CalendarSelectionView: View {
-
     @Environment(\.views) private var views: ViewContext!
     @Environment(\.data) private var data: DataContext!
 

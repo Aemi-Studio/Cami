@@ -5,12 +5,11 @@
 //  Created by Guillaume Coquard on 22/01/25.
 //
 
-import SwiftUI
 import AemiUtilities
+import SwiftUI
 
 @MainActor
 struct ScrollableHome: View {
-
     @Environment(\.path) private var path
     @Environment(\.presentation) private var presentation
 
@@ -40,24 +39,20 @@ struct ScrollableHome: View {
 }
 
 extension View {
-
     func thinBorder(
         radius: CGFloat,
         color: any ShapeStyle = Color.primary.quaternary,
         lineWidth: CGFloat = 0.5
     ) -> some View {
-        self
-            .overlay {
-                RoundedRectangle(cornerRadius: radius)
-                    .fill(.clear)
-                    .stroke(AnyShapeStyle(color), lineWidth: lineWidth)
-            }
+        overlay {
+            RoundedRectangle(cornerRadius: radius)
+                .fill(.clear)
+                .stroke(AnyShapeStyle(color), lineWidth: lineWidth)
+        }
     }
-
 }
 
 struct ReminderCreationButton: View {
-
     @Environment(\.presentation) private var presentation
 
     func openReminderCreationSheet() {

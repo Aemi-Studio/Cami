@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CustomBorderedButton<Label, Title, Icon, Description>: View
 where Label: View, Title: View, Icon: View, Description: View {
-
     private(set) var label: Label?
     private(set) var title: Title?
     private(set) var icon: Icon?
@@ -118,7 +117,6 @@ where Label: View, Title: View, Icon: View, Description: View {
 }
 
 extension CustomBorderedButton {
-
     init(
         foregroundStyle: (any ShapeStyle)? = nil,
         backgroundStyle: (any ShapeStyle)? = nil,
@@ -214,7 +212,7 @@ extension CustomBorderedButton {
         isPressed: Bool = false
     ) where Label == EmptyView, Title == Text, Icon == Image, Description == AnyView {
         self.title = Text(title)
-        self.icon = Image(systemName: systemImage)
+        icon = Image(systemName: systemImage)
         self.description = description != nil ? AnyView(Text(description!)) : AnyView(EmptyView())
         self.foregroundStyle = foregroundStyle != nil ? AnyShapeStyle(foregroundStyle!) : nil
         self.backgroundStyle = backgroundStyle != nil ? AnyShapeStyle(backgroundStyle!) : nil
@@ -242,7 +240,7 @@ extension CustomBorderedButton {
         isPressed: Bool = false
     ) where Label == EmptyView, Title == Text, Icon == Image, Description == AnyView {
         self.title = Text(title)
-        self.icon = Image(image)
+        icon = Image(image)
         self.description = description != nil ? AnyView(Text(description!)) : AnyView(EmptyView())
         self.foregroundStyle = foregroundStyle != nil ? AnyShapeStyle(foregroundStyle!) : nil
         self.backgroundStyle = backgroundStyle != nil ? AnyShapeStyle(backgroundStyle!) : nil

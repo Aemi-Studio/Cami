@@ -8,14 +8,13 @@
 import Foundation
 
 extension Seconds {
-
     var days: Int {
         self / (24 * 3600)
     }
 
     var toDays: String {
-        var component: DateComponents = DateComponents()
-        component.day = self.days
+        var component = DateComponents()
+        component.day = days
 
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = .day

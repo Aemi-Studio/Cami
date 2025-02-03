@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NavigationTopBar: View {
-
     @Environment(\.dismiss) private var dismiss
     @Environment(\.navigation) private var path
 
@@ -173,6 +172,6 @@ struct NavigationTopBar: View {
     }
 
     func dismissAction() {
-        self.path?.pop()
+        path?.pop()
     }
 }

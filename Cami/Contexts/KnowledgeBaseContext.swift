@@ -1,5 +1,5 @@
 //
-//  FrequentlyAskedQuestionsContext.swift
+//  KnowledgeBaseContext.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 30/01/25.
@@ -10,7 +10,6 @@ import SwiftUI
 @Observable
 @MainActor
 final class KnowledgeBaseContext {
-
     private var items = KnowledgeBaseItems.allItems
 
     private(set) var searchResults: [KnowledgeBaseItem] = []
@@ -43,7 +42,7 @@ final class KnowledgeBaseContext {
             let sortedWeights = weights.sorted(by: { $0.value < $1.value })
 
             let results = sortedWeights
-                .filter({ $0.value > -1 })
+                .filter { $0.value > -1 }
                 .compactMap { item in
                     items.first(where: { item.key == $0.id })
                 }
@@ -53,7 +52,6 @@ final class KnowledgeBaseContext {
             }
         }
     }
-
 }
 
 extension KnowledgeBaseContext: Loggable {}
@@ -72,9 +70,7 @@ struct KnowledgeBaseItem: Identifiable {
 // MARK: - Knowledge Base Item - Search Methods
 
 extension KnowledgeBaseItem {
-
     func lookForString(_ text: String, _ weight: Int = 0) -> Int {
-
         if text == "" {
             return 0 + weight
         }
@@ -93,13 +89,12 @@ extension KnowledgeBaseItem {
     func lookForPart(_ text: String, _ weight: Int = 0, all: Bool = false) -> Int {
         let text = text.lowercased()
 
-        var isInTitle: Bool = true
-        var isInDescription: Bool = true
+        var isInTitle = true
+        var isInDescription = true
 
-        var isInAnyAtSomePoint: Bool = false
+        var isInAnyAtSomePoint = false
 
         for textPart in text.split(separator: " ") {
-
             let isInTitleLocal = title.contains(textPart)
             let isInDescriptionLocal = description.contains(textPart)
 
@@ -113,7 +108,6 @@ extension KnowledgeBaseItem {
             if !all && isInAnyAtSomePoint {
                 return 0 + weight
             }
-
         }
 
         if isInTitle || isInDescription {
@@ -126,11 +120,11 @@ extension KnowledgeBaseItem {
     func lookForCharsInOrder(_ text: String, _ weight: Int = 0) -> Int {
         let text = text.lowercased()
 
-        var newTitle = self.title
-        var newDesc = self.description
+        var newTitle = title
+        var newDesc = description
 
-        var isInTitle: Bool = true
-        var isInDescription: Bool = true
+        var isInTitle = true
+        var isInDescription = true
 
         for char in text {
             if isInTitle, let newTitleIndex = newTitle.firstIndex(of: char) {
@@ -159,14 +153,13 @@ extension KnowledgeBaseItem {
         exact: Bool = false,
         all: Bool = false
     ) -> Int {
-
         if text == "" {
             return 0
         }
 
         let text = text.lowercased()
 
-        let exactLookupResult: Int = self.lookForString(text, 1)
+        let exactLookupResult: Int = lookForString(text, 1)
 
         if exactLookupResult >= 0 {
             return exactLookupResult
@@ -174,7 +167,7 @@ extension KnowledgeBaseItem {
             return -1
         }
 
-        let allLookupResult: Int = self.lookForPart(text, 2, all: true)
+        let allLookupResult: Int = lookForPart(text, 2, all: true)
 
         if allLookupResult >= 0 {
             return allLookupResult
@@ -182,20 +175,19 @@ extension KnowledgeBaseItem {
             return -1
         }
 
-        let partLookupResult: Int = self.lookForPart(text, 3, all: false)
+        let partLookupResult: Int = lookForPart(text, 3, all: false)
 
         if partLookupResult >= 0 {
             return partLookupResult
         }
 
-        return self.lookForCharsInOrder(text, 4)
-
+        return lookForCharsInOrder(text, 4)
     }
 }
 
 // MARK: - Knowledge Base Items
 
-private struct KnowledgeBaseItems {
+private enum KnowledgeBaseItems {
     static let calendar = KnowledgeBaseItem(
         title: String(localized: "knowledgebase.item.requestFullAccessToCalendar.title"),
         description: String(localized: "knowledgebase.item.requestFullAccessToCalendar.description")

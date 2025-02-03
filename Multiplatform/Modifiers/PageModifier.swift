@@ -10,7 +10,6 @@ import SwiftUI
 extension View {
     @ViewBuilder
     func page(_ page: Page) -> some View {
-        self
-            .id(page)
+        id(page)
     }
 }

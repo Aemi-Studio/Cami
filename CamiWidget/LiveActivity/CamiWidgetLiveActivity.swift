@@ -6,8 +6,8 @@
 //
 
 import EventKit
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 // struct CamiWidgetAttributes: ActivityAttributes {
 //    public struct ContentState: Codable, Hashable {

@@ -8,7 +8,6 @@
 import SwiftUICore
 
 struct MenuOverlayView: View {
-
     @Environment(\.presentation) private var presentation
 
     private var isMenuPresented: Bool {

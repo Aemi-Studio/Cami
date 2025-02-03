@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RoundedBorder: ViewModifier {
-
     let color: CGColor
     let last: Bool
     let bordered: Bool
@@ -26,10 +25,11 @@ struct RoundedBorder: ViewModifier {
     private let standardCornerRadius: Double = 4
     private let bottomCornerRadius: Double = 18
     private var strokeWidth: Double {
-        self.bordered ? 2 : 0
+        bordered ? 2 : 0
     }
+
     private var opacity: Double {
-        self.bordered ? 0 : 0.1
+        bordered ? 0 : 0.1
     }
 
     func body(content: Content) -> some View {
@@ -45,7 +45,7 @@ struct RoundedBorder: ViewModifier {
                         bottomLeading: bottomCornerRadius,
                         bottomTrailing: bottomCornerRadius,
                         topTrailing: standardCornerRadius
-                    ) )
+                    ))
                     .stroke(Color(cgColor: color).opacity(0.25), lineWidth: strokeWidth)
                 }
                 .clipShape(UnevenRoundedRectangle(cornerRadii: .init(
@@ -53,7 +53,7 @@ struct RoundedBorder: ViewModifier {
                     bottomLeading: bottomCornerRadius,
                     bottomTrailing: bottomCornerRadius,
                     topTrailing: standardCornerRadius
-                ) ) )
+                )))
         } else {
             content
                 .padding(.vertical, 2)

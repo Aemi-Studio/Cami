@@ -5,11 +5,10 @@
 //  Created by Guillaume Coquard on 25/01/25.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 struct Filter: Filtering, Equatable {
-
     static func == (lhs: Filter, rhs: Filter) -> Bool {
         lhs.type == rhs.type &&
             lhs.localizedDescription == rhs.localizedDescription

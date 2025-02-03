@@ -13,5 +13,6 @@ extension EnvironmentValues {
         case sheet
         case fullscreen
     }
+
     @Entry var viewKind: ViewKind? = .standard
 }

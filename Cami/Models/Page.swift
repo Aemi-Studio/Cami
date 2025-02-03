@@ -5,14 +5,13 @@
 //  Created by Guillaume Coquard on 22/01/25.
 //
 
-import SwiftUI
-import EventKit
 import Contacts
+import EventKit
+import SwiftUI
 
 enum Page: Identifiable, Hashable {
-
     var id: String {
-        self.localizedDescription
+        localizedDescription
     }
 
     case onboarding
@@ -25,14 +24,13 @@ enum Page: Identifiable, Hashable {
 }
 
 extension Page {
-
     var localizedDescription: String {
         switch self {
         case .onboarding:
             "Onboarding"
         case .today:
             String(describing: Date.now)
-        case .day(let date):
+        case let .day(date):
             String(describing: date)
         case .settings:
             "Settings"
@@ -53,7 +51,6 @@ extension Page {
             "calendar"
         }
     }
-
 }
 
 extension Page: Equatable {
@@ -71,7 +68,7 @@ extension Page {
                 OnboardingView()
             case .today:
                 TodayView()
-            case .day(let date):
+            case let .day(date):
                 SingleDayView(date: date)
             case .settings:
                 CustomSettingsView()

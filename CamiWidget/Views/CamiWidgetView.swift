@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CamiWidgetView: View {
-
     let entry: CamiWidgetEntry
 
     init(for entry: CamiWidgetEntry) {
@@ -16,11 +15,8 @@ struct CamiWidgetView: View {
     }
 
     var body: some View {
-
         ZStack {
-
             VStack(spacing: 6) {
-
                 CamiWidgetHeader()
 
                 Color.clear
@@ -33,7 +29,6 @@ struct CamiWidgetView: View {
             .padding(6)
 
             VStack {
-
                 Spacer()
 
                 LinearGradient(
@@ -45,10 +40,8 @@ struct CamiWidgetView: View {
                     endPoint: .bottom
                 )
                 .frame(maxWidth: .infinity, maxHeight: 64)
-
             }
         }
         .environment(entry)
-
     }
 }

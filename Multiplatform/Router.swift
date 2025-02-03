@@ -1,5 +1,5 @@
 //
-//  RouterError.swift
+//  Router.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 23/01/25.
@@ -12,18 +12,17 @@
 //  Created by Guillaume Coquard on 12/05/24.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
 
 @MainActor final class Router {
-
     static let shared: Router = .init()
 
     private let scheme = "camical"
     private var routes: [String: ([String: String]) -> Void] = [:]
 
     private init() {
-        self.routes.updateValue( { parameters in
+        routes.updateValue({ parameters in
             guard let id = parameters["id"] else {
                 print("Error: Missing 'id' parameter for event")
                 return
@@ -31,7 +30,7 @@ import Foundation
             DataContext.shared.openCalendarEvent(withId: id)
         }, forKey: "event")
 
-        self.routes.updateValue( { parameters in
+        routes.updateValue({ parameters in
             guard let time = parameters["time"] else {
                 print("Error: Missing 'time' parameter for event")
                 return
@@ -47,7 +46,6 @@ import Foundation
     }
 
     func handleURL(_ url: URL) {
-
         guard url.scheme == scheme else {
             UIApplication.shared.open(url)
             return

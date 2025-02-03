@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct BottomBar: View {
-
     @Environment(\.presentation) private var presentation
     @Environment(\.path) private var path
 
@@ -72,7 +71,6 @@ struct BottomBar: View {
 }
 
 struct SettingsButton: View {
-
     @Environment(\.presentation) private var presentation
 
     var body: some View {

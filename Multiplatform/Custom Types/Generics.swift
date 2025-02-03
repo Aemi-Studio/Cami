@@ -8,12 +8,10 @@
 import Foundation
 
 struct Generic<T: Hashable>: Identifiable, Hashable {
-
-    let id: UUID = UUID()
+    let id: UUID = .init()
     let value: T
 
     init(_ value: T) {
         self.value = value
     }
-
 }

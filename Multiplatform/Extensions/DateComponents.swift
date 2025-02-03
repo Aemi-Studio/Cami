@@ -13,6 +13,6 @@ extension DateComponents {
     }
 
     var yearsAgo: Int {
-        Date().get(.year) - (self.year ?? 0)!
+        Date().get(.year) - (year ?? 0)!
     }
 }

@@ -5,11 +5,10 @@
 //  Created by Guillaume Coquard on 25/01/25.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 enum Filters: CaseIterable {
-
     case dueToday
     case overdue
     case done
@@ -17,8 +16,9 @@ enum Filters: CaseIterable {
 
     case happensToday
 
-    private struct Values {
+    private enum Values {
         // MARK: - Reminders Filters
+
         static var dueToday: Filter {
             Filter(
                 type: .reminder,
@@ -33,6 +33,7 @@ enum Filters: CaseIterable {
                 localizedDescription: NSLocalizedString("Due Today", comment: "")
             )
         }
+
         static var overdue: Filter {
             Filter(
                 type: .reminder,
@@ -46,6 +47,7 @@ enum Filters: CaseIterable {
                 localizedDescription: NSLocalizedString("Overdue", comment: "")
             )
         }
+
         static var done: Filter {
             Filter(
                 type: .reminder,
@@ -59,6 +61,7 @@ enum Filters: CaseIterable {
                 localizedDescription: NSLocalizedString("Done", comment: "")
             )
         }
+
         static var open: Filter {
             Filter(
                 type: .reminder,
@@ -74,6 +77,7 @@ enum Filters: CaseIterable {
         }
 
         // MARK: - Events Filters
+
         static var happensToday: Filter {
             Filter(
                 type: .event,

@@ -10,16 +10,14 @@ import Foundation
 /// ensuring accessible contrast.
 @available(iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public enum ColorLevel: CaseIterable {
-
     case level50, level100, level200, level300, level400, level500,
          level600, level700, level800, level900, level950
 
     /// Provides the lightness value associated with each color level.
     var lightness: CGFloat {
         switch self {
-
         // Very light shade, almost white.
-        case .level50:  return 0.95
+        case .level50: return 0.95
 
         // Very light shade.
         case .level100: return 0.90
@@ -56,7 +54,7 @@ public enum ColorLevel: CaseIterable {
     /// Returns the corresponding level for dark mode.
     var correspondingDarkModeLevel: ColorLevel {
         switch self {
-        case .level50:  return .level950
+        case .level50: return .level950
         case .level100: return .level900
         case .level200: return .level800
         case .level300: return .level700

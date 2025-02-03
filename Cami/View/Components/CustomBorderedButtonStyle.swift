@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CustomBorderedButtonStyle: ButtonStyle {
-
     private(set) var layout: Bool = true
     private(set) var description: String?
     private(set) var foregroundStyle: AnyShapeStyle?
@@ -62,7 +61,6 @@ struct CustomBorderedButtonStyle: ButtonStyle {
 }
 
 extension ButtonStyle where Self == CustomBorderedButtonStyle {
-
     static var primary: CustomBorderedButtonStyle {
         CustomBorderedButtonStyle(
             foregroundStyle: AnyShapeStyle(Color.primary),

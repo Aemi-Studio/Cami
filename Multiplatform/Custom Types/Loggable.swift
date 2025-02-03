@@ -15,6 +15,7 @@ public extension Loggable {
     static var log: Logger {
         Logger(subsystem: Bundle.main.bundleIdentifier ?? "", category: String(describing: Self.self))
     }
+
     var log: Logger {
         Self.log
     }

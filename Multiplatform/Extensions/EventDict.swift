@@ -5,8 +5,8 @@
 //  Created by Guillaume Coquard on 18/11/23.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 extension EventDict {
     mutating func append(to date: Date, _ event: EKEvent) {
@@ -16,5 +16,4 @@ extension EventDict {
             self[date] = [event]
         }
     }
-
 }

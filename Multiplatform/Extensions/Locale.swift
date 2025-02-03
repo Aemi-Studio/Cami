@@ -8,9 +8,7 @@
 import Foundation
 
 extension Locale {
-
     static var prefered: Locale {
         Locale(identifier: Locale.preferredLanguages.first!)
     }
-
 }

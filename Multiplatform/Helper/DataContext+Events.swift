@@ -5,25 +5,23 @@
 //  Created by Guillaume Coquard on 26/01/25.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 // MARK: - Events
 
 extension DataContext {
-
-    public func event(for id: String) -> EKEvent? {
+    func event(for id: String) -> EKEvent? {
         eventStore.refreshSourcesIfNecessary()
         return eventStore.event(withIdentifier: id)
     }
 
-    public func events(
+    func events(
         from calendars: Calendars? = nil,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
     ) -> CItems {
-
         let calendars = calendars ?? self.calendars
 
         eventStore.refreshSourcesIfNecessary()
@@ -41,7 +39,8 @@ extension DataContext {
 
         guard
             let oneMonthFromNow = calendar.date(
-                byAdding: oneMonthFromNowComponents, to: date, wrappingComponents: false)
+                byAdding: oneMonthFromNowComponents, to: date, wrappingComponents: false
+            )
         else { return Events() }
 
         let predicate = eventStore.predicateForEvents(
@@ -53,7 +52,7 @@ extension DataContext {
         return eventStore.events(matching: predicate).sorted(.orderedAscending).filter(filter)
     }
 
-    public func events(
+    func events(
         from calendars: [String],
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool) = { _ in true },
@@ -62,7 +61,7 @@ extension DataContext {
         events(from: calendars.asEKCalendars(), during: days, where: filter, relativeTo: date)
     }
 
-    public func events(
+    func events(
         from calendars: Calendars? = nil,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool) = { _ in true },
@@ -72,7 +71,7 @@ extension DataContext {
             .mapped(relativeTo: date)
     }
 
-    public func events(
+    func events(
         from calendars: [String]? = nil,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool) = { _ in true },
@@ -82,7 +81,7 @@ extension DataContext {
             .mapped(relativeTo: date)
     }
 
-    public func events(
+    func events(
         from calendars: [WidgetCalendarEntity] = WidgetCalendarEntity.allCalendars,
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool) = { _ in true },
@@ -90,5 +89,4 @@ extension DataContext {
     ) -> CIDict {
         events(from: calendars.map { $0.calendar }, during: days, where: filter, relativeTo: date)
     }
-
 }
