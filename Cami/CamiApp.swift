@@ -13,6 +13,7 @@ struct CamiApp: App {
         WindowGroup {
             ContentView()
                 .configureEnvironmentValues()
+                .refreshWidgets()
                 .environment(\.viewKind, .standard)
         }
     }
@@ -21,6 +22,7 @@ struct CamiApp: App {
 extension View {
     func configureEnvironmentValues() -> some View {
         self
+            .environment(\.path, .shared)
             .environment(\.data, .shared)
             .environment(\.views, .shared)
             .environment(\.permissions, .shared)

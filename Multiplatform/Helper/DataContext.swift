@@ -119,7 +119,7 @@ extension DataContext {
 // MARK: - Environment Value
 
 extension EnvironmentValues {
-    @Entry var data: DataContext?
+    @Entry var data: DataContext!
 }
 
 extension DataContext {

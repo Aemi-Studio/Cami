@@ -11,9 +11,11 @@ extension View {
     @ViewBuilder
     func modal(isPresented condition: Binding<Bool>, @ViewBuilder content: @escaping () -> some View) -> some View {
         self.sheet(isPresented: condition) {
-            content()
-                .configureEnvironmentValues()
-                .environment(\.viewKind, .sheet)
+            NavigationStack {
+                content()
+                    .configureEnvironmentValues()
+                    .environment(\.viewKind, .sheet)
+            }
         }
     }
 }

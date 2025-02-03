@@ -7,6 +7,7 @@
 
 struct SettingsKeys {
 
+    static let hasDismissedOnboarding = "hasDismissedOnboarding"
     static let accessWorkInProgressFeatures = "accessWorkInProgressFeatures"
     static let openInCami = "openInCami"
 

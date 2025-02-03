@@ -9,14 +9,14 @@ import SwiftUI
 
 struct CalendarSelectionView: View {
 
-    @Environment(\.views) private var views
-    @Environment(\.data) private var data
+    @Environment(\.views) private var views: ViewContext!
+    @Environment(\.data) private var data: DataContext!
 
-    var calendars: Calendars {
-        data?.calendars ?? []
+    private var calendars: Calendars {
+        data!.calendars
     }
 
-    var calendarsAsDict: [String: Calendars] {
+    private var calendarsAsDict: [String: Calendars] {
         calendars.reduce(into: [String: Calendars]()) { result, calendar in
             let sourceTitle: String = calendar.source.title
             if let oldValue = result[sourceTitle] {
@@ -37,9 +37,9 @@ struct CalendarSelectionView: View {
                         ForEach(calendarsAsDict[source]!, id: \.self) { calendar in
                             Button {
                                 if !isSelected(calendar.calendarIdentifier) {
-                                    views?.calendars.insert(calendar.calendarIdentifier)
+                                    views.calendars.insert(calendar.calendarIdentifier)
                                 } else {
-                                    views?.calendars.remove(calendar.calendarIdentifier)
+                                    views.calendars.remove(calendar.calendarIdentifier)
                                 }
                             } label: {
                                 HStack(alignment: .center, spacing: 8) {
@@ -78,7 +78,7 @@ struct CalendarSelectionView: View {
     }
 
     private func isSelected(_ calendar: String) -> Bool {
-        views?.calendars.contains(calendar) ?? false
+        views.calendars.contains(calendar)
     }
 }
 

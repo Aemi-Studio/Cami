@@ -41,6 +41,16 @@
     "Birthdays" : {
 
     },
+    "button.refreshWidgets" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh Widgets"
+          }
+        }
+      }
+    },
     "Calendar" : {
 
     },
@@ -51,12 +61,6 @@
 
     },
     "Cami Calendar Minimal Widget Configuration" : {
-
-    },
-    "Cami Calendar, in its current version, is only a widget.\nWe propose it as a better and improved way to display your current native calendar content on your homescreen." : {
-
-    },
-    "Cami needs access to your calendars to work properly.\nIt can also use your contacts information to display birthdays in widgets." : {
 
     },
     "Cancel" : {
@@ -81,6 +85,9 @@
 
     },
     "Details" : {
+
+    },
+    "Dismiss Onboarding" : {
 
     },
     "Display Ongoing Events" : {
@@ -114,9 +121,6 @@
         }
       }
     },
-    "Exit" : {
-
-    },
     "Group Similar Events" : {
 
     },
@@ -126,7 +130,7 @@
     "Hidden" : {
 
     },
-    "Information" : {
+    "How to add and edit widgets on iPhone" : {
 
     },
     "It is %@'s birthday today. %@ is now %lld years old" : {
@@ -139,19 +143,250 @@
         }
       }
     },
-    "Next" : {
+    "knowledgebase.item.outdatedWidgetContent.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami relies completely on iOS features and mechanisms. According to documentation provided by Apple, a widget can be updated every five minutes at most. If you want to force the update of your actual widgets, you just have to open the app and close it right after. This automatically refreshes widgets. If it does not work, you can try long pressing the \"Everything is fine.\" green box on the welcome screen of Cami and then tap on \"Refresh widgets\"."
+          }
+        }
+      }
+    },
+    "knowledgebase.item.outdatedWidgetContent.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why does my widget content seem outdated?"
+          }
+        }
+      }
+    },
+    "knowledgebase.item.requestAccessToContacts.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami presents by default the next birthday from your contacts in the top right corner of the widget, therefore Cami needs to access your contacts. If you disable contact access, next birthday won't be displayed."
+          }
+        }
+      }
+    },
+    "knowledgebase.item.requestAccessToContacts.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why does Cami request access to Contacts?"
+          }
+        }
+      }
+    },
+    "knowledgebase.item.requestAccessToReminders.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami blends your reminders and the events from your calendars in a streamlined interface in the widget and the app to increase and improve the quantity of information provided."
+          }
+        }
+      }
+    },
+    "knowledgebase.item.requestAccessToReminders.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why does Cami request access to your Reminders?"
+          }
+        }
+      }
+    },
+    "knowledgebase.item.requestFullAccessToCalendar.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS requires applications to either request access to calendars in order to be able to edit events OR read and edit events. We need to read every events from every calendars, hence the request for \"Full Access\"."
+          }
+        }
+      }
+    },
+    "knowledgebase.item.requestFullAccessToCalendar.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why does Cami request full access to Calendars?"
+          }
+        }
+      }
+    },
+    "knowledgebase.navigationbar.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informations"
+          }
+        }
+      }
+    },
+    "knowledgebase.navigationlink.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informations"
+          }
+        }
+      }
+    },
+    "knowledgebase.search.callToActionPlaceholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do you want to know?"
+          }
+        }
+      }
+    },
+    "knowledgebase.search.closeSearchButton" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close Search"
+          }
+        }
+      }
+    },
+    "knowledgebase.search.focusSearchButton" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
+    },
+    "More informations" : {
 
     },
     "noEventToday.complication" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Event"
+          }
+        }
+      }
+    },
+    "onboarding.action.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami needs access to your calendars and reminders to work properly.\nIt can also use your contacts information to display birthdays in widgets."
+          }
+        }
+      }
+    },
+    "onboarding.action.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set Up Cami"
+          }
+        }
+      }
+    },
+    "onboarding.callToAction.continue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "onboarding.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cami Calendar, in its current version, is only a widget.\nWe propose it as a better and improved way to display your current native calendar content on your homescreen."
+          }
+        }
+      }
+    },
+    "onboarding.ok" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything is fine"
+          }
+        }
+      }
+    },
+    "onboarding.ok.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stay tuned for next Cami updates."
+          }
+        }
+      }
+    },
+    "onboarding.restricted.callToAction.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review Cami access to data."
+          }
+        }
+      }
+    },
+    "onboarding.restricted.callToAction.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restricted"
+          }
+        }
+      }
+    },
+    "onboarding.titlePrefix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to"
+          }
+        }
+      }
     },
     "ongoingEvents.Title" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongoing Events"
+          }
+        }
+      }
     },
     "Open" : {
-
-    },
-    "Open in your default browser" : {
 
     },
     "Overdue" : {
@@ -160,34 +395,42 @@
     "Permissions" : {
 
     },
+    "permissions.callToAction.next" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        }
+      }
+    },
+    "permissions.callToAction.review" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review"
+          }
+        }
+      }
+    },
+    "permissions.navigationlink.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permissions"
+          }
+        }
+      }
+    },
     "perms.calendars.description" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cami ONLY uses your on-device calendar information to display events in widgets.\n\nCami DOES NOT edit, delete, save or send those information away."
-          }
-        }
-      }
-    },
-    "perms.calendars.label" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Access to calendars authorized"
-          }
-        }
-      }
-    },
-    "perms.calendars.restricted" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Review Cami access to your calendars."
           }
         }
       }
@@ -212,28 +455,6 @@
         }
       }
     },
-    "perms.contacts.label" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Access to contacts authorized"
-          }
-        }
-      }
-    },
-    "perms.contacts.restricted" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Review Cami access to your contacts."
-          }
-        }
-      }
-    },
     "perms.contacts.title" : {
       "localizations" : {
         "en" : {
@@ -254,28 +475,6 @@
         }
       }
     },
-    "perms.reminders.label" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Access to reminders authorized"
-          }
-        }
-      }
-    },
-    "perms.reminders.restricted" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Review Cami access to your reminders."
-          }
-        }
-      }
-    },
     "perms.reminders.title" : {
       "localizations" : {
         "en" : {
@@ -286,23 +485,80 @@
         }
       }
     },
-    "Refresh Widgets" : {
+    "Privacy Policy" : {
 
     },
     "Remaining Time: %@" : {
 
     },
-    "Review" : {
-
-    },
     "Save" : {
-
-    },
-    "Set Up Cami" : {
 
     },
     "Settings" : {
 
+    },
+    "settings.features.wip.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work-In-Progress Features"
+          }
+        }
+      }
+    },
+    "settings.navigation.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "settings.navigationlink.openSettings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Settings"
+          }
+        }
+      }
+    },
+    "settings.overlay.closeButton" : {
+
+    },
+    "settings.section.advanced.header" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview Features"
+          }
+        }
+      }
+    },
+    "settings.section.features.footer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The features you would enable through this setting could lead to alter your calendar events, reminders or contacts data.\n\nPlease do not contact us if you experience any problem having this setting enabled."
+          }
+        }
+      }
+    },
+    "settings.section.general.header" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        }
+      }
     },
     "Style" : {
 
@@ -344,12 +600,6 @@
           }
         }
       }
-    },
-    "Welcome to" : {
-
-    },
-    "What do you want to know?" : {
-
     },
     "You have %lld all-day events." : {
 

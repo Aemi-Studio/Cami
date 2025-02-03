@@ -13,13 +13,7 @@
 //
 
 import SwiftUI
-
 import Foundation
-
-enum RouterError: Error {
-    case invalidURL
-    case missingParameter(String)
-}
 
 @MainActor final class Router {
 

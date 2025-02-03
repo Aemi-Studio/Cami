@@ -1,6 +1,24 @@
 {
-  "originHash" : "51f90653b2c9f9f7064c0d52159b40bf7d222e5f314be23e62fe28520fec03db",
+  "originHash" : "fd0eb4e3087745c4d50504d6994b3339e0e19e3d46a52dee3554e848332d7bba",
   "pins" : [
+    {
+      "identity" : "aemiui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Aemi-Studio/AemiUI",
+      "state" : {
+        "branch" : "main",
+        "revision" : "86a4d1d69f6ffab2427987dcb82ce75ecf20514f"
+      }
+    },
+    {
+      "identity" : "aemiutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Aemi-Studio/AemiUtilities",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8d710e2fd93e00ad407aea1234dce773523fc6aa"
+      }
+    },
     {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",

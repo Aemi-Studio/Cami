@@ -22,13 +22,15 @@ struct PermissionsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.viewKind) private var viewKind
     @Environment(\.permissions) private var permissions
+    @Environment(\.presentation) private var presentation
 
     var body: some View {
         if let permissions {
-            NavigationView {
-                ScrollView(.vertical) {
-                    VStack(alignment: .leading, spacing: 16) {
-                        @Bindable var permissions = permissions
+            ScrollView(.vertical) {
+                VStack(alignment: .leading, spacing: 16) {
+                    @Bindable var permissions = permissions
+
+                    CustomSection {
 
                         AccessToggle(
                             isOn: permissions.calendars,
@@ -50,31 +52,17 @@ struct PermissionsView: View {
                             description: NSLocalizedString("perms.reminders.description", comment: ""),
                             action: { await permissions.request(access: .reminders) }
                         )
-
-                        if permissions.global == .authorized {
-                            SettingsLinkView(radius: 12)
-                            WidgetHelpView(
-                                title: "Privacy Policy",
-                                url: "https://aemi.studio/privacy",
-                                description: "Review how Cami handles your data.",
-                                radius: 12
-                            )
-                        } else {
-                            WidgetHelpView(
-                                title: "Privacy Policy",
-                                url: "https://aemi.studio/privacy",
-                                description: "Review how Cami handles your data.",
-                                radius: 12
-                            )
-                            SettingsLinkView(radius: 12)
-                        }
-
                     }
-                    .padding()
+
+                    CustomSection {
+                        PrivacyPolicyButton()
+                        SystemSettingsButton()
+                    }
+
                 }
-                .navigationTitle(NSLocalizedString("view.permissions.title", comment: ""))
-                .navigationBarTitleDisplayMode(viewKind == .sheet ? .inline : .large)
+                .padding(.horizontal)
             }
+            .setNavigationPage(\.title, to: String(localized: "view.permissions.title"))
         }
     }
 }

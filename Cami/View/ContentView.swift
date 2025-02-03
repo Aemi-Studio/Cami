@@ -12,13 +12,12 @@ import WidgetKit
 struct ContentView: View {
 
     @Environment(\.scenePhase)   private var scenePhase
+    @Environment(\.path)         private var path
     @Environment(\.presentation) private var presentation
     @Environment(\.permissions)  private var permissions
     @Environment(\.views)        private var views
 
-    @State private var pages: [Page] = [.onboarding, .day(Date.now), .permissions]
-
-    private var wasNotAuthorized: Bool = PermissionModel.shared.global == .restricted
+    private var wasNotAuthorized: Bool = PermissionContext.shared.global == .restricted
 
     private var authorized: Bool {
         permissions?.global == .some(.authorized)
@@ -29,52 +28,47 @@ struct ContentView: View {
     }
 
     var body: some View {
-        ScrollableHome(pages)
-            .onChange(of: scenePhase) { _, _ in
-                WidgetCenter.shared.reloadAllTimelines()
-            }
-            .onChange(of: permissions?.global) { _, _ in
-                views?.reset()
-                WidgetCenter.shared.reloadAllTimelines()
-            }
-            .onReceive(DataContext.shared.publishEventStoreChanges()) { _ in
-                WidgetCenter.shared.reloadAllTimelines()
-            }
-            .if(presentation != nil) { view in
-                @Bindable var presentation = presentation!
-                view
-                    .modal(isPresented: $presentation.areSettingsPresented) {
-                        PermissionsView()
-                            .presentationDragIndicator(.visible)
-                            .presentationDetents([.medium, .large])
-                            .presentationContentInteraction(.scrolls)
-                    }
-                    .modal(isPresented: $presentation.areInformationsPresented) {
-                        InformationModalView()
-                            .presentationDetents([.medium, .large])
-                            .presentationDragIndicator(.visible)
-                            .presentationContentInteraction(.scrolls)
-                    }
-                    .modal(isPresented: $presentation.isReminderCreationSheetPresented) {
-                        CreateReminderView()
-                            .presentationDetents([.medium, .large])
-                            .presentationDragIndicator(.visible)
-                            .presentationContentInteraction(.scrolls)
-                    }
-            }
-    }
-
-    @ViewBuilder
-    var otherContent: some View {
-        if let views {
-            @Bindable var views = views
-            NavigationStack(path: $views.path) {
-                CalendarView()
-                    //                    .navigationDestination(for: Day.self, destination: DayView.init)
-                    .navigationDestination(for: EKEvent.self, destination: EventView.init)
-            }
+        ZStack {
+            ScrollableHome()
+            MenuOverlayView()
+        }
+        .ignoresSafeArea(.all)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .if(presentation != nil) { view in
+            @Bindable var presentation = presentation!
+            view
+                .modal(isPresented: $presentation.areSettingsPresented) {
+                    PermissionsView()
+                        .presentationDragIndicator(.visible)
+                        .presentationDetents([.medium, .large])
+                        .presentationContentInteraction(.scrolls)
+                }
+                .modal(isPresented: $presentation.areInformationsPresented) {
+                    KnowledgeBaseView()
+                        .presentationDetents([.medium, .large])
+                        .presentationDragIndicator(.visible)
+                        .presentationContentInteraction(.scrolls)
+                }
+                .modal(isPresented: $presentation.isReminderCreationSheetPresented) {
+                    CreateReminderView()
+                        .presentationDetents([.medium, .large])
+                        .presentationDragIndicator(.visible)
+                        .presentationContentInteraction(.scrolls)
+                }
         }
     }
+
+    //    @ViewBuilder
+    //    var otherContent: some View {
+    //        if let views {
+    //            @Bindable var views = views
+    //            NavigationStack(path: $views.path) {
+    //                CalendarView()
+    //                    //                    .navigationDestination(for: Day.self, destination: DayView.init)
+    //                    .navigationDestination(for: EKEvent.self, destination: EventView.init)
+    //            }
+    //        }
+    //    }
 }
 
 #Preview {

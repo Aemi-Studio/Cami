@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		461649352B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */; };
 		461649362B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */; };
+		46283BBA2D484EAE00754580 /* AemiUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46283BB92D484EAE00754580 /* AemiUI */; };
+		462CB9332D4F52EA00536598 /* CamiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		464F11662D406FC400F73884 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 464F11652D406FC400F73884 /* SwiftUI.framework */; };
 		464F11682D406FD000F73884 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 464F11672D406FD000F73884 /* WidgetKit.framework */; };
 		464F116A2D40797700F73884 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 464F11692D40797700F73884 /* Localizable.xcstrings */; };
 		464F116B2D40797700F73884 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 464F11692D40797700F73884 /* Localizable.xcstrings */; };
 		465159302B7252AB0073544A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4651592F2B7252AB0073544A /* Settings.bundle */; };
-		46B160702B07D87100A44FBF /* CamiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 46A6C1072D46D61F00D3C72B /* AemiUtilities */; };
 		46E0222F2B7A72B7005725B0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E0222E2B7A72B7005725B0 /* Collections */; };
 		46E022312B7A72B7005725B0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022302B7A72B7005725B0 /* DequeModule */; };
 		46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022322B7A72B7005725B0 /* OrderedCollections */; };
@@ -40,7 +42,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				46B160702B07D87100A44FBF /* CamiWidgetExtension.appex in Embed Foundation Extensions */,
+				462CB9332D4F52EA00536598 /* CamiWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,9 +91,8 @@
 		464F11B02D4079F300F73884 /* Exceptions for "Cami" folder in "CamiWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Components/VariableBlur.swift,
-				Extensions/Notifications.swift,
-				Model/PermissionModel.swift,
+				Contexts/PermissionContext.swift,
+				View/Components/VariableBlur.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
@@ -102,6 +103,7 @@
 				"Custom Types/Generics.swift",
 				Extensions/Weeks.swift,
 				"Helper/DeepLink+woDay.swift",
+				Modifiers/BottomBarAvoidancePadding.swift,
 				Modifiers/Modal.swift,
 				Modifiers/PageModifier.swift,
 				Router.swift,
@@ -144,7 +146,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46283BBA2D484EAE00754580 /* AemiUI in Frameworks */,
 				46E0222F2B7A72B7005725B0 /* Collections in Frameworks */,
+				46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */,
 				46E022312B7A72B7005725B0 /* DequeModule in Frameworks */,
 				46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */,
 			);
@@ -227,6 +231,8 @@
 				46E0222E2B7A72B7005725B0 /* Collections */,
 				46E022302B7A72B7005725B0 /* DequeModule */,
 				46E022322B7A72B7005725B0 /* OrderedCollections */,
+				46A6C1072D46D61F00D3C72B /* AemiUtilities */,
+				46283BB92D484EAE00754580 /* AemiUI */,
 			);
 			productName = Cami;
 			productReference = 465533092AF4EA69000B537B /* Cami.app */;
@@ -287,6 +293,8 @@
 			mainGroup = 465533002AF4EA69000B537B;
 			packageReferences = (
 				461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
+				46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */,
+				46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4655330A2AF4EA69000B537B /* Products */;
@@ -515,6 +523,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Debug;
@@ -641,6 +650,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
@@ -682,11 +692,6 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_OUTPUT_FORMAT = binary;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST))",
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.1;
 				PLIST_FILE_OUTPUT_FORMAT = binary;
@@ -700,7 +705,6 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -741,11 +745,6 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_OUTPUT_FORMAT = binary;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST))",
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.1;
 				PLIST_FILE_OUTPUT_FORMAT = binary;
@@ -759,7 +758,6 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -781,11 +779,6 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
@@ -794,7 +787,6 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -815,11 +807,6 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Aemi Studio. All Rights Reserved.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "Cami ONLY uses your on-device reminders information to display them in widgets and the application.\nCami DOES NOT edit, delete, save or send those information away.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.aemi.ada23.Cami.CamiWidget;
@@ -828,7 +815,6 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -874,9 +860,35 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Aemi-Studio/AemiUI";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Aemi-Studio/AemiUtilities";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		46283BB92D484EAE00754580 /* AemiUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */;
+			productName = AemiUI;
+		};
+		46A6C1072D46D61F00D3C72B /* AemiUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */;
+			productName = AemiUtilities;
+		};
 		46E0222E2B7A72B7005725B0 /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */;
