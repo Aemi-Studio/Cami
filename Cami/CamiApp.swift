@@ -26,6 +26,7 @@ extension View {
             .environment(\.views, .shared)
             .environment(\.permissions, .shared)
             .environment(\.presentation, .shared)
+            .environment(\.locale, .prefered)
             .onOpenURL(perform: Router.shared.handleURL)
     }
 }

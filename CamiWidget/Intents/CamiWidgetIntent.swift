@@ -17,6 +17,13 @@ struct CamiWidgetIntent: WidgetConfigurationIntent {
         "Cami Calendar Minimal Widget Configuration"
     }
 
+    @Parameter(
+        title: "Complication",
+        default: .birthdays,
+        optionsProvider: ComplicationOptionsProvider()
+    )
+    var complication: ComplicationEnum
+
     @Parameter(title: "Calendars", default: [])
     var calendars: [WidgetCalendarEntity]
 
@@ -33,13 +40,15 @@ struct CamiWidgetIntent: WidgetConfigurationIntent {
     @Parameter(title: "Group Similar Events", default: true)
     var groupEvents: Bool
 
-    @Parameter(
-        title: "Corner Complication",
-        default: .birthdays,
-        optionsProvider: CornerComplicationOptionsProvider()
-    )
-    var cornerComplication: CornerComplicationEnum
+    @Parameter(title: "Ongoing Events", default: true)
+    var ongoingEvents: Bool
 
-    @Parameter(title: "Display Ongoing Events", default: true)
-    var displayOngoingEvents: Bool
+    @Parameter(title: "Show Reminders", default: true)
+    var reminders: Bool
+
+    @Parameter(title: "Mix Events & Reminders", default: true)
+    var useUnifiedList: Bool
+
+    @Parameter(title: "Header", default: true)
+    var showHeader: Bool
 }

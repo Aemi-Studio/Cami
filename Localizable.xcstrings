@@ -69,16 +69,25 @@
     "Close" : {
 
     },
+    "Complete this reminder" : {
+
+    },
+    "Complication" : {
+
+    },
     "Configuration" : {
 
     },
-    "Corner Complication" : {
+    "Create a calendar item" : {
 
     },
     "Create a reminder" : {
 
     },
     "Create a Reminder" : {
+
+    },
+    "Create event or reminder" : {
 
     },
     "Date" : {
@@ -90,10 +99,10 @@
     "Dismiss Onboarding" : {
 
     },
-    "Display Ongoing Events" : {
+    "Done" : {
 
     },
-    "Done" : {
+    "Due Later" : {
 
     },
     "Due Today" : {
@@ -125,6 +134,12 @@
 
     },
     "Happens Today" : {
+
+    },
+    "Has Due Date" : {
+
+    },
+    "Header" : {
 
     },
     "Hidden" : {
@@ -254,6 +269,7 @@
       }
     },
     "knowledgebase.search.closeSearchButton" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -264,6 +280,7 @@
       }
     },
     "knowledgebase.search.focusSearchButton" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -272,6 +289,12 @@
           }
         }
       }
+    },
+    "knowledgebase.search.noResult" : {
+
+    },
+    "Mix Events & Reminders" : {
+
     },
     "More informations" : {
 
@@ -375,6 +398,9 @@
           }
         }
       }
+    },
+    "Ongoing Events" : {
+
     },
     "ongoingEvents.Title" : {
       "localizations" : {
@@ -485,10 +511,25 @@
         }
       }
     },
+    "Preview" : {
+
+    },
     "Privacy Policy" : {
 
     },
+    "Refresh" : {
+
+    },
     "Remaining Time: %@" : {
+
+    },
+    "Reminder Completion" : {
+
+    },
+    "Reminder Identifier" : {
+
+    },
+    "Review how Cami handles your data." : {
 
     },
     "Save" : {
@@ -527,9 +568,6 @@
         }
       }
     },
-    "settings.overlay.closeButton" : {
-
-    },
     "settings.section.advanced.header" : {
       "localizations" : {
         "en" : {
@@ -559,6 +597,9 @@
           }
         }
       }
+    },
+    "Show Reminders" : {
+
     },
     "Style" : {
 
@@ -600,6 +641,9 @@
           }
         }
       }
+    },
+    "Visit Apple Support" : {
+
     },
     "You have %lld all-day events." : {
 

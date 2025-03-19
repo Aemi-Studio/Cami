@@ -8,7 +8,7 @@
 import EventKit
 import Foundation
 
-extension EventDict {
+extension [Date: [EKEvent]] {
     mutating func append(to date: Date, _ event: EKEvent) {
         if self[date] != nil {
             self[date]!.append(event)

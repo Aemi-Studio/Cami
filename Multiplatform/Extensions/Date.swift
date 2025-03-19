@@ -33,21 +33,55 @@ extension Date {
 
     /// Is the date of the same day as today
     var isToday: Bool {
-        zero == Date.now.zero
+        Calendar.autoupdatingCurrent.isDateInToday(self)
     }
 }
 
 // MARK: Date Formatting
 
 extension Date {
-    var literals: [String: String] {
+
+    enum FormatterKind {
+        case short
+        case medium
+        case long
+        case date
+        case month
+        case year
+
+        private var formatter: DateFormatter {
+            switch self {
+            case .short: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEEEE" }
+            case .medium: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEE" }
+            case .long: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEEE" }
+            case .date: Date.formatter(DateFormatter.self) { $0.dateFormat = "d" }
+            case .month: Date.formatter(DateFormatter.self) { $0.dateFormat = "MMMM" }
+            case .year: Date.formatter(DateFormatter.self) { $0.dateFormat = "YYYY" }
+            }
+        }
+
+        func callAsFunction(_ date: Date) -> String {
+            formatter.string(from: date)
+        }
+    }
+
+    private static func formatter<T: Formatter>(
+        _ formatterType: T.Type,
+        _ setup: @escaping (T) -> Void
+    ) -> T {
+        let outputFormatter = formatterType.init()
+        setup(outputFormatter)
+        return outputFormatter
+    }
+
+    var literals: [FormatterKind: String] {
         [
-            "short": formatter { $0.dateFormat = "EEEEE" },
-            "medium": formatter { $0.dateFormat = "EEE" },
-            "long": formatter { $0.dateFormat = "EEEE" },
-            "date": formatter { $0.dateFormat = "d" },
-            "month": formatter { $0.dateFormat = "MMMM" },
-            "year": formatter { $0.dateFormat = "YYYY" }
+            .short: FormatterKind.short(self),
+            .medium: FormatterKind.medium(self),
+            .long: FormatterKind.long(self),
+            .date: FormatterKind.date(self),
+            .month: FormatterKind.month(self),
+            .year: FormatterKind.year(self)
         ]
     }
 
@@ -58,15 +92,6 @@ extension Date {
         formatter.locale = Locale(identifier: Locale.preferredLanguages.first!)
         setup(formatter)
         return formatter.string(from: self)
-    }
-
-    func formatter<T: Formatter>(
-        _ formatterType: T.Type,
-        _ setup: @escaping (T) -> Void
-    ) -> T {
-        let outputFormatter = formatterType.init()
-        setup(outputFormatter)
-        return outputFormatter
     }
 
     var formattedUntilTomorrow: String {
@@ -83,7 +108,7 @@ extension Date {
     }
 
     var relativeToNow: String {
-        formatter(RelativeDateTimeFormatter.self) {
+        Self.formatter(RelativeDateTimeFormatter.self) {
             $0.locale = Locale(identifier: Locale.preferredLanguages.first!)
         }.string(for: self)!
     }
@@ -92,7 +117,7 @@ extension Date {
         until date: Date,
         accuracy: NSCalendar.Unit = [.day, .hour, .minute]
     ) -> String {
-        formatter(DateComponentsFormatter.self) {
+        Self.formatter(DateComponentsFormatter.self) {
             $0.unitsStyle = .brief
             $0.zeroFormattingBehavior = .dropAll
             $0.allowedUnits = accuracy

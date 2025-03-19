@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460BE8032D7FB22D003862E6 /* AemiUI in Frameworks */ = {isa = PBXBuildFile; productRef = 460BE8022D7FB22D003862E6 /* AemiUI */; };
+		460BE8052D7FB24A003862E6 /* AemiUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 460BE8042D7FB24A003862E6 /* AemiUtilities */; };
 		461649352B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */; };
 		461649362B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */; };
 		46283BBA2D484EAE00754580 /* AemiUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46283BB92D484EAE00754580 /* AemiUI */; };
@@ -66,11 +68,12 @@
 		464F11292D406EB800F73884 /* Exceptions for "CamiWidget" folder in "Cami" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Intents/CamiWidgetConfiguration.swift,
 				Intents/CamiWidgetIntent.swift,
 				"Intents/Intents Parameters/AllDayStyleEnum.swift",
-				"Intents/Intents Parameters/CornerComplicationEnum.swift",
+				"Intents/Intents Parameters/ComplicationEnum.swift",
 				"Intents/Intents Parameters/WidgetCalendarEntity.swift",
+				Intents/ReminderCompletionIntent.swift,
+				Intents/StandardWidgetConfiguration.swift,
 			);
 			target = 465533082AF4EA69000B537B /* Cami */;
 		};
@@ -91,28 +94,43 @@
 		464F11B02D4079F300F73884 /* Exceptions for "Cami" folder in "CamiWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Contexts/PermissionContext.swift,
-				View/Components/VariableBlur.swift,
+				UI/Components/ProgressCircle.swift,
+				UI/Components/VariableBlur.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
 		464F121F2D4079F600F73884 /* Exceptions for "Multiplatform" folder in "CamiWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Custom Types/Day.swift",
-				"Custom Types/Generics.swift",
-				Extensions/Weeks.swift,
-				"Helper/DeepLink+woDay.swift",
-				Modifiers/BottomBarAvoidancePadding.swift,
-				Modifiers/Modal.swift,
-				Modifiers/PageModifier.swift,
-				Router.swift,
+				AppContext.swift,
+				"DeepLink/DeepLink+woDay.swift",
+				Extensions/Dates.swift,
+				KnowledgeBaseContext.swift,
+				Page.swift,
+				PathContext.swift,
+				PresentationContext.swift,
+				Router/Router.swift,
+				ScrollableHomeContext.swift,
+				UI/Modifiers/BottomBarAvoidancePadding.swift,
+				UI/Modifiers/CustomModal.swift,
+				UI/Modifiers/Modal.swift,
+				UI/Modifiers/PageModifier.swift,
+				"UI/VisualEffectView/UIViewEffectView+Helpers.swift",
+				UI/VisualEffectView/VisualEffectView.swift,
+				"UI/VisualEffectView/VisualEffectView+SwiftUI.swift",
+				UIContext.swift,
+				WidgetSize.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		464043F42D7F8FAA0076DFD8 /* App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = App;
+			sourceTree = "<group>";
+		};
 		464F11112D406EB800F73884 /* CamiWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -158,10 +176,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				460BE8052D7FB24A003862E6 /* AemiUtilities in Frameworks */,
 				464F11662D406FC400F73884 /* SwiftUI.framework in Frameworks */,
 				46E022352B7A72BE005725B0 /* Collections in Frameworks */,
 				464F11682D406FD000F73884 /* WidgetKit.framework in Frameworks */,
 				46E022372B7A72BE005725B0 /* DequeModule in Frameworks */,
+				460BE8032D7FB22D003862E6 /* AemiUI in Frameworks */,
 				46E022392B7A72BE005725B0 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +203,7 @@
 		465533002AF4EA69000B537B = {
 			isa = PBXGroup;
 			children = (
+				464043F42D7F8FAA0076DFD8 /* App */,
 				464F11DA2D4079F600F73884 /* Multiplatform */,
 				464F118F2D4079F300F73884 /* Cami */,
 				464F11112D406EB800F73884 /* CamiWidget */,
@@ -223,6 +244,7 @@
 				46B1606F2B07D87100A44FBF /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				464043F42D7F8FAA0076DFD8 /* App */,
 				464F118F2D4079F300F73884 /* Cami */,
 				464F11DA2D4079F600F73884 /* Multiplatform */,
 			);
@@ -252,6 +274,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				464043F42D7F8FAA0076DFD8 /* App */,
 				464F11112D406EB800F73884 /* CamiWidget */,
 				464F11DA2D4079F600F73884 /* Multiplatform */,
 			);
@@ -260,6 +283,8 @@
 				46E022342B7A72BE005725B0 /* Collections */,
 				46E022362B7A72BE005725B0 /* DequeModule */,
 				46E022382B7A72BE005725B0 /* OrderedCollections */,
+				460BE8022D7FB22D003862E6 /* AemiUI */,
+				460BE8042D7FB24A003862E6 /* AemiUtilities */,
 			);
 			productName = CamiCompleteWidgetExtension;
 			productReference = 46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */;
@@ -690,6 +715,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				INFOPLIST_OUTPUT_FORMAT = binary;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -743,6 +769,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				INFOPLIST_OUTPUT_FORMAT = binary;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -879,6 +906,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		460BE8022D7FB22D003862E6 /* AemiUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */;
+			productName = AemiUI;
+		};
+		460BE8042D7FB24A003862E6 /* AemiUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */;
+			productName = AemiUtilities;
+		};
 		46283BB92D484EAE00754580 /* AemiUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */;

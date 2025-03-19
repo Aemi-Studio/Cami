@@ -7,20 +7,22 @@
 
 import Foundation
 
-extension Seconds {
-    var days: Int {
-        self / (24 * 3600)
+enum Seconds {
+    static func getDays(from seconds: Int) -> Int {
+        seconds / (24 * 3600)
     }
 
-    var toDays: String {
-        var component = DateComponents()
-        component.day = days
-
+    private static var dateFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = .day
         formatter.unitsStyle = .abbreviated
         formatter.calendar?.locale = Locale(identifier: Locale.preferredLanguages.first!)
+        return formatter
+    }()
 
-        return formatter.string(from: component)!
+    static func formattedDays(from seconds: Int) -> String {
+        var component = DateComponents()
+        component.day = getDays(from: seconds)
+        return dateFormatter.string(from: component)!
     }
 }
