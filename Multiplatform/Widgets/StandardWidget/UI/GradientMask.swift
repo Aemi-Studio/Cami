@@ -11,10 +11,7 @@ struct GradientMask: View {
     @Environment(\.colorScheme) private var colorScheme
 
     private var gradientHeight: CGFloat {
-        switch colorScheme {
-            case .dark: 32
-            default: 16
-        }
+        colorScheme == .dark ? 32 : 16
     }
 
     var body: some View {
