@@ -20,19 +20,16 @@ struct CamiWidgetHeaderDate: View {
 
     private var dayLength: Date.FormatterKind {
         switch family {
-        case .systemExtraLarge:
-            .long
-        case .systemSmall:
-            .short
-        default:
-            .medium
+            case .systemExtraLarge: .long
+            case .systemSmall: .short
+            default: .medium
         }
     }
 
     private var renderedOpacity: Double {
         switch renderingMode {
-        case .accented, .vibrant: 0.5
-        default: 1.0
+            case .accented, .vibrant: 0.5
+            default: 1.0
         }
     }
 

@@ -53,6 +53,9 @@
 
 /* Begin PBXFileReference section */
 		461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = SOURCE_ROOT; };
+		4636EF332D98B397008C961D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		4636EF342D98B397008C961D /* .periphery.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .periphery.yml; sourceTree = "<group>"; };
+		4636EF352D98B39F008C961D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = "/Users/gc/Developer/Aemi Studio.nosync/Cami/.swiftlint.yml"; sourceTree = "<absolute>"; };
 		464F10C12D406C7E00F73884 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
 		464F10C32D406C7E00F73884 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 		464F11652D406FC400F73884 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/SwiftUI.framework; sourceTree = DEVELOPER_DIR; };
@@ -103,18 +106,17 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppContext.swift,
+				AppState.swift,
 				"DeepLink/DeepLink+woDay.swift",
 				Extensions/Dates.swift,
 				KnowledgeBaseContext.swift,
-				Page.swift,
-				PathContext.swift,
+				ModalSheetContext.swift,
+				NavigationPageLink.swift,
 				PresentationContext.swift,
 				Router/Router.swift,
-				ScrollableHomeContext.swift,
 				UI/Modifiers/BottomBarAvoidancePadding.swift,
 				UI/Modifiers/CustomModal.swift,
 				UI/Modifiers/Modal.swift,
-				UI/Modifiers/PageModifier.swift,
 				"UI/VisualEffectView/UIViewEffectView+Helpers.swift",
 				UI/VisualEffectView/VisualEffectView.swift,
 				"UI/VisualEffectView/VisualEffectView+SwiftUI.swift",
@@ -211,6 +213,9 @@
 				461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */,
 				464F11692D40797700F73884 /* Localizable.xcstrings */,
 				46934D912B78F5130025ADF2 /* sonar-project.properties */,
+				4636EF332D98B397008C961D /* .gitignore */,
+				4636EF342D98B397008C961D /* .periphery.yml */,
+				4636EF352D98B39F008C961D /* .swiftlint.yml */,
 				464F10C02D406C7E00F73884 /* Frameworks */,
 				4655330A2AF4EA69000B537B /* Products */,
 			);
@@ -236,7 +241,7 @@
 				465533062AF4EA69000B537B /* Frameworks */,
 				465533072AF4EA69000B537B /* Resources */,
 				465533372AF4EA7B000B537B /* Embed Foundation Extensions */,
-				460D14622B0FA354003F11E8 /* ShellScript */,
+				4636F2792D98C9E9008C961D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -267,7 +272,7 @@
 				46B1605E2B07D87000A44FBF /* Sources */,
 				46B1605F2B07D87000A44FBF /* Frameworks */,
 				46B160602B07D87000A44FBF /* Resources */,
-				460D14612B0FA30B003F11E8 /* ShellScript */,
+				4636F27A2D98CF62008C961D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -355,10 +360,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		460D14612B0FA30B003F11E8 /* ShellScript */ = {
+		4636F2792D98C9E9008C961D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
@@ -371,12 +375,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint --fix --format && /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat && /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
+			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\n\nif [[ -e /opt/homebrew/bin/periphery ]]; then\n    /opt/homebrew/bin/periphery scan --skip-build --index-store-path \"$BUILD_DIR/../../Index.noindex/DataStore\" --project Cami.xcodeproj --schemes Cami --format xcode\nelse\n    echo \"warning:Periphery has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
 		};
-		460D14622B0FA354003F11E8 /* ShellScript */ = {
+		4636F27A2D98CF62008C961D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
@@ -389,7 +393,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint --fix --format && /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat && /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
+			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\n\nif [[ -e /opt/homebrew/bin/periphery ]]; then\n    /opt/homebrew/bin/periphery scan --skip-build --index-store-path \"$BUILD_DIR/../../Index.noindex/DataStore\" --project Cami.xcodeproj --schemes CamiWidgetExtension --format xcode\nelse\n    echo \"warning:Periphery has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

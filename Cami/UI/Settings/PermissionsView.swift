@@ -16,22 +16,22 @@ struct PermissionsView: View {
                 CustomSection {
                     AccessToggle(
                         isOn: permissions.calendars,
-                        title: NSLocalizedString("perms.calendars.title", comment: ""),
-                        description: NSLocalizedString("perms.calendars.description", comment: ""),
+                        title: String(localized: "perms.calendars.title", comment: ""),
+                        description: String(localized: "perms.calendars.description", comment: ""),
                         action: { await permissions.request(access: .calendars) }
                     )
 
                     AccessToggle(
                         isOn: permissions.contacts,
-                        title: NSLocalizedString("perms.contacts.title", comment: ""),
-                        description: NSLocalizedString("perms.contacts.description", comment: ""),
+                        title: String(localized: "perms.contacts.title", comment: ""),
+                        description: String(localized: "perms.contacts.description", comment: ""),
                         action: { await permissions.request(access: .contacts) }
                     )
 
                     AccessToggle(
                         isOn: permissions.reminders,
-                        title: NSLocalizedString("perms.reminders.title", comment: ""),
-                        description: NSLocalizedString("perms.reminders.description", comment: ""),
+                        title: String(localized: "perms.reminders.title", comment: ""),
+                        description: String(localized: "perms.reminders.description", comment: ""),
                         action: { await permissions.request(access: .reminders) }
                     )
                 }
@@ -41,7 +41,7 @@ struct PermissionsView: View {
                 }
             }
             .padding(.horizontal)
-            .set(\.title, to: String(localized: "view.permissions.title"))
+            .navigationTitle(String(localized: "view.permissions.title"))
         }
     }
 }

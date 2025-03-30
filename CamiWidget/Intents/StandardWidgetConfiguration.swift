@@ -5,16 +5,17 @@
 //  Created by Guillaume Coquard on 18/11/23.
 //
 
-import Foundation
+import SwiftUI
 
+@Observable
 final class StandardWidgetConfiguration {
-    let allDayStyle: AllDayStyleEnum
-    let complication: ComplicationEnum
-    let showReminders: Bool
-    let showHeader: Bool
-    let useUnifiedList: Bool
-    let showOngoingEvents: Bool
-    let groupEvents: Bool
+    private(set) var allDayStyle: AllDayStyleEnum
+    private(set) var complication: ComplicationEnum
+    private(set) var showReminders: Bool
+    private(set) var showHeader: Bool
+    private(set) var useUnifiedList: Bool
+    private(set) var showOngoingEvents: Bool
+    private(set) var groupEvents: Bool
 
     init() {
         allDayStyle = .event
@@ -39,4 +40,18 @@ final class StandardWidgetConfiguration {
 
 extension StandardWidgetConfiguration {
     static let `default` = StandardWidgetConfiguration()
+}
+
+
+extension Observable {
+    func binding<T>(for path: KeyPath<Self,T>) -> Binding<T> {
+        var this = self
+        return Binding {
+            this[keyPath: path]
+        } set: { value in
+            if let path = path as? WritableKeyPath<Self, T> {
+                this[keyPath: path] = value
+            }
+        }
+    }
 }

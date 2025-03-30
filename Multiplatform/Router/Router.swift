@@ -1,12 +1,5 @@
 //
 //  Router.swift
-//  Cami
-//
-//  Created by Guillaume Coquard on 23/01/25.
-//
-
-//
-//  Router.swift
 //  Stations
 //
 //  Created by Guillaume Coquard on 12/05/24.
@@ -15,31 +8,36 @@
 import Foundation
 import SwiftUI
 
-@MainActor final class Router {
-    static let shared: Router = .init()
-
+final class Router: Loggable {
+    
+    static let shared = Router()
+    
     private let scheme = "camical"
     private var routes: [String: ([String: String]) -> Void] = [:]
 
     private init() {
         routes.updateValue({ parameters in
             guard let id = parameters["id"] else {
-                print("Error: Missing 'id' parameter for event")
+                self.log.error("Missing 'id' parameter for event")
                 return
             }
-            DataContext.shared.openCalendarEvent(withId: id)
+            Task { @MainActor in
+                DataContext.shared.openCalendarEvent(withId: id)
+            }
         }, forKey: "event")
 
         routes.updateValue({ parameters in
             guard let time = parameters["time"] else {
-                print("Error: Missing 'time' parameter for event")
+                self.log.error("Missing 'time' parameter for event")
                 return
             }
-            DataContext.shared.openCalendarDay(atTime: time)
+            Task { @MainActor in
+                DataContext.shared.openCalendarDay(atTime: time)
+            }
         }, forKey: "day")
 
         routes.updateValue({ _ in
-            DataContext.shared.openCreationFlow()
+            ModalSheetContext.shared.open(modal: .new())
         }, forKey: "create")
     }
 
@@ -62,7 +60,7 @@ import SwiftUI
         }
 
         guard let handler = routes[path] else {
-            print("No handler found for path: \(path)")
+            log.error("No handler found for path: \(path)")
             return
         }
 

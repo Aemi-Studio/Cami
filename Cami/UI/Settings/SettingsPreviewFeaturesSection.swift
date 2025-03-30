@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AemiUI
 
 struct SettingsPreviewFeaturesSection: View {
     @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
@@ -28,16 +29,19 @@ struct SettingsPreviewFeaturesSection: View {
                 systemImage: "exclamationmark.circle.fill"
             )
         } content: {
-            CustomBordered(backgroundStyle: Color.primary.tertiary, outline: true) {
-                Toggle(isOn: accessWorkInProgressFeaturesBinding) {
-                    HStack {
-                        Text(String(localized: "settings.features.wip.title"))
-                        Label(String(localized: "More informations"), systemImage: "info.circle")
-                            .labelStyle(.iconOnly)
-                            .foregroundStyle(Color.secondary)
-                    }
+#if DEBUG
+            NavigationPageLink(String(localized: "developer.navigationlink.title")) {
+                DeveloperView()
+            }
+#endif
+            
+            BorderedToggle(isOn: accessWorkInProgressFeaturesBinding) {
+                HStack {
+                    Text(String(localized: "settings.features.wip.title"))
+                    Label(String(localized: "More informations"), systemImage: "info.circle")
+                        .labelStyle(.iconOnly)
+                        .foregroundStyle(Color.secondary)
                 }
-                .toggleStyle(.nativeCheckbox(placement: .trailing))
             }
             .onLongPressGesture(minimumDuration: 0.3) {
                 isWipPopoverPresented.toggle()

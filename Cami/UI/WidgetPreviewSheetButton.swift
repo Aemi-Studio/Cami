@@ -9,11 +9,13 @@ import SwiftUI
 
 struct WidgetPreviewSheetButton: View {
 
+    @Environment(\.openModal) private var openModal
+
     @Environment(\.presentation)
     private var presentation
 
     func openWidgetPreviewSheet() {
-        presentation.isWidgetPreviewSheetPresented = true
+        openModal?(.widgets)
     }
 
     var body: some View {
@@ -34,6 +36,20 @@ struct WidgetPreviewSheetButton: View {
                 .background(.regularMaterial)
                 .clipShape(.rect(cornerRadius: 8))
                 .thinBorder(radius: 8)
+        }
+    }
+}
+
+extension View {
+    func thinBorder(
+        radius: CGFloat,
+        color: any ShapeStyle = Color.primary.quaternary,
+        lineWidth: CGFloat = 0.5
+    ) -> some View {
+        overlay {
+            RoundedRectangle(cornerRadius: radius)
+                .fill(.clear)
+                .stroke(AnyShapeStyle(color), lineWidth: lineWidth)
         }
     }
 }

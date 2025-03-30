@@ -9,12 +9,12 @@ import SwiftUI
 import WidgetKit
 
 struct OnboardingView: View {
-    @Environment(\.presentation) private var presentation
+    @Environment(\.openModal) private var openModal
     @Environment(\.permissions) private var permissions
     @Environment(\.tint) private var tint
 
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
-    private var hasDismissedOnboarding: Bool = false
+    private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
 
     private var authorized: Bool {
         permissions.global == .authorized
@@ -25,28 +25,44 @@ struct OnboardingView: View {
     }
 
     var body: some View {
-        if !hasDismissedOnboarding {
-            VStack(alignment: .leading, spacing: 16) {
-                header
+        VStack {
+            if !hasDismissedOnboarding {
+                content
+                    .frame(maxHeight: hasDismissedOnboarding ? 0 : nil)
+                    .transition(
+                        .asymmetric(
+                            insertion: .push(from: .top),
+                            removal: .move(edge: .top)
+                        )
+                        .combined(with: .opacity)
+                    )
             }
-            .overlay(alignment: .topTrailing) {
-                if authorized {
-                    Button("Dismiss Onboarding", systemImage: "xmark") {
-                        withAnimation {
-                            hasDismissedOnboarding = true
-                        }
-                    }
-                    .labelStyle(.iconOnly)
-                    .font(.title3)
-                    .foregroundStyle(Color.primary.tertiary)
-                    .fontWeight(.medium)
-                    .padding()
-                }
-            }
-            //            .padding()
         }
+        .padding(.top, hasDismissedOnboarding ? 0 : 16)
+        .animation(.default, value: hasDismissedOnboarding)
     }
 
+    @ViewBuilder var content: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            header
+        }
+        .overlay(alignment: .topTrailing) {
+            if authorized {
+                Button(
+                    String(localized: "onboarding.dismissButton.label"),
+                    systemImage: "xmark"
+                ) {
+                    hasDismissedOnboarding = true
+                }
+                .labelStyle(.iconOnly)
+                .font(.title3)
+                .foregroundStyle(Color.primary.tertiary)
+                .fontWeight(.medium)
+                .padding()
+            }
+        }
+    }
+    
     var title: some View {
         VStack {
             Text(String(localized: "onboarding.titlePrefix"))
@@ -106,7 +122,7 @@ struct OnboardingView: View {
                 String(localized: "onboarding.callToAction.continue"),
                 systemImage: "arrow.forward.square"
             ) {
-                presentation.areSettingsPresented.toggle()
+                openModal?(.permissions)
             }
             .buttonStyle(.customBorderedButton(foregroundStyle: Color.white, radius: 8, opacity: 1))
             .font(.title3)

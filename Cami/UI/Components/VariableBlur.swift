@@ -11,19 +11,19 @@ import QuartzCore
 import SwiftUI
 import UIKit
 
-// swiftlint:disable line_length
-
-public enum VariableBlurDirection {
+enum VariableBlurDirection {
     case blurredTopClearBottom
     case blurredBottomClearTop
 }
 
-public struct VariableBlurView: UIViewRepresentable {
+struct VariableBlurView: UIViewRepresentable {
     public var maxBlurRadius: CGFloat = 20
 
     public var direction: VariableBlurDirection = .blurredTopClearBottom
 
-    /// By default, variable blur starts from 0 blur radius and linearly increases to `maxBlurRadius`. Setting `startOffset` to a small negative coefficient (e.g. -0.1) will start blur from larger radius value which might look better in some cases.
+    /// By default, variable blur starts from 0 blur radius and linearly increases
+    /// to `maxBlurRadius`. Setting `startOffset` to a small negative coefficient (e.g. -0.1)
+    /// will start blur from larger radius value which might look better in some cases.
     public var startOffset: CGFloat = 0
 
     public init(maxBlurRadius: CGFloat = 20, direction: VariableBlurDirection = .blurredTopClearBottom, startOffset: CGFloat = 0) {
@@ -41,7 +41,11 @@ public struct VariableBlurView: UIViewRepresentable {
 
 /// credit https://github.com/jtrivedi/VariableBlurView
 open class VariableBlurUIView: UIVisualEffectView {
-    public init(maxBlurRadius: CGFloat = 20, direction: VariableBlurDirection = .blurredTopClearBottom, startOffset: CGFloat = 0) {
+    init(
+        maxBlurRadius: CGFloat = 20,
+        direction: VariableBlurDirection = .blurredTopClearBottom,
+        startOffset: CGFloat = 0
+    ) {
         super.init(effect: UIBlurEffect(style: .regular))
 
         // `CAFilter` is a private QuartzCore class that dynamically create using Objective-C runtime.
@@ -96,14 +100,15 @@ open class VariableBlurUIView: UIVisualEffectView {
         ciGradientFilter.color0 = CIColor.black
         ciGradientFilter.color1 = CIColor.clear
         ciGradientFilter.point0 = CGPoint(x: 0, y: height)
-        ciGradientFilter.point1 = CGPoint(x: 0, y: startOffset * height) // small negative value looks better with vertical lines
+        ciGradientFilter.point1 = CGPoint(x: 0, y: startOffset * height) // small negative looks better with vertical lines
         if case .blurredBottomClearTop = direction {
             ciGradientFilter.point0.y = 0
             ciGradientFilter.point1.y = height - ciGradientFilter.point1.y
         }
-        return CIContext().createCGImage(ciGradientFilter.outputImage!, from: CGRect(x: 0, y: 0, width: width, height: height))!
+        return CIContext().createCGImage(
+            ciGradientFilter.outputImage!,
+            from: CGRect(x: 0, y: 0, width: width, height: height)
+        )!
     }
 }
 #endif
-
-// swiftlint:enable line_length

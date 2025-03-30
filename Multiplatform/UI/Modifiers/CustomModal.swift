@@ -20,7 +20,7 @@ struct CustomModal<Content>: View where Content: View {
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.presentationDetents = presentationDetents
-        self.selectedDetent = presentationDetents.min(by: { $0.hashValue < $1.hashValue }) ?? .medium
+        self.selectedDetent = presentationDetents.min() ?? .medium
         self.navigationType = navigationType
         self.content = content
     }
@@ -46,7 +46,6 @@ struct CustomModal<Content>: View where Content: View {
             .ignoresSafeArea(.all)
 
             content()
-                .configureEnvironmentValues()
                 .environment(\.viewKind, .sheet)
                 .safeAreaPadding(.bottom)
 
@@ -70,18 +69,30 @@ struct CustomModal<Content>: View where Content: View {
     var body: some View {
         modalStack {
             switch navigationType {
-            case .navigationStack:
-                NavigationStack {
+                case .navigationStack:
+                    NavigationStack {
+                        AnyView(content())
+                            .scrollContentBackground(.hidden)
+                            .navigationStackStyleReset()
+                    }
+                case .none:
                     AnyView(content())
-                        .scrollContentBackground(.hidden)
-                }
-            case .viewHierarchy:
-                ViewHierarchy {
-                    AnyView(content())
-                }
-            case .none:
-                AnyView(content())
             }
+        }
+    }
+}
+
+extension PresentationDetent: @retroactive Comparable {
+
+    public static func < (lhs: PresentationDetent, rhs: PresentationDetent) -> Bool {
+        lhs.order < rhs.order
+    }
+
+    var order: CGFloat {
+        switch self {
+            case .medium: 0
+            case .large: 1
+            default: 2
         }
     }
 }

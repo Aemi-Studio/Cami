@@ -38,32 +38,20 @@ extension DataContext {
 
     func reminders(
         from taskLists: [EKCalendar]? = nil,
-        where filter: ((EKReminder) -> Bool) = { _ in true }
-    ) -> [EKReminder] {
+        where filter: (@escaping (EKReminder) -> Bool) = { _ in true },
+        operation: @escaping ([EKReminder]) -> Void
+    ) {
         let taskLists = taskLists ?? self.taskLists
 
         eventStore.refreshSourcesIfNecessary()
 
         let predicate = eventStore.predicateForReminders(in: taskLists)
-        let semaphor = DispatchSemaphore(value: 0)
-        var reminders = [EKReminder]()
 
-        Task {
-            reminders = await withUnsafeContinuation { result in
-                eventStore.fetchReminders(matching: predicate) { reminders in
-                    if let reminders {
-                        result.resume(returning: reminders)
-                    } else {
-                        result.resume(returning: [])
-                    }
-                }
+        eventStore.fetchReminders(matching: predicate) { reminders in
+            if let reminders {
+                operation(reminders.filter(filter))
             }
-            semaphor.signal()
         }
-
-        _ = semaphor.wait(timeout: .now() + 2)
-
-        return reminders.filter(filter)
     }
 }
 
@@ -106,9 +94,9 @@ extension DataContext {
         }
     }
 
-    func completeReminder(withIdentifier identifier: String) -> Bool {
+    private func completeReminder(_ reminder: EKReminder?) -> Bool {
         do {
-            if let reminder = reminders(where: {$0.calendarItemIdentifier == identifier}).first {
+            if let reminder {
                 reminder.isCompleted = true
                 try eventStore.save(reminder, commit: true)
                 log.info("Succeed to complete reminder: \(reminder.title)")
@@ -119,23 +107,20 @@ extension DataContext {
         }
         return false
     }
+
+    func completeReminder(withIdentifier identifier: String) async -> Bool {
+        await withCheckedContinuation { continuation in
+            reminders { reminder in
+                reminder.calendarItemIdentifier == identifier
+            } operation: { results in
+                continuation.resume(
+                    returning: self.completeReminder(results.first)
+                )
+            }
+        }
+    }
 }
 
 enum ReminderError: Error {
     case failureToSave
-}
-
-extension [CalendarItem] {
-    func dictionary() -> [Date: [CalendarItem]] {
-        let sorted = self.sorted()
-        var dictionary = [Date: [CalendarItem]]()
-        for reminder in sorted {
-            if dictionary[reminder.boundStart] == nil {
-                dictionary[reminder.boundStart] = [reminder]
-            } else {
-                dictionary[reminder.boundStart]?.append(reminder)
-            }
-        }
-        return dictionary
-    }
 }

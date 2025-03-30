@@ -8,16 +8,18 @@
 import AppIntents
 import Foundation
 
-enum ComplicationEnum: String, CaseIterable, AppEnum {
+enum ComplicationEnum: String, CaseIterable, AppEnum, LocalizedIntent {
     typealias RawValue = String
 
     case hidden = "Hidden"
     case birthdays = "Birthdays"
     case summary = "Summary"
 
-    static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
+    static let localizedTitle = String(localized: "intentParameter.complication.title")
+    
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 
-    static var caseDisplayRepresentations: [ComplicationEnum: DisplayRepresentation] = [
+    static let caseDisplayRepresentations: [ComplicationEnum: DisplayRepresentation] = [
         .hidden: .init(stringLiteral: "Hidden"),
         .birthdays: .init(stringLiteral: "Birthdays"),
         .summary: .init(stringLiteral: "Summary")

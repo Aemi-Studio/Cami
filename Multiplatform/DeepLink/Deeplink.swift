@@ -11,10 +11,8 @@ import Foundation
 extension DataContext {
     func destination(for item: CalendarItem, inPlace: Bool = false) -> URL {
         let url = switch item.kind {
-        case .event:
-            goesToEvent(for: item)
-        case .reminder:
-            goesToReminder(for: item)
+            case .event: goesToEvent(for: item)
+            case .reminder: goesToReminder(for: item)
         }
         return url ?? URL(filePath: "")
     }

@@ -1,33 +1,33 @@
 {
-  "originHash" : "fd0eb4e3087745c4d50504d6994b3339e0e19e3d46a52dee3554e848332d7bba",
-  "pins" : [
+    "originHash" : "fd0eb4e3087745c4d50504d6994b3339e0e19e3d46a52dee3554e848332d7bba",
+    "pins" : [
     {
-      "identity" : "aemiui",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Aemi-Studio/AemiUI",
-      "state" : {
-        "branch" : "main",
-        "revision" : "86a4d1d69f6ffab2427987dcb82ce75ecf20514f"
-      }
-    },
-    {
-      "identity" : "aemiutilities",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Aemi-Studio/AemiUtilities",
-      "state" : {
-        "branch" : "main",
-        "revision" : "000aa0687ee4126670de9cf6551842940b6ff11e"
-      }
-    },
-    {
-      "identity" : "swift-collections",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-collections.git",
-      "state" : {
-        "revision" : "671108c96644956dddcd89dd59c203dcdb36cec7",
-        "version" : "1.1.4"
-      }
+    "identity" : "aemiui",
+    "kind" : "remoteSourceControl",
+    "location" : "https://github.com/Aemi-Studio/AemiUI",
+    "state" : {
+    "branch" : "main",
+    "revision" : "86a4d1d69f6ffab2427987dcb82ce75ecf20514f"
     }
-  ],
-  "version" : 3
+    },
+    {
+    "identity" : "aemiutilities",
+    "kind" : "remoteSourceControl",
+    "location" : "https://github.com/Aemi-Studio/AemiUtilities",
+    "state" : {
+    "branch" : "main",
+    "revision" : "b37d188b6a7852c27d38fb1a9844ddecbf29b0ee"
+    }
+    },
+    {
+    "identity" : "swift-collections",
+    "kind" : "remoteSourceControl",
+    "location" : "https://github.com/apple/swift-collections.git",
+    "state" : {
+    "revision" : "671108c96644956dddcd89dd59c203dcdb36cec7",
+    "version" : "1.1.4"
+    }
+    }
+    ],
+    "version" : 3
 }

@@ -78,16 +78,21 @@ struct CamiWidgetEventsByDate: View {
             if family.isSmall {
                 if inlineEvents.count >= 1 {
                     Text("\(inlineEvents.count)")
+                        .foregroundStyle(.clear)
                         .fontWeight(.bold)
-                        .foregroundStyle(Color.white)
-                        .blendMode(.destinationOut)
-                        .compositingGroup()
                         .padding(.horizontal, 2)
                         .background(Color.primary.opacity(0.25))
+                        .overlay {
+                            Text("\(inlineEvents.count)")
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color.white)
+                            .blendMode(.destinationOut)
+                        }
                         .clipShape(RoundedRectangle(cornerRadius: 2))
                         .accessibilityLabel(
                             String(localized: "You have \(inlineEvents.count) all-day events.")
                         )
+                        .compositingGroup()
                 }
             } else {
                 Text(inlineEvents[0].title)
@@ -98,14 +103,22 @@ struct CamiWidgetEventsByDate: View {
 
                 if inlineEvents.count > 1 {
                     Text("+\(inlineEvents.count - 1)")
+                        .foregroundStyle(.clear)
                         .fontWeight(.bold)
-                        .foregroundStyle(Color(white: 0.1))
                         .padding(.horizontal, 2)
                         .background(.white.opacity(0.25))
+                        .overlay {
+                            Text("+\(inlineEvents.count - 1)")
+                                .foregroundStyle(Color.white)
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 2)
+                                .blendMode(.destinationOut)
+                        }
                         .clipShape(RoundedRectangle(cornerRadius: 2))
                         .accessibilityLabel(
                             String(localized: "And you have also \(inlineEvents.count - 1) other all-day events.")
                         )
+                        .compositingGroup()
                 }
             }
         }

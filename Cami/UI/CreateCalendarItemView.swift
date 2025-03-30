@@ -19,36 +19,34 @@ struct CreateCalendarItemView: View {
     }
 
     var body: some View {
-        NavigationView {
-            VStack {
-                TextField("Title", text: $title)
-                    .font(.title2)
-                    .foregroundStyle(.primary)
-                    .padding(.bottom, 16)
-                DatePicker("Date", selection: $date)
-                    .font(.title2)
-                    .foregroundStyle(.primary)
-                    .padding(.bottom, 16)
+        VStack {
+            TextField("Title", text: $title)
+                .font(.title2)
+                .foregroundStyle(.primary)
+                .padding(.bottom, 16)
+            DatePicker("Date", selection: $date)
+                .font(.title2)
+                .foregroundStyle(.primary)
+                .padding(.bottom, 16)
+        }
+        .padding()
+        .navigationTitle("Create a Reminder")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .cancellationAction) {
+                Button("Cancel") {
+                    dismiss()
+                }
             }
-            .padding()
-            .navigationTitle("Create a Reminder")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .cancellationAction) {
-                    Button("Cancel") {
+            ToolbarItemGroup(placement: .confirmationAction) {
+                Button("Save") {
+                    if readyToSave,
+                       let data,
+                       (try? data.createReminder(title: title)) != nil {
                         dismiss()
                     }
                 }
-                ToolbarItemGroup(placement: .confirmationAction) {
-                    Button("Save") {
-                        if readyToSave,
-                           let data,
-                           (try? data.createReminder(title: title)) != nil {
-                            dismiss()
-                        }
-                    }
-                    .disabled(!readyToSave)
-                }
+                .disabled(!readyToSave)
             }
         }
     }

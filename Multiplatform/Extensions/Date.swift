@@ -51,12 +51,12 @@ extension Date {
 
         private var formatter: DateFormatter {
             switch self {
-            case .short: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEEEE" }
-            case .medium: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEE" }
-            case .long: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEEE" }
-            case .date: Date.formatter(DateFormatter.self) { $0.dateFormat = "d" }
-            case .month: Date.formatter(DateFormatter.self) { $0.dateFormat = "MMMM" }
-            case .year: Date.formatter(DateFormatter.self) { $0.dateFormat = "YYYY" }
+                case .short: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEEEE" }
+                case .medium: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEE" }
+                case .long: Date.formatter(DateFormatter.self) { $0.dateFormat = "EEEE" }
+                case .date: Date.formatter(DateFormatter.self) { $0.dateFormat = "d" }
+                case .month: Date.formatter(DateFormatter.self) { $0.dateFormat = "MMMM" }
+                case .year: Date.formatter(DateFormatter.self) { $0.dateFormat = "YYYY" }
             }
         }
 

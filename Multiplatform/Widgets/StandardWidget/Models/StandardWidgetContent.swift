@@ -2,7 +2,8 @@ import Foundation
 import SwiftUI
 import EventKit
 
-struct StandardWidgetContent: Loggable {
+@Observable
+final class StandardWidgetContent: Loggable {
     typealias Calendar = String
     typealias Entry = StandardWidgetEntry
     typealias Configuration = StandardWidgetConfiguration
@@ -13,11 +14,11 @@ struct StandardWidgetContent: Loggable {
     let date: Date
     let configuration: Configuration
 
-    private let allCalendars: [Calendar]
-    private let inlineCalendars: [Calendar]
-    private let normalCalendars: [Calendar]
+    private let allCalendars: any Collection<Calendar>
+    private let inlineCalendars: any Collection<Calendar>
+    private let normalCalendars: any Collection<Calendar>
 
-    private let allItems: [Date: [CalendarItem]]
+    private var allItems: [Date: [CalendarItem]] = [:]
 
     let birthdays: [CalendarItem]
 
@@ -49,27 +50,39 @@ struct StandardWidgetContent: Loggable {
         }
     }
 
-    private static func reminders(with configuration: Configuration) -> [CalendarItem] {
+    private static func reminders(
+        with configuration: Configuration,
+        operation: @escaping ([CalendarItem]) -> Void
+    ) {
         if configuration.showReminders {
-            DataContext.shared.reminders(where: Self.filter).compactMap(CalendarItem.init)
+            DataContext.shared.reminders(where: Self.filter) { reminders in
+                operation(reminders.compactMap(CalendarItem.init))
+            }
         } else {
-            []
+            operation([])
         }
     }
 
-    typealias Calendars = (normal: [Calendar], inline: [Calendar], all: [Calendar])
+    private struct Calendars {
+        let normal: any Collection<Calendar>
+        let inline: any Collection<Calendar>
+        let all: any Collection<Calendar>
+    }
 
     private static func calendars(from entry: Entry) -> Calendars {
         let normal = Set(entry.calendars)
         let inline = Set(entry.inlineCalendars)
         let all = normal.union(inline).sorted()
-        return (Array(normal), Array(inline), all)
+        return Calendars(normal: normal, inline: inline, all: all)
     }
 
     private static func events(from entry: Entry) -> [CalendarItem] {
-        let (normal, inline, calendars) = Self.calendars(from: entry)
+        let calendars = Self.calendars(from: entry)
+        let normal = calendars.normal
+        let inline = calendars.inline
+        let all = calendars.all
         let events: [EKEvent] = DataContext.shared.events(
-            from: calendars.asEKCalendars(),
+            from: all.asEKCalendars(),
             limit: 20,
             where: { event in
                 if let calendarIdentifier = event.calendar?.calendarIdentifier {
@@ -89,15 +102,17 @@ struct StandardWidgetContent: Loggable {
 
         self.birthdays = Self.birthdays(relativeTo: entry.date, with: entry.configuration)
 
-        let (normal, inline, all) = Self.calendars(from: entry)
+        let calendars = Self.calendars(from: entry)
 
-        self.normalCalendars = normal
-        self.inlineCalendars = inline
-        self.allCalendars = all
+        self.normalCalendars = calendars.normal
+        self.inlineCalendars = calendars.inline
+        self.allCalendars = calendars.all
 
-        self.allItems = (Self.reminders(with: entry.configuration) + Self.events(from: entry))
-            .sorted()
-            .mapped(relativeTo: entry.date)
+        allItems = Self.events(from: entry).mapped(relativeTo: entry.date)
+
+        Self.reminders(with: entry.configuration) { reminders in
+            self.allItems += reminders.mapped(relativeTo: entry.date)
+        }
     }
 }
 

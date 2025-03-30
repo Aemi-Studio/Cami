@@ -26,12 +26,9 @@ where Content: View {
 
     private var halignment: HorizontalAlignment {
         return switch alignment {
-        case .center:
-            .center
-        case .trailing:
-            .trailing
-        default:
-            .leading
+            case .center: .center
+            case .trailing: .trailing
+            default: .leading
         }
     }
 

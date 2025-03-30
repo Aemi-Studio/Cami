@@ -9,23 +9,52 @@ import SwiftUI
 
 extension View {
     @ViewBuilder
-    func modal(
+    func modal<Content: View>(
         isPresented condition: Binding<Bool>,
         presentationDetents: Set<PresentationDetent> = [.medium, .large],
-        @ViewBuilder content: @escaping () -> some View
+        onDismiss: @escaping () -> Void = {},
+        @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        sheet(isPresented: condition) {
-            CustomModal(
+        modifier(
+            AppModalBlueprint(
+                condition: condition,
                 presentationDetents: presentationDetents,
-                content: content
+                onDismiss: onDismiss,
+                modalContent: content
             )
-            .colorScheme(.dark)
-        }
+        )
+    }
+}
+
+struct AppModalBlueprint<ModalContent>: ViewModifier where ModalContent: View {
+    
+    @Environment(\.appState) private var appState
+    
+    @Binding private(set) var condition: Bool
+    private(set) var presentationDetents: Set<PresentationDetent> = [.medium, .large]
+    private(set) var onDismiss: () -> Void = {}
+    @ViewBuilder let modalContent: () -> ModalContent
+    
+    func body(content: Content) -> some View {
+        content
+            .sheet(isPresented: $condition, onDismiss: onDismiss) {
+                CustomModal(
+                    presentationDetents: presentationDetents,
+                    navigationType: .navigationStack,
+                    content: modalContent
+                )
+                .colorScheme(.dark)
+                .environment(\.appState, appState)
+                .environment(\.data, .shared)
+                .environment(\.modal, .shared)
+                .environment(\.views, .shared)
+                .environment(\.permissions, .shared)
+                .environment(\.presentation, .shared)
+            }
     }
 }
 
 enum NavigationType: CaseIterable {
     case navigationStack
-    case viewHierarchy
     case none
 }

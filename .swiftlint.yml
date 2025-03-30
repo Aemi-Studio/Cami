@@ -1,0 +1,23 @@
+switch_case_alignment:
+    indented_cases: true
+
+cyclomatic_complexity:
+    warning: 5
+    error: 10
+
+identifier_name:
+    min_length:
+        warning: 2
+        error: 1
+    max_length:
+        warning: 40
+        error: 50
+        
+type_name:
+    min_length:
+        warning: 2
+        error: 1
+    max_length:
+        warning: 40
+        error: 50
+

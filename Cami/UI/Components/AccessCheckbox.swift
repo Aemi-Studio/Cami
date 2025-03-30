@@ -17,17 +17,17 @@ struct AccessCheckbox: View {
 
     private func symbol(for status: Access.Status) -> CheckboxSymbol? {
         switch status {
-        case .none, .notDetermined: nil
-        case .restricted: .xmark
-        case .authorized: .checkmark
+            case .none, .notDetermined: nil
+            case .restricted: .xmark
+            case .authorized: .checkmark
         }
     }
 
     private func backgroundStyle(for status: Access.Status) -> any ShapeStyle {
         switch status {
-        case .none, .notDetermined: .gray.secondary
-        case .restricted: .red
-        case .authorized: tint ?? .green
+            case .none, .notDetermined: .gray.secondary
+            case .restricted: .red
+            case .authorized: tint ?? .green
         }
     }
 

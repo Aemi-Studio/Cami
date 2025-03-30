@@ -12,6 +12,8 @@ struct DisappearingHeaderMask: View {
     @Environment(\.presentation)
     private var presentation
 
+    let height: CGFloat?
+
     var body: some View {
         VStack(spacing: 0) {
             Rectangle()
@@ -26,7 +28,7 @@ struct DisappearingHeaderMask: View {
                         startPoint: .top, endPoint: .bottom
                     )
                 }
-                .frame(height: presentation.topBarSize?.height)
+                .frame(height: height ?? presentation.topBarSize?.height)
             Rectangle()
                 .fill(Color.black)
                 .frame(maxHeight: .infinity)

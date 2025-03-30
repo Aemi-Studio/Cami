@@ -65,7 +65,8 @@ open class VisualEffectView: UIVisualEffectView {
     /**
      Scale factor.
 
-     The scale factor determines how content in the view is mapped from the logical coordinate space (measured in points) to the device coordinate space (measured in pixels).
+     The scale factor determines how content in the view is mapped from
+     the logical coordinate space (measured in points) to the device coordinate space (measured in pixels).
 
      The default value is 1.0.
      */

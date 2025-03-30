@@ -14,7 +14,7 @@ struct StandardWidgetEntry {
     typealias Calendar = String
 
     let date: Date
-    let configuration: Configuration
+    var configuration: Configuration
     let calendars: [Calendar]
     let inlineCalendars: [Calendar]
 

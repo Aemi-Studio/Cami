@@ -41,8 +41,8 @@ struct CalendarItem {
 
     var boundStart: Date! {
         switch kind {
-        case .event: start
-        case .reminder: due
+            case .event: start
+            case .reminder: due
         }
     }
 
@@ -124,13 +124,10 @@ extension CalendarItem {
 extension Collection where Element == CalendarItem {
     func sorted(_ order: ComparisonResult = .orderedAscending) -> [Element] {
         sorted(by: { first, second in
-            return switch order {
-            case .orderedAscending:
-                first < second
-            case .orderedDescending:
-                first > second
-            case .orderedSame:
-                first == second
+            switch order {
+                case .orderedAscending: first < second
+                case .orderedDescending: first > second
+                case .orderedSame: first == second
             }
         })
     }
@@ -200,16 +197,17 @@ extension [Date: [CalendarItem]] {
             if items.isEmpty {
                 result.removeValue(forKey: date)
             } else {
-                result[date] = Array(Set(items)).sorted()
+                result.updateValue(
+                    Array(Set(items)).sorted(by: { $0.boundStart < $1.boundStart }),
+                    forKey: date
+                )
             }
         }
         return result
     }
 
-    mutating func append(to date: Date, _ item: EKCalendarItem) {
-        if let item = CalendarItem(from: item) {
-            append(to: date, item)
-        }
+    static func += (lhs: inout Self, rhs: Self) {
+        lhs = lhs + rhs
     }
 
     mutating func append(to date: Date, _ item: CalendarItem) {

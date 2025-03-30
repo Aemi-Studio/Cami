@@ -38,6 +38,9 @@
     "And you have also %lld other all-day events." : {
 
     },
+    "Attendees" : {
+
+    },
     "Birthdays" : {
 
     },
@@ -51,10 +54,33 @@
         }
       }
     },
+    "button.showHide.hide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide"
+          }
+        }
+      }
+    },
+    "button.showHide.show" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show"
+          }
+        }
+      }
+    },
     "Calendar" : {
 
     },
     "Calendars" : {
+
+    },
+    "Call" : {
 
     },
     "Cami Calendar" : {
@@ -81,9 +107,6 @@
     "Create a calendar item" : {
 
     },
-    "Create a reminder" : {
-
-    },
     "Create a Reminder" : {
 
     },
@@ -96,8 +119,15 @@
     "Details" : {
 
     },
-    "Dismiss Onboarding" : {
-
+    "developer.navigationlink.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Developer"
+          }
+        }
+      }
     },
     "Done" : {
 
@@ -148,12 +178,52 @@
     "How to add and edit widgets on iPhone" : {
 
     },
+    "intentParameter.allDayStyle.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All-Day Events Style"
+          }
+        }
+      }
+    },
+    "intentParameter.calendarSelection.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendars"
+          }
+        }
+      }
+    },
+    "intentParameter.complication.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Complication"
+          }
+        }
+      }
+    },
     "It is %@'s birthday today. %@ is now %lld years old" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "It is %1$@'s birthday today. %2$@ is now %3$lld years old"
+          }
+        }
+      }
+    },
+    "item.detail.isAllDay" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All-Day"
           }
         }
       }
@@ -268,29 +338,17 @@
         }
       }
     },
-    "knowledgebase.search.closeSearchButton" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close Search"
-          }
-        }
-      }
-    },
-    "knowledgebase.search.focusSearchButton" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search"
-          }
-        }
-      }
-    },
     "knowledgebase.search.noResult" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Result"
+          }
+        }
+      }
+    },
+    "Location" : {
 
     },
     "Mix Events & Reminders" : {
@@ -345,6 +403,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cami Calendar, in its current version, is only a widget.\nWe propose it as a better and improved way to display your current native calendar content on your homescreen."
+          }
+        }
+      }
+    },
+    "onboarding.dismissButton.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss Onboarding"
           }
         }
       }
@@ -538,6 +606,26 @@
     "Settings" : {
 
     },
+    "settings.developer.hasDismissedOnboarding.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onboarding dismissed"
+          }
+        }
+      }
+    },
+    "settings.developer.resetPermissions.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Permissions"
+          }
+        }
+      }
+    },
     "settings.features.wip.title" : {
       "localizations" : {
         "en" : {
@@ -607,6 +695,26 @@
     "Summary" : {
 
     },
+    "summary.count.events" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Events"
+          }
+        }
+      }
+    },
+    "summary.count.reminders" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders"
+          }
+        }
+      }
+    },
     "The next birthday is in %@. It will be %@'s birthday." : {
       "localizations" : {
         "en" : {
@@ -632,6 +740,19 @@
     "Today have %@ as first all-day events." : {
 
     },
+    "Toggle" : {
+
+    },
+    "view.developer.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Developer"
+          }
+        }
+      }
+    },
     "view.permissions.title" : {
       "localizations" : {
         "en" : {
@@ -642,8 +763,128 @@
         }
       }
     },
+    "view.widgetSettings.previewSection.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previews"
+          }
+        }
+      }
+    },
+    "view.widgetSettings.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets"
+          }
+        }
+      }
+    },
     "Visit Apple Support" : {
 
+    },
+    "WidgetFamily.AccessoryCircular.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessory Circular"
+          }
+        }
+      }
+    },
+    "WidgetFamily.AccessoryCorner.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessory Corner"
+          }
+        }
+      }
+    },
+    "WidgetFamily.AccessoryInline.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessory Inline"
+          }
+        }
+      }
+    },
+    "WidgetFamily.AccessoryRectangular.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessory Rectangular"
+          }
+        }
+      }
+    },
+    "WidgetFamily.ExtraLarge.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra Large"
+          }
+        }
+      }
+    },
+    "WidgetFamily.Large.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large"
+          }
+        }
+      }
+    },
+    "WidgetFamily.Medium.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        }
+      }
+    },
+    "WidgetFamily.Small.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Small"
+          }
+        }
+      }
+    },
+    "WidgetFamily.Unknown.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        }
+      }
+    },
+    "widgetSettings.navigationlink.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets"
+          }
+        }
+      }
     },
     "You have %lld all-day events." : {
 

@@ -40,24 +40,18 @@ extension PermissionContext {
     func update(access: Access) {
         withAnimation {
             switch access {
-            case .calendars:
-                self.calendars = access.retrieve()
-            case .contacts:
-                self.contacts = access.retrieve()
-            case .reminders:
-                self.reminders = access.retrieve()
+                case .calendars: self.calendars = access.retrieve()
+                case .contacts: self.contacts = access.retrieve()
+                case .reminders: self.reminders = access.retrieve()
             }
         }
     }
 
     func request(access: Access) async {
         switch access {
-        case .calendars:
-            await access.request()
-        case .contacts:
-            await access.request()
-        case .reminders:
-            await access.request()
+            case .calendars: await access.request()
+            case .contacts: await access.request()
+            case .reminders: await access.request()
         }
         update()
     }
@@ -73,6 +67,14 @@ extension PermissionContext {
             await access.request()
         }
         update()
+    }
+    
+    func reset() {
+#if DEBUG
+        self.calendars = .none
+        self.contacts = .none
+        self.reminders = .none
+#endif
     }
 }
 

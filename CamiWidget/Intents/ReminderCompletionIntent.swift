@@ -25,7 +25,7 @@ struct ReminderCompletionIntent: AppIntent {
     static let isDiscoverable: Bool = false
 
     func perform() async throws -> some IntentResult {
-        if DataContext.shared.completeReminder(withIdentifier: reminderIdentifier) {
+        if await DataContext.shared.completeReminder(withIdentifier: reminderIdentifier) {
             return .result(value: "Reminder completed")
         } else {
             return .result(value: "Reminder not completed")

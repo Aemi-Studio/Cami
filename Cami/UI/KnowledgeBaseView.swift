@@ -31,9 +31,9 @@ struct KnowledgeBaseView: View {
             }
         }
         .searchable(
-            query: $context.searchQuery,
+            text: $context.searchQuery,
             prompt: String(localized: "knowledgebase.search.callToActionPlaceholder")
         )
-        .set(\.title, to: String(localized: "knowledgebase.navigationbar.title"))
+        .navigationTitle(String(localized: "knowledgebase.navigationbar.title"))
     }
 }

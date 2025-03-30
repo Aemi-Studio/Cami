@@ -14,29 +14,25 @@ enum Access: CaseIterable, Hashable, Equatable {
     case contacts
     case reminders
 
-    var status: Status {
-        retrieve()
-    }
-
     func request() async {
         switch self {
-        case .calendars:
-            await DataContext.shared.requestCalendarsAccess()
-        case .contacts:
-            await DataContext.shared.requestContactsAccess()
-        case .reminders:
-            await DataContext.shared.requestRemindersAccess()
+            case .calendars:
+                await DataContext.shared.requestCalendarsAccess()
+            case .contacts:
+                await DataContext.shared.requestContactsAccess()
+            case .reminders:
+                await DataContext.shared.requestRemindersAccess()
         }
     }
 
     func retrieve() -> Status {
         switch self {
-        case .calendars:
-            .init(from: EKEventStore.authorizationStatus(for: .event))
-        case .contacts:
-            .init(from: CNContactStore.authorizationStatus(for: .contacts))
-        case .reminders:
-            .init(from: EKEventStore.authorizationStatus(for: .reminder))
+            case .calendars:
+                Status(from: EKEventStore.authorizationStatus(for: .event))
+            case .contacts:
+                Status(from: CNContactStore.authorizationStatus(for: .contacts))
+            case .reminders:
+                Status(from: EKEventStore.authorizationStatus(for: .reminder))
         }
     }
 
@@ -51,9 +47,9 @@ enum Access: CaseIterable, Hashable, Equatable {
 extension Access.Status {
     init(from status: EKAuthorizationStatus) {
         self = switch status {
-        case .notDetermined: .notDetermined
-        case .authorized, .fullAccess: .authorized
-        default: .restricted
+            case .notDetermined: .notDetermined
+            case .authorized, .fullAccess: .authorized
+            default: .restricted
         }
     }
 }
@@ -61,9 +57,9 @@ extension Access.Status {
 extension Access.Status {
     init(from status: CNAuthorizationStatus) {
         self = switch status {
-        case .notDetermined: .notDetermined
-        case .authorized: .authorized
-        default: .restricted
+            case .notDetermined: .notDetermined
+            case .authorized: .authorized
+            default: .restricted
         }
     }
 }

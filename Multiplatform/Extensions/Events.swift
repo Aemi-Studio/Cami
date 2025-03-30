@@ -13,12 +13,9 @@ extension Collection where Element == EKEvent {
     func sorted(_ order: ComparisonResult = .orderedAscending) -> [Element] {
         sorted(by: { first, second in
             switch order {
-            case .orderedAscending:
-                first.startDate < second.startDate
-            case .orderedDescending:
-                first.startDate > second.startDate
-            case .orderedSame:
-                first.startDate == second.startDate
+                case .orderedAscending: first.startDate < second.startDate
+                case .orderedDescending: first.startDate > second.startDate
+                case .orderedSame: first.startDate == second.startDate
             }
         })
     }

@@ -10,19 +10,19 @@ import Foundation
 extension Date {
     func getDates(from component: Calendar.Component) -> [Date] {
         switch component {
-        case .month, .weekOfMonth, .weekOfYear:
-            var dates: [Date] = .init()
-            let value: Int = get(component)
-            var currentDay: Date = startOfMonth.zero
-            repeat {
-                dates.append(currentDay)
-                // swiftlint:disable shorthand_operator
-                currentDay = currentDay + DateComponents(day: 1)
-                // swiftlint:enable shorthand_operator
-            } while currentDay.get(component) == value
-            return dates
-        default:
-            return [Date](arrayLiteral: self)
+            case .month, .weekOfMonth, .weekOfYear:
+                var dates: [Date] = .init()
+                let value: Int = get(component)
+                var currentDay: Date = startOfMonth.zero
+                repeat {
+                    dates.append(currentDay)
+                    // swiftlint:disable shorthand_operator
+                    currentDay = currentDay + DateComponents(day: 1)
+                    // swiftlint:enable shorthand_operator
+                } while currentDay.get(component) == value
+                return dates
+            default:
+                return [Date](arrayLiteral: self)
         }
     }
 }

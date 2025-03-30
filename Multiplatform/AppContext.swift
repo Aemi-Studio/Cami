@@ -17,10 +17,10 @@ enum AppContext {
 extension AppContext {
     static func open(_ destination: Destination) {
         switch destination {
-        case .settings:
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
+            case .settings:
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
         }
     }
 }

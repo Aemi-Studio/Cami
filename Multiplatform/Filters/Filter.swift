@@ -26,14 +26,14 @@ struct Filter: Filtering, Equatable {
 
     func filter(item: EKCalendarItem) -> Bool {
         switch type {
-        case .event:
-            guard let event = item as? EKEvent else { return true }
-            return filter(event)
-        case .reminder:
-            guard let reminder = item as? EKReminder else { return true }
-            return filter(reminder)
-        case .all:
-            return filter(item)
+            case .event:
+                guard let event = item as? EKEvent else { return true }
+                return filter(event)
+            case .reminder:
+                guard let reminder = item as? EKReminder else { return true }
+                return filter(reminder)
+            case .all:
+                return filter(item)
         }
     }
 }

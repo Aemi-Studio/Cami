@@ -138,13 +138,13 @@ enum Filters: CaseIterable {
 extension Filters: Filtering {
     fileprivate var filter: Filter {
         switch self {
-        case .due(let date): date == nil ? Values.due : Values.due(on: date!)
-        case .dueLater: Values.dueLater
-        case .dueToday: Values.dueToday
-        case .overdue: Values.overdue
-        case .done: Values.done
-        case .open: Values.open
-        case .happensToday: Values.happensToday
+            case .due(let date): date == nil ? Values.due : Values.due(on: date!)
+            case .dueLater: Values.dueLater
+            case .dueToday: Values.dueToday
+            case .overdue: Values.overdue
+            case .done: Values.done
+            case .open: Values.open
+            case .happensToday: Values.happensToday
         }
     }
 

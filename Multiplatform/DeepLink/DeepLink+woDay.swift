@@ -22,10 +22,4 @@ extension DataContext {
             UIContext.shared.path.append(Date(timeIntervalSinceReferenceDate: TimeInterval(timeInterval)!))
         }
     }
-
-    func openCreationFlow() {
-        if PermissionContext.shared.calendars == .authorized || PermissionContext.shared.reminders == .authorized {
-            PresentationContext.shared.toggleMenu(.new())
-        }
-    }
 }

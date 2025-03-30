@@ -12,10 +12,8 @@ struct GradientMask: View {
 
     private var gradientHeight: CGFloat {
         switch colorScheme {
-        case .dark:
-            32
-        default:
-            16
+            case .dark: 32
+            default: 16
         }
     }
 

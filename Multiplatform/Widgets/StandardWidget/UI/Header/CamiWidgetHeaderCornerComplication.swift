@@ -15,12 +15,9 @@ struct CamiWidgetHeaderCornerComplication: View {
 
     var body: some View {
         switch content.configuration.complication {
-        case .hidden:
-            EmptyView()
-        case .birthdays:
-            CamiWidgetHeaderBirthdays()
-        case .summary:
-            CamiWidgetHeaderEventSummary()
+            case .hidden: EmptyView()
+            case .birthdays: CamiWidgetHeaderBirthdays()
+            case .summary: CamiWidgetHeaderEventSummary()
         }
     }
 }

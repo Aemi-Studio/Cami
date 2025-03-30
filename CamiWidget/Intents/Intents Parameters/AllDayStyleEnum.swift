@@ -8,12 +8,14 @@
 import AppIntents
 import Foundation
 
-enum AllDayStyleEnum: String, CaseIterable, AppEnum {
+enum AllDayStyleEnum: String, CaseIterable, AppEnum, LocalizedIntent {
     typealias RawValue = String
 
     case hidden = "Hidden"
     case event = "Event"
     case bordered = "Event Bordered"
+    
+    static let localizedTitle = String(localized: "intentParameter.allDayStyle.title")
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 

@@ -9,27 +9,33 @@ import SwiftUI
 import WidgetKit
 
 struct CustomSettingsView: View {
-    @Environment(\.presentation) private var presentation
-
     var body: some View {
-        ViewHierarchy {
-            ScrollView(.vertical) {
-                VStack(alignment: .leading, spacing: 32) {
-                    SettingsNavigationLinksSection()
-                    SettingsPreviewFeaturesSection()
-                    CustomSection {
-                        WidgetTutorialButton()
-                        PrivacyPolicyButton()
-                    }
-                    CustomSection {
-                        SystemSettingsButton()
-                    }
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 32) {
+                SettingsNavigationLinksSection()
+                SettingsPreviewFeaturesSection()
+                CustomSection {
+                    WidgetTutorialButton()
+                    PrivacyPolicyButton()
                 }
-                .padding(.horizontal)
+                CustomSection {
+                    SystemSettingsButton()
+                }
             }
-            .scrollBounceBehavior(.always)
-            .scrollClipDisabled()
-            .set(\.title, to: String(localized: "settings.navigation.title"))
+            .padding(.horizontal)
+        }
+        .scrollBounceBehavior(.always)
+        .scrollClipDisabled()
+        .navigationTitle(String(localized: "settings.navigation.title"))
+    }
+}
+
+extension View {
+    @ViewBuilder func containerNavigationBackground() -> some View {
+        if #available(iOS 18.0, *) {
+            containerBackground(.clear, for: .navigation)
+        } else {
+            background()
         }
     }
 }

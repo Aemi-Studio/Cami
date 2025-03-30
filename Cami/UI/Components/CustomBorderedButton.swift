@@ -26,12 +26,9 @@ where Label: View, Title: View, Icon: View, Description: View {
 
     var halignment: HorizontalAlignment {
         return switch alignment {
-        case .center:
-            .center
-        case .trailing:
-            .trailing
-        default:
-            .leading
+            case .center: .center
+            case .trailing: .trailing
+            default: .leading
         }
     }
 
@@ -97,21 +94,27 @@ where Label: View, Title: View, Icon: View, Description: View {
         }
         .frame(maxWidth: .infinity, alignment: Alignment(horizontal: halignment, vertical: .center))
     }
+    
+    @ScaledMetric private var imageSize: CGFloat = 24
 
     @ViewBuilder private var image: some View {
         if noIcon != true, let icon {
             Spacer()
-            VStack(alignment: .center) {
-                if opacity < 1 {
-                    icon
-                        .foregroundStyle(foregroundColor)
-                        .accessibilityHidden(true)
-                } else {
-                    icon
-                        .foregroundStyle(opaqueForegroundColor)
-                        .accessibilityHidden(true)
+            Rectangle()
+                .fill(.clear)
+                .frame(width: imageSize, height: imageSize)
+                .overlay {
+                    if opacity < 1 {
+                        icon
+                            .foregroundStyle(foregroundColor)
+                            .accessibilityHidden(true)
+                    } else {
+                        icon
+                            .foregroundStyle(opaqueForegroundColor)
+                            .accessibilityHidden(true)
+                    }
                 }
-            }
+                .padding(.trailing, -2)
         }
     }
 }

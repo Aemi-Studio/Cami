@@ -37,8 +37,8 @@ struct CamiWidgetHeader: View {
 
     private var renderedOpacity: Double {
         switch renderingMode {
-        case .accented, .vibrant: 0.05
-        default: 0.2
+            case .accented, .vibrant: 0.05
+            default: 0.2
         }
     }
 
@@ -63,7 +63,7 @@ struct CamiWidgetHeader: View {
             Spacer()
 
             HStack(spacing: 5) {
-                CamiWidgetCreateEventButton()
+                CamiWidgetCreateEventButton(customRadius: content.configuration.complication == .hidden)
 
                 CamiWidgetHeaderCornerComplication()
             }
@@ -73,29 +73,5 @@ struct CamiWidgetHeader: View {
         .rounded([.all: .init(top: 16, bottom: 8)])
         .lineLimit(1)
         .fontDesign(.rounded)
-    }
-}
-
-struct CamiWidgetCreateEventButton: View {
-    @Environment(\.widgetFamily)
-    private var environmentWidgetFamily
-
-    @Environment(\.customWidgetFamily)
-    private var customWidgetFamily
-
-    private var family: WidgetFamily {
-        customWidgetFamily?.rawValue ?? environmentWidgetFamily
-    }
-
-    var body: some View {
-        Link(destination: DataContext.shared.creationURL) {
-            Label(String(localized: "Create event or reminder"), systemImage: "plus")
-                .labelStyle(.iconOnly)
-                .fontWeight(.semibold)
-                .foregroundStyle(Color.primary.secondary)
-        }
-        .padding(family.isSmall ? 3 : 4.75)
-        .background(Color.primary.quinary.opacity(0.3))
-        .clipShape(.rect(cornerRadius: 4))
     }
 }

@@ -35,7 +35,11 @@ extension NSObject {
         set { setValue(newValue, forKeyPath: "requestedValues") }
     }
     func value(forKey key: String, withFilterType filterType: String) -> NSObject? {
-        return (value(forKeyPath: key) as? [NSObject])?.first { $0.value(forKeyPath: "filterType") as? String == filterType }
+        if let object = (value(forKeyPath: key) as? [NSObject]) {
+            object.first { $0.value(forKeyPath: "filterType") as? String == filterType }
+        } else {
+            nil
+        }
     }
 }
 

@@ -9,20 +9,25 @@ import SwiftUI
 
 @main
 struct CamiApp: App {
+    @State private var appState = AppState(date: .now)
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .configureEnvironmentValues()
+                .environment(\.appState, appState)
+                .modifier(AppEnvironment())
                 .refreshWidgets()
+                .setupModals()
                 .environment(\.viewKind, .standard)
         }
     }
 }
 
-extension View {
-    func configureEnvironmentValues() -> some View {
-        environment(\.path, .shared)
+struct AppEnvironment: ViewModifier {
+    func body(content: Content) -> some View {
+        content
             .environment(\.data, .shared)
+            .environment(\.modal, .shared)
             .environment(\.views, .shared)
             .environment(\.permissions, .shared)
             .environment(\.presentation, .shared)
