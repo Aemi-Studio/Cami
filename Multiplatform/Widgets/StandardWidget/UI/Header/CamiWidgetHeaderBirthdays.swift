@@ -69,11 +69,9 @@ struct CamiWidgetHeaderBirthdays: View {
             if let today = todayBirthdayEvent {
                 birthdays(today, data: data)
                     .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
-            } else if !birthdays.isEmpty && nextBirthdays.1.count > 0 {
-                if let firstBirthday = birthdays.first {
-                    birthdays(firstBirthday, data: data)
-                        .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
-                }
+            } else if !birthdays.isEmpty && nextBirthdays.1.count > 0, let firstBirthday = birthdays.first {
+                birthdays(firstBirthday, data: data)
+                    .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
             }
         }
     }
