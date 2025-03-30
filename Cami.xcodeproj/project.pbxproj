@@ -128,11 +128,6 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		464043F42D7F8FAA0076DFD8 /* App */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = App;
-			sourceTree = "<group>";
-		};
 		464F11112D406EB800F73884 /* CamiWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -205,7 +200,6 @@
 		465533002AF4EA69000B537B = {
 			isa = PBXGroup;
 			children = (
-				464043F42D7F8FAA0076DFD8 /* App */,
 				464F11DA2D4079F600F73884 /* Multiplatform */,
 				464F118F2D4079F300F73884 /* Cami */,
 				464F11112D406EB800F73884 /* CamiWidget */,
@@ -249,7 +243,6 @@
 				46B1606F2B07D87100A44FBF /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				464043F42D7F8FAA0076DFD8 /* App */,
 				464F118F2D4079F300F73884 /* Cami */,
 				464F11DA2D4079F600F73884 /* Multiplatform */,
 			);
@@ -279,7 +272,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				464043F42D7F8FAA0076DFD8 /* App */,
 				464F11112D406EB800F73884 /* CamiWidget */,
 				464F11DA2D4079F600F73884 /* Multiplatform */,
 			);

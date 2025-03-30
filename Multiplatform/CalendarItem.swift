@@ -87,7 +87,7 @@ extension CalendarItem: Identifiable, Hashable, Sendable, Equatable {}
 extension CalendarItem: Comparable {
     static func < (lhs: CalendarItem, rhs: CalendarItem) -> Bool {
         if lhs.boundStart != rhs.boundStart {
-            return lhs.boundStart < lhs.boundStart
+            return lhs.boundStart < rhs.boundStart
         }
         return lhs.title < rhs.title
     }
