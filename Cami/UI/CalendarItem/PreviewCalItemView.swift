@@ -5,10 +5,10 @@
 //  Created by Guillaume Coquard on 21/03/25.
 //
 
+import Combine
+import EventKit
 import MapKit
 import SwiftUI
-import EventKit
-import Combine
 
 struct CalendarItemView: View {
     let item: EKCalendarItem
@@ -22,11 +22,12 @@ struct CalendarItemView: View {
             default: nil
         }
     }
-    
+
     private var isAllDay: Bool? {
-        switch item {
-            case is EKEvent: (item as? EKEvent)?.isAllDay
-            default: false
+        if let event = item as? EKEvent {
+            event.isAllDay
+        } else {
+            false
         }
     }
 
@@ -39,7 +40,7 @@ struct CalendarItemView: View {
             content
                 .padding()
                 .background(
-                    GlassStyle(.rect(cornerRadius: 12), color: Color(item.calendar.cgColor), intensity: 0.05 )
+                    GlassStyle(.rect(cornerRadius: 12), color: Color(item.calendar.cgColor), intensity: 0.05)
                 )
                 .contentShape(.rect)
         }
@@ -75,7 +76,6 @@ struct CalendarItemView: View {
 }
 
 struct CalendarItemDetailView: View {
-
     let event: EKCalendarItem
 
     var body: some View {
@@ -88,8 +88,7 @@ struct CalendarItemDetailView: View {
 }
 
 struct CapsuleDivider: View {
-
-    private(set) var color: Color = Color.primary
+    private(set) var color: Color = .primary
 
     var body: some View {
         Capsule()
@@ -101,7 +100,6 @@ struct CapsuleDivider: View {
 // MARK: - Location
 
 struct Detail<Header: View, Content: View>: View {
-
     private let color: Color
     private let header: () -> Header
     private let content: () -> Content
@@ -141,7 +139,6 @@ struct Detail<Header: View, Content: View>: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, isShown ? 0 : -6)
         .animation(.default.delay(0.1), value: isShown)
-
     }
 }
 
@@ -191,7 +188,9 @@ struct CalendarItemLocationDetailView: View {
         }
     }
 }
+
 // MARK: - Attendees
+
 struct CalendarItemAttendeesDetailView: View {
     let event: EKCalendarItem
 
@@ -213,7 +212,6 @@ struct CalendarItemAttendeesDetailView: View {
 
 // HStack for badges (location, call url, ...)
 struct CalendarItemCharacteristicsView: View {
-
     let event: EKCalendarItem
 
     var body: some View {
@@ -228,7 +226,6 @@ struct CalendarItemCharacteristicsView: View {
 }
 
 struct CalendarItemLocationBadge: View {
-
     let event: EKCalendarItem
 
     var body: some View {
@@ -239,7 +236,6 @@ struct CalendarItemLocationBadge: View {
 }
 
 struct CalendarItemCallUrlBadge: View {
-
     let event: EKCalendarItem
 
     var body: some View {
@@ -249,23 +245,21 @@ struct CalendarItemCallUrlBadge: View {
     }
 }
 
-
 struct CalendarItemStartDateView: View {
-    
     let date: Date?
     let isAllDay: Bool?
-    
+
     var body: some View {
         if let isAllDay, isAllDay {
             HStack {
                 Text(String(localized: "item.detail.isAllDay"))
-                .foregroundStyle(.black)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .font(.caption2)
-                .fontWeight(.semibold)
-                .textCase(.uppercase)
-                .blendMode(.destinationOut)
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .textCase(.uppercase)
+                    .blendMode(.destinationOut)
             }
             .background(Color.primary.tertiary)
             .clipShape(Capsule())

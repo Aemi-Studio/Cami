@@ -46,20 +46,22 @@ enum Access: CaseIterable, Hashable, Equatable {
 
 extension Access.Status {
     init(from status: EKAuthorizationStatus) {
-        self = switch status {
-            case .notDetermined: .notDetermined
-            case .authorized, .fullAccess: .authorized
-            default: .restricted
-        }
+        self =
+            switch status {
+                case .notDetermined: .notDetermined
+                case .authorized, .fullAccess: .authorized
+                default: .restricted
+            }
     }
 }
 
 extension Access.Status {
     init(from status: CNAuthorizationStatus) {
-        self = switch status {
-            case .notDetermined: .notDetermined
-            case .authorized: .authorized
-            default: .restricted
-        }
+        self =
+            switch status {
+                case .notDetermined: .notDetermined
+                case .authorized: .authorized
+                default: .restricted
+            }
     }
 }

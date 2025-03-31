@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct KnowledgeBaseView: View {
-
     @State private var context = KnowledgeBaseContext()
 
     var body: some View {

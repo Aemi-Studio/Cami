@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct CamiWidgetHeaderCornerComplication: View {
-
     @Environment(\.widgetContent)
     private var content
 

@@ -15,7 +15,9 @@ extension MappableNumber where Self: FloatingPoint {
     func mapped(from rangeA: (Self, Self), to rangeB: (Self, Self)) -> Self {
         let (minA, maxA) = rangeA
         let (minB, maxB) = rangeB
-        guard minA != maxA else { return minB } // Avoid division by zero
+        guard minA != maxA else {
+            return minB
+        } // Avoid division by zero
 
         let scale = (self - minA) / (maxA - minA)
         return minB + scale * (maxB - minB)

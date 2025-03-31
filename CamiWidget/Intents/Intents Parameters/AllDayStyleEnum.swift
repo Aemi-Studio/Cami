@@ -14,7 +14,7 @@ enum AllDayStyleEnum: String, CaseIterable, AppEnum, LocalizedIntent {
     case hidden = "Hidden"
     case event = "Event"
     case bordered = "Event Bordered"
-    
+
     static let localizedTitle = String(localized: "intentParameter.allDayStyle.title")
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")

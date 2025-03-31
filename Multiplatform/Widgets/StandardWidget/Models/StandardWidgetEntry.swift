@@ -27,8 +27,10 @@ struct StandardWidgetEntry {
         self.date = date
         self.configuration = configuration
         self.calendars = calendars.isEmpty ? DataContext.shared.calendars.map(\.calendarIdentifier) : calendars
-        self.inlineCalendars = inlineCalendars.isEmpty ? DataContext.shared.calendars
-            .map(\.calendarIdentifier) : inlineCalendars
+        self.inlineCalendars = inlineCalendars.isEmpty
+            ? DataContext.shared.calendars
+                .map(\.calendarIdentifier)
+            : inlineCalendars
     }
 }
 

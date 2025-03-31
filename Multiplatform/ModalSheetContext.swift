@@ -1,5 +1,5 @@
 //
-//  ModalContext.swift
+//  ModalSheetContext.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 29/03/25.
@@ -16,7 +16,9 @@ final class ModalSheetContext {
         if menu != .none {
             close()
             Task { [weak self] in
-                guard let self else { return }
+                guard let self else {
+                    return
+                }
                 try? await Task.sleep(for: .milliseconds(200))
                 menu = modal
             }
@@ -38,9 +40,9 @@ enum MenuPane: Equatable {
     case permissions
     case new(item: EKCalendarItem? = nil)
     case none
-    
+
     private static let context = ModalSheetContext.shared
-    
+
     var bool: Bool {
         get { self == .none ? false : Self.context.menu == self }
         set {
@@ -55,7 +57,7 @@ enum MenuPane: Equatable {
             }
         }
     }
-    
+
     var description: String {
         switch self {
             case .settings:
@@ -76,18 +78,18 @@ enum MenuPane: Equatable {
                 return "None"
         }
     }
-    
+
     var localizedDescription: String {
         String(localized: "\(description)")
     }
-    
+
     var value: EKCalendarItem? {
         switch self {
             case let .new(item): item
             default: nil
         }
     }
-    
+
     var view: (() -> any View)? {
         switch self {
             case .settings: CustomSettingsView.init
@@ -97,7 +99,7 @@ enum MenuPane: Equatable {
             case .none: nil
         }
     }
-    
+
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.description == rhs.description && lhs.value == rhs.value
     }

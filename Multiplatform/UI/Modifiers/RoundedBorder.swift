@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RoundedBorder: ViewModifier {
-
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.tint) private var tint
 

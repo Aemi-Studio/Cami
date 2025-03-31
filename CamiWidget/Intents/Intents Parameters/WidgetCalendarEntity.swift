@@ -11,7 +11,7 @@ import Foundation
 struct WidgetCalendarEntity: AppEntity {
     var id: String
     var calendar: String
-    
+
     static let localizedTitle = String(localized: "intentParameter.calendarSelection.title")
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "Calendar"
     static var defaultQuery = CamiCalendarQuery()

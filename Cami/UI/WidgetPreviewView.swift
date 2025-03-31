@@ -5,22 +5,20 @@
 //  Created by Guillaume Coquard on 10/03/25.
 //
 
-import SwiftUI
 import AppIntents
+import SwiftUI
 
 struct WidgetPreviewView: View {
-
     @State private var arePreviewSettingsOpen: Bool = false
     @State private var entry: StandardWidgetEntry?
-    
+
     private let radius = 0.13333 * 170
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
             if let entry {
-                
                 let configuration = entry.configuration
-                
+
                 DisclosureGroup {
                     CustomBordered(backgroundStyle: Color.primary.tertiary, outline: true) {
                         VStack(spacing: 8) {
@@ -59,7 +57,7 @@ struct WidgetPreviewView: View {
                     Text(String(localized: "view.widgetSettings.previewSection.title"))
                 }
                 .disclosureGroupStyle(CustomDisclosureGroupStyle(track: $arePreviewSettingsOpen))
-                
+
                 ForEach(WidgetSize.allCases) { widgetSize in
                     CustomSection {
                         Text(widgetSize.custom.description)
@@ -85,22 +83,18 @@ struct WidgetPreviewView: View {
     }
 }
 
-
 struct WidgetBoolSetting: View {
-    
     let title: String
     @Binding var parameter: Bool
-    
+
     var body: some View {
         Toggle(title, isOn: $parameter)
             .padding(.vertical, 9 / 2)
     }
-    
 }
 
-
 struct WidgetEnumSetting<Parameter>: View
-where Parameter: AppEnum & LocalizedIntent & RawRepresentable<String>
+    where Parameter: AppEnum & LocalizedIntent & RawRepresentable<String>
 {
     @Binding var parameter: Parameter
     var body: some View {
@@ -115,26 +109,25 @@ where Parameter: AppEnum & LocalizedIntent & RawRepresentable<String>
 }
 
 struct WidgetConfigurationEnum<Parameter>: View
-where Parameter: AppEnum & LocalizedIntent & RawRepresentable<String> {
+    where Parameter: AppEnum & LocalizedIntent & RawRepresentable<String>
+{
     @Binding var parameter: Parameter
     var body: some View {
         Picker(Parameter.localizedTitle, selection: $parameter) {
-            ForEach(Array(Parameter.allCases), id: \.rawValue){ (option: Parameter) in
+            ForEach(Array(Parameter.allCases), id: \.rawValue) { (option: Parameter) in
                 Text(option.rawValue).tag(option)
             }
         }
     }
 }
 
-
 struct CustomDisclosureGroupStyle: DisclosureGroupStyle {
-    
     @Binding private(set) var track: Bool
-    
+
     init(track state: Binding<Bool>? = nil) {
-        self._track = state ?? .constant(false)
+        _track = state ?? .constant(false)
     }
-    
+
     func makeBody(configuration: Configuration) -> some View {
         CustomSection {
             Button {

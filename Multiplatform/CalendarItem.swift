@@ -68,7 +68,9 @@ extension CalendarItem {
 
 extension CalendarItem {
     init?(from reminder: EKReminder) {
-        guard let dueDate = reminder.dueDateComponents?.date else { return nil }
+        guard let dueDate = reminder.dueDateComponents?.date else {
+            return nil
+        }
         self.id = reminder.calendarItemIdentifier
         self.kind = .reminder
         self.isAllDay = false
@@ -121,7 +123,7 @@ extension CalendarItem {
     }
 }
 
-extension Collection where Element == CalendarItem {
+extension Collection<CalendarItem> {
     func sorted(_ order: ComparisonResult = .orderedAscending) -> [Element] {
         sorted(by: { first, second in
             switch order {
@@ -146,7 +148,7 @@ extension Collection where Element == CalendarItem {
     }
 
     func similarElementsWithinSameCalendar(_ item: Element) -> [(offset: Int, element: Element)] {
-        enumerated().filter { (_, element) in
+        enumerated().filter { _, element in
             element.kind == item.kind &&
                 element.id != item.id &&
                 element.title == item.title &&

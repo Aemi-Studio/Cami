@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CamiWidgetReminderCompletableView: View {
-
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.tint) private var tint
 

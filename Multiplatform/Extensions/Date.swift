@@ -11,15 +11,15 @@ import Foundation
 
 extension Date {
     static func + (lhs: Date, rhs: DateComponents) -> Date {
-        return Calendar.autoupdatingCurrent.date(byAdding: rhs, to: lhs)!
+        Calendar.autoupdatingCurrent.date(byAdding: rhs, to: lhs)!
     }
 
     static func + (lhs: DateComponents, rhs: Date) -> Date {
-        return Calendar.autoupdatingCurrent.date(byAdding: lhs, to: rhs)!
+        Calendar.autoupdatingCurrent.date(byAdding: lhs, to: rhs)!
     }
 
     static func - (lhs: Date, rhs: Date) -> TimeInterval {
-        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+        lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
     }
 }
 
@@ -40,7 +40,6 @@ extension Date {
 // MARK: Date Formatting
 
 extension Date {
-
     enum FormatterKind {
         case short
         case medium
@@ -140,14 +139,14 @@ extension Date {
         _ components: Calendar.Component...,
         calendar: Calendar = Calendar.autoupdatingCurrent
     ) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
+        calendar.dateComponents(Set(components), from: self)
     }
 
     func get(
         _ component: Calendar.Component,
         calendar: Calendar = Calendar.autoupdatingCurrent
     ) -> Int {
-        return calendar.component(component, from: self)
+        calendar.component(component, from: self)
     }
 
     var startOfMonth: Date {

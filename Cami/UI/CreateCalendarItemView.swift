@@ -42,7 +42,8 @@ struct CreateCalendarItemView: View {
                 Button("Save") {
                     if readyToSave,
                        let data,
-                       (try? data.createReminder(title: title)) != nil {
+                       (try? data.createReminder(title: title)) != nil
+                    {
                         dismiss()
                     }
                 }

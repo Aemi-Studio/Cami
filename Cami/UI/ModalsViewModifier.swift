@@ -28,8 +28,7 @@ extension View {
     }
 
     fileprivate func defaultModalPresentation(context: ModalSheetContext) -> some View {
-        self
-            .presentationDetents([.medium, .large])
+        presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
             .presentationContentInteraction(.scrolls)
             .environment(\.openModal, context.open)

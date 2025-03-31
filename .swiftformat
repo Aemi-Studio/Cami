@@ -1,0 +1,14 @@
+--allman false
+--typeblanklines preserve
+--commas inline
+--condassignment always
+--indent 4
+--indentcase true
+--maxwidth 120
+--self init-only
+--semicolons never
+--swiftversion 6
+--wrapenumcases always
+--wrapternary before-operators
+
+--enable isEmpty, wrapSingleLineComments, wrapConditionalBodies, wrapLoopBodies, wrapMultilineConditionalAssignment, todos, spaceInsideParens, spaceInsideGenerics, spaceInsideComments, spaceInsideBrackets, spaceInsideBrackets, spaceAroundParens, spaceAroundBrackets, redundantRawValues, redundantParens, redundantOptionalBinding, redundantExtensionACL, redundantClosure, redundantBreak, redundantBackticks, hoistTry, hoistAwait, consecutiveBlankLines, conditionalAssignment, blockComments, blankLinesBetweenScopes, blankLinesBetweenImports, blankLinesBetweenChainedFunctions, blankLinesAtEndOfScope, blankLineAfterImports

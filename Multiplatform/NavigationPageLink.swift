@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NavigationPageLink<Destination: View>: View {
-
     let title: String
     let image: String
     let destination: () -> Destination
@@ -48,7 +47,6 @@ extension View {
 }
 
 struct ResetToolbarBackground: ViewModifier {
-
     @State private var height: CGFloat = 0
 
     @ViewBuilder private func hideToolbar(@ViewBuilder content: () -> some View) -> some View {
@@ -81,14 +79,16 @@ struct ResetToolbarBackground: ViewModifier {
                         .preference(key: ToolbarHeightPreferenceKey.self, value: proxy.safeAreaInsets.top)
                         .onPreferenceChange(ToolbarHeightPreferenceKey.self) { newHeight in
                             Task(priority: .utility) { @MainActor in
-                                if newHeight != height { height = newHeight }
+                                if newHeight != height {
+                                    height = newHeight
+                                }
                             }
                         }
                 }
             }
             .padding(.bottom, -height * 2)
     }
-    
+
     struct ToolbarHeightPreferenceKey: PreferenceKey {
         static let defaultValue: CGFloat = 0
         static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {

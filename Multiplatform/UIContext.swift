@@ -1,5 +1,5 @@
 //
-//  ViewContext.swift
+//  UIContext.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 20/11/23.
@@ -27,7 +27,6 @@ import SwiftUI
         self.date = date
         self.path = .init()
     }
-
 }
 
 extension EnvironmentValues {

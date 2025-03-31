@@ -10,11 +10,11 @@ import SwiftUI
 import WidgetKit
 
 struct CamiWidgetHeaderDate: View {
-    @Environment(\.widgetFamily)        private var widgetFamily: WidgetFamily
-    @Environment(\.customWidgetFamily)  private var customWidgetFamily
-    @Environment(\.widgetContent)       private var content
+    @Environment(\.widgetFamily) private var widgetFamily: WidgetFamily
+    @Environment(\.customWidgetFamily) private var customWidgetFamily
+    @Environment(\.widgetContent) private var content
     @Environment(\.widgetRenderingMode) private var renderingMode
-    @Environment(\.colorScheme)         private var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     private var family: WidgetFamily { customWidgetFamily?.rawValue ?? widgetFamily }
 
@@ -45,7 +45,8 @@ struct CamiWidgetHeaderDate: View {
         HStack(spacing: 0) {
             let literals = content.date.literals
             if let day = literals[dayLength],
-               let date = literals[.date] {
+               let date = literals[.date]
+            {
                 Text(day)
                     .foregroundStyle(dayColor)
 

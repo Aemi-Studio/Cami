@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CircularGlassButtonStyle: ButtonStyle {
-
     @ScaledMetric
     private var ratio = 1.0
     private var fontSize: CGFloat { min(max(size * ratio * 0.333, size * 0.5), size * 0.75) }
@@ -37,13 +36,12 @@ struct CircularGlassButtonStyle: ButtonStyle {
 }
 
 struct CapsuleGlassButtonStyle: ButtonStyle {
-    
     private(set) var color: Color
     private(set) var intensity: CGFloat = 0.1
     private(set) var radius: CGFloat = 10
     private(set) var labelStyle: any LabelStyle = .titleAndIcon
     private(set) var padding: EdgeInsets = .init()
-    
+
     func makeBody(configuration: Configuration) -> some View {
         GlassContentStyle(
             .capsule,
@@ -65,7 +63,7 @@ struct GlassContentStyle<Content: View, Base: Shape>: View {
     private let intensity: CGFloat
     private let radius: CGFloat
     private let content: () -> Content
-    
+
     init(
         _ shape: Base = Rectangle(),
         color: Color = Color.primary,
@@ -81,7 +79,7 @@ struct GlassContentStyle<Content: View, Base: Shape>: View {
         self.radius = radius
         self.content = content
     }
-    
+
     var body: some View {
         content()
             .background {
@@ -93,7 +91,7 @@ struct GlassContentStyle<Content: View, Base: Shape>: View {
             }
             .clipShape(shape)
     }
-    
+
     @ViewBuilder private func applyStroke(@ViewBuilder content: () -> some ShapeView) -> some View {
         if lineWidth > 0 {
             content()
@@ -102,7 +100,7 @@ struct GlassContentStyle<Content: View, Base: Shape>: View {
             content()
         }
     }
-    
+
     @ViewBuilder private func applyBlur(@ViewBuilder content: () -> some View) -> some View {
         if intensity > 0 || radius > 0 {
             content()

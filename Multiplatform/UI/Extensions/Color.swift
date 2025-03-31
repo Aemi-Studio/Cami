@@ -58,5 +58,5 @@ extension View {
 }
 
 extension EnvironmentValues {
-    @Entry var tint: Color = Color.accentColor
+    @Entry var tint: Color = .accentColor
 }

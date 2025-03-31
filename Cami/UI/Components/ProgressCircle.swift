@@ -9,7 +9,6 @@ import AemiUI
 import SwiftUI
 
 struct ProgressCircle: View {
-
     @State private var size = CGSize.zero
     private(set) var progress: Double
     private(set) var lineWidthRatio: Double

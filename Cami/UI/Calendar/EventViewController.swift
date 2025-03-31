@@ -15,14 +15,14 @@ struct EventViewController: UIViewControllerRepresentable {
     var event: EKEvent
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator(self)
+        Coordinator(self)
     }
 
     class Coordinator: NSObject, EKEventViewDelegate {
         var parent: EventViewController
 
         init(_ controller: EventViewController) {
-            parent = controller
+            self.parent = controller
         }
 
         func eventViewController(_: EKEventViewController, didCompleteWith _: EKEventViewAction) {

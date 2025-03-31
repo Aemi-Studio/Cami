@@ -9,7 +9,6 @@ import EventKit
 import SwiftUI
 
 struct CalendarItemTime: View {
-
     @Environment(\.widgetContent)
     private var content
 

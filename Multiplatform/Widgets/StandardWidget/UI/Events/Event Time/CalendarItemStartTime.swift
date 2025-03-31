@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CalendarItemStartTime: View {
-
     private let item: CalendarItem
 
     init(for item: CalendarItem) {

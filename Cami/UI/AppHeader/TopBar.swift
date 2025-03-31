@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TopBar<LeadingContent: View, TrailingContent: View>: View {
-
     private let height: CGFloat
     private let leadingContent: () -> LeadingContent
     private let trailingContent: () -> TrailingContent

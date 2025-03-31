@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CustomBorderedButton<Label, Title, Icon, Description>: View
-where Label: View, Title: View, Icon: View, Description: View {
+    where Label: View, Title: View, Icon: View, Description: View
+{
     private(set) var label: Label?
     private(set) var title: Title?
     private(set) var icon: Icon?
@@ -25,7 +26,7 @@ where Label: View, Title: View, Icon: View, Description: View {
     private(set) var isPressed: Bool = false
 
     var halignment: HorizontalAlignment {
-        return switch alignment {
+        switch alignment {
             case .center: .center
             case .trailing: .trailing
             default: .leading
@@ -94,7 +95,7 @@ where Label: View, Title: View, Icon: View, Description: View {
         }
         .frame(maxWidth: .infinity, alignment: Alignment(horizontal: halignment, vertical: .center))
     }
-    
+
     @ScaledMetric private var imageSize: CGFloat = 24
 
     @ViewBuilder private var image: some View {
@@ -215,7 +216,7 @@ extension CustomBorderedButton {
         isPressed: Bool = false
     ) where Label == EmptyView, Title == Text, Icon == Image, Description == AnyView {
         self.title = Text(title)
-        icon = Image(systemName: systemImage)
+        self.icon = Image(systemName: systemImage)
         self.description = description != nil ? AnyView(Text(description!)) : AnyView(EmptyView())
         self.foregroundStyle = foregroundStyle != nil ? AnyShapeStyle(foregroundStyle!) : nil
         self.backgroundStyle = backgroundStyle != nil ? AnyShapeStyle(backgroundStyle!) : nil
@@ -243,7 +244,7 @@ extension CustomBorderedButton {
         isPressed: Bool = false
     ) where Label == EmptyView, Title == Text, Icon == Image, Description == AnyView {
         self.title = Text(title)
-        icon = Image(image)
+        self.icon = Image(image)
         self.description = description != nil ? AnyView(Text(description!)) : AnyView(EmptyView())
         self.foregroundStyle = foregroundStyle != nil ? AnyShapeStyle(foregroundStyle!) : nil
         self.backgroundStyle = backgroundStyle != nil ? AnyShapeStyle(backgroundStyle!) : nil

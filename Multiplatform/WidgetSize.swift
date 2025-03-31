@@ -1,5 +1,5 @@
 //
-//  WidgetSizes.swift
+//  WidgetSize.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 10/03/25.
@@ -11,7 +11,6 @@ import SwiftUI
 import WidgetKit
 
 enum WidgetSize: Hashable, Codable, Sendable, Comparable, CaseIterable {
-
     @MainActor
     static var allCases: [WidgetSize] {
         [.small, .medium, .large] + (Platform.is(.pad) ? [.extraLarge] : [])

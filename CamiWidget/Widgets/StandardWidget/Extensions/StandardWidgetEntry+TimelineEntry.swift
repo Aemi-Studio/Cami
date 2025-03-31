@@ -1,12 +1,12 @@
 //
-//  StandardWidgetEntry.swift
+//  StandardWidgetEntry+TimelineEntry.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 05/11/23.
 //
 
-import WidgetKit
 import EventKit
+import WidgetKit
 
 extension StandardWidgetEntry: TimelineEntry {
     typealias Intent = CamiWidgetIntent

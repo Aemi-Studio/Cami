@@ -39,11 +39,13 @@ final class SingleDayContext {
         subscribe()
 
         Task { @MainActor [weak self] in
-            guard let self else { return }
+            guard let self else {
+                return
+            }
             await update()
         }
     }
-    
+
     deinit {
         cancellables.forEach { $0.cancel() }
     }
@@ -52,7 +54,9 @@ final class SingleDayContext {
         context.publishEventStoreChanges()
             .sink { [weak self] _ in
                 Task { @MainActor [weak self] in
-                    guard let self else { return }
+                    guard let self else {
+                        return
+                    }
                     await update()
                 }
             }
@@ -87,7 +91,9 @@ final class SingleDayContext {
         reminders.sorted {
             guard let lhsDueDate = $0.dueDateComponents?.date,
                   let rhsDueDate = $1.dueDateComponents?.date
-            else { return false }
+            else {
+                return false
+            }
             return lhsDueDate < rhsDueDate
         }
     }
@@ -103,7 +109,8 @@ final class SingleDayContext {
 
         func sortedInsert(event: EKEvent, reminder: EKReminder) {
             if let dueDate = reminder.dueDateComponents?.date,
-               let startDate = event.startDate {
+               let startDate = event.startDate
+            {
                 if dueDate < startDate {
                     items.append(reminders.removeFirst())
                 } else if dueDate == startDate {
@@ -118,7 +125,7 @@ final class SingleDayContext {
             }
         }
 
-        for _ in 0..<(reminders.count + events.count) {
+        for _ in 0 ..< (reminders.count + events.count) {
             if let event = events.first, let reminder = reminders.first {
                 sortedInsert(event: event, reminder: reminder)
             } else if !reminders.isEmpty {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CamiWidgetEvents: View {
-    @Environment(\.widgetContent)   private var content
+    @Environment(\.widgetContent) private var content
 
     private var referenceDate: Date { content.date }
     private var configuration: StandardWidgetConfiguration { content.configuration }

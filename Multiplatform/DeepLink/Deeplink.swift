@@ -9,16 +9,19 @@ import EventKit
 import Foundation
 
 extension DataContext {
-    func destination(for item: CalendarItem, inPlace: Bool = false) -> URL {
-        let url = switch item.kind {
-            case .event: goesToEvent(for: item)
-            case .reminder: goesToReminder(for: item)
-        }
+    func destination(for item: CalendarItem, inPlace _: Bool = false) -> URL {
+        let url =
+            switch item.kind {
+                case .event: goesToEvent(for: item)
+                case .reminder: goesToReminder(for: item)
+            }
         return url ?? URL(filePath: "")
     }
 
     private func goesToEvent(for item: CalendarItem?, inPlace: Bool = false) -> URL? {
-        guard let item else { return nil }
+        guard let item else {
+            return nil
+        }
         return if inPlace {
             URL(string: "camical:event?id=\(item.id)")!
         } else {
@@ -27,7 +30,9 @@ extension DataContext {
     }
 
     private func goesToReminder(for item: CalendarItem?, inPlace: Bool = false) -> URL? {
-        guard let item else { return nil }
+        guard let item else {
+            return nil
+        }
         return if inPlace {
             URL(string: "reminder:event?id=\(item.id)")!
         } else {

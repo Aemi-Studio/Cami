@@ -66,11 +66,12 @@ extension DataContext {
         let reminder = EKReminder(eventStore: eventStore)
         reminder.title = title
 
-        if let calendar {
-            reminder.calendar = calendar
-        } else {
-            reminder.calendar = eventStore.defaultCalendarForNewReminders()
-        }
+        reminder.calendar =
+            if let calendar {
+                calendar
+            } else {
+                eventStore.defaultCalendarForNewReminders()
+            }
 
         if priority != .none {
             reminder.priority = Int(priority.rawValue)

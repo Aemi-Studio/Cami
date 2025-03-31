@@ -10,10 +10,10 @@ import SwiftUI
 import WidgetKit
 
 struct CamiWidgetEventsByDate: View {
-    @Environment(\.calendar)            private var calendar
-    @Environment(\.widgetContent)       private var content
-    @Environment(\.widgetFamily)        private var widgetFamily
-    @Environment(\.customWidgetFamily)  private var customWidgetFamily
+    @Environment(\.calendar) private var calendar
+    @Environment(\.widgetContent) private var content
+    @Environment(\.widgetFamily) private var widgetFamily
+    @Environment(\.customWidgetFamily) private var customWidgetFamily
 
     private var configuration: StandardWidgetConfiguration { content.configuration }
     private var family: WidgetFamily { customWidgetFamily?.rawValue ?? widgetFamily }
@@ -25,7 +25,9 @@ struct CamiWidgetEventsByDate: View {
     private var itemsThroughAllDayFiltering: [CalendarItem] {
         if configuration.allDayStyle == .hidden {
             items.filter { event in
-                guard event.kind == .event else { return true }
+                guard event.kind == .event else {
+                    return true
+                }
                 let isAllDay = event.isAllDay
                 let isOngoingDisplayed = event.continuesPast(content.date) && configuration.showOngoingEvents
                 return !isAllDay || isOngoingDisplayed
@@ -84,9 +86,9 @@ struct CamiWidgetEventsByDate: View {
                         .background(Color.primary.opacity(0.25))
                         .overlay {
                             Text("\(inlineEvents.count)")
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color.white)
-                            .blendMode(.destinationOut)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.white)
+                                .blendMode(.destinationOut)
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 2))
                         .accessibilityLabel(
@@ -127,7 +129,7 @@ struct CamiWidgetEventsByDate: View {
     private var inlineInformation: some View {
         HStack {
             inlineLeadingInformation
-            if !areThereOngoingEvents && inlineEvents.count > 0 {
+            if !areThereOngoingEvents, !inlineEvents.isEmpty {
                 Spacer()
                 inlineTrailingInformation
             }
@@ -155,7 +157,7 @@ struct CamiWidgetEventsByDate: View {
     }
 
     @ViewBuilder private var unifiedList: some View {
-        ForEach(Array(groupedItems.enumerated()), id: \.offset) { (_, element) in
+        ForEach(Array(groupedItems.enumerated()), id: \.offset) { _, element in
             CamiWidgetEvent(groupedItem: element)
         }
     }
@@ -163,10 +165,10 @@ struct CamiWidgetEventsByDate: View {
     @ViewBuilder private var remindersOnTopOfEvents: some View {
         let reminders = groupedItems.filter { $0.first?.kind == .some(.reminder) }
         let events = groupedItems.filter { $0.first?.kind == .some(.event) }
-        ForEach(Array(reminders.enumerated()), id: \.offset) { (_, element) in
+        ForEach(Array(reminders.enumerated()), id: \.offset) { _, element in
             CamiWidgetEvent(groupedItem: element)
         }
-        ForEach(Array(events.enumerated()), id: \.offset) { (_, element) in
+        ForEach(Array(events.enumerated()), id: \.offset) { _, element in
             CamiWidgetEvent(groupedItem: element)
         }
     }

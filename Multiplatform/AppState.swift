@@ -14,9 +14,9 @@ final class AppState: Equatable, Loggable {
             dayContext = .init(for: date)
         }
     }
-    
+
     private(set) var dayContext: SingleDayContext
-    
+
     init(date: Date = .now) {
         self.date = date
         self.dayContext = .init(for: date)

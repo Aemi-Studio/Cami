@@ -1,5 +1,5 @@
 //
-//  VisualEffectView_SwiftUI.swift
+//  VisualEffectView+SwiftUI.swift
 //  VisualEffectView
 //
 //  Created by 朱浩宇 on 2023/5/10.
@@ -21,7 +21,7 @@ public struct VisualEffect: UIViewRepresentable {
         self.scale = scale
     }
 
-    public func makeUIView(context: Context) -> VisualEffectView {
+    public func makeUIView(context _: Context) -> VisualEffectView {
         let view = VisualEffectView()
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
@@ -35,7 +35,7 @@ public struct VisualEffect: UIViewRepresentable {
         return view
     }
 
-    public func updateUIView(_ uiView: VisualEffectView, context: Context) {
+    public func updateUIView(_ uiView: VisualEffectView, context _: Context) {
         if let colorTint {
             uiView.colorTint = colorTint.uiColor()
         }
@@ -60,6 +60,6 @@ struct VisualEffect_Previews: PreviewProvider {
 
 private extension Color {
     func uiColor() -> UIColor {
-        return UIColor(self)
+        UIColor(self)
     }
 }

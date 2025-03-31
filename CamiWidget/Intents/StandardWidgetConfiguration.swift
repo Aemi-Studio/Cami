@@ -18,23 +18,23 @@ final class StandardWidgetConfiguration {
     private(set) var groupEvents: Bool
 
     init() {
-        allDayStyle = .event
-        complication = .birthdays
-        showHeader = true
-        showReminders = true
-        useUnifiedList = true
-        showOngoingEvents = true
-        groupEvents = true
+        self.allDayStyle = .event
+        self.complication = .birthdays
+        self.showHeader = true
+        self.showReminders = true
+        self.useUnifiedList = true
+        self.showOngoingEvents = true
+        self.groupEvents = true
     }
 
     init(from intent: CamiWidgetIntent) {
-        allDayStyle = intent.allDayStyle
-        complication = intent.complication
-        showHeader = intent.showHeader
-        showReminders = intent.reminders
-        useUnifiedList = intent.useUnifiedList
-        showOngoingEvents = intent.ongoingEvents
-        groupEvents = intent.groupEvents
+        self.allDayStyle = intent.allDayStyle
+        self.complication = intent.complication
+        self.showHeader = intent.showHeader
+        self.showReminders = intent.reminders
+        self.useUnifiedList = intent.useUnifiedList
+        self.showOngoingEvents = intent.ongoingEvents
+        self.groupEvents = intent.groupEvents
     }
 }
 
@@ -42,9 +42,8 @@ extension StandardWidgetConfiguration {
     static let `default` = StandardWidgetConfiguration()
 }
 
-
 extension Observable {
-    func binding<T>(for path: KeyPath<Self,T>) -> Binding<T> {
+    func binding<T>(for path: KeyPath<Self, T>) -> Binding<T> {
         var this = self
         return Binding {
             this[keyPath: path]

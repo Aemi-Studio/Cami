@@ -1,6 +1,6 @@
+import EventKit
 import Foundation
 import SwiftUI
-import EventKit
 
 @Observable
 final class StandardWidgetContent: Loggable {
@@ -55,7 +55,7 @@ final class StandardWidgetContent: Loggable {
         operation: @escaping ([CalendarItem]) -> Void
     ) {
         if configuration.showReminders {
-            DataContext.shared.reminders(where: Self.filter) { reminders in
+            DataContext.shared.reminders(where: filter) { reminders in
                 operation(reminders.compactMap(CalendarItem.init))
             }
         } else {
@@ -108,7 +108,7 @@ final class StandardWidgetContent: Loggable {
         self.inlineCalendars = calendars.inline
         self.allCalendars = calendars.all
 
-        allItems = Self.events(from: entry).mapped(relativeTo: entry.date)
+        self.allItems = Self.events(from: entry).mapped(relativeTo: entry.date)
 
         Self.reminders(with: entry.configuration) { reminders in
             self.allItems += reminders.mapped(relativeTo: entry.date)

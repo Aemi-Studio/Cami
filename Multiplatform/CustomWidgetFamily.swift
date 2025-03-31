@@ -13,7 +13,7 @@ final class CustomWidgetFamily {
     init(_ value: WidgetFamily) {
         self.rawValue = value
     }
-    
+
     var description: String {
         switch rawValue {
             case .systemSmall:

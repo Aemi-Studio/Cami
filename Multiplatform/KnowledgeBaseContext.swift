@@ -23,7 +23,7 @@ final class KnowledgeBaseContext {
     }
 
     init() {
-        searchResults = items
+        self.searchResults = items
     }
 
     private func updateSearchResults() async {
@@ -33,12 +33,14 @@ final class KnowledgeBaseContext {
             }
         } else {
             Task.detached(priority: .high) { [weak self, searchQuery] in
-                guard let self else { return }
+                guard let self else {
+                    return
+                }
 
                 let results = await items.filter { item in
                     ![item.description, item.title].filter { string in
                         string.localizedCaseInsensitiveContains(searchQuery) ||
-                        string.localizedStandardContains(searchQuery)
+                            string.localizedStandardContains(searchQuery)
                     }.isEmpty
                 }
 

@@ -10,20 +10,20 @@ import SwiftUI
 
 #if os(iOS)
 
-struct SafariView: UIViewControllerRepresentable {
-    let url: URL
+    struct SafariView: UIViewControllerRepresentable {
+        let url: URL
 
-    func makeUIViewController(
-        context _: UIViewControllerRepresentableContext<SafariView>
-    ) -> SFSafariViewController {
-        return SFSafariViewController(url: url)
-    }
+        func makeUIViewController(
+            context _: UIViewControllerRepresentableContext<SafariView>
+        ) -> SFSafariViewController {
+            SFSafariViewController(url: url)
+        }
 
-    func updateUIViewController(
-        _: SFSafariViewController,
-        context _: UIViewControllerRepresentableContext<SafariView>
-    ) {
-        // No need to update the view controller
+        func updateUIViewController(
+            _: SFSafariViewController,
+            context _: UIViewControllerRepresentableContext<SafariView>
+        ) {
+            // No need to update the view controller
+        }
     }
-}
 #endif

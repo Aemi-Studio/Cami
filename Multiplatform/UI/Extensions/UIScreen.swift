@@ -16,7 +16,7 @@ extension UIScreen {
     /// The corner radius of the display. Uses a private property of `UIScreen`,
     /// and may report 0 if the API changes.
     public var displayCornerRadius: CGFloat {
-        guard let cornerRadius = self.value(forKey: Self.cornerRadiusKey) as? CGFloat else {
+        guard let cornerRadius = value(forKey: Self.cornerRadiusKey) as? CGFloat else {
             assertionFailure("Failed to detect screen corner radius")
             return 0
         }

@@ -9,7 +9,7 @@ import EventKit
 import Foundation
 import SwiftUI
 
-extension Collection where Element == EKEvent {
+extension Collection<EKEvent> {
     func sorted(_ order: ComparisonResult = .orderedAscending) -> [Element] {
         sorted(by: { first, second in
             switch order {

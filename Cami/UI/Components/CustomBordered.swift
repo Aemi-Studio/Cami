@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct CustomBordered<Content>: View
-where Content: View {
+struct CustomBordered<Content: View>: View {
     private(set) var content: Content?
 
     private(set) var backgroundStyle: AnyShapeStyle?
@@ -25,7 +24,7 @@ where Content: View {
     }
 
     private var halignment: HorizontalAlignment {
-        return switch alignment {
+        switch alignment {
             case .center: .center
             case .trailing: .trailing
             default: .leading
@@ -52,15 +51,10 @@ where Content: View {
         .background(backgroundColor.opacity(opacity))
         .clipShape(.rect(cornerRadius: radius))
         .overlay {
-            if outline == true {
+            if outline {
                 RoundedRectangle(cornerRadius: radius)
                     .fill(.clear)
-                    .stroke(
-                        backgroundColor.secondary.tertiary,
-                        lineWidth: CustomDesign.borderedStrokeWidth
-                    )
-            } else {
-                EmptyView()
+                    .stroke(backgroundColor.secondary.tertiary, lineWidth: CustomDesign.borderedStrokeWidth)
             }
         }
     }

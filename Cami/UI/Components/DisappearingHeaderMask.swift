@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DisappearingHeaderMask: View {
-
     @Environment(\.presentation)
     private var presentation
 

@@ -147,6 +147,6 @@ extension AccessToggle {
         self.status = status
         self.title = title
         self.description = description
-        asyncAction = action
+        self.asyncAction = action
     }
 }

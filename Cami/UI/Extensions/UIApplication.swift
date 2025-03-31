@@ -14,7 +14,7 @@ extension UIApplication {
             .filter { $0.activationState.rawValue >= 0 }
             .sorted { $0.activationState.rawValue < $1.activationState.rawValue }
             .compactMap { $0 as? UIWindowScene }
-            .compactMap { $0.keyWindow }
+            .compactMap(\.keyWindow)
             .first
     }
 

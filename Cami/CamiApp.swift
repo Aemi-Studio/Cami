@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct CamiApp: App {
     @State private var appState = AppState(date: .now)
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()

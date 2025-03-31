@@ -6,14 +6,14 @@
 //
 
 import EventKit
+import OSLog
 import SwiftUI
 import WidgetKit
-import OSLog
 
 struct ContentView: View {
     @Environment(\.appState) private var state
     @Environment(\.presentation) private var presentation
-    
+
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
     private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
 
@@ -34,7 +34,7 @@ struct ContentView: View {
                     }
                     .scrollClipDisabled()
                     .headerUnderlyingMask()
-                    
+
                     AppHeaderView(date: state.date)
                 }
                 .ignoresSafeArea(.all)

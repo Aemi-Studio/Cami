@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct WidgetPreviewSheetButton: View {
-
     @Environment(\.openModal) private var openModal
 
     @Environment(\.presentation)

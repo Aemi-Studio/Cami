@@ -5,8 +5,8 @@
 //  Created by Guillaume Coquard on 21/03/25.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 
 struct CalendarItemCalendarColorBadge: View {
     @ScaledMetric private var size: CGFloat = 10

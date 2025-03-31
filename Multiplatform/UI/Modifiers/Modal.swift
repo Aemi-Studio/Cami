@@ -9,11 +9,11 @@ import SwiftUI
 
 extension View {
     @ViewBuilder
-    func modal<Content: View>(
+    func modal(
         isPresented condition: Binding<Bool>,
         presentationDetents: Set<PresentationDetent> = [.medium, .large],
         onDismiss: @escaping () -> Void = {},
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: @escaping () -> some View
     ) -> some View {
         modifier(
             AppModalBlueprint(
@@ -27,14 +27,13 @@ extension View {
 }
 
 struct AppModalBlueprint<ModalContent>: ViewModifier where ModalContent: View {
-    
     @Environment(\.appState) private var appState
-    
+
     @Binding private(set) var condition: Bool
     private(set) var presentationDetents: Set<PresentationDetent> = [.medium, .large]
     private(set) var onDismiss: () -> Void = {}
     @ViewBuilder let modalContent: () -> ModalContent
-    
+
     func body(content: Content) -> some View {
         content
             .sheet(isPresented: $condition, onDismiss: onDismiss) {

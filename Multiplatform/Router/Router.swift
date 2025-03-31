@@ -9,9 +9,8 @@ import Foundation
 import SwiftUI
 
 final class Router: Loggable {
-    
     static let shared = Router()
-    
+
     private let scheme = "camical"
     private var routes: [String: ([String: String]) -> Void] = [:]
 

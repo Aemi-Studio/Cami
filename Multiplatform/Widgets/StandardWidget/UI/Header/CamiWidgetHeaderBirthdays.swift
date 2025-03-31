@@ -23,7 +23,7 @@ struct CamiWidgetHeaderBirthdays: View {
     }
 
     private var birthdays: [CalendarItem] {
-        content.birthdays.filter { $0.contactIdentifier != nil }.compactMap { $0 }
+        content.birthdays.filter { $0.contactIdentifier != nil }.compactMap(\.self)
     }
 
     private var isSmall: Bool {
@@ -40,8 +40,10 @@ struct CamiWidgetHeaderBirthdays: View {
     }
 
     private var nextBirthdays: (Int, [String]) {
-        if let data, birthdays.count > 0 {
-            guard let firstBirthday = birthdays.first else { return (0, []) }
+        if let data, !birthdays.isEmpty {
+            guard let firstBirthday = birthdays.first else {
+                return (0, [])
+            }
 
             var peopleBirthdays: [String] = birthdays.filter { event in
                 event.isSameDay(as: firstBirthday) && event != firstBirthday
@@ -69,7 +71,7 @@ struct CamiWidgetHeaderBirthdays: View {
             if let today = todayBirthdayEvent {
                 birthdays(today, data: data)
                     .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
-            } else if !birthdays.isEmpty && nextBirthdays.1.count > 0, let firstBirthday = birthdays.first {
+            } else if !birthdays.isEmpty, !nextBirthdays.1.isEmpty, let firstBirthday = birthdays.first {
                 birthdays(firstBirthday, data: data)
                     .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
             }

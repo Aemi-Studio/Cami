@@ -63,7 +63,7 @@ struct AppHeaderView: View {
         var day: String? {
             dynamicTypeSize > .xLarge
                 ? dateLiterals[.medium]
-                : dateLiterals[. long]
+                : dateLiterals[.long]
         }
         if let day, let date {
             formattedToday(day: day, date: date)

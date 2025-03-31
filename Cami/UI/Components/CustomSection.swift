@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CustomSection<Header, Content, Footer>: View
-where Header: View, Content: View, Footer: View {
+    where Header: View, Content: View, Footer: View
+{
     private(set) var header: Header?
     private(set) var content: Content
     private(set) var footer: Footer?

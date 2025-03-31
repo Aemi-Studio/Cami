@@ -9,9 +9,9 @@ import SwiftUI
 import WidgetKit
 
 struct CalendarItemRemainingTime: View {
-    @Environment(\.widgetContent)         private var content
-    @Environment(\.widgetFamily)        private var widgetFamily
-    @Environment(\.customWidgetFamily)  private var customWidgetFamily
+    @Environment(\.widgetContent) private var content
+    @Environment(\.widgetFamily) private var widgetFamily
+    @Environment(\.customWidgetFamily) private var customWidgetFamily
     private var family: WidgetFamily { customWidgetFamily?.rawValue ?? widgetFamily }
 
     @ScaledMetric(relativeTo: .caption) private var circleSize: Double = 12

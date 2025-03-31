@@ -5,11 +5,10 @@
 //  Created by Guillaume Coquard on 17/03/25.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 
 struct CalendarToggleButton: View {
-
     @Environment(\.views) private var views: UIContext!
     let calendar: EKCalendar
 

@@ -12,7 +12,7 @@ struct DaySummary: View {
     private(set) var date: Date
     private(set) var events: [EKEvent]
     private(set) var reminders: [EKReminder]
-    
+
     private(set) var bond: (CalendarItemType) -> Binding<Bool>
 
     var body: some View {

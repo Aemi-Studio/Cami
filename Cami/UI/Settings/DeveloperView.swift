@@ -9,10 +9,10 @@ import SwiftUI
 
 struct DeveloperView: View {
     @Environment(\.permissions) private var permissions
-    
+
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
     private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
-    
+
     private var hasDismissedOnboardingBinding: Binding<Bool> {
         Binding {
             hasDismissedOnboarding
@@ -20,7 +20,7 @@ struct DeveloperView: View {
             hasDismissedOnboarding = $0
         }
     }
-    
+
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
@@ -33,13 +33,13 @@ struct DeveloperView: View {
             .navigationTitle(String(localized: "view.developer.title"))
         }
     }
-    
+
     private var toggleOnboarding: some View {
         BorderedToggle(isOn: hasDismissedOnboardingBinding) {
             Text(String(localized: "settings.developer.hasDismissedOnboarding.title"))
         }
     }
-    
+
     private var resetPermissionsButton: some View {
         Button(
             String(localized: "settings.developer.resetPermissions.title"),
@@ -50,5 +50,4 @@ struct DeveloperView: View {
         }
         .buttonStyle(.primaryWithOutline)
     }
-    
 }

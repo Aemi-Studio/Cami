@@ -36,7 +36,7 @@ struct WidgetSettingsView: View {
             CustomSection {
                 WidgetsRefreshButton()
             }
-            
+
             WidgetPreviewView()
         }
     }
@@ -45,7 +45,7 @@ struct WidgetSettingsView: View {
 struct ScrollablePage<Content: View>: View {
     let title: String
     @ViewBuilder let content: () -> Content
-    
+
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 32) {

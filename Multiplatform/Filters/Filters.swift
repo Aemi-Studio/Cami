@@ -63,7 +63,8 @@ enum Filters: CaseIterable {
                 filter: { reminder in
                     if let reminder = reminder as? EKReminder,
                        reminder.dueDateComponents?.date?.isToday == .some(true),
-                       !reminder.isCompleted {
+                       !reminder.isCompleted
+                    {
                         return true
                     }
                     return false
@@ -138,7 +139,7 @@ enum Filters: CaseIterable {
 extension Filters: Filtering {
     fileprivate var filter: Filter {
         switch self {
-            case .due(let date): date == nil ? Values.due : Values.due(on: date!)
+            case let .due(date): date == nil ? Values.due : Values.due(on: date!)
             case .dueLater: Values.dueLater
             case .dueToday: Values.dueToday
             case .overdue: Values.overdue
@@ -162,7 +163,7 @@ extension Filters: Filtering {
 }
 
 extension Filters {
-    static func any<T: Filtering>(of filters: [T]) -> Filtering {
+    static func any(of filters: [some Filtering]) -> Filtering {
         guard let filters = (filters as? [Filters]) else {
             return Filter(type: .all, filter: { _ in false }, localizedDescription: "")
         }
@@ -175,7 +176,7 @@ extension Filters {
         )
     }
 
-    static func all<T: Filtering>(of filters: [T]) -> Filtering {
+    static func all(of filters: [some Filtering]) -> Filtering {
         guard let filters = (filters as? [Filters]) else {
             return Filter(type: .all, filter: { _ in false }, localizedDescription: "")
         }
@@ -188,7 +189,7 @@ extension Filters {
         )
     }
 
-    static func none<T: Filtering>(of filters: [T]) -> Filtering {
+    static func none(of filters: [some Filtering]) -> Filtering {
         guard let filters = (filters as? [Filters]) else {
             return Filter(type: .all, filter: { _ in false }, localizedDescription: "")
         }

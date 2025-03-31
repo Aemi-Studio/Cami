@@ -28,13 +28,13 @@ struct EventView: View {
             if event.calendar.allowsContentModifications {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button("Edit") {
-                        self.showEventEditView.toggle()
+                        showEventEditView.toggle()
                     }
                 }
             }
         }
         .sheet(isPresented: $showEventEditView) {
-            EditEventViewController(event: self.event)
+            EditEventViewController(event: event)
                 .onDisappear {
                     event.refresh()
                 }

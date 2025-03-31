@@ -61,7 +61,6 @@ struct CustomBorderedButtonStyle: ButtonStyle {
 }
 
 extension ButtonStyle where Self == CustomBorderedButtonStyle {
-
     private static var colorScheme: ColorScheme {
         EnvironmentValues().self[keyPath: \.colorScheme]
     }

@@ -32,7 +32,9 @@ extension DataContext {
         todayComponent.day = 0
 
         guard let today = calendar.date(byAdding: todayComponent, to: date, wrappingComponents: false)
-        else { return [EKEvent]() }
+        else {
+            return [EKEvent]()
+        }
 
         var oneMonthFromNowComponents = DateComponents()
         oneMonthFromNowComponents.day = days
@@ -41,7 +43,9 @@ extension DataContext {
             let oneMonthFromNow = calendar.date(
                 byAdding: oneMonthFromNowComponents, to: date, wrappingComponents: false
             )
-        else { return [EKEvent]() }
+        else {
+            return [EKEvent]()
+        }
 
         let predicate = eventStore.predicateForEvents(
             withStart: today,
@@ -55,7 +59,7 @@ extension DataContext {
     func events(
         from calendars: [EKCalendar],
         limit count: Int = Int.max,
-        where filter: ((EKEvent) -> Bool) = { _ in true },
+        where _: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
     ) -> [EKEvent] {
         eventStore.refreshSourcesIfNecessary()
@@ -65,12 +69,12 @@ extension DataContext {
         var resetDayComponent = DateComponents()
         resetDayComponent.day = 0
 
-        var consideredDays: Int = 56
+        var consideredDays = 56
         var events = [EKEvent]()
         var currentDate = date
         let increment = 14
 
-        while events.count < count && consideredDays > 0 {
+        while events.count < count, consideredDays > 0 {
             guard !calendars.isEmpty else {
                 log.error("No calendars provided.")
                 return []
@@ -80,7 +84,9 @@ extension DataContext {
                 to: currentDate,
                 wrappingComponents: false
             )
-            else { return [] }
+            else {
+                return []
+            }
 
             let predicate = eventStore.predicateForEvents(
                 withStart: currentDate,

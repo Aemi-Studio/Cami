@@ -8,9 +8,9 @@
 import AemiUtilities
 import Combine
 import EventKit
+import OSLog
 import SwiftUI
 import WidgetKit
-import OSLog
 
 enum CalendarItemType: CaseIterable {
     case event
@@ -19,11 +19,10 @@ enum CalendarItemType: CaseIterable {
 
 @Observable
 final class DayViewModel: Loggable {
-    
     typealias UpdateAction = (CalendarItemType) -> Void
-    
+
     var visibleTypes: Set<CalendarItemType> = Set(CalendarItemType.allCases)
-    
+
     func filter(_ item: EKCalendarItem) -> Bool {
         switch item {
             case is EKEvent: visibleTypes.contains(.event)
@@ -31,7 +30,7 @@ final class DayViewModel: Loggable {
             default: false
         }
     }
-    
+
     func bound(to type: CalendarItemType) -> Binding<Bool> {
         Binding {
             self.visibleTypes.contains(type)
@@ -47,9 +46,9 @@ final class DayViewModel: Loggable {
 
 struct SingleDayView: View {
     typealias Model = DayViewModel
-    
+
     let context: SingleDayContext
-    
+
     @State private var view = Model()
 
     var body: some View {

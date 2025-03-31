@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct CustomModal<Content>: View where Content: View {
-
-    @ViewBuilder    private var content: () -> Content
-    @State          private var selectedDetent: PresentationDetent
+    @ViewBuilder private var content: () -> Content
+    @State private var selectedDetent: PresentationDetent
     private let navigationType: NavigationType
     private let presentationDetents: Set<PresentationDetent>
 
@@ -83,7 +82,6 @@ struct CustomModal<Content>: View where Content: View {
 }
 
 extension PresentationDetent: @retroactive Comparable {
-
     public static func < (lhs: PresentationDetent, rhs: PresentationDetent) -> Bool {
         lhs.order < rhs.order
     }

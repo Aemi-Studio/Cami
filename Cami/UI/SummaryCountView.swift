@@ -11,7 +11,7 @@ struct SummaryCountView: View {
     private(set) var title: String
     private(set) var count: Int
     @Binding private(set) var bound: Bool
-    
+
     var body: some View {
         Toggle(isOn: $bound) {
             Text(title)

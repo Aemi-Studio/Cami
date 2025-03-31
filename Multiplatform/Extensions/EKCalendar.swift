@@ -8,13 +8,13 @@
 import EventKit
 import Foundation
 
-extension Sequence where Element == EKCalendar {
+extension Sequence<EKCalendar> {
     var asIdentifiers: [String] {
         map(\.calendarIdentifier)
     }
 }
 
-extension Sequence where Element == String {
+extension Sequence<String> {
     func asEKCalendars() -> [EKCalendar] {
         compactMap { DataContext.shared.get(calendar: $0) }
     }

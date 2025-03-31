@@ -10,12 +10,11 @@ import SwiftUI
 import WidgetKit
 
 struct CamiWidgetHeaderEventSummary: View {
-
     @Environment(\.widgetFamily) private var widgetFamily
     @Environment(\.customWidgetFamily) private var customWidgetFamily
     private var family: WidgetFamily { customWidgetFamily?.rawValue ?? widgetFamily }
 
-    @Environment(\.widgetContent)   private var content
+    @Environment(\.widgetContent) private var content
 
     private var isSmall: Bool {
         family == .systemSmall
@@ -25,7 +24,9 @@ struct CamiWidgetHeaderEventSummary: View {
         let today = Date.now.zero
 
         guard content.items.keys.contains(today), let events = content.items[today]
-        else { return 0 }
+        else {
+            return 0
+        }
 
         return events.filter { event in
             if event.kind == .event {

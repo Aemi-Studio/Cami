@@ -62,7 +62,7 @@ struct OnboardingView: View {
             }
         }
     }
-    
+
     var title: some View {
         VStack {
             Text(String(localized: "onboarding.titlePrefix"))

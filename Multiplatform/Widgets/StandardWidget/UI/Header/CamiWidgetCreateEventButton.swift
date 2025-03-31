@@ -18,7 +18,7 @@ struct CamiWidgetCreateEventButton: View {
     private var family: WidgetFamily {
         customWidgetFamily?.rawValue ?? environmentWidgetFamily
     }
-    
+
     private(set) var customRadius: Bool
 
     var body: some View {
@@ -32,8 +32,8 @@ struct CamiWidgetCreateEventButton: View {
         .background(Color.primary.quinary.opacity(0.3))
         .clipShape(
             customRadius
-            ? .rect(cornerRadii: .init(topLeading: 4, bottomLeading: 4, bottomTrailing: 4, topTrailing: 12))
-            : .rect(cornerRadii: .init(4))
+                ? .rect(cornerRadii: .init(topLeading: 4, bottomLeading: 4, bottomTrailing: 4, topTrailing: 12))
+                : .rect(cornerRadii: .init(4))
         )
     }
 }

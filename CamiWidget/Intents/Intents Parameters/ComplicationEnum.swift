@@ -16,7 +16,7 @@ enum ComplicationEnum: String, CaseIterable, AppEnum, LocalizedIntent {
     case summary = "Summary"
 
     static let localizedTitle = String(localized: "intentParameter.complication.title")
-    
+
     static let typeDisplayRepresentation: TypeDisplayRepresentation = .init(stringLiteral: "Style")
 
     static let caseDisplayRepresentations: [ComplicationEnum: DisplayRepresentation] = [

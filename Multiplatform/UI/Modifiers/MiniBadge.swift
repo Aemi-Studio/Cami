@@ -9,7 +9,6 @@ import SwiftUI
 import WidgetKit
 
 struct MiniBadge: ViewModifier {
-
     @Environment(\.widgetRenderingMode) private var renderingMode
 
     var color: Color? = .black
@@ -19,7 +18,7 @@ struct MiniBadge: ViewModifier {
     }
 
     init(cgColor: CGColor?) {
-        color = Color(
+        self.color = Color(
             cgColor: cgColor ?? .init(red: 0, green: 0, blue: 0, alpha: 1)
         )
     }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RectangleCornerRadiiFilter {
-
     private(set) var topLeading: Bool
     private(set) var bottomLeading: Bool
     private(set) var bottomTrailing: Bool

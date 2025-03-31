@@ -5,8 +5,8 @@
 //  Created by Guillaume Coquard on 02/02/25.
 //
 
-import SwiftUI
 import AemiUI
+import SwiftUI
 
 struct SettingsPreviewFeaturesSection: View {
     @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
@@ -29,12 +29,12 @@ struct SettingsPreviewFeaturesSection: View {
                 systemImage: "exclamationmark.circle.fill"
             )
         } content: {
-#if DEBUG
-            NavigationPageLink(String(localized: "developer.navigationlink.title")) {
-                DeveloperView()
-            }
-#endif
-            
+            #if DEBUG
+                NavigationPageLink(String(localized: "developer.navigationlink.title")) {
+                    DeveloperView()
+                }
+            #endif
+
             BorderedToggle(isOn: accessWorkInProgressFeaturesBinding) {
                 HStack {
                     Text(String(localized: "settings.features.wip.title"))

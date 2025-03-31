@@ -12,7 +12,6 @@ import SwiftUI
 
 @Observable
 final class PermissionContext: Loggable {
-
     static let shared: PermissionContext = .init()
 
     private let accesses: [Access] = [.calendars, .contacts, .reminders]
@@ -68,13 +67,13 @@ extension PermissionContext {
         }
         update()
     }
-    
+
     func reset() {
-#if DEBUG
-        self.calendars = .none
-        self.contacts = .none
-        self.reminders = .none
-#endif
+        #if DEBUG
+            calendars = .none
+            contacts = .none
+            reminders = .none
+        #endif
     }
 }
 

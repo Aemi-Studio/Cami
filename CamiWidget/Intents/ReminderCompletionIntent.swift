@@ -6,8 +6,8 @@
 //
 
 import AppIntents
-import WidgetKit
 import EventKit
+import WidgetKit
 
 struct ReminderCompletionIntent: AppIntent {
     init() {}

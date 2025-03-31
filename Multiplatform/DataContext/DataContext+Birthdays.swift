@@ -26,7 +26,9 @@ extension DataContext {
 
 extension DataContext {
     func birthdays(from date: Date, during days: Int = 365) -> [EKEvent] {
-        guard let birthdayCalendar else { return [] }
+        guard let birthdayCalendar else {
+            return []
+        }
 
         eventStore.refreshSourcesIfNecessary()
 
@@ -36,14 +38,18 @@ extension DataContext {
         todayComponent.day = 0
 
         guard let today = calendar.date(byAdding: todayComponent, to: date, wrappingComponents: false)
-        else { return [EKEvent]() }
+        else {
+            return [EKEvent]()
+        }
 
         // Create the end date components.
         var limit = DateComponents()
         limit.day = days
 
         guard let endDate = calendar.date(byAdding: limit, to: date, wrappingComponents: false)
-        else { return [EKEvent]() }
+        else {
+            return [EKEvent]()
+        }
 
         // Create the predicate from the event store's instance method.
         let predicate = eventStore.predicateForEvents(withStart: today, end: endDate, calendars: [birthdayCalendar])
