@@ -84,9 +84,10 @@ enum MenuPane: Equatable {
     }
 
     var value: EKCalendarItem? {
-        switch self {
-            case let .new(item): item
-            default: nil
+        if case .new(let item) = self {
+            item
+        } else {
+            nil
         }
     }
 

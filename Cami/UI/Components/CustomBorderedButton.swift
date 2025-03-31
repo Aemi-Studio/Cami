@@ -99,7 +99,7 @@ struct CustomBorderedButton<Label, Title, Icon, Description>: View
     @ScaledMetric private var imageSize: CGFloat = 24
 
     @ViewBuilder private var image: some View {
-        if noIcon != true, let icon {
+        if !noIcon, let icon {
             Spacer()
             Rectangle()
                 .fill(.clear)
