@@ -9,11 +9,10 @@ import EventKit
 import SwiftUI
 
 struct DaySummary: View {
-    private(set) var date: Date
     private(set) var events: [EKEvent]
     private(set) var reminders: [EKReminder]
 
-    private(set) var bond: (CalendarItemType) -> Binding<Bool>
+    private(set) var binding: (CalendarItemType) -> Binding<Bool>
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -21,12 +20,12 @@ struct DaySummary: View {
                 SummaryCountView(
                     title: String(localized: "summary.count.events"),
                     count: events.count,
-                    bound: bond(.event)
+                    binding: binding(.event)
                 )
                 SummaryCountView(
                     title: String(localized: "summary.count.reminders"),
                     count: reminders.count,
-                    bound: bond(.reminder)
+                    binding: binding(.reminder)
                 )
             }
             .frame(maxWidth: .infinity, alignment: .leading)

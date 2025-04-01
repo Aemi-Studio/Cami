@@ -8,7 +8,7 @@
 import AppIntents
 import Foundation
 
-enum AllDayStyleEnum: String, CaseIterable, AppEnum, LocalizedIntent {
+enum AllDayStyleEnum: String, CaseIterable, AppEnum, WidgetEnumParameter {
     typealias RawValue = String
 
     case hidden = "Hidden"

@@ -54,10 +54,9 @@ struct SingleDayView: View {
     var body: some View {
         VStack(spacing: 8) {
             DaySummary(
-                date: context.date,
                 events: context.filteredEvents,
                 reminders: context.filteredReminders,
-                bond: view.bound
+                binding: view.bound
             )
             .padding(.bottom, 12)
             ForEach(context.combinedItems.filter(view.filter), id: \.calendarItemIdentifier) { item in

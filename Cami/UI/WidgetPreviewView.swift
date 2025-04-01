@@ -7,18 +7,19 @@
 
 import AppIntents
 import SwiftUI
+import OSLog
 
 struct WidgetPreviewView: View {
     @State private var arePreviewSettingsOpen: Bool = false
     @State private var entry: StandardWidgetEntry?
-
+    
     private let radius = 0.13333 * 170
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
             if let entry {
                 let configuration = entry.configuration
-
+                
                 DisclosureGroup {
                     CustomBordered(backgroundStyle: Color.primary.tertiary, outline: true) {
                         VStack(spacing: 8) {
@@ -57,7 +58,7 @@ struct WidgetPreviewView: View {
                     Text(String(localized: "view.widgetSettings.previewSection.title"))
                 }
                 .disclosureGroupStyle(CustomDisclosureGroupStyle(track: $arePreviewSettingsOpen))
-
+                
                 ForEach(WidgetSize.allCases) { widgetSize in
                     CustomSection {
                         Text(widgetSize.custom.description)
@@ -93,9 +94,7 @@ struct WidgetBoolSetting: View {
     }
 }
 
-struct WidgetEnumSetting<Parameter>: View
-    where Parameter: AppEnum & LocalizedIntent & RawRepresentable<String>
-{
+struct WidgetEnumSetting<Parameter: WidgetEnumParameter>: View {
     @Binding var parameter: Parameter
     var body: some View {
         HStack {
@@ -108,59 +107,14 @@ struct WidgetEnumSetting<Parameter>: View
     }
 }
 
-struct WidgetConfigurationEnum<Parameter>: View
-    where Parameter: AppEnum & LocalizedIntent & RawRepresentable<String>
-{
-    @Binding var parameter: Parameter
+struct WidgetConfigurationEnum<Parameter: WidgetEnumParameter>: View {
+
+    @Binding private(set) var parameter: Parameter
+
     var body: some View {
         Picker(Parameter.localizedTitle, selection: $parameter) {
-            ForEach(Array(Parameter.allCases), id: \.rawValue) { (option: Parameter) in
-                Text(option.rawValue).tag(option)
-            }
-        }
-    }
-}
-
-struct CustomDisclosureGroupStyle: DisclosureGroupStyle {
-    @Binding private(set) var track: Bool
-
-    init(track state: Binding<Bool>? = nil) {
-        _track = state ?? .constant(false)
-    }
-
-    func makeBody(configuration: Configuration) -> some View {
-        CustomSection {
-            Button {
-                configuration.isExpanded.toggle()
-            } label: {
-                HStack {
-                    configuration.label
-                    Spacer()
-                    Label("Toggle", systemImage: configuration.isExpanded ? "chevron.up" : "chevron.down")
-                        .labelStyle(.iconOnly)
-                        .font(.headline)
-                }
-                .contentShape(.rect)
-            }.buttonStyle(.plain)
-        } content: {
-            VStack(alignment: .leading, spacing: 0) {
-                configuration.content
-                    .frame(alignment: .top)
-                    .clipped()
-            }
-            .frame(maxWidth: .infinity)
-            .fixedSize(horizontal: false, vertical: true)
-            .frame(maxHeight: configuration.isExpanded ? .infinity : 0, alignment: .top)
-            .opacity(configuration.isExpanded ? 1 : 0)
-        }
-        .padding(.bottom, configuration.isExpanded ? 0 : -16)
-        .animation(.default, value: configuration.isExpanded)
-        .onAppear {
-            track = configuration.isExpanded
-        }
-        .onChange(of: configuration.isExpanded) { _, newValue in
-            if track != newValue {
-                track = newValue
+            ForEach(Parameter.allCases, id: \.rawValue) { value in
+                Text("\(value.rawValue)").tag(value)
             }
         }
     }

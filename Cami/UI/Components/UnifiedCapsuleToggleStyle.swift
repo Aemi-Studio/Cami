@@ -15,54 +15,55 @@ struct UnifiedCapsuleToggleStyle: ToggleStyle {
         Button {
             configuration.isOn.toggle()
         } label: {
-            HStack(spacing: 6) {
+            HStack(alignment: .center, spacing: 6) {
                 textCount(isOn: configuration.isOn)
-                    .id(configuration.isOn)
                     .transition(.blurReplace.combined(with: .opacity).combined(with: .scale))
 
                 configuration.label
                     .labelStyle(.titleOnly)
-                    .foregroundStyle(Color.primary)
-                    .fontWeight(.medium)
+                    .foregroundStyle(configuration.isOn ? Color.background : Color.primary )
+                    .fontWeight(.semibold)
                     .fontDesign(.rounded)
+                    .frame(alignment: .center)
             }
             .foregroundStyle(.secondary)
-            .padding(.leading, configuration.isOn && (count != nil && count! > 1) ? 6 : 10)
+            .padding(.leading, configuration.isOn && (count != nil && count! > 0) ? 5 : 11)
             .padding(.trailing, 10)
-            .frame(height: size)
+            .frame(height: size, alignment: .center)
         }
         .buttonStyle(CapsuleGlassButtonStyle(
-            color: configuration.isOn ? Color.accentColor : Color.primary,
-            intensity: configuration.isOn ? 0.4 : 0.1
+            color: Color.primary,
+            intensity: configuration.isOn ? 0.8 : 0.1
         ))
         .animation(.default, value: configuration.isOn)
     }
 
     @ScaledMetric private var size: CGFloat = 30
-    @ScaledMetric private var innerSize: CGFloat = 18
+    @ScaledMetric private var innerSize: CGFloat = 20
 
+    func getShape(_ shouldBeCapsule: Bool) -> some View {
+        GlassStyle(
+            shouldBeCapsule ? AnyShape(.capsule) : AnyShape(.circle),
+            color: Color.background,
+            intensity: 0.9
+        )
+    }
+    
     @ViewBuilder func textCount(isOn: Bool) -> some View {
         if let count, count > 0, isOn {
-            Text(count, format: .number)
-                .foregroundStyle(.clear)
-                .fontWeight(.bold)
-                .fontDesign(.rounded)
-                .font(.footnote)
+            let characterCount = count.description.count
+            let hasSeveralCharacters = characterCount > 1
+            getShape(hasSeveralCharacters)
                 .frame(height: innerSize)
                 .frame(minWidth: innerSize)
-                .background(isOn ? Color.white : .clear)
-                .clipShape("\(count)".count == 1 || !isOn ? AnyShape(.circle) : AnyShape(.capsule))
-                .overlay {
-                    if isOn {
-                        Text(count, format: .number)
-                            .foregroundStyle(Color.primary)
-                            .fontWeight(.bold)
-                            .fontDesign(.rounded)
-                            .font(.footnote)
-                            .blendMode(.destinationOut)
-                    }
+                .frame(width: hasSeveralCharacters ? (CGFloat(characterCount) * innerSize * 0.5) + 8 : nil)
+                .overlay(alignment: .center) {
+                    Text(count, format: .number)
+                        .foregroundStyle(Color.primary.opacity(0.8))
+                        .fontWeight(.bold)
+                        .fontDesign(.rounded)
+                        .font(.footnote)
                 }
-                .compositingGroup()
         }
     }
 }
