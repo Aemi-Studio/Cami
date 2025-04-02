@@ -236,6 +236,9 @@
     "Create event or reminder" : {
 
     },
+    "create.%@" : {
+
+    },
     "Date" : {
 
     },
@@ -771,6 +774,9 @@
 
     },
     "Review how Cami handles your data." : {
+
+    },
+    "Save" : {
 
     },
     "Settings" : {

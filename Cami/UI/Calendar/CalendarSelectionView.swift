@@ -31,25 +31,24 @@ struct CalendarSelectionView: View {
     }
 
     var body: some View {
-        ScrollView {
+        ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(calendarsAsDict.keys.sorted(), id: \.self) { source in
                     if let calendars = calendarsAsDict[source] {
-                        Section {
+                        CustomSection {
+                            Text(source)
+                        } content: {
                             ForEach(calendars, id: \.calendarIdentifier) { calendar in
                                 CalendarToggleButton(calendar: calendar)
                             }
-                        } header: {
-                            Text(source)
-                                .font(.subheadline)
-                                .foregroundStyle(.foreground.secondary)
                         }
                     }
                 }
             }
+            .padding()
         }
-        .safeAreaPadding(.top)
-        .padding()
+        .navigationTitle(CalendarItem.Kind.event.listPluralDescription)
+        .navigationBarTitleDisplayMode(.automatic)
     }
 }
 

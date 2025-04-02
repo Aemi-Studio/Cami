@@ -17,48 +17,28 @@ struct CreateCalendarItemView: View {
     init() {
         self.event = DataContext.shared.createEvent()
     }
-    @State private var selectedTab = 0
+    
     var body: some View {
-        TabView(selection: $selectedTab) {
-            EventCreationView()
-                .tabItem {
-                    Image(systemName: "calendar.badge.plus")
-                    Text("Event")
+        EventCreationView()
+            .navigationTitle(String(localized: "create.\(CalendarItem.Kind.event.description)"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItemGroup(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
                 }
-                .tag(0)
-            
-            ReminderCreationView()
-                .tabItem {
-                    Image(systemName: "list.bullet")
-                    Text("Reminder")
+                ToolbarItemGroup(placement: .confirmationAction) {
+                    Button("Save") {
+                        if let data,
+                           (try? data.createReminder(title: "")) != nil
+                        {
+                            dismiss()
+                        }
+                    }
+                    .disabled(true)
                 }
-                .tag(1)
-            
-            ReminderDetailsView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Details")
-                }
-                .tag(2)
-        }
-//        .toolbar {
-//            ToolbarItemGroup(placement: .cancellationAction) {
-//                Button("Cancel") {
-//                    dismiss()
-//                }
-//            }
-//            ToolbarItemGroup(placement: .confirmationAction) {
-//                Button("Save") {
-//                    if readyToSave,
-//                       let data,
-//                       (try? data.createReminder(title: title)) != nil
-//                    {
-//                        dismiss()
-//                    }
-//                }
-//                .disabled(!readyToSave)
-//            }
-//        }
+            }
     }
 }
 

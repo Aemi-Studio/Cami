@@ -11,6 +11,8 @@ import SwiftUI
 @Observable
 final class ModalSheetContext {
     static let shared = ModalSheetContext()
+    
+    private(set) var presentationDetent: PresentationDetent? = nil
 
     func open(modal: MenuPane) {
         if menu != .none {
@@ -31,7 +33,17 @@ final class ModalSheetContext {
         menu = .none
     }
 
-    var menu: MenuPane = .none
+    var menu: MenuPane = .none {
+        didSet {
+            if menu == .none {
+                presentationDetent = nil
+            }
+        }
+    }
+    
+    func updateDetent(_ detent: PresentationDetent) {
+        presentationDetent = detent
+    }
 }
 
 enum MenuPane: Equatable {

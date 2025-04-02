@@ -25,5 +25,6 @@ struct CalendarToggleButton: View {
                 .foregroundStyle(.foreground)
         }
         .toggleStyle(.nativeCheckbox(placement: .trailing))
+        .tint(Color(calendar.cgColor))
     }
 }

@@ -45,6 +45,7 @@ struct CustomModal<Content>: View where Content: View {
             .ignoresSafeArea(.all)
 
             content()
+                .scrollClipDisabled()
                 .environment(\.viewKind, .sheet)
                 .safeAreaPadding(.bottom)
 
@@ -61,7 +62,7 @@ struct CustomModal<Content>: View where Content: View {
         .ignoresSafeArea(.all)
         .presentationBackground(.clear)
         .presentationDetents(presentationDetents, selection: $selectedDetent)
-        .onDisappear { selectedDetent = .medium }
+        .onChange(of: selectedDetent) { _, newValue in ModalSheetContext.shared.updateDetent(newValue) }
         .colorScheme(.dark)
     }
 
