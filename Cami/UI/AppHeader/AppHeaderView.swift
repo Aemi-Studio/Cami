@@ -20,30 +20,23 @@ struct AppHeaderView: View {
     }
 
     var body: some View {
-        ZStack {
-            VariableBlurView(
-                maxBlurRadius: presentation.topBlurRadius,
-                direction: .blurredTopClearBottom
-            )
-            .frame(height: presentation.safeScaledTopBarHeight)
-
-            TopBar(height: presentation.scaledTopBarHeight) {
-                todaysDate
-            } trailing: {
-                Button("Create a calendar item", systemImage: "plus") {
-                    openModal?(.new())
-                }
-                Button("Settings", systemImage: "gear") {
-                    openModal?(.settings)
-                }
-                .contextMenu {
-                    Button("Refresh", systemImage: "arrow.clockwise") {
-                        WidgetCenter.shared.reloadAllTimelines()
-                    }
+        TopBar(height: presentation.scaledTopBarHeight) {
+            todaysDate
+        } trailing: {
+            Button("Create a calendar item", systemImage: "plus") {
+                openModal?(.new())
+            }
+            Button("Settings", systemImage: "gear") {
+                openModal?(.settings)
+            }
+            .contextMenu {
+                Button("Refresh", systemImage: "arrow.clockwise") {
+                    WidgetCenter.shared.reloadAllTimelines()
                 }
             }
-            .safeAreaPadding(.top, topSafeAreaHeight)
         }
+        .safeAreaPadding(.top, topSafeAreaHeight)
+        .blurryEdge(edge: .top, height: presentation.safeScaledTopBarHeight, radius: presentation.topBlurRadius)
     }
 
     private func formattedToday(day: String, date: String) -> some View {

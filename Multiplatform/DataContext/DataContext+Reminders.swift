@@ -56,6 +56,13 @@ extension DataContext {
 }
 
 extension DataContext {
+    
+    func createEvent() -> EKEvent {
+        EKEvent(eventStore: eventStore)
+    }
+}
+
+extension DataContext {
     func createReminder(
         title: String,
         date: Date? = nil,

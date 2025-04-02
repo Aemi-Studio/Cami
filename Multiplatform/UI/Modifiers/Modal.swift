@@ -12,6 +12,7 @@ extension View {
     func modal(
         isPresented condition: Binding<Bool>,
         presentationDetents: Set<PresentationDetent> = [.medium, .large],
+        navigationType: NavigationType = .navigationStack,
         onDismiss: @escaping () -> Void = {},
         @ViewBuilder content: @escaping () -> some View
     ) -> some View {
@@ -19,6 +20,7 @@ extension View {
             AppModalBlueprint(
                 condition: condition,
                 presentationDetents: presentationDetents,
+                navigationtype: navigationType,
                 onDismiss: onDismiss,
                 modalContent: content
             )
@@ -31,7 +33,8 @@ struct AppModalBlueprint<ModalContent>: ViewModifier where ModalContent: View {
 
     @Binding private(set) var condition: Bool
     private(set) var presentationDetents: Set<PresentationDetent> = [.medium, .large]
-    private(set) var onDismiss: () -> Void = {}
+    private(set) var navigationtype: NavigationType = .navigationStack
+    private(set) var onDismiss: () -> Void = { ModalSheetContext.shared.close() }
     @ViewBuilder let modalContent: () -> ModalContent
 
     func body(content: Content) -> some View {
@@ -39,7 +42,7 @@ struct AppModalBlueprint<ModalContent>: ViewModifier where ModalContent: View {
             .sheet(isPresented: $condition, onDismiss: onDismiss) {
                 CustomModal(
                     presentationDetents: presentationDetents,
-                    navigationType: .navigationStack,
+                    navigationType: navigationtype,
                     content: modalContent
                 )
                 .colorScheme(.dark)

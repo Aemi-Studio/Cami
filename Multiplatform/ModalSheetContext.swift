@@ -38,6 +38,7 @@ enum MenuPane: Equatable {
     case settings
     case widgets
     case permissions
+    case selection(kind: CalendarItem.Kind)
     case new(item: EKCalendarItem? = nil)
     case none
 
@@ -61,11 +62,13 @@ enum MenuPane: Equatable {
     var description: String {
         switch self {
             case .settings:
-                return "Settings"
+                return String(localized: "modal.settings.title")
             case .widgets:
-                return "Widgets"
+                return String(localized: "modal.widgets.title")
             case .permissions:
-                return "Permissions"
+                return String(localized: "modal.permissions.title")
+            case .selection(let kind):
+                return kind.listPluralDescription
             case let .new(item):
                 var start = "New"
                 switch item {
@@ -97,6 +100,12 @@ enum MenuPane: Equatable {
             case .new: CreateCalendarItemView.init
             case .widgets: WidgetPreviewView.init
             case .permissions: PermissionsView.init
+            case .selection(let kind):
+                switch kind {
+                    case .event: CalendarSelectionView.init
+                    case .reminder: CalendarSelectionView.init
+                    case .streak: CalendarSelectionView.init
+                }
             case .none: nil
         }
     }

@@ -14,6 +14,7 @@ extension DataContext {
             switch item.kind {
                 case .event: goesToEvent(for: item)
                 case .reminder: goesToReminder(for: item)
+                case .streak: Optional<URL>.none
             }
         return url ?? URL(filePath: "")
     }

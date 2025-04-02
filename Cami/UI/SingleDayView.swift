@@ -46,6 +46,8 @@ final class DayViewModel: Loggable {
 
 struct SingleDayView: View {
     typealias Model = DayViewModel
+    
+    @Environment(\.presentation) private var presentation
 
     let context: SingleDayContext
 
@@ -54,11 +56,12 @@ struct SingleDayView: View {
     var body: some View {
         VStack(spacing: 8) {
             DaySummary(
+                model: $view,
                 events: context.filteredEvents,
-                reminders: context.filteredReminders,
-                binding: view.bound
+                reminders: context.filteredReminders
             )
-            .padding(.bottom, 12)
+            .padding(.bottom, 18)
+            
             ForEach(context.combinedItems.filter(view.filter), id: \.calendarItemIdentifier) { item in
                 CalendarItemView(item: item)
                     .id(item.calendarItemIdentifier)

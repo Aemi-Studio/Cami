@@ -15,5 +15,6 @@ struct AppHeaderScalingHint: View {
             .fill(.clear)
             .frame(height: presentation.topBlurHeight)
             .track(visibility: $presentation.scaleFactor)
+            .padding(.bottom, 16)
     }
 }

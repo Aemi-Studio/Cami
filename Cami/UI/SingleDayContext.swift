@@ -14,8 +14,8 @@ final class SingleDayContext {
     let date: Date
     private var context: DataContext { .shared }
 
-    private var reminderFilters: [Filters] = [.dueToday]
-    private var eventFilters: [Filters] = [.happensToday]
+    private(set) var reminderFilters: [Filters] = [.dueToday]
+    private(set) var eventFilters: [Filters] = [.happensToday]
 
     private(set) var events: [EKEvent] = []
     private(set) var reminders: [EKReminder] = []
@@ -23,11 +23,11 @@ final class SingleDayContext {
     private(set) var openReminders: [EKReminder] = []
 
     var filteredEvents: [EKEvent] {
-        events.filter(Filters.any(of: eventFilters).filter)
+        events.filter(Filters.all(of: eventFilters).filter)
     }
 
     var filteredReminders: [EKReminder] {
-        reminders.filter(Filters.any(of: reminderFilters).filter)
+        reminders.filter(Filters.all(of: reminderFilters).filter)
     }
 
     private(set) var combinedItems: [EKCalendarItem] = []

@@ -37,9 +37,9 @@ struct CustomModal<Content>: View where Content: View {
         ZStack {
             GlassStyle(
                 shape,
-                color: .white,
+                color: Color(white: 0.1),
                 lineWidth: 0,
-                intensity: 0.05,
+                intensity: 0.5,
                 radius: 20
             )
             .ignoresSafeArea(.all)

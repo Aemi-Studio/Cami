@@ -9,23 +9,24 @@ import EventKit
 import SwiftUI
 
 struct DaySummary: View {
+    
+    @Binding private(set) var model: DayViewModel
+    
     private(set) var events: [EKEvent]
     private(set) var reminders: [EKReminder]
-
-    private(set) var binding: (CalendarItemType) -> Binding<Bool>
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 SummaryCountView(
-                    title: String(localized: "summary.count.events"),
+                    kind: .event,
                     count: events.count,
-                    binding: binding(.event)
+                    binding: model.bound(to: .event)
                 )
                 SummaryCountView(
-                    title: String(localized: "summary.count.reminders"),
+                    kind: .reminder,
                     count: reminders.count,
-                    binding: binding(.reminder)
+                    binding: model.bound(to: .reminder)
                 )
             }
             .frame(maxWidth: .infinity, alignment: .leading)

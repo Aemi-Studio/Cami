@@ -16,24 +16,29 @@ struct ContentView: View {
 
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
     private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
+    
+    var fadeHeight: CGFloat? {
+        UIApplication.currentWindow?.safeAreaInsets.bottom
+    }
 
     var body: some View {
         if let state {
             NavigationStack {
-                ZStack(alignment: .top) {
+                ZStack {
                     ScrollView(.vertical) {
-                        VStack(spacing: 16) {
-                            VStack(spacing: 0) {
-                                AppHeaderScalingHint()
-                                OnboardingView()
-                            }
-                            SingleDayView(context: state.dayContext)
+                        VStack(spacing: 0) {
+                            AppHeaderScalingHint()
+                            OnboardingView()
+                            
+                            @Bindable var context = state.dayContext
+                            SingleDayView(context: context)
                         }
                         .padding(.horizontal)
-                        .padding(.bottom, presentation.bottomBarSize?.height)
                     }
+                    .safeAreaPadding(.bottom, fadeHeight)
                     .scrollClipDisabled()
-                    .headerUnderlyingMask()
+                    .fadeMask()
+                    .blurryEdge(edge: .bottom, position: .above, height: fadeHeight, radius: 5)
 
                     AppHeaderView(date: state.date)
                 }

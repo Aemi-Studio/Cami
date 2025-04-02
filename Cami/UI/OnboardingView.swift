@@ -24,46 +24,53 @@ struct OnboardingView: View {
         permissions.global == .restricted
     }
 
+    private var maxHeight: CGFloat? {
+        hasDismissedOnboarding ? 0 : nil
+    }
+    
     var body: some View {
         VStack {
-            if !hasDismissedOnboarding {
-                content
-                    .frame(maxHeight: hasDismissedOnboarding ? 0 : nil)
-                    .transition(
-                        .asymmetric(
-                            insertion: .push(from: .top),
-                            removal: .move(edge: .top)
-                        )
-                        .combined(with: .opacity)
-                    )
-            }
+            content
         }
-        .padding(.top, hasDismissedOnboarding ? 0 : 16)
         .animation(.default, value: hasDismissedOnboarding)
     }
 
-    @ViewBuilder var content: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            header
-        }
-        .overlay(alignment: .topTrailing) {
-            if authorized {
-                Button(
-                    String(localized: "onboarding.dismissButton.label"),
-                    systemImage: "xmark"
-                ) {
-                    hasDismissedOnboarding = true
-                }
-                .labelStyle(.iconOnly)
-                .font(.title3)
-                .foregroundStyle(Color.primary.tertiary)
-                .fontWeight(.medium)
-                .padding()
+    @ViewBuilder private var content: some View {
+        if !hasDismissedOnboarding {
+            VStack(alignment: .leading, spacing: 16) {
+                header
             }
+            .overlay(alignment: .topTrailing) {
+                if authorized {
+                    Button(
+                        String(localized: "onboarding.dismissButton.label"),
+                        systemImage: "xmark"
+                    ) {
+                        withAnimation {
+                            hasDismissedOnboarding = true
+                        }
+                    }
+                    .labelStyle(.iconOnly)
+                    .font(.title3)
+                    .foregroundStyle(Color.primary.tertiary)
+                    .fontWeight(.medium)
+                    .padding()
+                    .contentShape(.rect)
+                }
+            }
+            .padding(.bottom, 26)
+            .frame(maxHeight: maxHeight)
+            .transition(
+                .asymmetric(
+                    insertion: .push(from: .top),
+                    removal: .move(edge: .top)
+                )
+                .combined(with: .opacity)
+            )
         }
     }
 
-    var title: some View {
+    private var title: some View {
         VStack {
             Text(String(localized: "onboarding.titlePrefix"))
                 .font(.title)
@@ -78,7 +85,7 @@ struct OnboardingView: View {
         Text(String(localized: "onboarding.description"))
     }
 
-    var header: some View {
+    private var header: some View {
         VStack(alignment: .center, spacing: 32) {
             hero
             if !authorized {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AppHeaderUnderlyingMask: View {
+struct AppFadeMask: View {
     @Environment(\.presentation) private var presentation
     var body: some View {
         VStack(spacing: 0) {
@@ -15,14 +15,16 @@ struct AppHeaderUnderlyingMask: View {
                 .frame(height: presentation.safeScaledTopBarHeight)
             Rectangle()
                 .fill(.black)
+            LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom)
+                .frame(height: UIApplication.currentWindow?.safeAreaInsets.bottom)
         }
     }
 }
 
 extension View {
-    func headerUnderlyingMask() -> some View {
+    func fadeMask() -> some View {
         mask {
-            AppHeaderUnderlyingMask()
+            AppFadeMask()
         }
     }
 }

@@ -37,6 +37,7 @@ struct CustomBordered<Content: View>: View {
                 content
             }
         }
+        .sensoryFeedback(.impact(flexibility: .solid), trigger: isPressed)
     }
 
     @ViewBuilder private func withButtonStyle(@ViewBuilder content: @escaping () -> some View) -> some View {

@@ -37,12 +37,14 @@ struct CalendarItem {
     public enum CalendarItemKind: Int, Hashable, CaseIterable {
         case event
         case reminder
+        case streak
     }
 
     var boundStart: Date! {
         switch kind {
             case .event: start
             case .reminder: due
+            case .streak: start
         }
     }
 
@@ -221,6 +223,65 @@ extension [Date: [CalendarItem]] {
             self.updateValue(list, forKey: date)
         } else {
             self[date] = [item]
+        }
+    }
+}
+
+
+extension CalendarItem.CalendarItemKind: CustomStringConvertible {
+    
+    var description: String {
+        switch self {
+            case .event:
+                String(localized: "calendarItem.kind.event")
+            case .reminder:
+                String(localized: "calendarItem.kind.reminder")
+            case .streak:
+                String(localized: "calendarItem.kind.streak")
+        }
+    }
+    
+    var pluralDescription: String {
+        switch self {
+            case .event:
+                String(localized: "calendarItem.kind.event.plural")
+            case .reminder:
+                String(localized: "calendarItem.kind.reminder.plural")
+            case .streak:
+                String(localized: "calendarItem.kind.streak.plural")
+        }
+    }
+    
+    var listDescription: String {
+        switch self {
+            case .event:
+                String(localized: "calendarItem.kind.event.list")
+            case .reminder:
+                String(localized: "calendarItem.kind.reminder.list")
+            case .streak:
+                String(localized: "calendarItem.kind.streak.list")
+        }
+    }
+    
+    var listPluralDescription: String {
+        switch self {
+            case .event:
+                String(localized: "calendarItem.kind.event.list.plural")
+            case .reminder:
+                String(localized: "calendarItem.kind.reminder.list.plural")
+            case .streak:
+                String(localized: "calendarItem.kind.streak.list.plural")
+        }
+    }
+    
+    var listSystemImage: String {
+        switch self {
+            case .event:
+                "calendar"
+            case .reminder:
+                "checklist"
+            case .streak:
+                "circle.grid.2x1.left.filled"
         }
     }
 }

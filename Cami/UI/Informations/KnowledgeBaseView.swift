@@ -24,7 +24,7 @@ struct KnowledgeBaseView: View {
                             KnowledgeBaseItemView(item: result)
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 18)
                 }
                 .scrollDismissesKeyboard(.immediately)
             }

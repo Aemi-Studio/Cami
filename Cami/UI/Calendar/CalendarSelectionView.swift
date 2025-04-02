@@ -9,9 +9,10 @@ import EventKit
 import SwiftUI
 
 struct CalendarSelectionView: View {
-    @Environment(\.views) private var views: UIContext!
+    @Environment(\.appState) private var state
     @Environment(\.data) private var data
-
+    
+    
     private var calendars: [EKCalendar] {
         data?.calendars ?? []
     }

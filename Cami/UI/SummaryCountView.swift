@@ -8,14 +8,28 @@
 import SwiftUI
 
 struct SummaryCountView: View {
-    private(set) var title: String
+    @Environment(\.openModal) private var openModal
+    
+    private(set) var kind: CalendarItem.Kind
     private(set) var count: Int
     @Binding private(set) var binding: Bool
 
     var body: some View {
+        toggle
+            .contextMenu { contextMenu }
+    }
+    
+    private var toggle: some View {
         Toggle(isOn: $binding) {
-            Text(title)
+            Text(count == 1 ? kind.description : kind.pluralDescription)
         }
         .toggleStyle(.unifiedCapsule(count: count))
     }
+    
+    private var contextMenu: some View {
+        Button(kind.listPluralDescription, systemImage: kind.listSystemImage) {
+            openModal?(.selection(kind: kind))
+        }
+    }
+    
 }

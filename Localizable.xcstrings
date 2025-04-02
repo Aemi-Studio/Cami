@@ -29,6 +29,12 @@
     "+%lld" : {
 
     },
+    "23:00" : {
+
+    },
+    "Add" : {
+
+    },
     "All-Day Events Style" : {
 
     },
@@ -77,6 +83,126 @@
     "Calendar" : {
 
     },
+    "calendarItem.kind.event" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.event.list" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.event.list.plural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendars"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.event.plural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Events"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.reminder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.reminder.list" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.reminder.list.plural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lists"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.reminder.plural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.streak" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streak"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.streak.list" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streak List"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.streak.list.plural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streak Lists"
+          }
+        }
+      }
+    },
+    "calendarItem.kind.streak.plural" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streaks"
+          }
+        }
+      }
+    },
     "Calendars" : {
 
     },
@@ -105,9 +231,6 @@
 
     },
     "Create a calendar item" : {
-
-    },
-    "Create a Reminder" : {
 
     },
     "Create event or reminder" : {
@@ -348,13 +471,51 @@
         }
       }
     },
+    "List" : {
+
+    },
     "Location" : {
+
+    },
+    "Mail" : {
 
     },
     "Mix Events & Reminders" : {
 
     },
+    "modal.permissions.title" : {
+
+    },
+    "modal.settings.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "modal.widgets.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets"
+          }
+        }
+      }
+    },
     "More informations" : {
+
+    },
+    "Never" : {
+
+    },
+    "New" : {
+
+    },
+    "New Reminder" : {
 
     },
     "noEventToday.complication" : {
@@ -366,6 +527,12 @@
           }
         }
       }
+    },
+    "None" : {
+
+    },
+    "Notes" : {
+
     },
     "onboarding.action.description" : {
       "localizations" : {
@@ -486,9 +653,6 @@
     "Overdue" : {
 
     },
-    "Permissions" : {
-
-    },
     "permissions.callToAction.next" : {
       "localizations" : {
         "en" : {
@@ -579,6 +743,9 @@
         }
       }
     },
+    "Priority" : {
+
+    },
     "Privacy Policy" : {
 
     },
@@ -588,16 +755,22 @@
     "Remaining Time: %@" : {
 
     },
+    "Reminder" : {
+
+    },
     "Reminder Completion" : {
 
     },
     "Reminder Identifier" : {
 
     },
-    "Review how Cami handles your data." : {
+    "Reminders" : {
 
     },
-    "Save" : {
+    "Repeat" : {
+
+    },
+    "Review how Cami handles your data." : {
 
     },
     "Settings" : {
@@ -692,26 +865,6 @@
     "Summary" : {
 
     },
-    "summary.count.events" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Events"
-          }
-        }
-      }
-    },
-    "summary.count.reminders" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reminders"
-          }
-        }
-      }
-    },
     "The next birthday is in %@. It will be %@'s birthday." : {
       "localizations" : {
         "en" : {
@@ -731,7 +884,13 @@
     "This event starts at %@." : {
 
     },
+    "Time" : {
+
+    },
     "Title" : {
+
+    },
+    "Today" : {
 
     },
     "Today have %@ as first all-day events." : {
