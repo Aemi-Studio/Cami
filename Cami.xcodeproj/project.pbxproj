@@ -357,7 +357,8 @@
 /* Begin PBXShellScriptBuildPhase section */
 		4636F2792D98C9E9008C961D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			alwaysOutOfDate = 1;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -368,9 +369,9 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftFormat has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\n\nif [[ -e /opt/homebrew/bin/periphery ]]; then\n    /opt/homebrew/bin/periphery scan --skip-build --index-store-path \"$BUILD_DIR/../../Index.noindex/DataStore\" --project Cami.xcodeproj --schemes Cami --format xcode\nelse\n    echo \"warning:Periphery has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
+			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftFormat has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
 		};
 		4636F27A2D98CF62008C961D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

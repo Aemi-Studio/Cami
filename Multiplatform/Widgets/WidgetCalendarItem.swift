@@ -22,22 +22,15 @@ struct WidgetCalendarItem {
         case event = 0
         case reminder = 1
         case birthday = 2
+        case streak = 3
     }
 
     var boundStart: Date {
         startDate ?? endDate ?? .distantPast
     }
 
-    var boundEnd: Date {
-        endDate ?? startDate ?? .distantPast
-    }
-
     var isStartingToday: Bool {
         boundStart.isToday
-    }
-
-    var isEndingToday: Bool {
-        boundEnd.isToday
     }
 }
 
@@ -71,7 +64,7 @@ extension WidgetCalendarItem {
         case .reminder:
             self.kind = .reminder
         case .streak:
-            self.kind = .event
+            self.kind = .streak
         }
 
         let colorComponents = calendarItem.color?.components ?? [0, 0, 0, 1]
@@ -93,7 +86,7 @@ extension Collection<WidgetCalendarItem> {
         })
     }
 
-    func mappedToDate(relativeTo date: Date) -> [Date: [Element]] {
+    func mappedToDate(relativeTo _: Date) -> [Date: [Element]] {
         var itemsDictionary = [Date: [Element]]()
         let calendar = Calendar.current
 

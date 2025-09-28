@@ -17,7 +17,6 @@ final class LightweightWidgetContent: Loggable {
 
     private static let widgetDataService = WidgetDataService()
 
-    let date: Date
     let configuration: Configuration
 
     private let normalCalendars: Set<Calendar>
@@ -101,7 +100,6 @@ final class LightweightWidgetContent: Loggable {
     }
 
     init(from entry: Entry) {
-        self.date = entry.date
         self.configuration = entry.configuration
 
         self.normalCalendars = Set(entry.calendars)

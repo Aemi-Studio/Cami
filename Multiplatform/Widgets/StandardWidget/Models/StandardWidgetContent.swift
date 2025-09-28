@@ -7,15 +7,11 @@ final class StandardWidgetContent: Loggable {
     typealias Calendar = String
     typealias Entry = StandardWidgetEntry
     typealias Configuration = StandardWidgetConfiguration
-    typealias Filter = (EKCalendarItem) -> Bool
-
-    private static let filter: Filter = Filters.all(of: [Filters.due(), Filters.dueLater, Filters.open]).filter
     private static let widgetDataService = WidgetDataService()
 
     let date: Date
     let configuration: Configuration
 
-    private let allCalendars: any Collection<Calendar>
     private let inlineCalendars: any Collection<Calendar>
     private let normalCalendars: any Collection<Calendar>
 
@@ -153,7 +149,6 @@ final class StandardWidgetContent: Loggable {
 
         self.normalCalendars = calendars.normal
         self.inlineCalendars = calendars.inline
-        self.allCalendars = calendars.all
     }
 }
 
