@@ -22,8 +22,13 @@ struct CamiWidgetHeaderBirthdays: View {
         content.date
     }
 
-    private var birthdays: [CalendarItem] {
-        content.birthdays.filter { $0.contactIdentifier != nil }.compactMap(\.self)
+    private var birthdayViewModel: BirthdayViewModel? {
+        guard let data else { return nil }
+        return BirthdayViewModel(
+            birthdays: content.birthdays,
+            referenceDate: referenceDate,
+            dataContext: data
+        )
     }
 
     private var isSmall: Bool {
@@ -35,100 +40,66 @@ struct CamiWidgetHeaderBirthdays: View {
             ?? .init(red: 1, green: 0, blue: 0, alpha: 1)
     )
 
-    private var todayBirthdayEvent: CalendarItem? {
-        birthdays.first(where: \.isEndingToday)
-    }
-
-    private var nextBirthdays: (Int, [String]) {
-        if let data, !birthdays.isEmpty {
-            guard let firstBirthday = birthdays.first else {
-                return (0, [])
-            }
-
-            var peopleBirthdays: [String] = birthdays.filter { event in
-                event.isSameDay(as: firstBirthday) && event != firstBirthday
-            }.compactMap { event in
-                if let contact = event.contactIdentifier {
-                    data.resolveContactName(contact)
-                } else {
-                    nil
-                }
-            }
-
-            peopleBirthdays.insert(data.resolveContactName(firstBirthday.contactIdentifier!), at: 0)
-
-            return (
-                Int(firstBirthday.boundEnd.zero - referenceDate.zero),
-                peopleBirthdays
-            )
-        } else {
-            return (0, [])
-        }
-    }
-
     var body: some View {
-        if let data {
-            if let today = todayBirthdayEvent {
-                birthdays(today, data: data)
+        if let viewModel = birthdayViewModel {
+            if let todayEvent = viewModel.todayBirthdayEvent {
+                birthdayView(for: todayEvent, viewModel: viewModel, isToday: true)
                     .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
-            } else if !birthdays.isEmpty, !nextBirthdays.1.isEmpty, let firstBirthday = birthdays.first {
-                birthdays(firstBirthday, data: data)
+            } else if !viewModel.validBirthdays.isEmpty,
+                     !viewModel.nextBirthdaysInfo.names.isEmpty,
+                     let firstBirthday = viewModel.validBirthdays.first {
+                birthdayView(for: firstBirthday, viewModel: viewModel, isToday: false)
                     .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
             }
         }
     }
 
     @ViewBuilder
-    func birthdays(_ event: CalendarItem, data: DataContext) -> some View {
-        Link(destination: data.destination(for: event)) {
+    func birthdayView(for event: CalendarItem, viewModel: BirthdayViewModel, isToday: Bool) -> some View {
+        Link(destination: viewModel.dataContext.destination(for: event)) {
             HStack(alignment: .center, spacing: 4) {
-                if todayBirthdayEvent != nil {
-                    forTodaysBirthday(data)
+                if isToday {
+                    todaysBirthdayContent(event: event, viewModel: viewModel)
                 } else {
-                    forFutureBirthdays()
+                    futureBirthdaysContent(viewModel: viewModel)
                 }
             }
         }
     }
 
-    @ViewBuilder
-    private func forTodaysBirthday(_ data: DataContext) -> some View {
-        let name = data.resolveContactName(
-            todayBirthdayEvent!.contactIdentifier!
-        )
+    private func todaysBirthdayContent(event: CalendarItem, viewModel: BirthdayViewModel) -> some View {
+        viewModel.birthdayInfo(for: event).map { info in
+            Group {
+                HStack(spacing: 0) {
+                    if !isSmall {
+                        Text("\(info.age)")
+                    }
 
-        let age = data.resolveBirthdate(
-            todayBirthdayEvent!.contactIdentifier!
-        )!.yearsAgo
+                    Label("\(info.age) years old", systemImage: "birthday.cake.fill")
+                        .labelStyle(.iconOnly)
+                        .font(.caption2)
+                        .scaleEffect(0.8)
+                        .lineSpacing(0)
+                }
+                .miniBadge(color: bCalColor)
 
-        Group {
-            HStack(spacing: 0) {
                 if !isSmall {
-                    Text("\(age)")
+                    Text("\(info.name)")
                 }
-
-                Label("\(age) years old", systemImage: "birthday.cake.fill")
-                    .labelStyle(.iconOnly)
-                    .font(.caption2)
-                    .scaleEffect(0.8)
-                    .lineSpacing(0)
             }
-            .miniBadge(color: bCalColor)
-
-            if !isSmall {
-                Text("\(name)")
-            }
+            .accessibilityLabel(
+                "It is \(info.name)'s birthday today. \(info.name) is now \(info.age) years old"
+            )
         }
-        .accessibilityLabel(
-            "It is \(name)'s birthday today. \(name) is now \(age) years old"
-        )
     }
 
     @ViewBuilder
-    private func forFutureBirthdays() -> some View {
-        let daysToGo: String = Seconds.formattedDays(from: nextBirthdays.0)
-        if nextBirthdays.1.count > 1 {
-            let birthdaysCount = nextBirthdays.1.count
+    private func futureBirthdaysContent(viewModel: BirthdayViewModel) -> some View {
+        let nextInfo = viewModel.nextBirthdaysInfo
+        let daysToGo: String = Seconds.formattedDays(from: nextInfo.daysUntil)
+
+        if nextInfo.names.count > 1 {
+            let birthdaysCount = nextInfo.names.count
             Group {
                 Text(daysToGo)
                     .miniBadge(color: bCalColor)
@@ -138,18 +109,17 @@ struct CamiWidgetHeaderBirthdays: View {
                 }
             }
             .accessibilityLabel(String(localized: "You have \(birthdaysCount) in \(daysToGo) days."))
-        } else {
-            let people: String = nextBirthdays.1[0]
+        } else if let firstPerson = nextInfo.names.first {
             Group {
                 Text(daysToGo)
                     .miniBadge(color: bCalColor)
 
                 if !isSmall {
-                    Text(people)
+                    Text(firstPerson)
                 }
             }
             .accessibilityLabel(
-                "The next birthday is in \(daysToGo). It will be \(people)'s birthday."
+                "The next birthday is in \(daysToGo). It will be \(firstPerson)'s birthday."
             )
         }
     }

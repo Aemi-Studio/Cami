@@ -54,12 +54,14 @@ final class StandardWidgetContent: Loggable {
         with configuration: Configuration,
         operation: @escaping ([CalendarItem]) -> Void
     ) {
-        if configuration.showReminders {
-            DataContext.shared.reminders(where: filter) { reminders in
-                operation(reminders.compactMap(CalendarItem.init))
-            }
-        } else {
+        guard configuration.showReminders else {
             operation([])
+            return
+        }
+        
+        DataContext.shared.reminders(where: filter) { reminders in
+            let calendarItems = reminders.compactMap(CalendarItem.init)
+            operation(calendarItems)
         }
     }
 
@@ -81,15 +83,20 @@ final class StandardWidgetContent: Loggable {
         let normal = calendars.normal
         let inline = calendars.inline
         let all = calendars.all
+        
+        guard !all.isEmpty else {
+            Self.log.warning("No calendars available for widget")
+            return []
+        }
+        
         let events: [EKEvent] = DataContext.shared.events(
             from: all.asEKCalendars(),
             limit: 20,
             where: { event in
-                if let calendarIdentifier = event.calendar?.calendarIdentifier {
-                    event.isAllDay && inline.contains(calendarIdentifier) || normal.contains(calendarIdentifier)
-                } else {
-                    false
+                guard let calendarIdentifier = event.calendar?.calendarIdentifier else {
+                    return false
                 }
+                return event.isAllDay && inline.contains(calendarIdentifier) || normal.contains(calendarIdentifier)
             },
             relativeTo: entry.date
         )
