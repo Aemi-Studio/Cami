@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,7 @@
 		464F116B2D40797700F73884 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 464F11692D40797700F73884 /* Localizable.xcstrings */; };
 		465159302B7252AB0073544A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4651592F2B7252AB0073544A /* Settings.bundle */; };
 		46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 46A6C1072D46D61F00D3C72B /* AemiUtilities */; };
+		46A906862E89E85E002CD9C8 /* AemiSDR in Frameworks */ = {isa = PBXBuildFile; productRef = 46A906852E89E85E002CD9C8 /* AemiSDR */; };
 		46E0222F2B7A72B7005725B0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E0222E2B7A72B7005725B0 /* Collections */; };
 		46E022312B7A72B7005725B0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022302B7A72B7005725B0 /* DequeModule */; };
 		46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022322B7A72B7005725B0 /* OrderedCollections */; };
@@ -40,14 +41,12 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		465533372AF4EA7B000B537B /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolder = PlugIns;
 			files = (
 				462CB9332D4F52EA00536598 /* CamiWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -161,19 +160,17 @@
 /* Begin PBXFrameworksBuildPhase section */
 		465533062AF4EA69000B537B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
+				46A906862E89E85E002CD9C8 /* AemiSDR in Frameworks */,
 				46283BBA2D484EAE00754580 /* AemiUI in Frameworks */,
 				46E0222F2B7A72B7005725B0 /* Collections in Frameworks */,
 				46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */,
 				46E022312B7A72B7005725B0 /* DequeModule in Frameworks */,
 				46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		46B1605F2B07D87000A44FBF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				460BE8052D7FB24A003862E6 /* AemiUtilities in Frameworks */,
 				464F11662D406FC400F73884 /* SwiftUI.framework in Frameworks */,
@@ -183,7 +180,6 @@
 				460BE8032D7FB22D003862E6 /* AemiUI in Frameworks */,
 				46E022392B7A72BE005725B0 /* OrderedCollections in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -256,6 +252,7 @@
 				46E022322B7A72B7005725B0 /* OrderedCollections */,
 				46A6C1072D46D61F00D3C72B /* AemiUtilities */,
 				46283BB92D484EAE00754580 /* AemiUI */,
+				46A906852E89E85E002CD9C8 /* AemiSDR */,
 			);
 			productName = Cami;
 			productReference = 465533092AF4EA69000B537B /* Cami.app */;
@@ -271,8 +268,6 @@
 				4636F27A2D98CF62008C961D /* ShellScript */,
 			);
 			buildRules = (
-			);
-			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
 				464F11112D406EB800F73884 /* CamiWidget */,
@@ -320,8 +315,9 @@
 				461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
 				46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */,
 				46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */,
+				46A906842E89E85E002CD9C8 /* XCRemoteSwiftPackageReference "AemiSDR" */,
 			);
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 4655330A2AF4EA69000B537B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -335,22 +331,18 @@
 /* Begin PBXResourcesBuildPhase section */
 		465533072AF4EA69000B537B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				461649352B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */,
 				465159302B7252AB0073544A /* Settings.bundle in Resources */,
 				464F116A2D40797700F73884 /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		46B160602B07D87000A44FBF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				461649362B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */,
 				464F116B2D40797700F73884 /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
@@ -358,38 +350,48 @@
 		4636F2792D98C9E9008C961D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 8;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftFormat has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
+			shellScript = (
+				"if [[ -e /opt/homebrew/bin/swiftlint ]]; then",
+				"    /opt/homebrew/bin/swiftlint lint",
+				"else",
+				"    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
+				"fi",
+				"",
+				"if [[ -e /opt/homebrew/bin/swiftformat ]]; then",
+				"    /opt/homebrew/bin/swiftformat --lint",
+				"else",
+				"    echo \"warning:SwiftFormat has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
+				"fi",
+				"",
+			);
 		};
 		4636F27A2D98CF62008C961D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -e /opt/homebrew/bin/swiftlint ]]; then\n    /opt/homebrew/bin/swiftlint lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\nif [[ -e /opt/homebrew/bin/swiftformat ]]; then\n    /opt/homebrew/bin/swiftformat --lint\nelse\n    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n\n\nif [[ -e /opt/homebrew/bin/periphery ]]; then\n    /opt/homebrew/bin/periphery scan --skip-build --index-store-path \"$BUILD_DIR/../../Index.noindex/DataStore\" --project Cami.xcodeproj --schemes CamiWidgetExtension --format xcode\nelse\n    echo \"warning:Periphery has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"\nfi\n";
+			shellScript = (
+				"if [[ -e /opt/homebrew/bin/swiftlint ]]; then",
+				"    /opt/homebrew/bin/swiftlint lint",
+				"else",
+				"    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
+				"fi",
+				"",
+				"if [[ -e /opt/homebrew/bin/swiftformat ]]; then",
+				"    /opt/homebrew/bin/swiftformat --lint",
+				"else",
+				"    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
+				"fi",
+				"",
+				"",
+				"if [[ -e /opt/homebrew/bin/periphery ]]; then",
+				"    /opt/homebrew/bin/periphery scan --skip-build --index-store-path \"$BUILD_DIR/../../Index.noindex/DataStore\" --project Cami.xcodeproj --schemes CamiWidgetExtension --format xcode",
+				"else",
+				"    echo \"warning:Periphery has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
+				"fi",
+				"",
+			);
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -397,17 +399,13 @@
 /* Begin PBXSourcesBuildPhase section */
 		465533052AF4EA69000B537B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		46B1605E2B07D87000A44FBF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -420,7 +418,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		465533162AF4EA6A000B537B /* Debug */ = {
+		465533162AF4EA6A000B537B /* Debug configuration for PBXProject "Cami" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -554,7 +552,7 @@
 			};
 			name = Debug;
 		};
-		465533172AF4EA6A000B537B /* Release */ = {
+		465533172AF4EA6A000B537B /* Release configuration for PBXProject "Cami" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -682,7 +680,7 @@
 			};
 			name = Release;
 		};
-		465533192AF4EA6A000B537B /* Debug */ = {
+		465533192AF4EA6A000B537B /* Debug configuration for PBXNativeTarget "Cami" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -736,7 +734,7 @@
 			};
 			name = Debug;
 		};
-		4655331A2AF4EA6A000B537B /* Release */ = {
+		4655331A2AF4EA6A000B537B /* Release configuration for PBXNativeTarget "Cami" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -790,7 +788,7 @@
 			};
 			name = Release;
 		};
-		46B160722B07D87100A44FBF /* Debug */ = {
+		46B160722B07D87100A44FBF /* Debug configuration for PBXNativeTarget "CamiWidgetExtension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -818,7 +816,7 @@
 			};
 			name = Debug;
 		};
-		46B160732B07D87100A44FBF /* Release */ = {
+		46B160732B07D87100A44FBF /* Release configuration for PBXNativeTarget "CamiWidgetExtension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -852,28 +850,25 @@
 		465533042AF4EA69000B537B /* Build configuration list for PBXProject "Cami" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				465533162AF4EA6A000B537B /* Debug */,
-				465533172AF4EA6A000B537B /* Release */,
+				465533162AF4EA6A000B537B /* Debug configuration for PBXProject "Cami" */,
+				465533172AF4EA6A000B537B /* Release configuration for PBXProject "Cami" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		465533182AF4EA6A000B537B /* Build configuration list for PBXNativeTarget "Cami" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				465533192AF4EA6A000B537B /* Debug */,
-				4655331A2AF4EA6A000B537B /* Release */,
+				465533192AF4EA6A000B537B /* Debug configuration for PBXNativeTarget "Cami" */,
+				4655331A2AF4EA6A000B537B /* Release configuration for PBXNativeTarget "Cami" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		46B160712B07D87100A44FBF /* Build configuration list for PBXNativeTarget "CamiWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				46B160722B07D87100A44FBF /* Debug */,
-				46B160732B07D87100A44FBF /* Release */,
+				46B160722B07D87100A44FBF /* Debug configuration for PBXNativeTarget "CamiWidgetExtension" */,
+				46B160732B07D87100A44FBF /* Release configuration for PBXNativeTarget "CamiWidgetExtension" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
@@ -904,6 +899,14 @@
 				kind = branch;
 			};
 		};
+		46A906842E89E85E002CD9C8 /* XCRemoteSwiftPackageReference "AemiSDR" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Aemi-Studio/AemiSDR";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -926,6 +929,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */;
 			productName = AemiUtilities;
+		};
+		46A906852E89E85E002CD9C8 /* AemiSDR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A906842E89E85E002CD9C8 /* XCRemoteSwiftPackageReference "AemiSDR" */;
+			productName = AemiSDR;
 		};
 		46E0222E2B7A72B7005725B0 /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;

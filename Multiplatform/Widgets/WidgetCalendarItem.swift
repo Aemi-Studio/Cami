@@ -101,6 +101,39 @@ extension Collection<WidgetCalendarItem> {
     }
 }
 
+extension [WidgetCalendarItem] {
+    func grouped() -> [[WidgetCalendarItem]] {
+        var result = [[WidgetCalendarItem]]()
+        var ignoredEvents = Set<Int>()
+        let elements = sorted()
+        for (index, item) in elements.enumerated() where !ignoredEvents.contains(index) {
+            guard item.kind == .event else {
+                result.append([item])
+                continue
+            }
+            let similarElements = elements.similarElementsWithinSameCalendar(item)
+            ignoredEvents.formUnion(similarElements.map(\.offset))
+            result.append([item] + similarElements.map(\.element))
+        }
+        return result
+    }
+
+    private func similarElementsWithinSameCalendar(_ item: WidgetCalendarItem) -> [(offset: Int, element: WidgetCalendarItem)] {
+        enumerated().compactMap { offset, element in
+            guard offset != firstIndex(of: item),
+                  element.calendarId == item.calendarId,
+                  element.kind == .event,
+                  let itemStart = item.startDate,
+                  let elementStart = element.startDate,
+                  abs(itemStart.timeIntervalSince(elementStart)) < 600 // 10 minutes
+            else {
+                return nil
+            }
+            return (offset, element)
+        }
+    }
+}
+
 extension [Date: [WidgetCalendarItem]] {
     func filter(where predicate: @escaping (WidgetCalendarItem) -> Bool) -> Self {
         var dictionary = Self()

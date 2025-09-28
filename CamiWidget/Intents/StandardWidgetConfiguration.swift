@@ -16,7 +16,6 @@ final class StandardWidgetConfiguration {
     private(set) var useUnifiedList: Bool
     private(set) var showOngoingEvents: Bool
     private(set) var groupEvents: Bool
-    private(set) var useLightweightMode: Bool
 
     init() {
         self.allDayStyle = .event
@@ -26,7 +25,6 @@ final class StandardWidgetConfiguration {
         self.useUnifiedList = true
         self.showOngoingEvents = true
         self.groupEvents = true
-        self.useLightweightMode = false
     }
 
     init(from intent: CamiWidgetIntent) {
@@ -37,7 +35,6 @@ final class StandardWidgetConfiguration {
         self.useUnifiedList = intent.useUnifiedList
         self.showOngoingEvents = intent.ongoingEvents
         self.groupEvents = intent.groupEvents
-        self.useLightweightMode = false // For now, enable via developer settings
     }
 }
 
