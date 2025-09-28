@@ -1,3 +1,7 @@
+disabled_rules:
+    - identifier_name
+    
+
 switch_case_alignment:
     indented_cases: true
 

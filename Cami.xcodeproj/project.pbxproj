@@ -55,7 +55,6 @@
 		461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = SOURCE_ROOT; };
 		4636EF332D98B397008C961D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		4636EF342D98B397008C961D /* .periphery.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .periphery.yml; sourceTree = "<group>"; };
-		4636EF352D98B39F008C961D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = "/Users/gc/Developer/Aemi Studio.nosync/Cami/.swiftlint.yml"; sourceTree = "<absolute>"; };
 		464ADBA42D9A241600C73AC1 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		464F10C12D406C7E00F73884 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
 		464F10C32D406C7E00F73884 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
@@ -65,6 +64,7 @@
 		4651592F2B7252AB0073544A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		465533092AF4EA69000B537B /* Cami.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cami.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46934D912B78F5130025ADF2 /* sonar-project.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = "sonar-project.properties"; sourceTree = "<group>"; };
+		46A906772E89DA91002CD9C8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CamiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -211,7 +211,7 @@
 				46934D912B78F5130025ADF2 /* sonar-project.properties */,
 				4636EF332D98B397008C961D /* .gitignore */,
 				4636EF342D98B397008C961D /* .periphery.yml */,
-				4636EF352D98B39F008C961D /* .swiftlint.yml */,
+				46A906772E89DA91002CD9C8 /* .swiftlint.yml */,
 				464ADBA42D9A241600C73AC1 /* .swiftformat */,
 				464F10C02D406C7E00F73884 /* Frameworks */,
 				4655330A2AF4EA69000B537B /* Products */,

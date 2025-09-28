@@ -10,6 +10,7 @@ final class StandardWidgetContent: Loggable {
     typealias Filter = (EKCalendarItem) -> Bool
 
     private static let filter: Filter = Filters.all(of: [Filters.due(), Filters.dueLater, Filters.open]).filter
+    private static let widgetDataService = WidgetDataService()
 
     let date: Date
     let configuration: Configuration
@@ -18,33 +19,73 @@ final class StandardWidgetContent: Loggable {
     private let inlineCalendars: any Collection<Calendar>
     private let normalCalendars: any Collection<Calendar>
 
-    private var allItems: [Date: [CalendarItem]] = [:]
+    private var _allItems: [Date: [CalendarItem]]?
+    private var _birthdays: [CalendarItem]?
+    private var _items: [Date: [CalendarItem]]?
+    private var _inlineEvents: [Date: [CalendarItem]]?
 
-    let birthdays: [CalendarItem]
+    private let entry: Entry
+
+    private var allItems: [Date: [CalendarItem]] {
+        if let _allItems = _allItems {
+            return _allItems
+        }
+
+        var items = Self.events(from: entry).mapped(relativeTo: entry.date)
+
+        Self.reminders(with: configuration) { reminders in
+            items += reminders.mapped(relativeTo: self.entry.date)
+        }
+
+        _allItems = items
+        return items
+    }
+
+    var birthdays: [CalendarItem] {
+        if let _birthdays = _birthdays {
+            return _birthdays
+        }
+
+        let result = Self.birthdays(relativeTo: entry.date, with: configuration)
+        _birthdays = result
+        return result
+    }
 
     var items: [Date: [CalendarItem]] {
-        allItems.filter(where: {
+        if let _items = _items {
+            return _items
+        }
+
+        let result = allItems.filter(where: {
             if $0.kind == .event {
                 self.normalCalendars.contains($0.calendar)
             } else {
                 true
             }
         })
+        _items = result
+        return result
     }
 
     var inlineEvents: [Date: [CalendarItem]] {
-        allItems.filter(where: {
+        if let _inlineEvents = _inlineEvents {
+            return _inlineEvents
+        }
+
+        let result = allItems.filter(where: {
             if $0.kind == .event {
                 $0.isAllDay && self.inlineCalendars.contains($0.calendar)
             } else {
                 false
             }
         })
+        _inlineEvents = result
+        return result
     }
 
     private static func birthdays(relativeTo date: Date, with configuration: Configuration) -> [CalendarItem] {
         if configuration.complication == .birthdays {
-            DataContext.shared.birthdays(from: date).compactMap(CalendarItem.init)
+            widgetDataService.getBirthdaysForWidget(referenceDate: date).compactMap(CalendarItem.init)
         } else {
             []
         }
@@ -58,8 +99,8 @@ final class StandardWidgetContent: Loggable {
             operation([])
             return
         }
-        
-        DataContext.shared.reminders(where: filter) { reminders in
+
+        widgetDataService.getRemindersForWidget { reminders in
             let calendarItems = reminders.compactMap(CalendarItem.init)
             operation(calendarItems)
         }
@@ -83,43 +124,36 @@ final class StandardWidgetContent: Loggable {
         let normal = calendars.normal
         let inline = calendars.inline
         let all = calendars.all
-        
+
         guard !all.isEmpty else {
             Self.logger.warning("No calendars available for widget")
             return []
         }
-        
-        let events: [EKEvent] = DataContext.shared.events(
-            from: all.asEKCalendars(),
+
+        let events = widgetDataService.getEventsForWidget(
+            calendars: Array(all),
             limit: 20,
-            where: { event in
-                guard let calendarIdentifier = event.calendar?.calendarIdentifier else {
-                    return false
-                }
-                return event.isAllDay && inline.contains(calendarIdentifier) || normal.contains(calendarIdentifier)
-            },
-            relativeTo: entry.date
-        )
+            referenceDate: entry.date
+        ).filter { event in
+            guard let calendarIdentifier = event.calendar?.calendarIdentifier else {
+                return false
+            }
+            return event.isAllDay && inline.contains(calendarIdentifier) || normal.contains(calendarIdentifier)
+        }
+
         return events.compactMap(CalendarItem.init)
     }
 
     init(from entry: Entry) {
+        self.entry = entry
         self.date = entry.date
         self.configuration = entry.configuration
-
-        self.birthdays = Self.birthdays(relativeTo: entry.date, with: entry.configuration)
 
         let calendars = Self.calendars(from: entry)
 
         self.normalCalendars = calendars.normal
         self.inlineCalendars = calendars.inline
         self.allCalendars = calendars.all
-
-        self.allItems = Self.events(from: entry).mapped(relativeTo: entry.date)
-
-        Self.reminders(with: entry.configuration) { reminders in
-            self.allItems += reminders.mapped(relativeTo: entry.date)
-        }
     }
 }
 

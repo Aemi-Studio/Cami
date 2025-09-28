@@ -16,24 +16,7 @@ extension DataContext {
         where filter: ((EKReminder) -> Bool) = { _ in true }
     ) async -> [EKReminder] {
         let calendars = calendars ?? self.calendars
-
-        eventStore.refreshSourcesIfNecessary()
-
-        let predicate = eventStore.predicateForReminders(
-            in: calendars
-        )
-
-        let reminders = await withUnsafeContinuation { result in
-            eventStore.fetchReminders(matching: predicate) { reminders in
-                if let reminders {
-                    result.resume(returning: reminders)
-                } else {
-                    result.resume(returning: [])
-                }
-            }
-        }
-
-        return reminders.filter(filter)
+        return await _reminderService.reminders(from: calendars, where: filter)
     }
 
     func reminders(
@@ -42,27 +25,15 @@ extension DataContext {
         operation: @escaping ([EKReminder]) -> Void
     ) {
         let taskLists = taskLists ?? self.taskLists
-
-        eventStore.refreshSourcesIfNecessary()
-
-        let predicate = eventStore.predicateForReminders(in: taskLists)
-
-        eventStore.fetchReminders(matching: predicate) { reminders in
-            if let reminders {
-                operation(reminders.filter(filter))
-            }
-        }
+        _reminderService.reminders(from: taskLists, where: filter, operation: operation)
     }
 }
 
 extension DataContext {
-    
     func createEvent() -> EKEvent {
         EKEvent(eventStore: eventStore)
     }
-}
 
-extension DataContext {
     func createReminder(
         title: String,
         date: Date? = nil,
@@ -70,65 +41,16 @@ extension DataContext {
         details: String? = nil,
         calendar: EKCalendar? = nil
     ) throws(ReminderError) -> EKReminder {
-        let reminder = EKReminder(eventStore: eventStore)
-        reminder.title = title
-
-        reminder.calendar =
-            if let calendar {
-                calendar
-            } else {
-                eventStore.defaultCalendarForNewReminders()
-            }
-
-        if priority != .none {
-            reminder.priority = Int(priority.rawValue)
-        }
-
-        if let details {
-            reminder.notes = details
-        }
-
-        if let date {
-            let alarm = EKAlarm(absoluteDate: date)
-            reminder.addAlarm(alarm)
-        }
-
-        do {
-            try eventStore.save(reminder, commit: true)
-            return reminder
-        } catch {
-            logger.error("Failed to save reminder: \(error.localizedDescription)")
-            throw .failureToSave
-        }
-    }
-
-    private func completeReminder(_ reminder: EKReminder?) -> Bool {
-        do {
-            if let reminder {
-                reminder.isCompleted = true
-                try eventStore.save(reminder, commit: true)
-                logger.info("Succeed to complete reminder: \(reminder.title)")
-                return true
-            }
-        } catch {
-            logger.error("Failed to complete reminder: \(error.localizedDescription)")
-        }
-        return false
+        return try _reminderService.createReminder(
+            title: title,
+            date: date,
+            priority: priority,
+            details: details,
+            calendar: calendar
+        )
     }
 
     func completeReminder(withIdentifier identifier: String) async -> Bool {
-        await withCheckedContinuation { continuation in
-            reminders { reminder in
-                reminder.calendarItemIdentifier == identifier
-            } operation: { results in
-                continuation.resume(
-                    returning: self.completeReminder(results.first)
-                )
-            }
-        }
+        return await _reminderService.completeReminder(withIdentifier: identifier)
     }
-}
-
-enum ReminderError: Error {
-    case failureToSave
 }

@@ -13,7 +13,11 @@ import SwiftUI
 final class DataContext: @unchecked Sendable {
     static let shared: DataContext = .init()
 
-    var eventStore: EKEventStore = .init()
+    private let eventStoreService = EventStoreService.shared
+    fileprivate let eventService = EventService()
+    fileprivate let reminderService = ReminderService()
+    fileprivate let birthdayService = BirthdayService()
+
     var contactStore: CNContactStore = .init()
 
     private(set) var allCalendars: [EKCalendar] = []
@@ -32,7 +36,7 @@ final class DataContext: @unchecked Sendable {
     }
 
     func subscribe() {
-        publishEventStoreChanges()
+        eventStoreService.publishChanges()
             .sink { [weak self] _ in
                 self?.update()
             }
@@ -40,15 +44,19 @@ final class DataContext: @unchecked Sendable {
     }
 
     private func getAllCalendarsForEvents() -> [EKCalendar] {
-        eventStore.calendars(for: .event)
+        eventStoreService.store.calendars(for: .event)
     }
 
     private func getAllCalendarsForReminders() -> [EKCalendar] {
-        eventStore.calendars(for: .reminder)
+        eventStoreService.store.calendars(for: .reminder)
     }
 
     var store: EKEventStore {
-        eventStore
+        eventStoreService.store
+    }
+
+    var eventStore: EKEventStore {
+        eventStoreService.store
     }
 
     var calendars: [EKCalendar] {
@@ -56,7 +64,7 @@ final class DataContext: @unchecked Sendable {
     }
 
     func get(calendar identifier: String) -> EKCalendar? {
-        eventStore.calendar(withIdentifier: identifier)
+        eventStoreService.store.calendar(withIdentifier: identifier)
     }
 }
 
@@ -67,7 +75,7 @@ extension DataContext: Loggable {}
 extension DataContext {
     public func requestCalendarsAccess() async {
         do {
-            try await eventStore.requestFullAccessToEvents()
+            try await eventStoreService.requestCalendarsAccess()
         } catch {
             logger.error("Failed to request full calendar access: \(error.localizedDescription)")
         }
@@ -75,7 +83,7 @@ extension DataContext {
 
     public func requestRemindersAccess() async {
         do {
-            try await eventStore.requestFullAccessToReminders()
+            try await eventStoreService.requestRemindersAccess()
         } catch {
             logger.error("Failed to request full reminders access: \(error.localizedDescription)")
         }
@@ -98,6 +106,12 @@ extension EnvironmentValues {
 
 extension DataContext {
     func publishEventStoreChanges() -> AnyPublisher<Notification, Never> {
-        NotificationCenter.default.publisher(for: .EKEventStoreChanged).eraseToAnyPublisher()
+        eventStoreService.publishChanges()
     }
+
+    // MARK: - Service Access
+    var _eventService: EventService { eventService }
+    var _reminderService: ReminderService { reminderService }
+    var _birthdayService: BirthdayService { birthdayService }
 }
+
