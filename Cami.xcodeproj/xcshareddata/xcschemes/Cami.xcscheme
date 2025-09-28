@@ -45,7 +45,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       enableASanStackUseAfterReturn = "YES"
       disableMainThreadChecker = "YES"
-      disablePerformanceAntipatternChecker = "YES"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "YES"
@@ -53,7 +52,8 @@
       debugServiceExtension = "internal"
       enableGPUValidationMode = "1"
       allowLocationSimulation = "YES"
-      queueDebuggingEnabled = "No">
+      queueDebuggingEnabled = "No"
+      disablePerformanceAntipatternChecker = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference

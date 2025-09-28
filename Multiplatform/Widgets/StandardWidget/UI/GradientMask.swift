@@ -5,7 +5,7 @@
 //  Created by Guillaume Coquard on 15/03/25.
 //
 
-import SwiftUICore
+import SwiftUI
 
 struct GradientMask: View {
     @Environment(\.colorScheme) private var colorScheme

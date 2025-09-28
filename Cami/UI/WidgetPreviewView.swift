@@ -94,7 +94,7 @@ struct WidgetBoolSetting: View {
     }
 }
 
-struct WidgetEnumSetting<Parameter: WidgetEnumParameter>: View {
+struct WidgetEnumSetting<Parameter: WidgetEnumParameter>: View where Parameter.RawValue: CustomStringConvertible {
     @Binding var parameter: Parameter
     var body: some View {
         HStack {
@@ -107,14 +107,14 @@ struct WidgetEnumSetting<Parameter: WidgetEnumParameter>: View {
     }
 }
 
-struct WidgetConfigurationEnum<Parameter: WidgetEnumParameter>: View {
+struct WidgetConfigurationEnum<Parameter: WidgetEnumParameter>: View where Parameter.RawValue: CustomStringConvertible {
 
     @Binding private(set) var parameter: Parameter
 
     var body: some View {
         Picker(Parameter.localizedTitle, selection: $parameter) {
             ForEach(Parameter.allCases, id: \.rawValue) { value in
-                Text("\(value.rawValue)").tag(value)
+                Text(value.rawValue.description).tag(value)
             }
         }
     }

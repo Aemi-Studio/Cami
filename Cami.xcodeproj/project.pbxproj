@@ -92,6 +92,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				UI/CircularGlassButtonStyle.swift,
 			);
 			target = 465533082AF4EA69000B537B /* Cami */;
 		};
