@@ -9,8 +9,9 @@ import SwiftUI
 import WidgetKit
 
 struct RefreshWidgetsModifier: ViewModifier {
+    @Environment(PermissionManager.self) private var permissionManager
+    
     @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.permissions) private var permissions
     @Environment(\.views) private var views
     @Environment(\.data) private var context
 
@@ -19,13 +20,17 @@ struct RefreshWidgetsModifier: ViewModifier {
             .onChange(of: scenePhase) { _, _ in
                 WidgetCenter.shared.reloadAllTimelines()
             }
-            .onChange(of: permissions.global) { _, _ in
-                views?.reset()
-                WidgetCenter.shared.reloadAllTimelines()
-            }
             .onReceive(DataContext.shared.publishEventStoreChanges()) { _ in
                 WidgetCenter.shared.reloadAllTimelines()
             }
+            .task(reactToPermissionChanges)
+    }
+    
+    @Sendable private func reactToPermissionChanges() async {
+        for await _ in permissionManager.getPermissionUpdates() {
+            views?.reset()
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 }
 

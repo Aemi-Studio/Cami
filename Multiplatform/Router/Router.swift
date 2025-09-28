@@ -8,30 +8,35 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 final class Router: Loggable {
     static let shared = Router()
-
+    
+    private let permissionManager = PermissionManager()
+    
     private let scheme = "camical"
     private var routes: [String: ([String: String]) -> Void] = [:]
 
     private init() {
         routes.updateValue({ parameters in
             guard let id = parameters["id"] else {
-                self.log.error("Missing 'id' parameter for event")
+                self.logger.error("Missing 'id' parameter for event")
                 return
             }
-            Task { @MainActor in
-                DataContext.shared.openCalendarEvent(withId: id)
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                DataContext.shared.openCalendarEvent(withId: id, manager: permissionManager)
             }
         }, forKey: "event")
 
-        routes.updateValue({ parameters in
-            guard let time = parameters["time"] else {
-                self.log.error("Missing 'time' parameter for event")
+        routes.updateValue({ [weak self] parameters in
+            guard let self, let time = parameters["time"] else {
+                self?.logger.error("Missing 'time' parameter for event")
                 return
             }
-            Task { @MainActor in
-                DataContext.shared.openCalendarDay(atTime: time)
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                DataContext.shared.openCalendarDay(atTime: time, manager: permissionManager)
             }
         }, forKey: "day")
 
@@ -59,7 +64,7 @@ final class Router: Loggable {
         }
 
         guard let handler = routes[path] else {
-            log.error("No handler found for path: \(path)")
+            logger.error("No handler found for path: \(path)")
             return
         }
 

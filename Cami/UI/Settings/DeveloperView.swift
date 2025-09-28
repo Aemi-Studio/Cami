@@ -7,8 +7,10 @@
 
 import SwiftUI
 
+
+#if DEBUG
 struct DeveloperView: View {
-    @Environment(\.permissions) private var permissions
+    @Environment(PermissionManager.self) private var permissionManager
 
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
     private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
@@ -46,8 +48,9 @@ struct DeveloperView: View {
             systemImage: "arrow.counterclockwise"
         ) {
             hasDismissedOnboarding = false
-            permissions.reset()
+            permissionManager.reset()
         }
         .buttonStyle(.primaryWithOutline)
     }
 }
+#endif

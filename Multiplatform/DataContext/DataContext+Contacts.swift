@@ -28,7 +28,7 @@ extension DataContext {
                 keysToFetch: [CNContactBirthdayKey as CNKeyDescriptor]
             ).birthday
         } catch {
-            log.error("\(String(describing: error))")
+            logger.error("\(String(describing: error))")
             fetchedBirthdate = nil
         }
         return fetchedBirthdate
@@ -53,7 +53,7 @@ extension DataContext {
                 ]
             )
         } catch {
-            log.error("\(String(describing: error))")
+            logger.error("\(String(describing: error))")
             fetchedContact = nil
         }
         return [
@@ -83,7 +83,7 @@ extension DataContext {
                 ]
             ).first
         } catch {
-            log.error("\(String(describing: error))")
+            logger.error("\(String(describing: error))")
             fetchedContact = nil
         }
         return [

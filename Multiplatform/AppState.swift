@@ -20,7 +20,7 @@ final class AppState: Equatable, Loggable {
     init(date: Date = .now) {
         self.date = date
         self.dayContext = .init(for: date)
-        log.info("AppState Initialization")
+        logger.info("AppState Initialization")
     }
 
     static func == (lhs: AppState, rhs: AppState) -> Bool {

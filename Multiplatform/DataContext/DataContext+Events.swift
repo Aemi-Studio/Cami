@@ -76,7 +76,7 @@ extension DataContext {
 
         while events.count < count, consideredDays > 0 {
             guard !calendars.isEmpty else {
-                log.error("No calendars provided.")
+                logger.error("No calendars provided.")
                 return []
             }
             guard let aWeekLater = calendar.date(

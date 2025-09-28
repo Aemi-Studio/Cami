@@ -85,7 +85,7 @@ final class StandardWidgetContent: Loggable {
         let all = calendars.all
         
         guard !all.isEmpty else {
-            Self.log.warning("No calendars available for widget")
+            Self.logger.warning("No calendars available for widget")
             return []
         }
         

@@ -69,7 +69,7 @@ extension DataContext {
         do {
             try await eventStore.requestFullAccessToEvents()
         } catch {
-            log.error("Failed to request full calendar access: \(error.localizedDescription)")
+            logger.error("Failed to request full calendar access: \(error.localizedDescription)")
         }
     }
 
@@ -77,7 +77,7 @@ extension DataContext {
         do {
             try await eventStore.requestFullAccessToReminders()
         } catch {
-            log.error("Failed to request full reminders access: \(error.localizedDescription)")
+            logger.error("Failed to request full reminders access: \(error.localizedDescription)")
         }
     }
 
@@ -85,7 +85,7 @@ extension DataContext {
         do {
             try await contactStore.requestAccess(for: .contacts)
         } catch {
-            log.error("Failed to request contacts access: \(error.localizedDescription)")
+            logger.error("Failed to request contacts access: \(error.localizedDescription)")
         }
     }
 }

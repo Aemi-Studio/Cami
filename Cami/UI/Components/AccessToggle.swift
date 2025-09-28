@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccessToggle<A>: View {
-    let status: Access.Status
+    let status: PermissionStatus
     let title: String
     let description: String
     private(set) var action: (() -> A)?
@@ -127,7 +127,7 @@ struct AccessToggle<A>: View {
 
 extension AccessToggle {
     init(
-        isOn status: Access.Status,
+        isOn status: PermissionStatus,
         title: String,
         description: String,
         action: @escaping () -> A
@@ -139,7 +139,7 @@ extension AccessToggle {
     }
 
     init(
-        isOn status: Access.Status,
+        isOn status: PermissionStatus,
         title: String,
         description: String,
         action: @escaping () async -> A

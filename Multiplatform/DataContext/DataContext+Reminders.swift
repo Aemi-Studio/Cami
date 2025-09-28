@@ -97,7 +97,7 @@ extension DataContext {
             try eventStore.save(reminder, commit: true)
             return reminder
         } catch {
-            log.error("Failed to save reminder: \(error.localizedDescription)")
+            logger.error("Failed to save reminder: \(error.localizedDescription)")
             throw .failureToSave
         }
     }
@@ -107,11 +107,11 @@ extension DataContext {
             if let reminder {
                 reminder.isCompleted = true
                 try eventStore.save(reminder, commit: true)
-                log.info("Succeed to complete reminder: \(reminder.title)")
+                logger.info("Succeed to complete reminder: \(reminder.title)")
                 return true
             }
         } catch {
-            log.error("Failed to complete reminder: \(error.localizedDescription)")
+            logger.error("Failed to complete reminder: \(error.localizedDescription)")
         }
         return false
     }

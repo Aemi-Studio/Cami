@@ -30,6 +30,8 @@ extension View {
 
 struct AppModalBlueprint<ModalContent>: ViewModifier where ModalContent: View {
     @Environment(\.appState) private var appState
+    
+    @Environment(PermissionManager.self) private var permissionManager
 
     @Binding private(set) var condition: Bool
     private(set) var presentationDetents: Set<PresentationDetent> = [.medium, .large]
@@ -50,8 +52,8 @@ struct AppModalBlueprint<ModalContent>: ViewModifier where ModalContent: View {
                 .environment(\.data, .shared)
                 .environment(\.modal, .shared)
                 .environment(\.views, .shared)
-                .environment(\.permissions, .shared)
                 .environment(\.presentation, .shared)
+                .environment(permissionManager)
             }
     }
 }

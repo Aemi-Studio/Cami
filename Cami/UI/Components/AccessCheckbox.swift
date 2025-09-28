@@ -9,24 +9,25 @@ import AemiUI
 import SwiftUI
 
 struct AccessCheckbox: View {
-    let status: Access.Status
+    let status: PermissionStatus
 
     private var tint: Color? {
         .accentColor
     }
 
-    private func symbol(for status: Access.Status) -> CheckboxSymbol? {
+    private func symbol(for status: PermissionStatus) -> CheckboxSymbol? {
         switch status {
-            case .none, .notDetermined: nil
-            case .restricted: .xmark
+            case .notDetermined: nil
+            case .restricted, .denied: .xmark
             case .authorized: .checkmark
         }
     }
 
-    private func backgroundStyle(for status: Access.Status) -> any ShapeStyle {
+    private func backgroundStyle(for status: PermissionStatus) -> any ShapeStyle {
         switch status {
-            case .none, .notDetermined: .gray.secondary
-            case .restricted: .red
+            case .notDetermined: .gray.secondary
+            case .denied: .red
+            case .restricted: .purple
             case .authorized: tint ?? .green
         }
     }

@@ -10,18 +10,18 @@ import WidgetKit
 
 struct OnboardingView: View {
     @Environment(\.openModal) private var openModal
-    @Environment(\.permissions) private var permissions
+    @Environment(PermissionManager.self) private var permissionManager
     @Environment(\.tint) private var tint
 
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
     private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
 
     private var authorized: Bool {
-        permissions.global == .authorized
+        permissionManager.areAllPermissionsGranted()
     }
 
     private var restricted: Bool {
-        permissions.global == .restricted
+        permissionManager.isSomePermissionRestricted()
     }
 
     private var maxHeight: CGFloat? {
