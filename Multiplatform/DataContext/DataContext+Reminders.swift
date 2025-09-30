@@ -41,7 +41,7 @@ extension DataContext {
         details: String? = nil,
         calendar: EKCalendar? = nil
     ) throws(ReminderError) -> EKReminder {
-        return try _reminderService.createReminder(
+        try _reminderService.createReminder(
             title: title,
             date: date,
             priority: priority,
@@ -51,6 +51,6 @@ extension DataContext {
     }
 
     func completeReminder(withIdentifier identifier: String) async -> Bool {
-        return await _reminderService.completeReminder(withIdentifier: identifier)
+        await _reminderService.completeReminder(withIdentifier: identifier)
     }
 }

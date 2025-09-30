@@ -23,7 +23,7 @@ final class StandardWidgetContent: Loggable {
     private let entry: Entry
 
     private var allItems: [Date: [CalendarItem]] {
-        if let _allItems = _allItems {
+        if let _allItems {
             return _allItems
         }
 
@@ -38,7 +38,7 @@ final class StandardWidgetContent: Loggable {
     }
 
     var birthdays: [CalendarItem] {
-        if let _birthdays = _birthdays {
+        if let _birthdays {
             return _birthdays
         }
 
@@ -48,7 +48,7 @@ final class StandardWidgetContent: Loggable {
     }
 
     var items: [Date: [CalendarItem]] {
-        if let _items = _items {
+        if let _items {
             return _items
         }
 
@@ -64,7 +64,7 @@ final class StandardWidgetContent: Loggable {
     }
 
     var inlineEvents: [Date: [CalendarItem]] {
-        if let _inlineEvents = _inlineEvents {
+        if let _inlineEvents {
             return _inlineEvents
         }
 

@@ -10,7 +10,7 @@ import WidgetKit
 
 struct RefreshWidgetsModifier: ViewModifier {
     @Environment(PermissionManager.self) private var permissionManager
-    
+
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.views) private var views
     @Environment(\.data) private var context
@@ -25,7 +25,7 @@ struct RefreshWidgetsModifier: ViewModifier {
             }
             .task(reactToPermissionChanges)
     }
-    
+
     @Sendable private func reactToPermissionChanges() async {
         for await _ in permissionManager.getPermissionUpdates() {
             views?.reset()

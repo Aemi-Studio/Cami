@@ -27,7 +27,7 @@ struct OnboardingView: View {
     private var maxHeight: CGFloat? {
         hasDismissedOnboarding ? 0 : nil
     }
-    
+
     var body: some View {
         VStack {
             content

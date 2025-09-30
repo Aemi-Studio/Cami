@@ -34,7 +34,7 @@ struct CalendarItem {
         }
     }
 
-    public enum CalendarItemKind: Int, Hashable, CaseIterable {
+    enum CalendarItemKind: Int, Hashable, CaseIterable {
         case event
         case reminder
         case streak
@@ -220,16 +220,15 @@ extension [Date: [CalendarItem]] {
                 item,
                 at: list.firstIndex { $0.boundStart >= item.boundStart } ?? list.endIndex
             )
-            self.updateValue(list, forKey: date)
+            updateValue(list, forKey: date)
         } else {
             self[date] = [item]
         }
     }
 }
 
-
 extension CalendarItem.CalendarItemKind: CustomStringConvertible {
-    
+
     var description: String {
         switch self {
             case .event:
@@ -240,7 +239,7 @@ extension CalendarItem.CalendarItemKind: CustomStringConvertible {
                 String(localized: "calendarItem.kind.streak")
         }
     }
-    
+
     var pluralDescription: String {
         switch self {
             case .event:
@@ -251,7 +250,7 @@ extension CalendarItem.CalendarItemKind: CustomStringConvertible {
                 String(localized: "calendarItem.kind.streak.plural")
         }
     }
-    
+
     var listDescription: String {
         switch self {
             case .event:
@@ -262,7 +261,7 @@ extension CalendarItem.CalendarItemKind: CustomStringConvertible {
                 String(localized: "calendarItem.kind.streak.list")
         }
     }
-    
+
     var listPluralDescription: String {
         switch self {
             case .event:
@@ -273,7 +272,7 @@ extension CalendarItem.CalendarItemKind: CustomStringConvertible {
                 String(localized: "calendarItem.kind.streak.list.plural")
         }
     }
-    
+
     var listSystemImage: String {
         switch self {
             case .event:

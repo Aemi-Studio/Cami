@@ -11,9 +11,9 @@ import SwiftUI
 @MainActor
 final class Router: Loggable {
     static let shared = Router()
-    
+
     private let permissionManager = PermissionManager()
-    
+
     private let scheme = "camical"
     private var routes: [String: ([String: String]) -> Void] = [:]
 
@@ -24,7 +24,9 @@ final class Router: Loggable {
                 return
             }
             Task { @MainActor [weak self] in
-                guard let self else { return }
+                guard let self else {
+                    return
+                }
                 DataContext.shared.openCalendarEvent(withId: id, manager: permissionManager)
             }
         }, forKey: "event")
@@ -35,7 +37,9 @@ final class Router: Loggable {
                 return
             }
             Task { @MainActor [weak self] in
-                guard let self else { return }
+                guard let self else {
+                    return
+                }
                 DataContext.shared.openCalendarDay(atTime: time, manager: permissionManager)
             }
         }, forKey: "day")

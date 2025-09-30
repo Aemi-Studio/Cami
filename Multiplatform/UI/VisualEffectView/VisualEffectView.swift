@@ -14,7 +14,7 @@ import UIKit
 @objcMembers
 open class VisualEffectView: UIVisualEffectView {
     /// Returns the instance of UIBlurEffect.
-    private let blurEffect = (NSClassFromString("_UICustomBlurEffect") as! UIBlurEffect.Type).init()
+    private let blurEffect = (NSClassFromString("_UICustomBlurEffect") as! UIBlurEffect.Type)()
 
     /// Tint color.
     ///

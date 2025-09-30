@@ -10,7 +10,7 @@ import EventKit
 @PermissionActor
 protocol EventPermissionHandler: PermissionHandler {
     var store: EKEventStore { get }
-    
+
     init()
     init(otherHandler: any EventPermissionHandler)
 }

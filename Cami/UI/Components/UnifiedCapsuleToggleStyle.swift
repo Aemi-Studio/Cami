@@ -11,15 +11,15 @@ import SwiftUI
 struct UnifiedCapsuleToggleStyle: ToggleStyle {
     @ScaledMetric private var size: CGFloat = 30
     @ScaledMetric private var innerSize: CGFloat = 20
-    
+
     var leadingPadding: CGFloat {
         (size - innerSize) / 2
     }
-    
+
     func additionalLeadingPadding(_ count: Int?, isOn: Bool) -> CGFloat {
-        ((count.map { $0 > 0 } ?? false) && isOn ? 1 : 2)
+        (count.map { $0 > 0 } ?? false) && isOn ? 1 : 2
     }
-    
+
     private(set) var count: Int?
 
     func makeBody(configuration: Configuration) -> some View {
@@ -59,7 +59,7 @@ struct UnifiedCapsuleToggleStyle: ToggleStyle {
             intensity: 0.9
         )
     }
-    
+
     @ViewBuilder private func textCount(isOn: Bool) -> some View {
         if let count, count > 0, isOn {
             let characterCount = count.description.count
@@ -69,7 +69,7 @@ struct UnifiedCapsuleToggleStyle: ToggleStyle {
                     .frame(height: innerSize)
                     .frame(minWidth: innerSize)
                     .frame(width: hasSeveralCharacters ? (CGFloat(characterCount) * innerSize * 0.5) + 8 : nil)
-                
+
                 Text(count, format: .number)
                     .foregroundStyle(Color.primary.opacity(0.8))
                     .fontWeight(.bold)

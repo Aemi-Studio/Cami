@@ -30,7 +30,7 @@ extension View {
 
 struct AppModalBlueprint<ModalContent>: ViewModifier where ModalContent: View {
     @Environment(\.appState) private var appState
-    
+
     @Environment(PermissionManager.self) private var permissionManager
 
     @Binding private(set) var condition: Bool

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SummaryCountView: View {
     @Environment(\.openModal) private var openModal
-    
+
     private(set) var kind: CalendarItem.Kind
     private(set) var count: Int
     @Binding private(set) var binding: Bool
@@ -18,18 +18,18 @@ struct SummaryCountView: View {
         toggle
             .contextMenu { contextMenu }
     }
-    
+
     private var toggle: some View {
         Toggle(isOn: $binding) {
             Text(count == 1 ? kind.description : kind.pluralDescription)
         }
         .toggleStyle(.unifiedCapsule(count: count))
     }
-    
+
     private var contextMenu: some View {
         Button(kind.listPluralDescription, systemImage: kind.listSystemImage) {
             openModal?(.selection(kind: kind))
         }
     }
-    
+
 }

@@ -33,7 +33,7 @@ struct WidgetFamilySet: OptionSet, Hashable {
 }
 
 extension WidgetFamilySet {
-    public static func convert(_ widgetFamily: WidgetFamily) -> WidgetFamilySet {
+    static func convert(_ widgetFamily: WidgetFamily) -> WidgetFamilySet {
         switch widgetFamily {
             case .systemExtraLarge: .systemExtraLarge
             case .systemLarge: .systemLarge

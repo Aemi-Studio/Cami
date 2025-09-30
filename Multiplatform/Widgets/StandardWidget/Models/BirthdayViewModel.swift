@@ -71,7 +71,8 @@ final class BirthdayViewModel {
 
     func birthdayInfo(for event: CalendarItem) -> (name: String, age: Int)? {
         guard let contactId = event.contactIdentifier,
-              let birthdate = dataContext.resolveBirthdate(contactId) else {
+              let birthdate = dataContext.resolveBirthdate(contactId)
+        else {
             return nil
         }
 

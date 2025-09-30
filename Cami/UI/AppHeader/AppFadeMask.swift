@@ -1,5 +1,5 @@
 //
-//  AppHeaderUnderlyingMask.swift
+//  AppFadeMask.swift
 //  Cami
 //
 //  Created by Guillaume Coquard on 30/03/25.

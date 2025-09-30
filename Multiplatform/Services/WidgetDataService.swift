@@ -22,7 +22,9 @@ final class WidgetDataService: @unchecked Sendable {
             eventStoreService.store.calendar(withIdentifier: identifier)
         }
 
-        guard !ekCalendars.isEmpty else { return [] }
+        guard !ekCalendars.isEmpty else {
+            return []
+        }
 
         let endDate = Calendar.current.date(
             byAdding: .weekOfYear,
@@ -46,14 +48,14 @@ final class WidgetDataService: @unchecked Sendable {
         limit: Int = 20,
         operation: @escaping ([EKReminder]) -> Void
     ) {
-        let ekCalendars: [EKCalendar]
-        if let calendars = calendars {
-            ekCalendars = calendars.compactMap { identifier in
-                eventStoreService.store.calendar(withIdentifier: identifier)
+        let ekCalendars: [EKCalendar] =
+            if let calendars {
+                calendars.compactMap { identifier in
+                    eventStoreService.store.calendar(withIdentifier: identifier)
+                }
+            } else {
+                eventStoreService.store.calendars(for: .reminder)
             }
-        } else {
-            ekCalendars = eventStoreService.store.calendars(for: .reminder)
-        }
 
         let predicate = eventStoreService.store.predicateForReminders(in: ekCalendars)
 
@@ -62,7 +64,8 @@ final class WidgetDataService: @unchecked Sendable {
                 .filter { !$0.isCompleted && $0.dueDateComponents?.date != nil }
                 .sorted { lhs, rhs in
                     guard let lhsDate = lhs.dueDateComponents?.date,
-                          let rhsDate = rhs.dueDateComponents?.date else {
+                          let rhsDate = rhs.dueDateComponents?.date
+                    else {
                         return false
                     }
                     return lhsDate < rhsDate
@@ -79,7 +82,9 @@ final class WidgetDataService: @unchecked Sendable {
         let calendars = eventStoreService.store.calendars(for: .event)
         let birthdayCalendar = calendars.first { $0.type == .birthday }
 
-        guard let birthdayCalendar = birthdayCalendar else { return [] }
+        guard let birthdayCalendar else {
+            return []
+        }
 
         let endDate = Calendar.current.date(
             byAdding: .day,

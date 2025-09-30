@@ -15,13 +15,13 @@ import SwiftUI
 @MainActor final class UIContext: Loggable {
     static let shared: UIContext = .init(for: .now)
 
-    public func reset() {
+    func reset() {
         calendars = Set(DataContext.shared.allCalendars.asIdentifiers)
     }
 
-    public var date: Date
-    public var path: NavigationPath
-    public var calendars: Set<String> = Set(DataContext.shared.allCalendars.asIdentifiers)
+    var date: Date
+    var path: NavigationPath
+    var calendars: Set<String> = Set(DataContext.shared.allCalendars.asIdentifiers)
 
     init(for date: Date = .now) {
         self.date = date

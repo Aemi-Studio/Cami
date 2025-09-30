@@ -8,18 +8,16 @@
 import EventKit
 import SwiftUI
 
-
 final class Streak: EKCalendarItem {
     override var hasRecurrenceRules: Bool {
         true
     }
 }
 
-
 struct CalendarItemTimeInput: View {
-    
+
     @Binding private(set) var item: EKCalendarItem
-    
+
     var kind: CalendarItem.Kind? {
         switch item {
             case is EKEvent: .event
@@ -28,58 +26,48 @@ struct CalendarItemTimeInput: View {
             default: .none
         }
     }
-    
+
     var body: some View {
         switch item {
-                case is EKEvent:
-                    eventTimeInput()
-                case is EKReminder:
-                    reminderTimeInput()
-                case is Streak:
-                    streakTimeInput()
-                default:
-                    EmptyView()
+            case is EKEvent:
+                eventTimeInput()
+            case is EKReminder:
+                reminderTimeInput()
+            case is Streak:
+                streakTimeInput()
+            default:
+                EmptyView()
         }
     }
-    
+
     /// Time Input should have a setting, for events:
     /// - isAllDay, Start Date, End date (if not all day), recurrence rules
     /// For reminders:
     /// - Due date, Start date, recurrence rules
     /// For streaks:
     /// - Start date, recurrence rules
-    
-    @ViewBuilder func reminderTimeInput() -> some View {
-        
-    }
-    
-    @ViewBuilder func eventTimeInput() -> some View {
-        
-    }
-    
-    @ViewBuilder func streakTimeInput() -> some View {
-        
-    }
-    
-    
+
+    @ViewBuilder func reminderTimeInput() -> some View {}
+
+    @ViewBuilder func eventTimeInput() -> some View {}
+
+    @ViewBuilder func streakTimeInput() -> some View {}
+
     var intervalView: some View {
-        VStack {
-            
-        }
+        VStack {}
     }
 }
 
-
 struct EventCreationView: View {
-    
+
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var event: EKEvent
-    
+
     init() {
-        event = DataContext.shared.createEvent()
+        self.event = DataContext.shared.createEvent()
     }
-    
+
     var body: some View {
         ScrollView(.vertical) {
             VStack {
@@ -89,27 +77,26 @@ struct EventCreationView: View {
     }
 }
 
-
 struct ItemTitleInput: View {
-    
+
     @State private var model = ItemTitleInputViewModel()
-    
+
     let prompt: String
     @Binding private(set) var title: String
-    
+
     var body: some View {
         VStack(spacing: 8) {
             TextField(prompt, text: $title)
                 .padding()
                 .padding(.horizontal)
-            
+
             suggestedItems
         }
         .onChange(of: title) { _, newValue in
             Task { await model.updateSuggestions(for: newValue) }
         }
     }
-    
+
     @ViewBuilder var suggestedItems: some View {
         if !model.suggestions.isEmpty {
             Divider()
@@ -125,23 +112,23 @@ struct ItemTitleInput: View {
             }
         }
     }
-        
+
 }
 
 @Observable
-final class ItemTitleInputViewModel<Kind> where Kind : EKCalendarItem {
+final class ItemTitleInputViewModel<Kind> where Kind: EKCalendarItem {
     typealias Provider = @Sendable (String) async -> [Kind]
-    
+
     private let provider: Provider
     private(set) var suggestedItems: [Kind] = []
     var suggestions: [String] {
         suggestedItems.compactMap(\.title)
     }
-    
+
     init(provider: @escaping Provider = { _ in [] }) {
         self.provider = provider
     }
-    
+
     func updateSuggestions(for title: String) async {
         guard !title.isEmpty else {
             suggestedItems = []

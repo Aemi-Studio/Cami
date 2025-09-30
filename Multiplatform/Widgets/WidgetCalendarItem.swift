@@ -54,18 +54,19 @@ extension WidgetCalendarItem {
         self.startDate = calendarItem.start
         self.endDate = calendarItem.end
 
-        switch calendarItem.kind {
-        case .event:
-            if calendarItem.contactIdentifier != nil {
-                self.kind = .birthday
-            } else {
-                self.kind = .event
+        self.kind =
+            switch calendarItem.kind {
+                case .event:
+                    if calendarItem.contactIdentifier != nil {
+                        .birthday
+                    } else {
+                        .event
+                    }
+                case .reminder:
+                    .reminder
+                case .streak:
+                    .streak
             }
-        case .reminder:
-            self.kind = .reminder
-        case .streak:
-            self.kind = .streak
-        }
 
         let colorComponents = calendarItem.color?.components ?? [0, 0, 0, 1]
         let red = UInt8(colorComponents[0] * 255)
@@ -79,9 +80,9 @@ extension Collection<WidgetCalendarItem> {
     func sorted(_ order: ComparisonResult = .orderedAscending) -> [Element] {
         sorted(by: { first, second in
             switch order {
-            case .orderedAscending: first < second
-            case .orderedDescending: first > second
-            case .orderedSame: first == second
+                case .orderedAscending: first < second
+                case .orderedDescending: first > second
+                case .orderedSame: first == second
             }
         })
     }
@@ -118,7 +119,10 @@ extension [WidgetCalendarItem] {
         return result
     }
 
-    private func similarElementsWithinSameCalendar(_ item: WidgetCalendarItem) -> [(offset: Int, element: WidgetCalendarItem)] {
+    private func similarElementsWithinSameCalendar(_ item: WidgetCalendarItem) -> [(
+        offset: Int,
+        element: WidgetCalendarItem
+    )] {
         enumerated().compactMap { offset, element in
             guard offset != firstIndex(of: item),
                   element.calendarId == item.calendarId,

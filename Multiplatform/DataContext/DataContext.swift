@@ -73,7 +73,7 @@ extension DataContext: Loggable {}
 // MARK: Access Requests
 
 extension DataContext {
-    public func requestCalendarsAccess() async {
+    func requestCalendarsAccess() async {
         do {
             try await eventStoreService.requestCalendarsAccess()
         } catch {
@@ -81,7 +81,7 @@ extension DataContext {
         }
     }
 
-    public func requestRemindersAccess() async {
+    func requestRemindersAccess() async {
         do {
             try await eventStoreService.requestRemindersAccess()
         } catch {
@@ -89,7 +89,7 @@ extension DataContext {
         }
     }
 
-    public func requestContactsAccess() async {
+    func requestContactsAccess() async {
         do {
             try await contactStore.requestAccess(for: .contacts)
         } catch {
@@ -110,9 +110,8 @@ extension DataContext {
     }
 
     // MARK: - Service Access
+
     var _eventService: EventService { eventService }
     var _reminderService: ReminderService { reminderService }
     var _birthdayService: BirthdayService { birthdayService }
 }
-
-

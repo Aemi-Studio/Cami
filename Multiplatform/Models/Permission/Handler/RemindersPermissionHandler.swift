@@ -9,21 +9,21 @@ import EventKit
 
 struct RemindersPermissionHandler: PermissionHandler {
     private let store: EKEventStore
-    
+
     init() {
         self.store = EKEventStore()
     }
-    
+
     init(otherHandler: EventPermissionHandler) {
         self.store = otherHandler.store
     }
-    
+
     var status: PermissionStatus {
         get async {
             await checkStatus()
         }
     }
-    
+
     func checkStatus() async -> PermissionStatus {
         switch EKEventStore.authorizationStatus(for: .reminder) {
             case .notDetermined: .notDetermined
@@ -33,12 +33,14 @@ struct RemindersPermissionHandler: PermissionHandler {
             @unknown default: .denied
         }
     }
-    
+
     func request() async -> PermissionStatus {
         let status = await status
-        
-        guard status == .notDetermined else { return status }
-        
+
+        guard status == .notDetermined else {
+            return status
+        }
+
         do {
             return try await store.requestFullAccessToReminders() ? .authorized : .denied
         } catch {

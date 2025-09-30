@@ -11,8 +11,8 @@ import SwiftUI
 @Observable
 final class ModalSheetContext {
     static let shared = ModalSheetContext()
-    
-    private(set) var presentationDetent: PresentationDetent? = nil
+
+    private(set) var presentationDetent: PresentationDetent?
 
     func open(modal: MenuPane) {
         if menu != .none {
@@ -40,7 +40,7 @@ final class ModalSheetContext {
             }
         }
     }
-    
+
     func updateDetent(_ detent: PresentationDetent) {
         presentationDetent = detent
     }
@@ -79,7 +79,7 @@ enum MenuPane: Equatable {
                 return String(localized: "modal.widgets.title")
             case .permissions:
                 return String(localized: "modal.permissions.title")
-            case .selection(let kind):
+            case let .selection(kind):
                 return kind.listPluralDescription
             case let .new(item):
                 var start = "New"
@@ -99,7 +99,7 @@ enum MenuPane: Equatable {
     }
 
     var value: EKCalendarItem? {
-        if case .new(let item) = self {
+        if case let .new(item) = self {
             item
         } else {
             nil
@@ -112,7 +112,7 @@ enum MenuPane: Equatable {
             case .new: CreateCalendarItemView.init
             case .widgets: WidgetPreviewView.init
             case .permissions: PermissionsView.init
-            case .selection(let kind):
+            case let .selection(kind):
                 switch kind {
                     case .event: CalendarSelectionView.init
                     case .reminder: CalendarSelectionView.init

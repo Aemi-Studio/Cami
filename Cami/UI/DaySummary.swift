@@ -9,9 +9,9 @@ import EventKit
 import SwiftUI
 
 struct DaySummary: View {
-    
+
     @Binding private(set) var model: DayViewModel
-    
+
     private(set) var events: [EKEvent]
     private(set) var reminders: [EKReminder]
 

@@ -17,11 +17,11 @@ struct ContentView: View {
 
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
     private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
-    
+
     private var fadeHeight: CGFloat? {
         UIApplication.currentWindow?.safeAreaInsets.bottom
     }
-    
+
     private var blurRadius: CGFloat {
         modal.menu != .none ? 7 * ((modal.presentationDetent?.order ?? 0) + 1) : 0
     }
@@ -34,7 +34,7 @@ struct ContentView: View {
                         VStack(spacing: 0) {
                             AppHeaderScalingHint()
                             OnboardingView()
-                            
+
                             @Bindable var context = state.dayContext
                             SingleDayView(context: context)
                         }
@@ -44,7 +44,7 @@ struct ContentView: View {
                     .scrollClipDisabled()
                     .fadeMask()
                     .blurryEdge(edge: .bottom, position: .above, height: fadeHeight, radius: 5)
-                    
+
                     AppHeaderView(date: state.date)
                 }
                 .ignoresSafeArea(.all)

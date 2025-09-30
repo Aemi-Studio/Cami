@@ -234,7 +234,6 @@
 				465533062AF4EA69000B537B /* Frameworks */,
 				465533072AF4EA69000B537B /* Resources */,
 				465533372AF4EA7B000B537B /* Embed Foundation Extensions */,
-				4636F2792D98C9E9008C961D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -265,7 +264,6 @@
 				46B1605E2B07D87000A44FBF /* Sources */,
 				46B1605F2B07D87000A44FBF /* Frameworks */,
 				46B160602B07D87000A44FBF /* Resources */,
-				4636F27A2D98CF62008C961D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -345,56 +343,6 @@
 			);
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		4636F2792D98C9E9008C961D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = (
-				"if [[ -e /opt/homebrew/bin/swiftlint ]]; then",
-				"    /opt/homebrew/bin/swiftlint lint",
-				"else",
-				"    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
-				"fi",
-				"",
-				"if [[ -e /opt/homebrew/bin/swiftformat ]]; then",
-				"    /opt/homebrew/bin/swiftformat --lint",
-				"else",
-				"    echo \"warning:SwiftFormat has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
-				"fi",
-				"",
-			);
-		};
-		4636F27A2D98CF62008C961D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			shellPath = /bin/sh;
-			shellScript = (
-				"if [[ -e /opt/homebrew/bin/swiftlint ]]; then",
-				"    /opt/homebrew/bin/swiftlint lint",
-				"else",
-				"    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
-				"fi",
-				"",
-				"if [[ -e /opt/homebrew/bin/swiftformat ]]; then",
-				"    /opt/homebrew/bin/swiftformat --lint",
-				"else",
-				"    echo \"warning:SwiftLint has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
-				"fi",
-				"",
-				"",
-				"if [[ -e /opt/homebrew/bin/periphery ]]; then",
-				"    /opt/homebrew/bin/periphery scan --skip-build --index-store-path \"$BUILD_DIR/../../Index.noindex/DataStore\" --project Cami.xcodeproj --schemes CamiWidgetExtension --format xcode",
-				"else",
-				"    echo \"warning:Periphery has not been found on your computer. You should install it with Homebrew (https://brew.sh/)\"",
-				"fi",
-				"",
-			);
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		465533052AF4EA69000B537B /* Sources */ = {

@@ -31,7 +31,7 @@ extension DataContext {
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
     ) -> [EKEvent] {
-        return _eventService.events(from: calendars, limit: count, where: filter, relativeTo: date)
+        _eventService.events(from: calendars, limit: count, where: filter, relativeTo: date)
     }
 
     func events(
@@ -40,6 +40,6 @@ extension DataContext {
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
     ) -> [EKEvent] {
-        return _eventService.events(from: calendars, during: days, where: filter, relativeTo: date)
+        _eventService.events(from: calendars, during: days, where: filter, relativeTo: date)
     }
 }

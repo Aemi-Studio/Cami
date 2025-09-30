@@ -23,7 +23,9 @@ struct CamiWidgetHeaderBirthdays: View {
     }
 
     private var birthdayViewModel: BirthdayViewModel? {
-        guard let data else { return nil }
+        guard let data else {
+            return nil
+        }
         return BirthdayViewModel(
             birthdays: content.birthdays,
             referenceDate: referenceDate,
@@ -46,8 +48,9 @@ struct CamiWidgetHeaderBirthdays: View {
                 birthdayView(for: todayEvent, viewModel: viewModel, isToday: true)
                     .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
             } else if !viewModel.validBirthdays.isEmpty,
-                     !viewModel.nextBirthdaysInfo.names.isEmpty,
-                     let firstBirthday = viewModel.validBirthdays.first {
+                      !viewModel.nextBirthdaysInfo.names.isEmpty,
+                      let firstBirthday = viewModel.validBirthdays.first
+            {
                 birthdayView(for: firstBirthday, viewModel: viewModel, isToday: false)
                     .birthdayViewStyle(isSmall: isSmall, backgroundColor: bCalColor)
             }

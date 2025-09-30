@@ -10,13 +10,13 @@ import SwiftUI
 
 struct CalendarToggleButton: View {
     @Environment(\.appState) private var state
-    
+
     var context: SingleDayContext? {
         state?.dayContext
     }
-    
+
     let calendar: EKCalendar
-    
+
     var body: some View {
         Toggle(isOn: .constant(true)) {
             Text(calendar.title)

@@ -14,6 +14,7 @@ protocol LocalizedIntent {
 protocol WidgetParameter: LocalizedIntent {}
 
 protocol WidgetEnumParameter: WidgetParameter, Hashable, RawRepresentable
-where RawValue : Hashable {
+    where RawValue: Hashable
+{
     static var allCases: [Self] { get }
 }

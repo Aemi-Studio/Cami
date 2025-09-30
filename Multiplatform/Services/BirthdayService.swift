@@ -46,7 +46,11 @@ final class BirthdayService: @unchecked Sendable {
             return [EKEvent]()
         }
 
-        let predicate = eventStoreService.store.predicateForEvents(withStart: today, end: endDate, calendars: [birthdayCalendar])
+        let predicate = eventStoreService.store.predicateForEvents(
+            withStart: today,
+            end: endDate,
+            calendars: [birthdayCalendar]
+        )
 
         return eventStoreService.store.events(matching: predicate).sorted(.orderedAscending)
     }

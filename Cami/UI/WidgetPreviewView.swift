@@ -6,20 +6,20 @@
 //
 
 import AppIntents
-import SwiftUI
 import OSLog
+import SwiftUI
 
 struct WidgetPreviewView: View {
     @State private var arePreviewSettingsOpen: Bool = false
     @State private var entry: StandardWidgetEntry?
-    
+
     private let radius = 0.13333 * 170
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
             if let entry {
                 let configuration = entry.configuration
-                
+
                 DisclosureGroup {
                     CustomBordered(backgroundStyle: Color.primary.tertiary, outline: true) {
                         VStack(spacing: 8) {
@@ -58,7 +58,7 @@ struct WidgetPreviewView: View {
                     Text(String(localized: "view.widgetSettings.previewSection.title"))
                 }
                 .disclosureGroupStyle(CustomDisclosureGroupStyle(track: $arePreviewSettingsOpen))
-                
+
                 ForEach(WidgetSize.allCases) { widgetSize in
                     CustomSection {
                         Text(widgetSize.custom.description)

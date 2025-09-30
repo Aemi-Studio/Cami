@@ -11,4 +11,3 @@ protocol PermissionType: Hashable, Sendable, Equatable {
     var symbolName: String { get }
     var description: String { get }
 }
-
