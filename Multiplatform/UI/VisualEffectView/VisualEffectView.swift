@@ -13,8 +13,10 @@ import UIKit
 /// VisualEffectView is a dynamic background blur view.
 @objcMembers
 open class VisualEffectView: UIVisualEffectView {
+    private static var EffectType = (NSClassFromString("_UICustomBlurEffect") as! UIBlurEffect.Type).self
+    
     /// Returns the instance of UIBlurEffect.
-    private let blurEffect = (NSClassFromString("_UICustomBlurEffect") as! UIBlurEffect.Type)()
+    private let blurEffect = EffectType.init()
 
     /// Tint color.
     ///
