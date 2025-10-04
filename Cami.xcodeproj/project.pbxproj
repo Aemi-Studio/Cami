@@ -18,8 +18,9 @@
 		464F116A2D40797700F73884 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 464F11692D40797700F73884 /* Localizable.xcstrings */; };
 		464F116B2D40797700F73884 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 464F11692D40797700F73884 /* Localizable.xcstrings */; };
 		465159302B7252AB0073544A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4651592F2B7252AB0073544A /* Settings.bundle */; };
+		46900F2E2E91C4E600870DFE /* AemiSDR in Frameworks */ = {isa = PBXBuildFile; productRef = 46900F2D2E91C4E600870DFE /* AemiSDR */; };
+		46900F302E91C4F500870DFE /* AemiSDR in Frameworks */ = {isa = PBXBuildFile; productRef = 46900F2F2E91C4F500870DFE /* AemiSDR */; };
 		46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 46A6C1072D46D61F00D3C72B /* AemiUtilities */; };
-		46A906862E89E85E002CD9C8 /* AemiSDR in Frameworks */ = {isa = PBXBuildFile; productRef = 46A906852E89E85E002CD9C8 /* AemiSDR */; };
 		46E0222F2B7A72B7005725B0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E0222E2B7A72B7005725B0 /* Collections */; };
 		46E022312B7A72B7005725B0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022302B7A72B7005725B0 /* DequeModule */; };
 		46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022322B7A72B7005725B0 /* OrderedCollections */; };
@@ -99,7 +100,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				UI/Components/ProgressCircle.swift,
-				UI/Components/VariableBlur.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
@@ -161,7 +161,7 @@
 		465533062AF4EA69000B537B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				46A906862E89E85E002CD9C8 /* AemiSDR in Frameworks */,
+				46900F2E2E91C4E600870DFE /* AemiSDR in Frameworks */,
 				46283BBA2D484EAE00754580 /* AemiUI in Frameworks */,
 				46E0222F2B7A72B7005725B0 /* Collections in Frameworks */,
 				46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */,
@@ -176,6 +176,7 @@
 				464F11662D406FC400F73884 /* SwiftUI.framework in Frameworks */,
 				46E022352B7A72BE005725B0 /* Collections in Frameworks */,
 				464F11682D406FD000F73884 /* WidgetKit.framework in Frameworks */,
+				46900F302E91C4F500870DFE /* AemiSDR in Frameworks */,
 				46E022372B7A72BE005725B0 /* DequeModule in Frameworks */,
 				460BE8032D7FB22D003862E6 /* AemiUI in Frameworks */,
 				46E022392B7A72BE005725B0 /* OrderedCollections in Frameworks */,
@@ -251,7 +252,7 @@
 				46E022322B7A72B7005725B0 /* OrderedCollections */,
 				46A6C1072D46D61F00D3C72B /* AemiUtilities */,
 				46283BB92D484EAE00754580 /* AemiUI */,
-				46A906852E89E85E002CD9C8 /* AemiSDR */,
+				46900F2D2E91C4E600870DFE /* AemiSDR */,
 			);
 			productName = Cami;
 			productReference = 465533092AF4EA69000B537B /* Cami.app */;
@@ -278,6 +279,7 @@
 				46E022382B7A72BE005725B0 /* OrderedCollections */,
 				460BE8022D7FB22D003862E6 /* AemiUI */,
 				460BE8042D7FB24A003862E6 /* AemiUtilities */,
+				46900F2F2E91C4F500870DFE /* AemiSDR */,
 			);
 			productName = CamiCompleteWidgetExtension;
 			productReference = 46B160622B07D87000A44FBF /* CamiWidgetExtension.appex */;
@@ -291,7 +293,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					465533082AF4EA69000B537B = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -313,7 +315,7 @@
 				461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
 				46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */,
 				46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */,
-				46A906842E89E85E002CD9C8 /* XCRemoteSwiftPackageReference "AemiSDR" */,
+				46900F2C2E91C4E600870DFE /* XCLocalSwiftPackageReference "../AemiSDR/AemiSDR" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 4655330A2AF4EA69000B537B /* Products */;
@@ -487,6 +489,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -615,6 +618,7 @@
 				MTL_FAST_MATH = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -739,6 +743,7 @@
 		46B160722B07D87100A44FBF /* Debug configuration for PBXNativeTarget "CamiWidgetExtension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CURRENT_PROJECT_VERSION = 1;
@@ -767,6 +772,7 @@
 		46B160732B07D87100A44FBF /* Release configuration for PBXNativeTarget "CamiWidgetExtension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CURRENT_PROJECT_VERSION = 1;
@@ -821,6 +827,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		46900F2C2E91C4E600870DFE /* XCLocalSwiftPackageReference "../AemiSDR/AemiSDR" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../AemiSDR/AemiSDR;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -847,14 +860,6 @@
 				kind = branch;
 			};
 		};
-		46A906842E89E85E002CD9C8 /* XCRemoteSwiftPackageReference "AemiSDR" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Aemi-Studio/AemiSDR";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -873,15 +878,19 @@
 			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */;
 			productName = AemiUI;
 		};
+		46900F2D2E91C4E600870DFE /* AemiSDR */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AemiSDR;
+		};
+		46900F2F2E91C4F500870DFE /* AemiSDR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46900F2C2E91C4E600870DFE /* XCLocalSwiftPackageReference "../AemiSDR/AemiSDR" */;
+			productName = AemiSDR;
+		};
 		46A6C1072D46D61F00D3C72B /* AemiUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */;
 			productName = AemiUtilities;
-		};
-		46A906852E89E85E002CD9C8 /* AemiSDR */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 46A906842E89E85E002CD9C8 /* XCRemoteSwiftPackageReference "AemiSDR" */;
-			productName = AemiSDR;
 		};
 		46E0222E2B7A72B7005725B0 /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;

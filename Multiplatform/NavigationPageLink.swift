@@ -5,6 +5,7 @@
 //  Created by Guillaume Coquard on 02/02/25.
 //
 
+import AemiSDR
 import SwiftUI
 
 struct NavigationPageLink<Destination: View>: View {

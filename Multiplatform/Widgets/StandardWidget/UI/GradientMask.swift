@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct GradientMask: View {
-    @Environment(\.colorScheme) private var colorScheme
-
-    private var gradientHeight: CGFloat {
-        colorScheme == .dark ? 32 : 16
+    let direction: VerticalDirection
+    
+    private let colors = [Color.black, Color.black.opacity(0)]
+    
+    private var points: (start: UnitPoint, end: UnitPoint) {
+        switch direction {
+        case .up: (start: .bottom, end: .top)
+        case .down: (start: .top, end: .bottom)
+        }
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            Color.black
-            LinearGradient(
-                colors: [
-                    Color.black,
-                    Color.black.opacity(0)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(maxWidth: .infinity, maxHeight: gradientHeight)
-        }
+        LinearGradient(
+            colors: colors,
+            startPoint: points.start,
+            endPoint: points.end
+        )
+    }
+    
+    enum VerticalDirection: Equatable {
+        case up
+        case down
     }
 }

@@ -41,12 +41,20 @@ struct CamiWidgetView: View {
         }
         .padding([.top, .horizontal], 6)
         .accessibilityAddTraits(.updatesFrequently)
-        .mask(GradientMask.init)
+        .mask { maskContent }
         .widgetAccentable()
         .containerBackground(background, for: .widget)
         .environment(\.widgetContent, content)
         .environment(\.data, .shared)
         .environment(\.locale, .prefered)
         .task { DataContext.shared.subscribe() }
+    }
+    
+    private var maskContent: some View {
+        VStack(spacing: 0) {
+            Color.black
+            GradientMask(direction: .down)
+                .frame(height: 24)
+        }
     }
 }

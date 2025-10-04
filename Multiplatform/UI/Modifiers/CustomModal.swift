@@ -82,7 +82,7 @@ struct CustomModal<Content>: View where Content: View {
     }
 }
 
-extension PresentationDetent: @retroactive Comparable {
+extension PresentationDetent: Swift.Comparable {
     public static func < (lhs: PresentationDetent, rhs: PresentationDetent) -> Bool {
         lhs.order < rhs.order
     }

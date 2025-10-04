@@ -5,6 +5,7 @@
 //  Created by Guillaume Coquard on 02/04/25.
 //
 
+import AemiSDR
 import SwiftUI
 
 struct BlurryEdgeViewModifier: ViewModifier {
@@ -47,7 +48,7 @@ struct BlurryEdgeViewModifier: ViewModifier {
         Color.clear.overlay(alignment: edge == .top ? .top : .bottom) {
             VariableBlurView(
                 maxBlurRadius: radius,
-                direction: edge == .top ? .blurredTopClearBottom : .blurredBottomClearTop
+                type: edge == .top ? .easeInTopToBottom : .easeInBottomToTop
             )
             .frame(height: height)
         }

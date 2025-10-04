@@ -5,23 +5,33 @@
 //  Created by Guillaume Coquard on 29/03/25.
 //
 
+import AemiSDR
 import SwiftUI
 import WidgetKit
 
 struct AppHeaderView: View {
     @Environment(\.openModal) private var openModal
-    @Environment(\.presentation) private var presentation
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-
-    let date: Date
-
-    private var topSafeAreaHeight: CGFloat {
-        UIApplication.currentWindow?.safeAreaInsets.top ?? 0
+    
+    @State private var topSafeAreaInset = CGFloat.zero
+    @Binding private var viewHeight: CGFloat
+    
+    let layoutScrollOffset: CGFloat
+    let date = Date.now
+    
+    init(
+        height: Binding<CGFloat>,
+        offset: CGFloat
+    ) {
+        self._viewHeight = height
+        self.layoutScrollOffset = offset
     }
 
     var body: some View {
-        TopBar(height: presentation.scaledTopBarHeight) {
-            todaysDate
+        TopBar(scrollOffset: layoutScrollOffset) {
+            ViewThatFits(in: .horizontal) {
+                longDate
+                shortDate
+            }
         } trailing: {
             Button("Create a calendar item", systemImage: "plus") {
                 openModal?(.new())
@@ -35,8 +45,7 @@ struct AppHeaderView: View {
                 }
             }
         }
-        .safeAreaPadding(.top, topSafeAreaHeight)
-        .blurryEdge(edge: .top, height: presentation.safeScaledTopBarHeight, radius: presentation.topBlurRadius)
+        .track(height: $viewHeight)
     }
 
     private func formattedToday(day: String, date: String) -> some View {
@@ -50,15 +59,14 @@ struct AppHeaderView: View {
         .textCase(.uppercase)
     }
 
-    @ViewBuilder private var todaysDate: some View {
-        let dateLiterals = date.literals
-        let date = dateLiterals[.date]
-        var day: String? {
-            dynamicTypeSize > .xLarge
-                ? dateLiterals[.medium]
-                : dateLiterals[.long]
+    @ViewBuilder private var longDate: some View {
+        if let day = date.literals[.long], let date = date.literals[.date] {
+            formattedToday(day: day, date: date)
         }
-        if let day, let date {
+    }
+    
+    @ViewBuilder private var shortDate: some View {
+        if let day = date.literals[.short], let date = date.literals[.date] {
             formattedToday(day: day, date: date)
         }
     }
