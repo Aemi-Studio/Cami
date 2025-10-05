@@ -57,7 +57,7 @@ extension AppNavigation: NavigationCoordinating {
     func performComplexFlow(_ flow: NavigationFlow) {
         switch flow {
         case .onboarding:
-                // Present onboarding as sheet
+                // Present onboarding as sheet and start at intro
                 sheetDestination = .onboarding
         }
     }
