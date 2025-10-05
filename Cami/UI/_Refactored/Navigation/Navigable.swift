@@ -6,6 +6,6 @@
 //
 
 protocol Navigable: Identifiable, Hashable, Codable, Sendable, Equatable {
-    associatedtype Configuration = NavigationConfiguration<Self>
+    typealias Configuration = NavigationConfiguration<Self>
     var configuration: Configuration { get }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingsNavigationLinksSection: View {
+    @Environment(AppNavigation.self) private var navigation
+    
     var body: some View {
         CustomSection {
             Label(
@@ -15,17 +17,23 @@ struct SettingsNavigationLinksSection: View {
                 systemImage: "gear"
             )
         } content: {
-            NavigationPageLink(String(localized: "knowledgebase.navigationlink.title")) {
-                KnowledgeBaseView()
+            NavigationLink(value: NavigationDestination.knowledgeBase) {
+                Text(String(localized: "knowledgebase.navigationlink.title"))
             }
 
-            NavigationPageLink(String(localized: "permissions.navigationlink.title")) {
-                PermissionsView()
+            NavigationLink(value: NavigationDestination.permissions) {
+                Text(String(localized: "permissions.navigationlink.title"))
             }
 
-            NavigationPageLink(String(localized: "widgetSettings.navigationlink.title")) {
-                WidgetSettingsView()
+            NavigationLink(value: NavigationDestination.widgetSettings) {
+                Text(String(localized: "widgetSettings.navigationlink.title"))
             }
+            
+            #if DEBUG
+            NavigationLink(value: NavigationDestination.developer) {
+                Text(String(localized: "view.developer.title"))
+            }
+            #endif
         }
     }
 }

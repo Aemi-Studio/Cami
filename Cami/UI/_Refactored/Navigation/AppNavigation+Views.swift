@@ -13,10 +13,34 @@ extension AppNavigation {
     func view(for destination: NavigationDestination) -> some View {
         Group {
             switch destination {
-                case .main: EmptyView()
-                case .onboarding: OnboardingView()
-                case .settings: EmptyView()
-                @unknown default: EmptyView()
+                case .main:
+                    EmptyView() // Main view is handled by AppView
+                    
+                case .onboarding:
+                    OnboardingView()
+                    
+                case .settings:
+                    CustomSettingsView()
+                    
+                case .permissions:
+                    PermissionsView()
+                    
+                case .widgetSettings:
+                    WidgetSettingsView()
+                    
+                #if DEBUG
+                case .developer:
+                    DeveloperView()
+                #endif
+                    
+                case .knowledgeBase:
+                    KnowledgeBaseView()
+                    
+                case .widgets:
+                    WidgetPreviewView()
+                    
+                @unknown default:
+                    EmptyView()
             }
         }
         .environment(self)

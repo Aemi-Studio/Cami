@@ -11,6 +11,7 @@ import WidgetKit
 
 struct AppHeaderView: View {
     @Environment(\.openModal) private var openModal
+    @Environment(AppNavigation.self) private var navigation
     
     @State private var topSafeAreaInset = CGFloat.zero
     @Binding private var viewHeight: CGFloat
@@ -34,10 +35,11 @@ struct AppHeaderView: View {
             }
         } trailing: {
             Button("Create a calendar item", systemImage: "plus") {
+                // TODO: Will be implemented when calendar item creation is added to navigation
                 openModal?(.new())
             }
             Button("Settings", systemImage: "gear") {
-                openModal?(.settings)
+                navigation.navigate(to: .settings)
             }
             .contextMenu {
                 Button("Refresh", systemImage: "arrow.clockwise") {
