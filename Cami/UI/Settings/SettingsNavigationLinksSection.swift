@@ -17,22 +17,26 @@ struct SettingsNavigationLinksSection: View {
                 systemImage: "gear"
             )
         } content: {
-            NavigationLink(value: NavigationDestination.knowledgeBase) {
-                Text(String(localized: "knowledgebase.navigationlink.title"))
-            }
+            NavigationPageLink(
+                String(localized: "knowledgebase.navigationlink.title"),
+                destination: .knowledgeBase
+            )
 
-            NavigationLink(value: NavigationDestination.permissions) {
-                Text(String(localized: "permissions.navigationlink.title"))
-            }
+            NavigationPageLink(
+                String(localized: "permissions.navigationlink.title"),
+                destination: .permissions
+            )
 
-            NavigationLink(value: NavigationDestination.widgetSettings) {
-                Text(String(localized: "widgetSettings.navigationlink.title"))
-            }
+            NavigationPageLink(
+                String(localized: "widgetSettings.navigationlink.title"),
+                destination: .widgetSettings
+            )
             
             #if DEBUG
-            NavigationLink(value: NavigationDestination.developer) {
-                Text(String(localized: "view.developer.title"))
-            }
+            NavigationPageLink(
+                String(localized: "view.developer.title"),
+                destination: .developer
+            )
             #endif
         }
     }

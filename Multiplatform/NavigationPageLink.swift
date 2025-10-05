@@ -8,37 +8,6 @@
 import AemiSDR
 import SwiftUI
 
-struct NavigationPageLink<Destination: View>: View {
-    let title: String
-    let image: String
-    let destination: () -> Destination
-
-    init(
-        _ title: String,
-        image: String = "chevron.forward",
-        @ViewBuilder destination: @escaping () -> Destination
-    ) {
-        self.title = title
-        self.image = image
-        self.destination = destination
-    }
-    
-    @State private var scrollOffset = CGFloat.zero
-
-    var body: some View {
-        NavigationLink {
-            ScrollOffsetReader($scrollOffset) {
-                destination()
-            }
-            .navigationStackStyleReset(blurOffset: max(abs(min(scrollOffset, 0)), 80))
-
-        } label: {
-            Label(title, systemImage: image)
-        }
-        .buttonStyle(.accentWithOutline)
-    }
-}
-
 extension View {
     func navigationStackStyleReset(blurOffset: CGFloat) -> some View {
         self
