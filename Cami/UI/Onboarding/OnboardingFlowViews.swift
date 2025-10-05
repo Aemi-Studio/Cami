@@ -18,6 +18,8 @@ struct OnboardingIntroView: View {
 
     var body: some View {
         VStack(spacing: 32) {
+            OnboardingProgressView(current: .intro)
+
             OnboardingHeroView()
             Text(String(localized: "onboarding.description"))
                 .multilineTextAlignment(.center)
@@ -97,6 +99,8 @@ struct OnboardingPermissionStepView: View {
 
     var body: some View {
         VStack(spacing: 32) {
+            OnboardingProgressView(current: .fromPermission(permission))
+
             VStack(spacing: 12) {
                 Text(String(localized: titleKey))
                     .font(.largeTitle)
@@ -195,6 +199,8 @@ struct OnboardingCompletionView: View {
 
     var body: some View {
         VStack(spacing: 32) {
+            OnboardingProgressView(current: .completion)
+
             Image(systemName: "checkmark.seal.fill")
                 .symbolRenderingMode(.multicolor)
                 .font(.system(size: 64))

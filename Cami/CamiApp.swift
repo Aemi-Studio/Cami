@@ -15,6 +15,14 @@ struct CamiApp: App {
     var body: some Scene {
         WindowGroup {
             AppRootView()
+                .task {
+                    @AppStorage(SettingsKeys.hasDismissedOnboarding) var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
+                    if !hasDismissedOnboarding {
+                        await MainActor.run {
+                            appState.navigation.performComplexFlow(.onboarding)
+                        }
+                    }
+                }
                 .environment(\.appState, appState)
                 .environment(appState.navigation)
                 .environment(\.data, .shared)

@@ -46,9 +46,7 @@ struct MainContentView: View {
             ScrollOffsetReader($state.scrollViewOffset, showsIndicators: false) {
                 VStack(spacing: 0) {
                     padded {
-                        if !hasDismissedOnboarding {
-                            OnboardingView()
-                        }
+                        // Onboarding no longer shown inline; handled via sheet-based flow
                         SingleDayView(context: appState.dayContext)
                     }
                 }

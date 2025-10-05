@@ -1,4 +1,54 @@
 //
+// MARK: - Progress Indicator
+fileprivate enum OnboardingStep: Int, CaseIterable, Sendable {
+    case intro
+    case calendar
+    case contacts
+    case reminders
+    case completion
+
+    static func fromPermission(_ permission: PermissionManager.Permission) -> OnboardingStep {
+        switch permission {
+        case .calendar: .calendar
+        case .contacts: .contacts
+        case .reminders: .reminders
+        }
+    }
+}
+
+struct OnboardingProgressView: View {
+    let current: OnboardingStep
+
+    private var steps: [OnboardingStep] { OnboardingStep.allCases }
+
+    var body: some View {
+        HStack(spacing: 8) {
+            ForEach(steps, id: \.self) { step in
+                Capsule()
+                    .fill(color(for: step).gradient)
+                    .frame(height: 6)
+                    .animation(.easeInOut, value: current)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(progressLabel)
+    }
+
+    private func color(for step: OnboardingStep) -> Color {
+        if step.rawValue < current.rawValue { return .green }
+        if step == current { return .accentColor }
+        return .secondary.opacity(0.3)
+    }
+
+    private var progressLabel: String {
+        let index = current.rawValue + 1
+        let total = steps.count
+        return String(localized: "onboarding.progress \(index) / \(total)")
+    }
+}
+
+
 //  OnboardingComponents.swift
 //  Cami
 //
