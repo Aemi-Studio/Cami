@@ -14,7 +14,7 @@ struct CamiApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AppView()
+            AppRootView()
                 .environment(\.appState, appState)
                 .environment(appState.navigation)
                 .environment(\.data, .shared)
