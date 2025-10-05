@@ -29,13 +29,3 @@ struct CustomSettingsView: View {
         .navigationTitle(String(localized: "settings.navigation.title"))
     }
 }
-
-extension View {
-    @ViewBuilder func containerNavigationBackground() -> some View {
-        if #available(iOS 18.0, *) {
-            containerBackground(.clear, for: .navigation)
-        } else {
-            background()
-        }
-    }
-}

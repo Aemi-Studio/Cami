@@ -22,11 +22,15 @@ struct NavigationPageLink<Destination: View>: View {
         self.image = image
         self.destination = destination
     }
+    
+    @State private var scrollOffset = CGFloat.zero
 
     var body: some View {
         NavigationLink {
-            destination()
-                .navigationStackStyleReset()
+            ScrollOffsetReader($scrollOffset) {
+                destination()
+            }
+            .navigationStackStyleReset(blurOffset: max(abs(min(scrollOffset, 0)), 80))
 
         } label: {
             Label(title, systemImage: image)
@@ -36,21 +40,19 @@ struct NavigationPageLink<Destination: View>: View {
 }
 
 extension View {
-    func navigationStackStyleReset() -> some View {
-        toolbarNavigationBackgroundHidden()
+    func navigationStackStyleReset(blurOffset: CGFloat) -> some View {
+        self
+            .modifier(ResetToolbarBackground(blurOffset: blurOffset))
             .containerNavigationBackground()
             .transition(.blurReplace)
-    }
-
-    @ViewBuilder func toolbarNavigationBackgroundHidden() -> some View {
-        modifier(ResetToolbarBackground())
     }
 }
 
 struct ResetToolbarBackground: ViewModifier {
-    @State private var height: CGFloat = 0
+    @State private var topSafeAreaInset = CGFloat.zero
 
-    @ViewBuilder private func hideToolbar(@ViewBuilder content: () -> some View) -> some View {
+    @ViewBuilder
+    private func hideToolbar(@ViewBuilder content: () -> some View) -> some View {
         if #available(iOS 18.0, *) {
             content().toolbarBackgroundVisibility(.hidden, for: .navigationBar)
         } else {
@@ -58,50 +60,49 @@ struct ResetToolbarBackground: ViewModifier {
         }
     }
 
-    @ViewBuilder private func applyMaskAndBlur(@ViewBuilder content: () -> some View) -> some View {
+    @ViewBuilder
+    private func applyMaskAndBlur(@ViewBuilder content: () -> some View) -> some View {
         content()
-            .padding(.bottom, height * 2)
-            .ignoresSafeArea(.all, edges: .bottom)
             .scrollClipDisabled()
             .scrollIndicators(.hidden)
-            .mask(alignment: .top) {
-                DisappearingHeaderMask(height: height)
-                    .offset(y: -height)
-            }
-            .overlay(alignment: .top) {
-                VariableBlurView(maxBlurRadius: 10)
-                    .frame(height: height)
-                    .frame(maxWidth: .infinity)
-                    .offset(y: -height)
-            }
-            .background {
-                GeometryReader { proxy in
-                    Color.clear
-                        .preference(key: ToolbarHeightPreferenceKey.self, value: proxy.safeAreaInsets.top)
-                        .onPreferenceChange(ToolbarHeightPreferenceKey.self) { newHeight in
-                            Task(priority: .utility) { @MainActor in
-                                if newHeight != height {
-                                    height = newHeight
-                                }
-                            }
-                        }
-                }
-            }
-            .padding(.bottom, -height * 2)
+            .mask(alignment: .top) { maskContent }
+            .overlay(alignment: .top) { blurContent }
+            .track(safeAreaInsets: $topSafeAreaInset, edge: .top)
     }
 
-    struct ToolbarHeightPreferenceKey: PreferenceKey {
-        static let defaultValue: CGFloat = 0
-        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-            value = nextValue()
+    private var maskContent: some View {
+        VStack(spacing: 0) {
+            GradientMask(direction: .up)
+                .frame(height: topSafeAreaInset - (80 - blurOffset))
+            Color.black
         }
+        .ignoresSafeArea(edges: .top)
     }
+    
+    private var blurContent: some View {
+        VariableBlurView(maxBlurRadius: 5)
+            .frame(height: topSafeAreaInset - (80 - blurOffset))
+            .ignoresSafeArea(edges: .top)
+    }
+    
+    let blurOffset: CGFloat
 
     func body(content: Content) -> some View {
         hideToolbar {
             applyMaskAndBlur {
                 content
             }
+        }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func containerNavigationBackground() -> some View {
+        if #available(iOS 18.0, *) {
+            containerBackground(.clear, for: .navigation)
+        } else {
+            background()
         }
     }
 }

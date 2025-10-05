@@ -6,6 +6,7 @@
 //
 
 import AemiUI
+import AemiSDR
 import SwiftUI
 
 struct CamiWidgetView: View {

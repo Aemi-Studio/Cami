@@ -22,7 +22,6 @@ struct CamiApp: App {
                 .environment(\.locale, .prefered)
                 .onOpenURL(perform: Router.shared.handleURL)
                 .refreshWidgets()
-                .setupModals()
                 .environment(\.viewKind, .standard)
                 .environment(permissionManager)
         }
