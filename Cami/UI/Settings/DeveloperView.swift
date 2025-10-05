@@ -11,9 +11,8 @@ import SwiftUI
     struct DeveloperView: View {
         @Environment(PermissionManager.self) private var permissionManager
 
-        @AppStorage(SettingsKeys.hasDismissedOnboarding)
-        private var hasDismissedOnboarding: Bool = UserDefaults.standard
-            .bool(forKey: SettingsKeys.hasDismissedOnboarding)
+        @AppStorage(SettingsKeys.hasCompletedInitialOnboarding.rawValue)
+        private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasCompletedInitialOnboarding.rawValue)
 
         private var hasDismissedOnboardingBinding: Binding<Bool> {
             Binding {

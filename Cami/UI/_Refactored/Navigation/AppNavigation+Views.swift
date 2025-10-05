@@ -17,15 +17,7 @@ extension AppNavigation {
                     EmptyView() // Main view is handled by AppView
                     
                 case .onboarding:
-                    OnboardingIntroView()
-                case .onboardingPermissionsCalendar:
-                    OnboardingPermissionStepView(permission: .calendar)
-                case .onboardingPermissionsContacts:
-                    OnboardingPermissionStepView(permission: .contacts)
-                case .onboardingPermissionsReminders:
-                    OnboardingPermissionStepView(permission: .reminders)
-                case .onboardingCompletion:
-                    OnboardingCompletionView()
+                    OnboardingView()
                     
                 case .settings:
                     CustomSettingsView()

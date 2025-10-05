@@ -9,7 +9,7 @@ import EventKit
 import SwiftUI
 
 struct CalendarSelectionView: View {
-    @Environment(\.appState) private var state
+    @Environment(AppState.self) private var state
     @Environment(\.data) private var data
 
     private var calendars: [EKCalendar] {

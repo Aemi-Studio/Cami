@@ -9,21 +9,13 @@ import SwiftUI
 
 @main
 struct CamiApp: App {
-    @LazyState private var appState = AppState(date: .now)
+    @LazyState private var appState = AppState()
     @LazyState private var permissionManager = PermissionManager()
 
     var body: some Scene {
         WindowGroup {
             AppRootView()
-                .task {
-                    @AppStorage(SettingsKeys.hasDismissedOnboarding) var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
-                    if !hasDismissedOnboarding {
-                        await MainActor.run {
-                            appState.navigation.performComplexFlow(.onboarding)
-                        }
-                    }
-                }
-                .environment(\.appState, appState)
+                .environment(appState)
                 .environment(appState.navigation)
                 .environment(\.data, .shared)
                 .environment(\.modal, .shared)

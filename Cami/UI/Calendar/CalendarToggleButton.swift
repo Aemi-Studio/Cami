@@ -9,7 +9,7 @@ import EventKit
 import SwiftUI
 
 struct CalendarToggleButton: View {
-    @Environment(\.appState) private var state
+    @Environment(AppState.self) private var state: AppState?
 
     var context: SingleDayContext? {
         state?.dayContext

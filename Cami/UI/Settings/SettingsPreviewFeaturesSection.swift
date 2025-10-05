@@ -9,7 +9,7 @@ import AemiUI
 import SwiftUI
 
 struct SettingsPreviewFeaturesSection: View {
-    @AppStorage(SettingsKeys.accessWorkInProgressFeatures)
+    @AppStorage(SettingsKeys.accessWorkInProgressFeatures.rawValue)
     private var accessWorkInProgressFeatures: Bool = false
 
     private var accessWorkInProgressFeaturesBinding: Binding<Bool> {

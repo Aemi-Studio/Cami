@@ -50,8 +50,8 @@ struct CamiWidgetHeader: View {
         }
     }
 
-    @AppStorage(SettingsKeys.openInCami)
-    private var openInPlace: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.openInCami)
+    @AppStorage(SettingsKeys.openInCami.rawValue)
+    private var openInPlace: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.openInCami.rawValue)
 
     var body: some View {
         HStack(spacing: 0) {

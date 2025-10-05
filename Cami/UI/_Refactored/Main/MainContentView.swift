@@ -14,14 +14,11 @@ import WidgetKit
 /// The main content view of the application
 /// Extracted from AppView to separate navigation concerns from content presentation
 struct MainContentView: View {
-    @Environment(\.appState) private var appState
+    @Environment(AppState.self) private var appState
     @Environment(AppNavigation.self) private var navigation
 
     @State private var state = MainContentViewState()
     @State private var topSafeAreaInset = CGFloat.zero
-
-    @AppStorage(SettingsKeys.hasDismissedOnboarding)
-    private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -42,20 +39,18 @@ struct MainContentView: View {
     }
 
     private var content: some View {
-        appState.map { appState in
-            ScrollOffsetReader($state.scrollViewOffset, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    padded {
-                        // Onboarding no longer shown inline; handled via sheet-based flow
-                        SingleDayView(context: appState.dayContext)
-                    }
+        ScrollOffsetReader($state.scrollViewOffset, showsIndicators: false) {
+            VStack(spacing: 0) {
+                padded {
+                    // Onboarding no longer shown inline; handled via sheet-based flow
+                    SingleDayView(context: appState.dayContext)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.top, state.topBarHeight)
             }
-            .scrollClipDisabled()
-            .mask { maskContent }
+            .frame(maxWidth: .infinity)
+            .padding(.top, state.topBarHeight)
         }
+        .scrollClipDisabled()
+        .mask { maskContent }
     }
 
     private func padded(@ViewBuilder content: () -> some View) -> some View {

@@ -13,10 +13,6 @@ enum NavigationDestination: Hashable, Codable, Equatable, Navigable {
     
     // MARK: - Onboarding
     case onboarding
-    case onboardingPermissionsCalendar
-    case onboardingPermissionsContacts
-    case onboardingPermissionsReminders
-    case onboardingCompletion
     
     // MARK: - Settings & Configuration
     case settings
@@ -41,14 +37,6 @@ extension NavigationDestination {
             // Onboarding - presented as sheet, no parent
             case .onboarding:
                 .init(id: "onboarding", presentation: .sheet)
-            case .onboardingPermissionsCalendar:
-                .init(id: "onboarding.permissions.calendar", parent: .onboarding, presentation: .push)
-            case .onboardingPermissionsContacts:
-                .init(id: "onboarding.permissions.contacts", parent: .onboarding, presentation: .push)
-            case .onboardingPermissionsReminders:
-                .init(id: "onboarding.permissions.reminders", parent: .onboarding, presentation: .push)
-            case .onboardingCompletion:
-                .init(id: "onboarding.completion", parent: .onboarding, presentation: .push)
             
             // Settings - presented as sheet, no parent
             case .settings:

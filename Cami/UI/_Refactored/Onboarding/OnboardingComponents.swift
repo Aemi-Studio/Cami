@@ -1,20 +1,3 @@
-//
-// MARK: - Progress Indicator
-fileprivate enum OnboardingStep: Int, CaseIterable, Sendable {
-    case intro
-    case calendar
-    case contacts
-    case reminders
-    case completion
-
-    static func fromPermission(_ permission: PermissionManager.Permission) -> OnboardingStep {
-        switch permission {
-        case .calendar: .calendar
-        case .contacts: .contacts
-        case .reminders: .reminders
-        }
-    }
-}
 
 struct OnboardingProgressView: View {
     let current: OnboardingStep

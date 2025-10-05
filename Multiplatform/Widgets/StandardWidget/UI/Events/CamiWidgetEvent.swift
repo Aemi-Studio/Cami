@@ -21,8 +21,8 @@ struct CamiWidgetEvent: View {
     @Environment(\.tint)
     private var tint
 
-    @AppStorage(SettingsKeys.openInCami)
-    private var openInPlace: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.openInCami)
+    @AppStorage(SettingsKeys.openInCami.rawValue)
+    private var openInPlace: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.openInCami.rawValue)
 
     private(set) var groupedItem: [CalendarItem]
 
