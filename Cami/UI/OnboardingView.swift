@@ -8,168 +8,79 @@
 import SwiftUI
 import WidgetKit
 
+/// OnboardingView
+/// Refactored to use new navigation strategy and extracted reusable components.
+/// Presentation decision (sheet vs inline) is handled by NavigationDestination configuration (.sheet).
 struct OnboardingView: View {
-    @Environment(\.openModal) private var openModal
+    @Environment(AppNavigation.self) private var navigation
     @Environment(PermissionManager.self) private var permissionManager
     @Environment(\.tint) private var tint
 
     @AppStorage(SettingsKeys.hasDismissedOnboarding)
     private var hasDismissedOnboarding: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.hasDismissedOnboarding)
 
-    private var authorized: Bool {
-        permissionManager.areAllPermissionsGranted()
-    }
+    private var authorized: Bool { permissionManager.areAllPermissionsGranted() }
+    private var restricted: Bool { permissionManager.isSomePermissionRestricted() }
 
-    private var restricted: Bool {
-        permissionManager.isSomePermissionRestricted()
-    }
-
-    private var maxHeight: CGFloat? {
-        hasDismissedOnboarding ? 0 : nil
-    }
+    private var maxHeight: CGFloat? { hasDismissedOnboarding ? 0 : nil }
 
     var body: some View {
-        VStack {
-            content
-        }
-        .animation(.default, value: hasDismissedOnboarding)
+        VStack { content }
+            .animation(.default, value: hasDismissedOnboarding)
     }
 
     @ViewBuilder private var content: some View {
         if !hasDismissedOnboarding {
-            VStack(alignment: .leading, spacing: 16) {
-                header
-            }
-            .overlay(alignment: .topTrailing) {
-                if authorized {
-                    Button(
-                        String(localized: "onboarding.dismissButton.label"),
-                        systemImage: "xmark"
-                    ) {
-                        withAnimation {
-                            hasDismissedOnboarding = true
-                        }
-                    }
-                    .labelStyle(.iconOnly)
-                    .font(.title3)
-                    .foregroundStyle(Color.primary.tertiary)
-                    .fontWeight(.medium)
-                    .padding()
-                    .contentShape(.rect)
-                }
-            }
-            .padding(.bottom, 26)
-            .frame(maxHeight: maxHeight)
-            .transition(
-                .asymmetric(
-                    insertion: .push(from: .top),
-                    removal: .move(edge: .top)
+            VStack(alignment: .leading, spacing: 16) { header }
+                .overlay(alignment: .topTrailing) { dismissButton }
+                .padding(.bottom, 26)
+                .frame(maxHeight: maxHeight)
+                .transition(
+                    .asymmetric(
+                        insertion: .push(from: .top),
+                        removal: .move(edge: .top)
+                    ).combined(with: .opacity)
                 )
-                .combined(with: .opacity)
-            )
         }
     }
 
-    private var title: some View {
-        VStack {
-            Text(String(localized: "onboarding.titlePrefix"))
-                .font(.title)
-            Text("Cami Calendar")
-                .font(.largeTitle)
+    @ViewBuilder private var dismissButton: some View {
+        if authorized {
+            Button(String(localized: "onboarding.dismissButton.label"), systemImage: "xmark") {
+                withAnimation { hasDismissedOnboarding = true }
+            }
+            .labelStyle(.iconOnly)
+            .font(.title3)
+            .foregroundStyle(Color.primary.tertiary)
+            .fontWeight(.medium)
+            .padding()
+            .contentShape(.rect)
         }
-        .fontWeight(.bold)
-    }
-
-    @ViewBuilder private var hero: some View {
-        title
-        Text(String(localized: "onboarding.description"))
     }
 
     private var header: some View {
         VStack(alignment: .center, spacing: 32) {
-            hero
-            if !authorized {
-                if restricted {
-                    onboardingRestrictedButton
-                } else {
-                    onboardingCallToActionButton
-                }
-            } else {
-                onboardingDoneButton
-            }
+            OnboardingHeroView()
+            if !authorized { permissionSection } else { OnboardingDoneStatusView() }
         }
         .multilineTextAlignment(.center)
         .padding(.top, 32)
         .frame(maxWidth: .infinity)
         .padding()
         .background { GlassStyle(.rect(cornerRadius: 16)) }
-        .contextMenu {
-            WidgetsRefreshButton()
-        }
+        .contextMenu { WidgetsRefreshButton() }
     }
 
-    private var onboardingCallToActionButton: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            VStack(alignment: .leading, spacing: 6) {
-                Text(String(localized: "onboarding.action.title"))
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .foregroundStyle(Color.primary)
-
-                Text(String(localized: "onboarding.action.description"))
-                    .font(.body)
-                    .fontWeight(.regular)
-                    .foregroundStyle(Color.primary.secondary)
+    @ViewBuilder private var permissionSection: some View {
+        if restricted {
+            OnboardingRestrictedSettingsButton { AppContext.open(.settings) }
+        } else {
+            OnboardingCard(backgroundTint: tint) {
+                OnboardingPermissionActionButton {
+                    navigation.navigate(to: .permissions)
+                }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .multilineTextAlignment(.leading)
-            .lineLimit(nil)
-
-            Button(
-                String(localized: "onboarding.callToAction.continue"),
-                systemImage: "arrow.forward.square"
-            ) {
-                openModal?(.permissions)
-            }
-            .buttonStyle(.customBorderedButton(foregroundStyle: Color.white, radius: 8, opacity: 1))
-            .font(.title3)
-            .fontWeight(.medium)
         }
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background { GlassStyle(.rect(cornerRadius: 8), color: tint) }
-    }
-
-    private var onboardingDoneButton: some View {
-        VStack(alignment: .center, spacing: 6) {
-            Text(String(localized: "onboarding.ok"))
-                .font(.title3)
-                .fontWeight(.semibold)
-            Text(String(localized: "onboarding.ok.description"))
-                .foregroundStyle(Color.secondary)
-        }
-        .fontDesign(.rounded)
-        .multilineTextAlignment(.center)
-        .padding(12)
-        .frame(maxWidth: .infinity)
-        .background { GlassStyle(.rect(cornerRadius: 8), color: .green, intensity: 0.25) }
-    }
-
-    private var onboardingRestrictedButton: some View {
-        Button {
-            AppContext.open(.settings)
-        } label: {
-            CustomBorderedButton(foregroundStyle: Color.white, radius: 8, opacity: 1) {
-                Text(String(localized: "onboarding.restricted.callToAction.title"))
-            } icon: {
-                Image(systemName: "gear")
-            } description: {
-                Text(String(localized: "onboarding.restricted.callToAction.description"))
-                    .font(.subheadline)
-            }
-            .font(.title3)
-            .fontWeight(.medium)
-        }
-        .tinted(.red)
     }
 }
+
