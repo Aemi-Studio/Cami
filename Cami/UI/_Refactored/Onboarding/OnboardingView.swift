@@ -13,24 +13,12 @@ struct OnboardingView: View {
     @Environment(AppNavigation.self) private var navigation
     @Environment(PermissionManager.self) private var permissionManager
 
-    @State private var steps: [OnboardingStep] = []
-    @State private var currentStep: OnboardingStep?
-
-    private var actualSteps: [OnboardingStep] {
-        steps.filter { step in
-            switch step {
-                case .permissionCalendar: permissionManager.calendarStatus != .authorized
-                case .permissionReminders: permissionManager.remindersStatus != .authorized
-                case .permissionContacts: permissionManager.contactsStatus != .authorized
-                default: true
-            }
-        }
-    }
+    @State private var view = OnboardingViewState()
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
-                ForEach(actualSteps, id: \.self) { step in
+                ForEach(view.actualSteps, id: \.self) { step in
                     view(for: step)
                         .padding()
                         .containerRelativeFrame(.horizontal)
@@ -41,12 +29,9 @@ struct OnboardingView: View {
         .scrollClipDisabled()
         .scrollDisabled(true)
         .scrollTargetBehavior(.viewAligned)
-        .scrollPosition(id: $currentStep, anchor: .leading)
+        .scrollPosition(id: $view.currentStep, anchor: .leading)
         .toolbar { bottom }
-        .task {
-            steps = state.onboardingSteps
-            currentStep = actualSteps.first
-        }
+        .task { view.load(app: state, permissions: permissionManager) }
         .presentationDetents([.medium, .large], selection: $presentationDetent)
         .presentationDragIndicator(.hidden)
         .interactiveDismissDisabled()
@@ -58,11 +43,11 @@ struct OnboardingView: View {
     private func view(for step: OnboardingStep?) -> some View {
         switch step {
             case .permissionCalendar:
-                OnboardingCalendarPermissionView(goToNextStep: next)
+                OnboardingCalendarPermissionView(goToNextStep: view.next)
             case .permissionReminders:
-                OnboardingRemindersPermissionView(goToNextStep: next)
+                OnboardingRemindersPermissionView(goToNextStep: view.next)
             case .permissionContacts:
-                OnboardingContactsPermissionView(goToNextStep: next)
+                OnboardingContactsPermissionView(goToNextStep: view.next)
             case .ready:
                 OnboardingReadyView()
             case .welcome:
@@ -78,23 +63,10 @@ struct OnboardingView: View {
             Button(
                 "Next",
                 systemImage: "arrow.forward",
-                action: next
-            )
-        }
-    }
-    
-    private func next() {
-        if let currentStep,
-           let currentIndex = actualSteps.firstIndex(of: currentStep),
-           let lastIndex = actualSteps.indices.last
-        {
-            if currentIndex < lastIndex {
-                withAnimation {
-                    self.currentStep = actualSteps[currentIndex + 1]
+                action: {
+                    view.next()
                 }
-            } else {
-                state.completeOnboarding(steps: steps)
-            }
+            )
         }
     }
 }
