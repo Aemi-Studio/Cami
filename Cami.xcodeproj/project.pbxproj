@@ -92,30 +92,15 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				UI/CircularGlassButtonStyle.swift,
 			);
 			target = 465533082AF4EA69000B537B /* Cami */;
 		};
 		464F11B02D4079F300F73884 /* Exceptions for "Cami" folder in "CamiWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				UI/_Refactored/AppStorageManager.swift,
-				UI/_Refactored/LazyState.swift,
-				UI/_Refactored/Loggable.swift,
-				UI/_Refactored/Permission/EventPermissionHandler.swift,
-				UI/_Refactored/Permission/Handler/CalendarPermissionHandler.swift,
-				UI/_Refactored/Permission/Handler/ContactsPermissionHandler.swift,
-				UI/_Refactored/Permission/Handler/PermissionHandler.swift,
-				UI/_Refactored/Permission/Handler/RemindersPermissionHandler.swift,
-				UI/_Refactored/Permission/PermissionActor.swift,
-				UI/_Refactored/Permission/PermissionManager.swift,
-				UI/_Refactored/Permission/PermissionStatus.swift,
-				UI/_Refactored/Permission/Type/CalendarPermission.swift,
-				UI/_Refactored/Permission/Type/ContactsPermission.swift,
-				UI/_Refactored/Permission/Type/PermissionType.swift,
-				UI/_Refactored/Permission/Type/RemindersPermission.swift,
-				UI/_Refactored/SettingsKeys.swift,
 				UI/Components/ProgressCircle.swift,
+				UI/Shared/Loggable.swift,
+				UI/Shared/SettingsKeys.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
 		};
