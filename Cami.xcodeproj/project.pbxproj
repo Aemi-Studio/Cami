@@ -123,17 +123,13 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppContext.swift,
-				"DeepLink/DeepLink+woDay.swift",
 				Extensions/Dates.swift,
 				KnowledgeBaseContext.swift,
-				ModalSheetContext.swift,
 				PresentationContext.swift,
-				Router/Router.swift,
 				StackStyleReset.swift,
 				"UI/VisualEffectView/UIViewEffectView+Helpers.swift",
 				UI/VisualEffectView/VisualEffectView.swift,
 				"UI/VisualEffectView/VisualEffectView+SwiftUI.swift",
-				UIContext.swift,
 				WidgetSize.swift,
 			);
 			target = 46B160612B07D87000A44FBF /* CamiWidgetExtension */;
