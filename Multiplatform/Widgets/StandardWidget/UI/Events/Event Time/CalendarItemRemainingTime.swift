@@ -8,22 +8,20 @@
 import SwiftUI
 import WidgetKit
 
+/// Displays the remaining time for an ongoing calendar event with a progress indicator.
+///
+/// This view uses `LiveDurationView` internally to provide automatic time updates
+/// in widget contexts, showing how much time remains until the event ends.
 struct CalendarItemRemainingTime: View {
-    @Environment(\.widgetContent) private var content
-    @Environment(\.widgetFamily) private var widgetFamily
-    @Environment(\.customWidgetFamily) private var customWidgetFamily
-    private var family: WidgetFamily { customWidgetFamily?.rawValue ?? widgetFamily }
-
-    @ScaledMetric(relativeTo: .caption) private var circleSize: Double = 12
-
     private let beginDate: Date
     private let endDate: Date
     private let accuracy: NSCalendar.Unit
 
-    private var remainingTime: String {
-        content.date.remainingTime(until: endDate, accuracy: accuracy)
-    }
-
+    /// Creates a remaining time view for an event.
+    /// - Parameters:
+    ///   - beginDate: When the event started (used for progress calculation).
+    ///   - endDate: When the event ends.
+    ///   - accuracy: The time units to display. Defaults to day, hour, and minute.
     init(
         from beginDate: Date,
         to endDate: Date,
@@ -35,24 +33,23 @@ struct CalendarItemRemainingTime: View {
     }
 
     var body: some View {
-        HStack(spacing: 4) {
-            if !family.isSmall {
-                Text(remainingTime)
-                    .accessibilityHidden(true)
-                    .opacity(0.5)
-            }
+        LiveDurationView(
+            from: beginDate,
+            to: endDate,
+            accuracy: accuracy,
+            schedule: scheduleForAccuracy,
+            showProgressCircle: true
+        )
+    }
 
-            Label {
-                Text(String(localized: "Remaining Time: \(remainingTime)"))
-            } icon: {
-                ProgressCircle(
-                    progress: 1 - Date.now.distance(to: endDate) / beginDate.distance(to: endDate),
-                    lineWidthRatio: 0.2
-                )
-                .frame(height: circleSize)
-            }
-            .labelStyle(.iconOnly)
-            .accessibilityHint(String(localized: "This event ends in \(remainingTime)."))
+    /// Determines the appropriate update schedule based on accuracy requirements.
+    private var scheduleForAccuracy: LiveTimeUpdateSchedule {
+        if accuracy.contains(.second) {
+            return .everySecond
+        } else if accuracy.contains(.minute) {
+            return .everyMinute
+        } else {
+            return .everyHour
         }
     }
 }
