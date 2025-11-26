@@ -978,6 +978,38 @@
         }
       }
     },
+    "liveActivity.endsAt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ends at"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin à"
+          }
+        }
+      }
+    },
+    "liveActivity.untitledEvent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untitled Event"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Événement sans titre"
+          }
+        }
+      }
+    },
     "label.attendees" : {
       "localizations" : {
         "en" : {

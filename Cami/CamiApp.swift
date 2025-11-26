@@ -25,6 +25,9 @@ struct CamiApp: App {
                 .refreshWidgets()
                 .environment(\.viewKind, .standard)
                 .environment(permissionManager)
+                .task {
+                    await LiveActivityService.shared.startMonitoring()
+                }
         }
     }
 }

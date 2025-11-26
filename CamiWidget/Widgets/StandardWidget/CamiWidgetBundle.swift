@@ -12,5 +12,6 @@ import WidgetKit
 struct CamiWidgetBundle: WidgetBundle {
     var body: some Widget {
         CamiWidget()
+        OngoingEventLiveActivity()
     }
 }
