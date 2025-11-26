@@ -27,6 +27,11 @@ extension DataContext {
         let taskLists = taskLists ?? self.taskLists
         _reminderService.reminders(from: taskLists, where: filter, operation: operation)
     }
+
+    /// Returns reminders due on a specific date that are not completed.
+    func reminders(for date: Date) async -> [EKReminder] {
+        await reminders(where: Filters.dueAndOpen(on: date).callable)
+    }
 }
 
 extension DataContext {

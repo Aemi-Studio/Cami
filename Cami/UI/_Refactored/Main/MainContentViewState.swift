@@ -13,5 +13,4 @@ import SwiftUI
 @MainActor
 final class MainContentViewState {
     var topBarHeight = CGFloat.zero
-    var scrollViewOffset = CGFloat.zero
 }

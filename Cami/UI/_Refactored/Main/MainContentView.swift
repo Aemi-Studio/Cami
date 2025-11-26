@@ -34,27 +34,14 @@ struct MainContentView: View {
     private var header: some View {
         AppHeaderView(
             height: $state.topBarHeight,
-            offset: state.scrollViewOffset
+            offset: appState.currentScrollOffset
         )
     }
 
     private var content: some View {
-        ScrollOffsetReader($state.scrollViewOffset, showsIndicators: false) {
-            VStack(spacing: 0) {
-                padded {
-                    // Onboarding no longer shown inline; handled via sheet-based flow
-                    SingleDayView(context: appState.dayContext)
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.top, state.topBarHeight)
-        }
-        .scrollClipDisabled()
-        .mask { maskContent }
-    }
-
-    private func padded(@ViewBuilder content: () -> some View) -> some View {
-        content().padding(.horizontal)
+        DayPagerView(topPadding: state.topBarHeight)
+            .mask { maskContent }
+            .ignoresSafeArea(edges: .bottom)
     }
 
     private var blur: some View {

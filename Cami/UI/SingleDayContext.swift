@@ -14,8 +14,8 @@ final class SingleDayContext {
     let date: Date
     private var context: DataContext { .shared }
 
-    private(set) var reminderFilters: [Filters] = [.dueToday]
-    private(set) var eventFilters: [Filters] = [.happensToday]
+    private(set) var reminderFilters: [Filters]
+    private(set) var eventFilters: [Filters]
 
     private(set) var events: [EKEvent] = []
     private(set) var reminders: [EKReminder] = []
@@ -36,6 +36,8 @@ final class SingleDayContext {
 
     init(for date: Date) {
         self.date = date
+        self.reminderFilters = [.dueAndOpen(on: date)]
+        self.eventFilters = [.happensOn(date)]
         subscribe()
 
         Task { @MainActor [weak self] in
@@ -64,11 +66,11 @@ final class SingleDayContext {
     }
 
     private func getEvents() -> [EKEvent] {
-        context.events(during: 1, relativeTo: .now)
+        context.events(during: 1, relativeTo: date)
     }
 
     private func getReminders() async -> [EKReminder] {
-        await context.reminders(where: Filters.any(of: [Filters.dueToday, Filters.open]).filter)
+        await context.reminders(for: date)
     }
 
     private func getOverdueReminders() async -> [EKReminder] {

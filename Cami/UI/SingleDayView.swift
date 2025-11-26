@@ -12,38 +12,6 @@ import OSLog
 import SwiftUI
 import WidgetKit
 
-enum CalendarItemType: CaseIterable {
-    case event
-    case reminder
-}
-
-@Observable
-final class DayViewModel: Loggable {
-    typealias UpdateAction = (CalendarItemType) -> Void
-
-    var visibleTypes: Set<CalendarItemType> = Set(CalendarItemType.allCases)
-
-    func filter(_ item: EKCalendarItem) -> Bool {
-        switch item {
-            case is EKEvent: visibleTypes.contains(.event)
-            case is EKReminder: visibleTypes.contains(.reminder)
-            default: false
-        }
-    }
-
-    func bound(to type: CalendarItemType) -> Binding<Bool> {
-        Binding {
-            self.visibleTypes.contains(type)
-        } set: { isOn in
-            if isOn {
-                self.visibleTypes.insert(type)
-            } else {
-                self.visibleTypes.remove(type)
-            }
-        }
-    }
-}
-
 struct SingleDayView: View {
     typealias Model = DayViewModel
 
@@ -51,7 +19,7 @@ struct SingleDayView: View {
 
     let context: SingleDayContext
 
-    @State private var view = Model()
+    @LazyState private var view = Model()
 
     var body: some View {
         VStack(spacing: 8) {
@@ -62,10 +30,11 @@ struct SingleDayView: View {
             )
             .padding(.bottom, 18)
 
-            ForEach(context.combinedItems.filter(view.filter), id: \.calendarItemIdentifier) { item in
-                CalendarItemView(item: item)
-                    .id(item.calendarItemIdentifier)
-            }
+            ForEach(
+                context.combinedItems.filter(view.filter),
+                id: \.calendarItemIdentifier,
+                content: CalendarItemView.init
+            )
         }
         .animation(.default, value: view.visibleTypes)
     }

@@ -35,17 +35,20 @@ struct CalendarItemView: View {
 
     var body: some View {
         Button {
-            showDetail.toggle()
+            withAnimation {
+                showDetail.toggle()
+            }
         } label: {
             content
                 .padding()
                 .background(
                     GlassStyle(.rect(cornerRadius: 12), color: Color(item.calendar.cgColor), intensity: 0.05)
                 )
+                .transition(.blurReplace)
                 .contentShape(.rect)
+                .animation(.interactiveSpring, value: showDetail)
         }
         .buttonStyle(.plain)
-        .animation(.interactiveSpring, value: showDetail)
     }
 
     @ViewBuilder var content: some View {
@@ -64,14 +67,18 @@ struct CalendarItemView: View {
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.leading)
 
-                if showDetail {
-                    CalendarItemDetailView(event: item)
+                Group {
+                    if showDetail {
+                        CalendarItemDetailView(event: item)
+                    }
                 }
+                .id("CalendarItemDetailView-showDetail-\(showDetail)")
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .fontDesign(.rounded)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        
     }
 }
 

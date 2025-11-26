@@ -22,12 +22,14 @@ enum Filters: CaseIterable {
     }
 
     case due(on: Date? = nil)
+    case dueAndOpen(on: Date)
     case dueLater
     case dueToday
     case overdue
     case done
     case open
 
+    case happensOn(Date)
     case happensToday
 
     private enum Values {
@@ -46,6 +48,22 @@ enum Filters: CaseIterable {
                 type: .reminder,
                 filter: { ($0 as? EKReminder)?.dueDateComponents?.date?.zero == date.zero },
                 localizedDescription: String(localized: "Has Due Date")
+            )
+        }
+
+        static func dueAndOpen(on date: Date) -> Filter {
+            Filter(
+                type: .reminder,
+                filter: { reminder in
+                    if let reminder = reminder as? EKReminder,
+                       reminder.dueDateComponents?.date?.zero == date.zero,
+                       !reminder.isCompleted
+                    {
+                        return true
+                    }
+                    return false
+                },
+                localizedDescription: String(localized: "Due on Date")
             )
         }
 
@@ -117,6 +135,24 @@ enum Filters: CaseIterable {
 
         // MARK: - Events Filters
 
+        static func happensOn(_ date: Date) -> Filter {
+            Filter(
+                type: .event,
+                filter: { event in
+                    if let event = event as? EKEvent {
+                        let dayStart = date.zero
+                        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart)!
+                        let startsOnDay = event.startDate >= dayStart && event.startDate < dayEnd
+                        let startedBefore = event.startDate < dayStart
+                        let spansDay = event.endDate > dayStart
+                        return startsOnDay || (startedBefore && spansDay)
+                    }
+                    return false
+                },
+                localizedDescription: String(localized: "Happens on Date")
+            )
+        }
+
         static var happensToday: Filter {
             Filter(
                 type: .event,
@@ -140,11 +176,13 @@ extension Filters: Filtering {
     fileprivate var filter: Filter {
         switch self {
             case let .due(date): date == nil ? Values.due : Values.due(on: date!)
+            case let .dueAndOpen(date): Values.dueAndOpen(on: date)
             case .dueLater: Values.dueLater
             case .dueToday: Values.dueToday
             case .overdue: Values.overdue
             case .done: Values.done
             case .open: Values.open
+            case let .happensOn(date): Values.happensOn(date)
             case .happensToday: Values.happensToday
         }
     }
