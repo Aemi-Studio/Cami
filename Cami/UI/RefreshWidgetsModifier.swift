@@ -10,10 +10,7 @@ import WidgetKit
 
 struct RefreshWidgetsModifier: ViewModifier {
     @Environment(PermissionManager.self) private var permissionManager
-
     @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.views) private var views
-    @Environment(\.data) private var context
 
     func body(content: Content) -> some View {
         content
@@ -28,7 +25,7 @@ struct RefreshWidgetsModifier: ViewModifier {
 
     @Sendable private func reactToPermissionChanges() async {
         for await _ in permissionManager.getPermissionUpdates() {
-            views?.reset()
+            // CalendarStore handles calendar state updates via EventKit notifications
             WidgetCenter.shared.reloadAllTimelines()
         }
     }

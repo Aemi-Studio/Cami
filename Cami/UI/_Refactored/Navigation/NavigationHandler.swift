@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct NavigationHandler: ViewModifier {
-    @Environment(AppNavigation.self) private var navigation
-    
+    @Environment(AppNavigation.self) private var navigation: AppNavigation?
+
     func body(content: Content) -> some View {
         content
             .onOpenURL { url in
-                handleDeepLink(url)
+                navigation?.handleURL(url)
             }
     }
-    
-    private func handleDeepLink(_ url: URL) {}
 }
 
 extension View {

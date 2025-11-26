@@ -8,24 +8,44 @@
 import SwiftUI
 
 /// A horizontally scrolling pager that allows navigation between days with snapping behavior.
+///
+/// Optimized for memory efficiency by:
+/// - Loading only ±30 days initially (vs ±365)
+/// - Dynamically expanding range when approaching edges
+/// - Prefetching data for adjacent days via CalendarStore
 struct DayPagerView: View {
     @Environment(AppState.self) private var appState
+    @Environment(DayStore.self) private var dayStore
 
     /// Top padding for header clearance
     let topPadding: CGFloat
 
-    /// Range of days to pre-load around the current selection
-    private let preloadRange = -365...365
+    /// Initial range of days to pre-load around today
+    private static let initialRange = 30
+
+    /// How close to the edge before expanding the range
+    private static let expansionThreshold = 7
+
+    /// How many days to add when expanding
+    private static let expansionAmount = 14
+
+    /// Dynamic range that expands as user scrolls
+    @State private var pastDays: Int = initialRange
+    @State private var futureDays: Int = initialRange
 
     /// Scroll position binding to the current date
     @State private var scrollPosition: Date?
 
-    /// Dates available for paging (centered around today)
+    /// Reference date for the pager (today)
+    private var referenceDate: Date {
+        Date.now.zero
+    }
+
+    /// Dates available for paging
     private var availableDates: [Date] {
         let calendar = Calendar.current
-        let today = Date.now.zero
-        return preloadRange.compactMap { offset in
-            calendar.date(byAdding: .day, value: offset, to: today)
+        return (-pastDays...futureDays).compactMap { offset in
+            calendar.date(byAdding: .day, value: offset, to: referenceDate)
         }
     }
 
@@ -34,6 +54,7 @@ struct DayPagerView: View {
             LazyHStack(spacing: 0) {
                 ForEach(availableDates, id: \.self) { date in
                     DayPageContent(date: date, topPadding: topPadding)
+                        .id(date)
                 }
             }
             .scrollTargetLayout()
@@ -46,16 +67,64 @@ struct DayPagerView: View {
         }
         .onChange(of: scrollPosition) { _, newPosition in
             guard let newDate = newPosition else { return }
+
+            // Update app state if date changed
             if newDate.zero != appState.selectedDate.zero {
                 appState.navigateTo(date: newDate)
+
+                // Update DayStore and trigger prefetch
+                Task {
+                    await dayStore.selectDate(newDate)
+                    await CalendarStore.shared.prefetch(around: newDate, range: 3)
+                }
             }
+
+            // Expand range if approaching edges
+            expandRangeIfNeeded(for: newDate)
         }
         .onChange(of: appState.selectedDate) { _, newDate in
             if scrollPosition?.zero != newDate.zero {
+                // Ensure the date is within our range
+                expandRangeToInclude(newDate)
+
                 withAnimation(.easeInOut(duration: 0.3)) {
                     scrollPosition = newDate.zero
                 }
             }
+        }
+    }
+
+    /// Expands the date range if the user is approaching the edges
+    private func expandRangeIfNeeded(for date: Date) {
+        let calendar = Calendar.current
+        guard let daysDiff = calendar.dateComponents([.day], from: referenceDate, to: date).day else {
+            return
+        }
+
+        // Approaching past edge
+        if daysDiff < 0 && abs(daysDiff) > pastDays - Self.expansionThreshold {
+            pastDays += Self.expansionAmount
+        }
+
+        // Approaching future edge
+        if daysDiff > 0 && daysDiff > futureDays - Self.expansionThreshold {
+            futureDays += Self.expansionAmount
+        }
+    }
+
+    /// Ensures the date is within our current range, expanding if necessary
+    private func expandRangeToInclude(_ date: Date) {
+        let calendar = Calendar.current
+        guard let daysDiff = calendar.dateComponents([.day], from: referenceDate, to: date).day else {
+            return
+        }
+
+        if daysDiff < 0 && abs(daysDiff) > pastDays {
+            pastDays = abs(daysDiff) + Self.expansionThreshold
+        }
+
+        if daysDiff > 0 && daysDiff > futureDays {
+            futureDays = daysDiff + Self.expansionThreshold
         }
     }
 }
@@ -68,6 +137,7 @@ private struct DayPageContent: View {
     let topPadding: CGFloat
 
     @State private var scrollOffset: CGFloat = 0
+    @State private var dayContext: SingleDayContext?
 
     private var isCurrentPage: Bool {
         date.zero == appState.selectedDate.zero
@@ -75,12 +145,21 @@ private struct DayPageContent: View {
 
     var body: some View {
         ScrollOffsetReader($scrollOffset, showsIndicators: false) {
-            SingleDayView(context: appState.dayContext(for: date))
-                .padding(.horizontal)
-                .padding(.top, topPadding)
+            if let context = dayContext {
+                SingleDayView(context: context)
+                    .padding(.horizontal)
+                    .padding(.top, topPadding)
+            } else {
+                DayPagePlaceholder()
+                    .padding(.horizontal)
+                    .padding(.top, topPadding)
+            }
         }
         .scrollClipDisabled()
         .containerRelativeFrame(.horizontal)
+        .task {
+            dayContext = SingleDayContext(for: date)
+        }
         .onChange(of: scrollOffset) { _, newOffset in
             if isCurrentPage {
                 appState.currentScrollOffset = newOffset
@@ -91,5 +170,50 @@ private struct DayPageContent: View {
                 appState.currentScrollOffset = scrollOffset
             }
         }
+    }
+}
+
+/// Placeholder view shown while day content is loading
+private struct DayPagePlaceholder: View {
+    var body: some View {
+        VStack(spacing: 16) {
+            // Summary placeholder
+            HStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(.quaternary)
+                    .frame(width: 80, height: 36)
+
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(.quaternary)
+                    .frame(width: 80, height: 36)
+
+                Spacer()
+            }
+            .padding(.bottom, 18)
+
+            // Event placeholders
+            ForEach(0..<3, id: \.self) { _ in
+                HStack(spacing: 12) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(.quaternary)
+                        .frame(width: 4, height: 44)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(.quaternary)
+                            .frame(width: 120, height: 16)
+
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(.quaternary)
+                            .frame(width: 80, height: 12)
+                    }
+
+                    Spacer()
+                }
+            }
+
+            Spacer()
+        }
+        .redacted(reason: .placeholder)
     }
 }

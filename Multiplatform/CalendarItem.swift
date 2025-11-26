@@ -34,7 +34,7 @@ struct CalendarItem {
         }
     }
 
-    enum CalendarItemKind: Int, Hashable, CaseIterable {
+    enum CalendarItemKind: Int, Hashable, CaseIterable, Codable {
         case event
         case reminder
         case streak

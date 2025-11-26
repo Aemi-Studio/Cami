@@ -10,7 +10,6 @@ import SwiftUI
 import WidgetKit
 
 struct AppHeaderView: View {
-    @Environment(\.openModal) private var openModal
     @Environment(AppNavigation.self) private var navigation
     @Environment(AppState.self) private var appState
 
@@ -58,7 +57,7 @@ struct AppHeaderView: View {
             .animation(.easeInOut(duration: 0.2), value: appState.isViewingToday)
         } trailing: {
             Button(String(localized: "button.createCalendarItem"), systemImage: "plus") {
-                openModal?(.new())
+                navigation.navigate(to: .createEvent(date: appState.selectedDate))
             }
             Button(String(localized: "button.settings"), systemImage: "gear") {
                 navigation.navigate(to: .settings)

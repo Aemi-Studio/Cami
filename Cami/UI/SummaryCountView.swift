@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SummaryCountView: View {
-    @Environment(\.openModal) private var openModal
+    @Environment(AppNavigation.self) private var navigation: AppNavigation?
 
     private(set) var kind: CalendarItem.Kind
     private(set) var count: Int
@@ -28,8 +28,7 @@ struct SummaryCountView: View {
 
     private var contextMenu: some View {
         Button(kind.listPluralDescription, systemImage: kind.listSystemImage) {
-            openModal?(.selection(kind: kind))
+            navigation?.navigate(to: .calendarSelection(kind: kind))
         }
     }
-
 }

@@ -107,29 +107,8 @@ enum Route: Hashable, Identifiable, Sendable {
 
 // MARK: - Supporting Types
 
-/// Types of calendar items
-enum CalendarItemKind: String, Hashable, Sendable, CaseIterable {
-    case event
-    case reminder
-
-    var localizedName: String {
-        switch self {
-        case .event:
-            return String(localized: "calendarItemKind.event")
-        case .reminder:
-            return String(localized: "calendarItemKind.reminder")
-        }
-    }
-
-    var pluralLocalizedName: String {
-        switch self {
-        case .event:
-            return String(localized: "calendarItemKind.events")
-        case .reminder:
-            return String(localized: "calendarItemKind.reminders")
-        }
-    }
-}
+/// Typealias to use existing CalendarItem.Kind
+typealias CalendarItemKind = CalendarItem.Kind
 
 /// Types of permissions the app can request
 enum PermissionKind: String, Hashable, Sendable, CaseIterable {

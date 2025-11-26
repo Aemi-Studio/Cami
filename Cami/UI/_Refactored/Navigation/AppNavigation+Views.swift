@@ -13,34 +13,49 @@ extension AppNavigation {
     func view(for destination: NavigationDestination) -> some View {
         Group {
             switch destination {
-                case .main:
-                    EmptyView() // Main view is handled by AppView
-                    
-                case .onboarding:
-                    OnboardingView()
-                    
-                case .settings:
-                    CustomSettingsView()
-                    
-                case .permissions:
-                    PermissionsView()
-                    
-                case .widgetSettings:
-                    WidgetSettingsView()
-                    
-                #if DEBUG
-                case .developer:
-                    DeveloperView()
-                #endif
-                    
-                case .knowledgeBase:
-                    KnowledgeBaseView()
-                    
-                case .widgets:
-                    WidgetPreviewView()
-                    
-                @unknown default:
-                    EmptyView()
+            case .main:
+                EmptyView() // Main view is handled by AppView
+
+            case .onboarding:
+                OnboardingView()
+
+            case .settings:
+                CustomSettingsView()
+
+            case .permissions:
+                PermissionsView()
+
+            case .widgetSettings:
+                WidgetSettingsView()
+
+            #if DEBUG
+            case .developer:
+                DeveloperView()
+            #endif
+
+            case .knowledgeBase:
+                KnowledgeBaseView()
+
+            case .widgets:
+                WidgetPreviewView()
+
+            case .calendarSelection(let kind):
+                CalendarSelectionView(kind: kind)
+
+            case .allCalendarsSelection:
+                CalendarSelectionView(kind: .event)
+
+            case .eventDetail(let identifier):
+                EventDetailView(identifier: identifier)
+
+            case .reminderDetail(let identifier):
+                ReminderDetailView(identifier: identifier)
+
+            case .createEvent:
+                CreateCalendarItemView()
+
+            case .createReminder:
+                ReminderCreationView()
             }
         }
         .environment(self)

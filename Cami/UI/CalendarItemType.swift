@@ -5,36 +5,91 @@
 //  Created by Guillaume Coquard on 26.11.25.
 //
 
-import SwiftUI
+import Combine
 import EventKit
+import SwiftUI
 
 enum CalendarItemType: CaseIterable {
     case event
     case reminder
 }
 
+/// View model for day visibility toggles.
+///
+/// DayViewModel syncs visibility state with AppSettings for persistence.
 @Observable
+@MainActor
 final class DayViewModel: Loggable {
     typealias UpdateAction = (CalendarItemType) -> Void
 
-    var visibleTypes: Set<CalendarItemType> = Set(CalendarItemType.allCases)
+    private let settings = AppSettings.shared
+    private var cancellable: AnyCancellable?
+
+    var showEvents: Bool = true
+    var showReminders: Bool = true
+
+    var visibleTypes: Set<CalendarItemType> {
+        var types = Set<CalendarItemType>()
+        if showEvents { types.insert(.event) }
+        if showReminders { types.insert(.reminder) }
+        return types
+    }
+
+    init() {
+        Task { [weak self] in
+            await self?.loadFromSettings()
+        }
+        observeSettings()
+    }
+
+    private func loadFromSettings() async {
+        showEvents = await settings.showEvents
+        showReminders = await settings.showReminders
+    }
+
+    private func observeSettings() {
+        cancellable = settings.settingsChanged
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] change in
+                guard let self else { return }
+                switch change {
+                case .showEvents(let show):
+                    showEvents = show
+                case .showReminders(let show):
+                    showReminders = show
+                default:
+                    break
+                }
+            }
+    }
 
     func filter(_ item: EKCalendarItem) -> Bool {
         switch item {
-            case is EKEvent: visibleTypes.contains(.event)
-            case is EKReminder: visibleTypes.contains(.reminder)
-            default: false
+        case is EKEvent: showEvents
+        case is EKReminder: showReminders
+        default: false
         }
     }
 
     func bound(to type: CalendarItemType) -> Binding<Bool> {
-        Binding {
-            self.visibleTypes.contains(type)
-        } set: { isOn in
-            if isOn {
-                self.visibleTypes.insert(type)
-            } else {
-                self.visibleTypes.remove(type)
+        switch type {
+        case .event:
+            Binding {
+                self.showEvents
+            } set: { isOn in
+                self.showEvents = isOn
+                Task {
+                    await self.settings.setShowEvents(isOn)
+                }
+            }
+        case .reminder:
+            Binding {
+                self.showReminders
+            } set: { isOn in
+                self.showReminders = isOn
+                Task {
+                    await self.settings.setShowReminders(isOn)
+                }
             }
         }
     }

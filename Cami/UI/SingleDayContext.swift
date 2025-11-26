@@ -9,144 +9,168 @@ import Combine
 import EventKit
 import SwiftUI
 
+/// Loading state for day context
+enum DayContextLoadingState: Equatable {
+    case idle
+    case loading
+    case loaded
+    case refreshing
+}
+
+/// Context for displaying calendar data for a specific day.
+///
+/// SingleDayContext is a lightweight wrapper that fetches data from CalendarStore
+/// for a specific date. It handles local filtering and sorting for display.
 @Observable
+@MainActor
 final class SingleDayContext {
     let date: Date
-    private var context: DataContext { .shared }
 
-    private(set) var reminderFilters: [Filters]
-    private(set) var eventFilters: [Filters]
+    private let calendarStore: CalendarStore
+    private var cancellables: Set<AnyCancellable> = []
+
+    /// Current loading state
+    private(set) var loadingState: DayContextLoadingState = .idle
+
+    /// Whether initial load is complete
+    var isLoaded: Bool {
+        loadingState == .loaded || loadingState == .refreshing
+    }
+
+    /// Whether currently loading (initial or refresh)
+    var isLoading: Bool {
+        loadingState == .loading || loadingState == .refreshing
+    }
 
     private(set) var events: [EKEvent] = []
     private(set) var reminders: [EKReminder] = []
     private(set) var overdueReminders: [EKReminder] = []
-    private(set) var openReminders: [EKReminder] = []
 
-    var filteredEvents: [EKEvent] {
-        events.filter(Filters.all(of: eventFilters).filter)
-    }
-
-    var filteredReminders: [EKReminder] {
-        reminders.filter(Filters.all(of: reminderFilters).filter)
-    }
-
+    /// Combined and sorted items for display
     private(set) var combinedItems: [EKCalendarItem] = []
 
-    private var cancellables: Set<AnyCancellable> = []
+    /// Whether there are no items to display
+    var isEmpty: Bool {
+        combinedItems.isEmpty && isLoaded
+    }
 
-    init(for date: Date) {
-        self.date = date
-        self.reminderFilters = [.dueAndOpen(on: date)]
-        self.eventFilters = [.happensOn(date)]
-        subscribe()
+    /// Filtered events (already filtered by calendar selection in CalendarStore)
+    var filteredEvents: [EKEvent] {
+        events.sorted { $0.startDate < $1.startDate }
+    }
 
-        Task { @MainActor [weak self] in
-            guard let self else {
-                return
+    /// Filtered reminders (already filtered by calendar selection in CalendarStore)
+    var filteredReminders: [EKReminder] {
+        reminders.sorted {
+            guard let lhsDue = $0.dueDateComponents?.date,
+                  let rhsDue = $1.dueDateComponents?.date
+            else {
+                return false
             }
-            await update()
+            return lhsDue < rhsDue
         }
     }
 
-    deinit {
-        cancellables.forEach { $0.cancel() }
+    init(for date: Date, calendarStore: CalendarStore = .shared) {
+        self.date = date
+        self.calendarStore = calendarStore
+        subscribe()
+
+        Task { [weak self] in
+            await self?.initialLoad()
+        }
     }
 
     private func subscribe() {
-        context.publishEventStoreChanges()
-            .sink { [weak self] _ in
+        calendarStore.storeChanged
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] change in
                 Task { @MainActor [weak self] in
-                    guard let self else {
-                        return
+                    guard let self else { return }
+                    switch change {
+                    case .calendarsUpdated, .cacheInvalidated:
+                        await refresh()
+                    case .eventsUpdated(let updatedDate):
+                        if updatedDate.zero == date.zero {
+                            await refresh()
+                        }
+                    case .remindersUpdated(let updatedDate):
+                        if updatedDate.zero == date.zero {
+                            await refresh()
+                        }
                     }
-                    await update()
                 }
             }
             .store(in: &cancellables)
     }
 
-    private func getEvents() -> [EKEvent] {
-        context.events(during: 1, relativeTo: date)
+    /// Initial load of data
+    private func initialLoad() async {
+        loadingState = .loading
+
+        async let fetchedEvents = calendarStore.events(for: date)
+        async let fetchedReminders = calendarStore.reminders(for: date)
+        async let fetchedOverdue = calendarStore.overdueReminders()
+
+        events = await fetchedEvents
+        reminders = await fetchedReminders
+        overdueReminders = await fetchedOverdue
+
+        updateCombinedItems()
+        loadingState = .loaded
     }
 
-    private func getReminders() async -> [EKReminder] {
-        await context.reminders(for: date)
-    }
-
-    private func getOverdueReminders() async -> [EKReminder] {
-        await context.reminders(where: Filters.overdue.callable)
-    }
-
-    private func getOpenReminders() async -> [EKReminder] {
-        await context.reminders(where: Filters.open.callable)
-    }
-
-    func update() async {
-        events = getEvents()
-        reminders = await getReminders()
-        overdueReminders = await getOverdueReminders()
-        openReminders = await getOpenReminders()
-        updateItems()
-    }
-
-    private func sort(reminders: [EKReminder]) -> [EKReminder] {
-        reminders.sorted {
-            guard let lhsDueDate = $0.dueDateComponents?.date,
-                  let rhsDueDate = $1.dueDateComponents?.date
-            else {
-                return false
-            }
-            return lhsDueDate < rhsDueDate
+    /// Refresh data (maintains loaded state during refresh)
+    func refresh() async {
+        // Only show refreshing state if already loaded
+        if isLoaded {
+            loadingState = .refreshing
         }
+
+        async let fetchedEvents = calendarStore.events(for: date)
+        async let fetchedReminders = calendarStore.reminders(for: date)
+        async let fetchedOverdue = calendarStore.overdueReminders()
+
+        events = await fetchedEvents
+        reminders = await fetchedReminders
+        overdueReminders = await fetchedOverdue
+
+        updateCombinedItems()
+        loadingState = .loaded
     }
 
-    private func sort(events: [EKEvent]) -> [EKEvent] {
-        events.sorted { $0.startDate < $1.startDate }
-    }
+    private func updateCombinedItems() {
+        let sortedEvents = filteredEvents
+        let sortedReminders = filteredReminders
 
-    private func merge(events: [EKEvent], reminders: [EKReminder]) -> [EKCalendarItem] {
-        var events = events
-        var reminders = reminders
-        var items = [EKCalendarItem]()
+        var merged: [EKCalendarItem] = []
+        var eventIndex = 0
+        var reminderIndex = 0
 
-        func sortedInsert(event: EKEvent, reminder: EKReminder) {
-            if let dueDate = reminder.dueDateComponents?.date,
-               let startDate = event.startDate
-            {
-                if dueDate < startDate {
-                    items.append(reminders.removeFirst())
-                } else if dueDate == startDate {
-                    if reminder.title < event.title {
-                        items.append(reminders.removeFirst())
-                    } else {
-                        items.append(events.removeFirst())
-                    }
+        while eventIndex < sortedEvents.count || reminderIndex < sortedReminders.count {
+            let event = eventIndex < sortedEvents.count ? sortedEvents[eventIndex] : nil
+            let reminder = reminderIndex < sortedReminders.count ? sortedReminders[reminderIndex] : nil
+
+            if let event, let reminder {
+                let eventStart = event.startDate ?? .distantFuture
+                let reminderDue = reminder.dueDateComponents?.date ?? .distantFuture
+
+                if eventStart <= reminderDue {
+                    merged.append(event)
+                    eventIndex += 1
                 } else {
-                    items.append(events.removeFirst())
+                    merged.append(reminder)
+                    reminderIndex += 1
                 }
+            } else if let event {
+                merged.append(event)
+                eventIndex += 1
+            } else if let reminder {
+                merged.append(reminder)
+                reminderIndex += 1
             }
         }
 
-        for _ in 0 ..< (reminders.count + events.count) {
-            if let event = events.first, let reminder = reminders.first {
-                sortedInsert(event: event, reminder: reminder)
-            } else if !reminders.isEmpty {
-                items.append(reminders.removeFirst())
-            } else if !events.isEmpty {
-                items.append(events.removeFirst())
-            }
-        }
-
-        return items
-    }
-
-    func updateItems() {
-        let items = merge(
-            events: sort(events: filteredEvents),
-            reminders: sort(reminders: filteredReminders)
-        )
-        if combinedItems != items {
-            combinedItems = items
-        }
+        combinedItems = merged
     }
 }

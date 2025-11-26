@@ -113,11 +113,7 @@ enum MenuPane: Equatable {
             case .widgets: WidgetPreviewView.init
             case .permissions: PermissionsView.init
             case let .selection(kind):
-                switch kind {
-                    case .event: CalendarSelectionView.init
-                    case .reminder: CalendarSelectionView.init
-                    case .streak: CalendarSelectionView.init
-                }
+                { CalendarSelectionView(kind: kind) }
             case .none: nil
         }
     }

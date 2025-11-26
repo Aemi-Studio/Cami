@@ -9,35 +9,34 @@ import EventKit
 import SwiftUI
 
 struct CalendarSelectionView: View {
-    @Environment(AppState.self) private var state
     @Environment(\.data) private var data
 
+    let kind: CalendarItem.Kind
+
     private var calendars: [EKCalendar] {
-        data?.calendars ?? []
+        switch kind {
+        case .event:
+            return data?.calendars ?? []
+        case .reminder:
+            return data?.taskLists ?? []
+        case .streak:
+            return data?.calendars ?? []
+        }
     }
 
-    private var calendarsAsDict: [String: [EKCalendar]] {
-        calendars.reduce(into: [String: [EKCalendar]]()) { result, calendar in
-            let sourceTitle: String = calendar.source.title
-            if let oldValue = result[sourceTitle] {
-                var newValue = oldValue
-                newValue.append(calendar)
-                result.updateValue(newValue, forKey: sourceTitle)
-            } else {
-                result[sourceTitle] = [calendar]
-            }
-        }
+    private var calendarsBySource: [String: [EKCalendar]] {
+        Dictionary(grouping: calendars) { $0.source?.title ?? "Unknown" }
     }
 
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 8) {
-                ForEach(calendarsAsDict.keys.sorted(), id: \.self) { source in
-                    if let calendars = calendarsAsDict[source] {
+                ForEach(calendarsBySource.keys.sorted(), id: \.self) { source in
+                    if let sourceCalendars = calendarsBySource[source] {
                         CustomSection {
                             Text(source)
                         } content: {
-                            ForEach(calendars, id: \.calendarIdentifier) { calendar in
+                            ForEach(sourceCalendars, id: \.calendarIdentifier) { calendar in
                                 CalendarToggleButton(calendar: calendar)
                             }
                         }
@@ -46,11 +45,11 @@ struct CalendarSelectionView: View {
             }
             .padding()
         }
-        .navigationTitle(CalendarItem.Kind.event.listPluralDescription)
+        .navigationTitle(kind.listPluralDescription)
         .navigationBarTitleDisplayMode(.automatic)
     }
 }
 
 #Preview {
-    CalendarSelectionView()
+    CalendarSelectionView(kind: .event)
 }

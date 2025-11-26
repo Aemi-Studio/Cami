@@ -16,6 +16,12 @@ import OSLog
 /// - Available calendars (event calendars and task lists)
 /// - Cached events and reminders by date
 /// - Filtered data based on AppSettings calendar selection
+///
+/// Caching Strategy:
+/// - LRU-style eviction based on last access time
+/// - Maximum 60 days of cached data
+/// - Priority prefetching for visible dates
+/// - Background refresh for stale entries
 actor CalendarStore {
     static let shared = CalendarStore()
 
@@ -25,13 +31,44 @@ actor CalendarStore {
 
     // MARK: - Cache
 
-    private var eventCache: [Date: [EKEvent]] = [:]
-    private var reminderCache: [Date: [EKReminder]] = [:]
-    private var overdueRemindersCache: [EKReminder]?
-    private var openRemindersCache: [EKReminder]?
+    /// Cached events by date with metadata
+    private var eventCache: [Date: CacheEntry<[EKEvent]>] = [:]
+
+    /// Cached reminders by date with metadata
+    private var reminderCache: [Date: CacheEntry<[EKReminder]>] = [:]
+
+    /// Cached overdue reminders
+    private var overdueRemindersCache: CacheEntry<[EKReminder]>?
+
+    /// Cached open reminders
+    private var openRemindersCache: CacheEntry<[EKReminder]>?
 
     /// Maximum number of days to keep in cache
     private let maxCacheDays = 60
+
+    /// How long before a cache entry is considered stale (in seconds)
+    private let staleThreshold: TimeInterval = 300 // 5 minutes
+
+    /// Cache entry wrapper with metadata
+    private struct CacheEntry<T> {
+        let data: T
+        let fetchedAt: Date
+        var lastAccessedAt: Date
+
+        var isStale: Bool {
+            Date.now.timeIntervalSince(fetchedAt) > 300 // 5 minutes
+        }
+
+        init(data: T) {
+            self.data = data
+            self.fetchedAt = Date.now
+            self.lastAccessedAt = Date.now
+        }
+
+        mutating func touch() {
+            lastAccessedAt = Date.now
+        }
+    }
 
     // MARK: - Publishers
 
@@ -169,12 +206,24 @@ actor CalendarStore {
     func events(for date: Date) async -> [EKEvent] {
         let normalizedDate = date.zero
 
-        if let cached = eventCache[normalizedDate] {
-            return await filterEventsBySelectedCalendars(cached)
+        // Check cache
+        if var entry = eventCache[normalizedDate] {
+            entry.touch()
+            eventCache[normalizedDate] = entry
+
+            // Refresh in background if stale
+            if entry.isStale {
+                Task { [weak self] in
+                    await self?.refreshEvents(for: normalizedDate)
+                }
+            }
+
+            return await filterEventsBySelectedCalendars(entry.data)
         }
 
+        // Fetch and cache
         let fetched = await fetchEvents(for: normalizedDate)
-        eventCache[normalizedDate] = fetched
+        eventCache[normalizedDate] = CacheEntry(data: fetched)
         cleanupCacheIfNeeded()
 
         return await filterEventsBySelectedCalendars(fetched)
@@ -192,6 +241,14 @@ actor CalendarStore {
         }
 
         return allEvents
+    }
+
+    /// Refreshes events for a date in the background
+    private func refreshEvents(for date: Date) async {
+        let fetched = await fetchEvents(for: date)
+        eventCache[date] = CacheEntry(data: fetched)
+        _storeChanged.send(.eventsUpdated(date))
+        logger.debug("Background refreshed events for \(date)")
     }
 
     private func fetchEvents(for date: Date) async -> [EKEvent] {
@@ -221,12 +278,24 @@ actor CalendarStore {
     func reminders(for date: Date) async -> [EKReminder] {
         let normalizedDate = date.zero
 
-        if let cached = reminderCache[normalizedDate] {
-            return await filterRemindersBySelectedCalendars(cached)
+        // Check cache
+        if var entry = reminderCache[normalizedDate] {
+            entry.touch()
+            reminderCache[normalizedDate] = entry
+
+            // Refresh in background if stale
+            if entry.isStale {
+                Task { [weak self] in
+                    await self?.refreshReminders(for: normalizedDate)
+                }
+            }
+
+            return await filterRemindersBySelectedCalendars(entry.data)
         }
 
+        // Fetch and cache
         let fetched = await fetchReminders(for: normalizedDate)
-        reminderCache[normalizedDate] = fetched
+        reminderCache[normalizedDate] = CacheEntry(data: fetched)
         cleanupCacheIfNeeded()
 
         return await filterRemindersBySelectedCalendars(fetched)
@@ -234,34 +303,71 @@ actor CalendarStore {
 
     /// Fetches overdue reminders (not completed, due before today)
     func overdueReminders() async -> [EKReminder] {
-        if let cached = overdueRemindersCache {
-            return await filterRemindersBySelectedCalendars(cached)
+        if var entry = overdueRemindersCache {
+            entry.touch()
+            overdueRemindersCache = entry
+
+            // Refresh in background if stale
+            if entry.isStale {
+                Task { [weak self] in
+                    await self?.refreshOverdueReminders()
+                }
+            }
+
+            return await filterRemindersBySelectedCalendars(entry.data)
         }
 
         let fetched = await fetchOverdueReminders()
-        overdueRemindersCache = fetched
+        overdueRemindersCache = CacheEntry(data: fetched)
 
         return await filterRemindersBySelectedCalendars(fetched)
     }
 
     /// Fetches all open (not completed) reminders
     func openReminders() async -> [EKReminder] {
-        if let cached = openRemindersCache {
-            return await filterRemindersBySelectedCalendars(cached)
+        if var entry = openRemindersCache {
+            entry.touch()
+            openRemindersCache = entry
+
+            if entry.isStale {
+                Task { [weak self] in
+                    await self?.refreshOpenReminders()
+                }
+            }
+
+            return await filterRemindersBySelectedCalendars(entry.data)
         }
 
         let fetched = await fetchOpenReminders()
-        openRemindersCache = fetched
+        openRemindersCache = CacheEntry(data: fetched)
 
         return await filterRemindersBySelectedCalendars(fetched)
     }
 
+    /// Refreshes reminders for a date in the background
+    private func refreshReminders(for date: Date) async {
+        let fetched = await fetchReminders(for: date)
+        reminderCache[date] = CacheEntry(data: fetched)
+        _storeChanged.send(.remindersUpdated(date))
+        logger.debug("Background refreshed reminders for \(date)")
+    }
+
+    /// Refreshes overdue reminders in the background
+    private func refreshOverdueReminders() async {
+        let fetched = await fetchOverdueReminders()
+        overdueRemindersCache = CacheEntry(data: fetched)
+        logger.debug("Background refreshed overdue reminders")
+    }
+
+    /// Refreshes open reminders in the background
+    private func refreshOpenReminders() async {
+        let fetched = await fetchOpenReminders()
+        openRemindersCache = CacheEntry(data: fetched)
+        logger.debug("Background refreshed open reminders")
+    }
+
     private func fetchReminders(for date: Date) async -> [EKReminder] {
-        await MainActor.run {
-            // Note: This uses the synchronous version, we may need to adjust
-        }
-        // Use the async method from DataContext
-        return await dataContext.reminders(for: date)
+        await dataContext.reminders(for: date)
     }
 
     private func fetchOverdueReminders() async -> [EKReminder] {
@@ -307,26 +413,38 @@ actor CalendarStore {
         logger.debug("Cache invalidated for \(normalizedDate)")
     }
 
-    /// Prefetches data for dates around the specified date
+    /// Prefetches data for dates around the specified date with priority
+    /// - Parameters:
+    ///   - date: The center date to prefetch around
+    ///   - range: Number of days before and after to prefetch
     func prefetch(around date: Date, range: Int = 7) async {
         let calendar = Calendar.current
+        let normalizedCenter = date.zero
 
-        for offset in -range...range {
-            guard let targetDate = calendar.date(byAdding: .day, value: offset, to: date) else {
+        // Prioritize: center date first, then adjacent, then further out
+        var offsets = [0]
+        for i in 1...range {
+            offsets.append(i)
+            offsets.append(-i)
+        }
+
+        for offset in offsets {
+            guard let targetDate = calendar.date(byAdding: .day, value: offset, to: normalizedCenter) else {
                 continue
             }
 
             let normalizedDate = targetDate.zero
 
-            // Only fetch if not cached
-            if eventCache[normalizedDate] == nil {
+            // Fetch events if not cached or stale
+            if eventCache[normalizedDate] == nil || eventCache[normalizedDate]?.isStale == true {
                 let events = await fetchEvents(for: normalizedDate)
-                eventCache[normalizedDate] = events
+                eventCache[normalizedDate] = CacheEntry(data: events)
             }
 
-            if reminderCache[normalizedDate] == nil {
+            // Fetch reminders if not cached or stale
+            if reminderCache[normalizedDate] == nil || reminderCache[normalizedDate]?.isStale == true {
                 let reminders = await fetchReminders(for: normalizedDate)
-                reminderCache[normalizedDate] = reminders
+                reminderCache[normalizedDate] = CacheEntry(data: reminders)
             }
         }
 
@@ -334,11 +452,13 @@ actor CalendarStore {
         logger.debug("Prefetched data for \(range * 2 + 1) days around \(date)")
     }
 
+    /// Cleans up cache using LRU-style eviction
     private func cleanupCacheIfNeeded() {
         let today = Date.now.zero
         let calendar = Calendar.current
+        let maxEntries = maxCacheDays
 
-        // Remove entries outside the cache window
+        // First pass: remove entries outside the date window
         eventCache = eventCache.filter { date, _ in
             guard let daysDiff = calendar.dateComponents([.day], from: today, to: date).day else {
                 return false
@@ -352,6 +472,35 @@ actor CalendarStore {
             }
             return abs(daysDiff) <= maxCacheDays / 2
         }
+
+        // Second pass: if still over limit, remove least recently accessed
+        if eventCache.count > maxEntries {
+            let sortedByAccess = eventCache.sorted { $0.value.lastAccessedAt < $1.value.lastAccessedAt }
+            let toRemove = sortedByAccess.prefix(eventCache.count - maxEntries)
+            for (date, _) in toRemove {
+                eventCache.removeValue(forKey: date)
+            }
+            logger.debug("LRU evicted \(toRemove.count) event cache entries")
+        }
+
+        if reminderCache.count > maxEntries {
+            let sortedByAccess = reminderCache.sorted { $0.value.lastAccessedAt < $1.value.lastAccessedAt }
+            let toRemove = sortedByAccess.prefix(reminderCache.count - maxEntries)
+            for (date, _) in toRemove {
+                reminderCache.removeValue(forKey: date)
+            }
+            logger.debug("LRU evicted \(toRemove.count) reminder cache entries")
+        }
+    }
+
+    /// Returns cache statistics for debugging
+    var cacheStats: (events: Int, reminders: Int, overdue: Bool, open: Bool) {
+        (
+            events: eventCache.count,
+            reminders: reminderCache.count,
+            overdue: overdueRemindersCache != nil,
+            open: openRemindersCache != nil
+        )
     }
 
     // MARK: - Change Handlers

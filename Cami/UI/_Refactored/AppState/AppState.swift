@@ -5,12 +5,24 @@
 //  Created by Guillaume Coquard on 30/03/25.
 //
 
+import Combine
 import SwiftUI
 
+/// Application state coordinator.
+///
+/// AppState has been simplified to coordinate between the new architecture components:
+/// - DayStore: manages selected date and calendar data
+/// - CalendarStore: manages calendar caching
+/// - AppSettings: manages user preferences
+///
+/// It retains:
+/// - Navigation state
+/// - View-specific state (scroll offset)
+/// - Legacy compatibility layer during migration
 @MainActor
 @Observable
 final class AppState: Loggable {
-    /// The currently selected/viewed date
+    /// The currently selected/viewed date (synced with DayStore)
     private(set) var selectedDate: Date
 
     /// Current vertical scroll offset for the visible day (used for header effects)
@@ -21,24 +33,29 @@ final class AppState: Loggable {
         Calendar.current.isDateInToday(selectedDate)
     }
 
-    /// Cache for day contexts to avoid recreating them
-    private var dayContextCache: [Date: SingleDayContext] = [:]
+    /// Navigation state for the app
+    let navigation = AppNavigation()
+    let storage = AppStorageManager()
 
-    /// Returns the day context for the selected date
-    var dayContext: SingleDayContext {
-        dayContext(for: selectedDate)
-    }
+    let settings = AppSettings.shared
+    private var cancellables: Set<AnyCancellable> = []
 
-    /// Returns or creates a cached day context for a specific date
-    func dayContext(for date: Date) -> SingleDayContext {
-        let normalizedDate = date.zero
-        if let cached = dayContextCache[normalizedDate] {
-            return cached
+    init(date: Date = .now) {
+        self.selectedDate = date.zero
+
+        Task { @MainActor [weak self] in
+            await self?.initialize()
         }
-        let context = SingleDayContext(for: normalizedDate)
-        dayContextCache[normalizedDate] = context
-        return context
     }
+
+    private func initialize() async {
+        // Use legacy storage for synchronous access during initialization
+        if !hasCompletedOnboarding {
+            navigation.performComplexFlow(.onboarding)
+        }
+    }
+
+    // MARK: - Navigation
 
     /// Navigates to a specific date
     func navigateTo(date: Date) {
@@ -64,33 +81,17 @@ final class AppState: Loggable {
         }
     }
 
-    /// Navigation state for the app
-    let navigation = AppNavigation()
-    let storage = AppStorageManager()
+    // MARK: - Legacy Compatibility
 
-    init(date: Date = .now) {
-        self.selectedDate = date.zero
-
-        Task { @MainActor [weak self] in
-            await self?.initialize()
-        }
+    /// Returns the day context for the selected date
+    /// - Note: SingleDayContext now uses CalendarStore internally for caching
+    var dayContext: SingleDayContext {
+        SingleDayContext(for: selectedDate)
     }
 
-    private func initialize() async {
-        if !hasCompletedOnboarding {
-            navigation.performComplexFlow(.onboarding)
-        }
-    }
-
-    /// Clears old cached contexts to manage memory
-    func cleanupOldContexts() {
-        let today = Date.now.zero
-        let calendar = Calendar.current
-        dayContextCache = dayContextCache.filter { date, _ in
-            guard let daysDiff = calendar.dateComponents([.day], from: date, to: today).day else {
-                return false
-            }
-            return abs(daysDiff) <= 7
-        }
+    /// Returns or creates a day context for a specific date
+    /// - Note: Caching is now handled by CalendarStore, contexts are lightweight
+    func dayContext(for date: Date) -> SingleDayContext {
+        SingleDayContext(for: date.zero)
     }
 }
