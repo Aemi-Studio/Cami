@@ -22,7 +22,7 @@ struct CustomDisclosureGroupStyle: DisclosureGroupStyle {
                 HStack {
                     configuration.label
                     Spacer()
-                    Label("Toggle", systemImage: configuration.isExpanded ? "chevron.up" : "chevron.down")
+                    Label(String(localized: "accessibility.toggle"), systemImage: configuration.isExpanded ? "chevron.up" : "chevron.down")
                         .labelStyle(.iconOnly)
                         .font(.headline)
                 }

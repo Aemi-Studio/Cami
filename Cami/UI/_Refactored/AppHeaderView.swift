@@ -34,15 +34,15 @@ struct AppHeaderView: View {
                 shortDate
             }
         } trailing: {
-            Button("Create a calendar item", systemImage: "plus") {
+            Button(String(localized: "button.createCalendarItem"), systemImage: "plus") {
                 // TODO: Will be implemented when calendar item creation is added to navigation
                 openModal?(.new())
             }
-            Button("Settings", systemImage: "gear") {
+            Button(String(localized: "button.settings"), systemImage: "gear") {
                 navigation.navigate(to: .settings)
             }
             .contextMenu {
-                Button("Refresh", systemImage: "arrow.clockwise") {
+                Button(String(localized: "button.refresh"), systemImage: "arrow.clockwise") {
                     WidgetCenter.shared.reloadAllTimelines()
                 }
             }

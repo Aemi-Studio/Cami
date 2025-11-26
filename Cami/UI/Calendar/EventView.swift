@@ -23,11 +23,11 @@ struct EventView: View {
         ScrollView {
             EventViewController(event: event)
         }
-        .navigationTitle("Details")
+        .navigationTitle(String(localized: "view.details.navigationTitle"))
         .toolbar {
             if event.calendar.allowsContentModifications {
                 ToolbarItemGroup(placement: .primaryAction) {
-                    Button("Edit") {
+                    Button(String(localized: "button.edit")) {
                         showEventEditView.toggle()
                     }
                 }

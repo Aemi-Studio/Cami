@@ -181,7 +181,7 @@ struct CalendarItemLocationDetailView: View {
         if let location = event.location {
             CapsuleDivider(color: color).padding(.vertical, 4)
             Detail(color: color) {
-                Label("Location", systemImage: "mappin.circle.fill")
+                Label(String(localized: "label.location"), systemImage: "mappin.circle.fill")
             } content: {
                 Text(location)
             }
@@ -202,7 +202,7 @@ struct CalendarItemAttendeesDetailView: View {
         if let attendees = event.attendees {
             CapsuleDivider(color: color).padding(.vertical, 4)
             Detail(color: color) {
-                Label("Attendees", systemImage: "person.3.fill")
+                Label(String(localized: "label.attendees"), systemImage: "person.3.fill")
             } content: {
                 Text(attendees.compactMap(\.name).joined(separator: ", "))
             }
@@ -230,7 +230,7 @@ struct CalendarItemLocationBadge: View {
 
     var body: some View {
         if event.location != nil {
-            Label("Location", systemImage: "mappin.circle.fill")
+            Label(String(localized: "label.location"), systemImage: "mappin.circle.fill")
         }
     }
 }
@@ -240,7 +240,7 @@ struct CalendarItemCallUrlBadge: View {
 
     var body: some View {
         if event.url != nil {
-            Label("Call", systemImage: "phone.fill")
+            Label(String(localized: "label.call"), systemImage: "phone.fill")
         }
     }
 }

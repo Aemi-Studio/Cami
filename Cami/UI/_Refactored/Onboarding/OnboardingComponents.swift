@@ -46,7 +46,7 @@ struct OnboardingTitleView: View {
         VStack {
             Text(String(localized: "onboarding.titlePrefix"))
                 .font(.title)
-            Text("Cami Calendar")
+            Text(String(localized: "app.name"))
                 .font(.largeTitle)
         }
         .fontWeight(.bold)

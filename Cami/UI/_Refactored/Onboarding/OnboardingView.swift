@@ -61,7 +61,7 @@ struct OnboardingView: View {
     private var bottom: some ToolbarContent {
         ToolbarItem(placement: .bottomBar) {
             Button(
-                "Next",
+                String(localized: "button.next"),
                 systemImage: "arrow.forward",
                 action: {
                     view.next()
@@ -79,7 +79,7 @@ private struct OnboardingWelcomeView: View {
 
 private struct OnboardingReadyView: View {
     var body: some View {
-        Text("Ready")
+        Text(String(localized: "onboarding.ready.title"))
     }
 }
 
@@ -172,7 +172,7 @@ private struct OnboardingPermissionView<Permission>: View where Permission: Perm
                     }
                 }
             } label: {
-                Text("Grant Access")
+                Text(String(localized: "onboarding.permission.grantAccess"))
                     .font(.headline.weight(.semibold))
                     .frame(maxWidth: .infinity)
             }

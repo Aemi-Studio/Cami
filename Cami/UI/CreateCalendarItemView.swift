@@ -24,12 +24,12 @@ struct CreateCalendarItemView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .cancellationAction) {
-                    Button("Cancel") {
+                    Button(String(localized: "button.cancel")) {
                         dismiss()
                     }
                 }
                 ToolbarItemGroup(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button(String(localized: "button.save")) {
                         if let data,
                            (try? data.createReminder(title: "")) != nil
                         {
@@ -62,11 +62,11 @@ struct ReminderCreationView: View {
                             .frame(height: 40)
                             .overlay(
                                 HStack {
-                                    Text("Event")
+                                    Text(String(localized: "calendarItem.kind.event"))
                                         .foregroundColor(.white)
                                         .padding(.horizontal)
 
-                                    Text("Reminder")
+                                    Text(String(localized: "calendarItem.kind.reminder"))
                                         .foregroundColor(.white)
                                         .padding(.horizontal)
                                         .background(
@@ -79,7 +79,7 @@ struct ReminderCreationView: View {
                     .padding(.horizontal)
 
                     // Title Field
-                    TextField("Title", text: $title)
+                    TextField(String(localized: "field.title.placeholder"), text: $title)
                         .foregroundColor(.white)
                         .padding()
                         .background(Color.gray.opacity(0.2))
@@ -87,7 +87,7 @@ struct ReminderCreationView: View {
                         .padding(.horizontal)
 
                     // Notes Field
-                    TextField("Notes", text: $notes)
+                    TextField(String(localized: "field.notes.placeholder"), text: $notes)
                         .foregroundColor(.white)
                         .padding()
                         .background(Color.gray.opacity(0.2))
@@ -101,13 +101,13 @@ struct ReminderCreationView: View {
                                 .foregroundColor(.red)
                                 .frame(width: 30)
 
-                            Text("Date")
+                            Text(String(localized: "label.date"))
                                 .foregroundColor(.white)
                                 .font(.headline)
 
                             Spacer()
 
-                            Text("Today")
+                            Text(String(localized: "label.today"))
                                 .foregroundColor(.red)
                         }
                         .padding()
@@ -121,7 +121,7 @@ struct ReminderCreationView: View {
                                 .foregroundColor(.blue)
                                 .frame(width: 30)
 
-                            Text("Time")
+                            Text(String(localized: "label.time"))
                                 .foregroundColor(.white)
                                 .font(.headline)
 
@@ -146,13 +146,13 @@ struct ReminderCreationView: View {
                             .foregroundColor(.gray)
                             .frame(width: 30)
 
-                        Text("Repeat")
+                        Text(String(localized: "label.repeat"))
                             .foregroundColor(.white)
                             .font(.headline)
 
                         Spacer()
 
-                        Text("Never")
+                        Text(String(localized: "repeat.frequency.never"))
                             .foregroundColor(.gray)
 
                         Image(systemName: "chevron.right")
@@ -169,13 +169,13 @@ struct ReminderCreationView: View {
                             .foregroundColor(.blue)
                             .frame(width: 30)
 
-                        Text("List")
+                        Text(String(localized: "label.list"))
                             .foregroundColor(.white)
                             .font(.headline)
 
                         Spacer()
 
-                        Text("Reminders")
+                        Text(String(localized: "calendarItem.kind.reminder.plural"))
                             .foregroundColor(.gray)
 
                         Image(systemName: "chevron.right")
@@ -188,7 +188,7 @@ struct ReminderCreationView: View {
 
                     // Details Section
                     HStack {
-                        Text("Details")
+                        Text(String(localized: "label.details"))
                             .foregroundColor(.white)
                             .font(.headline)
 
@@ -209,7 +209,7 @@ struct ReminderCreationView: View {
                         VStack {
                             Image(systemName: "calendar.badge.plus")
                                 .foregroundColor(.blue)
-                            Text("Calendar")
+                            Text(String(localized: "label.calendar"))
                                 .font(.caption)
                                 .foregroundColor(.blue)
                         }
@@ -217,7 +217,7 @@ struct ReminderCreationView: View {
                         VStack {
                             Image(systemName: "paperplane")
                                 .foregroundColor(.gray)
-                            Text("Mail")
+                            Text(String(localized: "label.mail"))
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
@@ -229,20 +229,20 @@ struct ReminderCreationView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("New")
+                    Text(String(localized: "action.new"))
                         .font(.headline)
                         .foregroundColor(.white)
                 }
 
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(String(localized: "button.cancel")) {
                         // Cancel action
                     }
                     .foregroundColor(.red)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add") {
+                    Button(String(localized: "button.add")) {
                         // Add action
                     }
                     .foregroundColor(.gray)
@@ -270,7 +270,7 @@ struct ReminderDetailsView: View {
                             .foregroundColor(.blue)
                             .frame(width: 30)
 
-                        Text("Location")
+                        Text(String(localized: "label.location"))
                             .foregroundColor(.white)
                             .font(.headline)
 
@@ -290,13 +290,13 @@ struct ReminderDetailsView: View {
                             .foregroundColor(.red)
                             .frame(width: 30)
 
-                        Text("Priority")
+                        Text(String(localized: "label.priority"))
                             .foregroundColor(.white)
                             .font(.headline)
 
                         Spacer()
 
-                        Text("None")
+                        Text(String(localized: "priority.none"))
                             .foregroundColor(.gray)
 
                         Image(systemName: "chevron.down")
@@ -314,7 +314,7 @@ struct ReminderDetailsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Details")
+                    Text(String(localized: "label.details"))
                         .font(.headline)
                         .foregroundColor(.white)
                 }
@@ -323,14 +323,14 @@ struct ReminderDetailsView: View {
                     Button(action: {}) {
                         HStack {
                             Image(systemName: "chevron.left")
-                            Text("New Reminder")
+                            Text(String(localized: "action.newReminder"))
                         }
                         .foregroundColor(.red)
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add") {
+                    Button(String(localized: "button.add")) {
                         // Add action
                     }
                     .foregroundColor(.gray)
