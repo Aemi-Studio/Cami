@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CalendarItemStartTime: View {
-    private let item: CalendarItem
+    private let item: WidgetCalendarItem
 
-    init(for item: CalendarItem) {
+    init(for item: WidgetCalendarItem) {
         self.item = item
     }
 

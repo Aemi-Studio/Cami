@@ -61,7 +61,7 @@ struct CamiWidgetHeaderBirthdays: View {
     }
 
     @ViewBuilder
-    func birthdayView(for event: CalendarItem, viewModel: BirthdayViewModel, isToday: Bool) -> some View {
+    func birthdayView(for event: WidgetCalendarItem, viewModel: BirthdayViewModel, isToday: Bool) -> some View {
         Link(destination: viewModel.dataContext.destination(for: event)) {
             HStack(alignment: .center, spacing: 4) {
                 if isToday {
@@ -73,7 +73,7 @@ struct CamiWidgetHeaderBirthdays: View {
         }
     }
 
-    private func todaysBirthdayContent(event: CalendarItem, viewModel: BirthdayViewModel) -> some View {
+    private func todaysBirthdayContent(event: WidgetCalendarItem, viewModel: BirthdayViewModel) -> some View {
         viewModel.birthdayInfo(for: event).map { info in
             Group {
                 HStack(spacing: 0) {

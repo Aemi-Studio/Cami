@@ -10,7 +10,7 @@ import SwiftUI
 struct SummaryCountView: View {
     @Environment(AppNavigation.self) private var navigation: AppNavigation?
 
-    private(set) var kind: CalendarItem.Kind
+    private(set) var kind: CalendarItemKind
     private(set) var count: Int
     @Binding private(set) var binding: Bool
 

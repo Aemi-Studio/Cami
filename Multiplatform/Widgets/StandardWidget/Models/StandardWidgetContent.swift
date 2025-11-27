@@ -16,13 +16,13 @@ final class StandardWidgetContent: Loggable {
     let configuration: Configuration
 
     /// Pre-computed birthdays for the widget
-    let birthdays: [CalendarItem]
+    let birthdays: [WidgetCalendarItem]
 
     /// Pre-computed items (events and reminders) grouped by date
-    let items: [Date: [CalendarItem]]
+    let items: [Date: [WidgetCalendarItem]]
 
     /// Pre-computed inline (all-day) events grouped by date
-    let inlineEvents: [Date: [CalendarItem]]
+    let inlineEvents: [Date: [WidgetCalendarItem]]
 
     // MARK: - Initialization
 
@@ -36,13 +36,13 @@ final class StandardWidgetContent: Loggable {
         self.inlineEvents = [:]
     }
 
-    /// Private initializer for fully populated content
-    private init(
+    /// Initializer for fully populated content
+    init(
         date: Date,
         configuration: Configuration,
-        birthdays: [CalendarItem],
-        items: [Date: [CalendarItem]],
-        inlineEvents: [Date: [CalendarItem]]
+        birthdays: [WidgetCalendarItem],
+        items: [Date: [WidgetCalendarItem]],
+        inlineEvents: [Date: [WidgetCalendarItem]]
     ) {
         self.date = date
         self.configuration = configuration
@@ -62,11 +62,11 @@ final class StandardWidgetContent: Loggable {
         let inlineCalendars = calendars.inline
 
         // Fetch birthdays
-        let birthdays: [CalendarItem]
+        let birthdays: [WidgetCalendarItem]
         if entry.configuration.complication == .birthdays {
             birthdays = await widgetDataService
                 .getBirthdaysForWidget(referenceDate: entry.date)
-                .compactMap(CalendarItem.init)
+                .map(WidgetCalendarItem.init)
         } else {
             birthdays = []
         }
@@ -79,10 +79,10 @@ final class StandardWidgetContent: Loggable {
         )
 
         // Fetch reminders
-        let reminderItems: [CalendarItem]
+        let reminderItems: [WidgetCalendarItem]
         if entry.configuration.showReminders {
             let reminders = await widgetDataService.getRemindersForWidget()
-            reminderItems = reminders.compactMap(CalendarItem.init)
+            reminderItems = reminders.compactMap(WidgetCalendarItem.init)
         } else {
             reminderItems = []
         }
@@ -93,8 +93,8 @@ final class StandardWidgetContent: Loggable {
 
         // Filter items for normal calendars
         let items = allItems.filter(where: { item in
-            if item.kind == .event {
-                normalCalendars.contains(item.calendar)
+            if item.kind == .event || item.kind == .birthday {
+                normalCalendars.contains(item.calendarId)
             } else {
                 true
             }
@@ -102,8 +102,8 @@ final class StandardWidgetContent: Loggable {
 
         // Filter inline events (all-day events from inline calendars)
         let inlineEvents = allItems.filter(where: { item in
-            if item.kind == .event {
-                item.isAllDay && inlineCalendars.contains(item.calendar)
+            if item.kind == .event || item.kind == .birthday {
+                item.isAllDay && inlineCalendars.contains(item.calendarId)
             } else {
                 false
             }
@@ -138,7 +138,7 @@ final class StandardWidgetContent: Loggable {
         from entry: Entry,
         using widgetDataService: WidgetDataService,
         calendars: Calendars
-    ) async -> [CalendarItem] {
+    ) async -> [WidgetCalendarItem] {
         let normal = calendars.normal
         let inline = calendars.inline
         let all = calendars.all
@@ -159,7 +159,7 @@ final class StandardWidgetContent: Loggable {
             return event.isAllDay && inline.contains(calendarIdentifier) || normal.contains(calendarIdentifier)
         }
 
-        return events.compactMap(CalendarItem.init)
+        return events.map(WidgetCalendarItem.init)
     }
 }
 

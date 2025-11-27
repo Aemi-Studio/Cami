@@ -15,9 +15,9 @@ struct CalendarItemTime: View {
     private var reference: Date { content.date }
     private var config: StandardWidgetConfiguration { content.configuration }
 
-    let items: [CalendarItem]
+    let items: [WidgetCalendarItem]
 
-    private var first: CalendarItem! { items.first }
+    private var first: WidgetCalendarItem! { items.first }
     private var isAllDay: Bool { first.isAllDay }
 
     var body: some View {
@@ -36,7 +36,7 @@ struct CalendarItemTime: View {
     }
 
     @ViewBuilder
-    private func timeComponent(for item: CalendarItem, relativeTo date: Date) -> some View {
+    private func timeComponent(for item: WidgetCalendarItem, relativeTo date: Date) -> some View {
         HStack(spacing: 2) {
             if item.boundStart < date {
                 CalendarItemRemainingTime(

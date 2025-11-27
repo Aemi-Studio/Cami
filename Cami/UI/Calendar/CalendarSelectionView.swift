@@ -11,7 +11,7 @@ import SwiftUI
 struct CalendarSelectionView: View {
     @Environment(\.data) private var data
 
-    let kind: CalendarItem.Kind
+    let kind: CalendarItemKind
 
     private var calendars: [EKCalendar] {
         switch kind {

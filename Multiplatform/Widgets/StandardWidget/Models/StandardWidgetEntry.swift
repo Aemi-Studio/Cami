@@ -18,32 +18,28 @@ struct StandardWidgetEntry {
     let calendars: [Calendar]
     let inlineCalendars: [Calendar]
 
-    init(
-        date: Date = Date.now,
-        configuration: Configuration = .default,
-        calendars: [Calendar],
-        inlineCalendars: [Calendar]
-    ) {
-        self.date = date
-        self.configuration = configuration
-        self.calendars = calendars
-        self.inlineCalendars = inlineCalendars
-    }
+    /// Pre-populated content for the widget (fetched in provider)
+    let content: StandardWidgetContent
 
-    @MainActor
     init(
         date: Date = Date.now,
         configuration: Configuration = .default,
         calendars: [Calendar],
         inlineCalendars: [Calendar],
-        fetchingDefaults: Bool
-    ) async {
+        content: StandardWidgetContent? = nil
+    ) {
         self.date = date
         self.configuration = configuration
-
-        let defaultCalendars = DataContext.shared.calendars.map(\.calendarIdentifier)
-        self.calendars = calendars.isEmpty ? defaultCalendars : calendars
-        self.inlineCalendars = inlineCalendars.isEmpty ? defaultCalendars : inlineCalendars
+        self.calendars = calendars
+        self.inlineCalendars = inlineCalendars
+        // Use provided content or create empty default
+        self.content = content ?? StandardWidgetContent(
+            date: date,
+            configuration: configuration,
+            birthdays: [],
+            items: [:],
+            inlineEvents: [:]
+        )
     }
 }
 

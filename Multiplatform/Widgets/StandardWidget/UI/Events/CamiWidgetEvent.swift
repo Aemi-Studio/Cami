@@ -24,13 +24,13 @@ struct CamiWidgetEvent: View {
     @AppStorage(SettingsKeys.openInCami.rawValue)
     private var openInPlace: Bool = UserDefaults.standard.bool(forKey: SettingsKeys.openInCami.rawValue)
 
-    private(set) var groupedItem: [CalendarItem]
+    private(set) var groupedItem: [WidgetCalendarItem]
 
-    private var item: CalendarItem! {
+    private var item: WidgetCalendarItem! {
         groupedItem.first
     }
 
-    private var otherItems: ArraySlice<CalendarItem> {
+    private var otherItems: ArraySlice<WidgetCalendarItem> {
         groupedItem.dropFirst()
     }
 
@@ -50,7 +50,7 @@ struct CamiWidgetEvent: View {
 
     @ViewBuilder
     private func actionable(
-        for item: CalendarItem,
+        for item: WidgetCalendarItem,
         @ViewBuilder content: @escaping () -> some View
     ) -> some View {
         if let data {

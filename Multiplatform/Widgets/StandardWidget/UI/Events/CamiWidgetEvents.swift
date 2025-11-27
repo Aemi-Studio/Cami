@@ -39,11 +39,11 @@ struct CamiWidgetEvents: View {
         date < referenceDate.zero
     }
 
-    private func getEvents(for date: Date) -> [CalendarItem] {
+    private func getEvents(for date: Date) -> [WidgetCalendarItem] {
         content.items[date] ?? []
     }
 
-    private func getInlineEvents(for date: Date) -> [CalendarItem] {
+    private func getInlineEvents(for date: Date) -> [WidgetCalendarItem] {
         content.inlineEvents[date] ?? []
     }
 }

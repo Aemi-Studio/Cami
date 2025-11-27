@@ -29,7 +29,7 @@ enum NavigationDestination: Hashable, Codable, Equatable, Navigable {
     case widgets
 
     // MARK: - Calendar Management
-    case calendarSelection(kind: CalendarItem.Kind)
+    case calendarSelection(kind: CalendarItemKind)
     case allCalendarsSelection
 
     // MARK: - Item Details

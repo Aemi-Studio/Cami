@@ -9,21 +9,21 @@ import Foundation
 
 @MainActor
 final class BirthdayViewModel {
-    let birthdays: [CalendarItem]
+    let birthdays: [WidgetCalendarItem]
     let referenceDate: Date
     let dataContext: DataContext
 
-    private var _validBirthdays: [CalendarItem]?
-    private var _todayBirthdayEvent: CalendarItem??
+    private var _validBirthdays: [WidgetCalendarItem]?
+    private var _todayBirthdayEvent: WidgetCalendarItem??
     private var _nextBirthdaysInfo: (daysUntil: Int, names: [String])?
 
-    init(birthdays: [CalendarItem], referenceDate: Date, dataContext: DataContext) {
+    init(birthdays: [WidgetCalendarItem], referenceDate: Date, dataContext: DataContext) {
         self.birthdays = birthdays
         self.referenceDate = referenceDate
         self.dataContext = dataContext
     }
 
-    var validBirthdays: [CalendarItem] {
+    var validBirthdays: [WidgetCalendarItem] {
         if let cached = _validBirthdays {
             return cached
         }
@@ -32,7 +32,7 @@ final class BirthdayViewModel {
         return filtered
     }
 
-    var todayBirthdayEvent: CalendarItem? {
+    var todayBirthdayEvent: WidgetCalendarItem? {
         if let cached = _todayBirthdayEvent {
             return cached
         }
@@ -70,7 +70,7 @@ final class BirthdayViewModel {
         return result
     }
 
-    func birthdayInfo(for event: CalendarItem) -> (name: String, age: Int)? {
+    func birthdayInfo(for event: WidgetCalendarItem) -> (name: String, age: Int)? {
         guard let contactId = event.contactIdentifier,
               let birthdate = dataContext.resolveBirthdate(contactId)
         else {

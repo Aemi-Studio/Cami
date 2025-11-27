@@ -19,13 +19,13 @@ struct CamiWidgetEventsByDate: View {
     private var family: WidgetFamily { customWidgetFamily?.rawValue ?? widgetFamily }
 
     let date: Date
-    private(set) var items: [CalendarItem] = []
-    private(set) var inlineEvents: [CalendarItem] = []
+    private(set) var items: [WidgetCalendarItem] = []
+    private(set) var inlineEvents: [WidgetCalendarItem] = []
 
-    private var itemsThroughAllDayFiltering: [CalendarItem] {
+    private var itemsThroughAllDayFiltering: [WidgetCalendarItem] {
         if configuration.allDayStyle == .hidden {
             items.filter { event in
-                guard event.kind == .event else {
+                guard event.kind == .event || event.kind == .birthday else {
                     return true
                 }
                 let isAllDay = event.isAllDay
@@ -37,7 +37,7 @@ struct CamiWidgetEventsByDate: View {
         }
     }
 
-    private var groupedItems: [[CalendarItem]] {
+    private var groupedItems: [[WidgetCalendarItem]] {
         if configuration.groupEvents {
             itemsThroughAllDayFiltering.grouped()
         } else {

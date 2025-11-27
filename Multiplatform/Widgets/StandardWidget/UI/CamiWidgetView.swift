@@ -25,7 +25,7 @@ struct CamiWidgetView: View {
     }
 
     init(for entry: Entry) {
-        self.content = Content(from: entry)
+        self.content = entry.content
     }
 
     var body: some View {

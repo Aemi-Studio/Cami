@@ -5,32 +5,48 @@
 //  Created by Guillaume Coquard on 28/09/25.
 //
 
+import EventKit
 import Foundation
 
+/// A lightweight, Sendable representation of calendar items for widget use.
+///
+/// Since `EKEvent` and `EKReminder` are not Sendable, this struct captures
+/// the essential data needed for widget display and can be safely passed
+/// across concurrency boundaries.
 struct WidgetCalendarItem {
     let id: String
     let kind: Kind
     let title: String
     let calendarId: String
-    let colorIndex: UInt8
+    let color: CGColor
 
     let isAllDay: Bool
     let startDate: Date?
     let endDate: Date?
 
-    enum Kind: UInt8, CaseIterable {
+    /// For birthday events, the contact identifier
+    let contactIdentifier: String?
+
+    enum Kind: UInt8, Sendable, CaseIterable {
         case event = 0
         case reminder = 1
         case birthday = 2
-        case streak = 3
     }
 
     var boundStart: Date {
         startDate ?? endDate ?? .distantPast
     }
 
+    var boundEnd: Date {
+        endDate ?? startDate ?? .distantFuture
+    }
+
     var isStartingToday: Bool {
         boundStart.isToday
+    }
+
+    var isEndingToday: Bool {
+        boundEnd.isToday
     }
 }
 
@@ -45,36 +61,78 @@ extension WidgetCalendarItem: Comparable {
     }
 }
 
+// MARK: - EventKit Initializers
+
 extension WidgetCalendarItem {
-    init?(from calendarItem: CalendarItem) {
-        self.id = calendarItem.id
-        self.title = calendarItem.title
-        self.calendarId = calendarItem.calendar
-        self.isAllDay = calendarItem.isAllDay
-        self.startDate = calendarItem.start
-        self.endDate = calendarItem.end
+    /// Creates a widget calendar item from an EKEvent
+    init(from event: EKEvent) {
+        self.id = event.calendarItemIdentifier
+        self.title = event.title ?? ""
+        self.calendarId = event.calendar.calendarIdentifier
+        self.color = event.calendar.cgColor
+        self.isAllDay = event.isAllDay
+        self.startDate = event.startDate
+        self.endDate = event.endDate
+        self.contactIdentifier = event.birthdayContactIdentifier
 
-        self.kind =
-            switch calendarItem.kind {
-                case .event:
-                    if calendarItem.contactIdentifier != nil {
-                        .birthday
-                    } else {
-                        .event
-                    }
-                case .reminder:
-                    .reminder
-                case .streak:
-                    .streak
+        self.kind = event.birthdayContactIdentifier != nil ? .birthday : .event
+    }
+
+    /// Creates a widget calendar item from an EKReminder, if it has a due date
+    init?(from reminder: EKReminder) {
+        guard let dueDate = reminder.dueDateComponents?.date else {
+            return nil
+        }
+
+        self.id = reminder.calendarItemIdentifier
+        self.title = reminder.title ?? ""
+        self.calendarId = reminder.calendar.calendarIdentifier
+        self.color = reminder.calendar.cgColor
+        self.isAllDay = false
+        self.startDate = dueDate
+        self.endDate = reminder.completionDate
+        self.contactIdentifier = nil
+        self.kind = .reminder
+    }
+
+    /// Creates a widget calendar item from any EKCalendarItem
+    init?(from item: EKCalendarItem) {
+        if let event = item as? EKEvent {
+            self = WidgetCalendarItem(from: event)
+        } else if let reminder = item as? EKReminder {
+            guard let widgetItem = WidgetCalendarItem(from: reminder) else {
+                return nil
             }
-
-        let colorComponents = calendarItem.color?.components ?? [0, 0, 0, 1]
-        let red = UInt8(colorComponents[0] * 255)
-        let green = UInt8(colorComponents[1] * 255)
-        let blue = UInt8(colorComponents[2] * 255)
-        self.colorIndex = UInt8((red &+ green &+ blue) / 3)
+            self = widgetItem
+        } else {
+            return nil
+        }
     }
 }
+
+// MARK: - Date Helpers
+
+extension WidgetCalendarItem {
+    func continuesPast(_ date: Date) -> Bool {
+        let resetDate = boundStart.zero
+        let tomorrow = Calendar.current.date(byAdding: DateComponents(day: 1), to: date)!
+        return resetDate < date.zero || (isStartingToday && boundEnd.zero > tomorrow)
+    }
+
+    func isSameDay(as other: WidgetCalendarItem) -> Bool {
+        let hasSameStartDate = boundStart.zero == other.boundStart.zero
+        let hasSameEndDate = boundEnd.zero == other.boundEnd.zero
+        return hasSameStartDate || hasSameEndDate
+    }
+
+    func isStrictlySameDay(as other: WidgetCalendarItem) -> Bool {
+        let hasSameStartDate = boundStart.zero == other.boundStart.zero
+        let hasSameEndDate = boundEnd.zero == other.boundEnd.zero
+        return hasSameStartDate && hasSameEndDate
+    }
+}
+
+// MARK: - Collection Extensions
 
 extension Collection<WidgetCalendarItem> {
     func sorted(_ order: ComparisonResult = .orderedAscending) -> [Element] {
@@ -87,18 +145,19 @@ extension Collection<WidgetCalendarItem> {
         })
     }
 
-    func mappedToDate(relativeTo _: Date) -> [Date: [Element]] {
+    /// Maps items by date, handling items that continue past the reference date
+    func mapped(relativeTo date: Date) -> [Date: [Element]] {
         var itemsDictionary = [Date: [Element]]()
-        let calendar = Calendar.current
+        let yesterday = (date + DateComponents(day: -1)).zero
 
         for item in self {
-            let itemDate = calendar.startOfDay(for: item.boundStart)
-            itemsDictionary[itemDate, default: []].append(item)
+            if item.continuesPast(date) {
+                itemsDictionary.append(to: yesterday, item)
+            } else {
+                itemsDictionary.append(to: item.boundStart.zero, item)
+            }
         }
-
-        return itemsDictionary.mapValues { items in
-            items.sorted()
-        }
+        return itemsDictionary
     }
 }
 
@@ -156,10 +215,31 @@ extension [Date: [WidgetCalendarItem]] {
             result[date, default: []].append(contentsOf: items)
         }
         for (date, items) in result {
-            if !items.isEmpty {
-                result[date] = items.sorted()
+            if items.isEmpty {
+                result.removeValue(forKey: date)
+            } else {
+                result.updateValue(
+                    Array(Set(items)).sorted(by: { $0.boundStart < $1.boundStart }),
+                    forKey: date
+                )
             }
         }
         return result
+    }
+
+    static func += (lhs: inout Self, rhs: Self) {
+        lhs = lhs + rhs
+    }
+
+    mutating func append(to date: Date, _ item: WidgetCalendarItem) {
+        if var list = self[date] {
+            list.insert(
+                item,
+                at: list.firstIndex { $0.boundStart >= item.boundStart } ?? list.endIndex
+            )
+            updateValue(list, forKey: date)
+        } else {
+            self[date] = [item]
+        }
     }
 }

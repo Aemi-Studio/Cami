@@ -14,7 +14,7 @@ struct CreateCalendarItemView: View {
 
     var body: some View {
         EventCreationView()
-            .navigationTitle(String(localized: "create.\(CalendarItem.Kind.event.description)"))
+            .navigationTitle(String(localized: "create.\(CalendarItemKind.event.description)"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .cancellationAction) {

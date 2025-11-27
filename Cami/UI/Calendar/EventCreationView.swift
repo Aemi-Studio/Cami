@@ -18,7 +18,7 @@ struct CalendarItemTimeInput: View {
 
     @Binding private(set) var item: EKCalendarItem
 
-    var kind: CalendarItem.Kind? {
+    var kind: CalendarItemKind? {
         switch item {
             case is EKEvent: .event
             case is EKReminder: .reminder

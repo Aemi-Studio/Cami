@@ -21,13 +21,29 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
     }
 
     func snapshot(for intent: Intent, in _: Context) async -> Entry {
-        StandardWidgetEntry(from: intent)
+        await createEntry(from: intent)
     }
 
     func timeline(for intent: Intent, in _: Context) async -> Timeline<Entry> {
-        Timeline(
-            entries: [StandardWidgetEntry(from: intent)],
-            policy: .atEnd
+        let entry = await createEntry(from: intent)
+        return Timeline(entries: [entry], policy: .atEnd)
+    }
+
+    @MainActor
+    private func createEntry(from intent: Intent) async -> Entry {
+        // Create base entry without content
+        let baseEntry = StandardWidgetEntry(from: intent)
+
+        // Fetch populated content asynchronously
+        let content = await StandardWidgetContent.create(from: baseEntry)
+
+        // Return entry with populated content
+        return StandardWidgetEntry(
+            date: baseEntry.date,
+            configuration: baseEntry.configuration,
+            calendars: baseEntry.calendars,
+            inlineCalendars: baseEntry.inlineCalendars,
+            content: content
         )
     }
 }
