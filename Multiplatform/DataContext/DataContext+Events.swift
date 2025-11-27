@@ -11,8 +11,8 @@ import Foundation
 // MARK: - Events
 
 extension DataContext {
-    func event(for id: String) -> EKEvent? {
-        _eventService.event(for: id)
+    func event(for id: String) async -> EKEvent? {
+        await eventService.event(for: id)
     }
 
     func events(
@@ -20,9 +20,9 @@ extension DataContext {
         during days: Int,
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
-    ) -> [EKEvent] {
+    ) async -> [EKEvent] {
         let calendars = calendars ?? self.calendars
-        return _eventService.events(from: calendars, during: days, where: filter, relativeTo: date)
+        return await eventService.events(from: calendars, during: days, where: filter, relativeTo: date)
     }
 
     func events(
@@ -30,8 +30,8 @@ extension DataContext {
         limit count: Int = Int.max,
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
-    ) -> [EKEvent] {
-        _eventService.events(from: calendars, limit: count, where: filter, relativeTo: date)
+    ) async -> [EKEvent] {
+        await eventService.events(from: calendars, limit: count, where: filter, relativeTo: date)
     }
 
     func events(
@@ -39,7 +39,7 @@ extension DataContext {
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
-    ) -> [EKEvent] {
-        _eventService.events(from: calendars, during: days, where: filter, relativeTo: date)
+    ) async -> [EKEvent] {
+        await eventService.events(from: calendars, during: days, where: filter, relativeTo: date)
     }
 }

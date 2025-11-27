@@ -15,7 +15,14 @@ extension Sequence<EKCalendar> {
 }
 
 extension Sequence<String> {
-    func asEKCalendars() -> [EKCalendar] {
-        compactMap { DataContext.shared.get(calendar: $0) }
+    @MainActor
+    func asEKCalendars() async -> [EKCalendar] {
+        var calendars: [EKCalendar] = []
+        for id in self {
+            if let calendar = await DataContext.shared.calendar(withIdentifier: id) {
+                calendars.append(calendar)
+            }
+        }
+        return calendars
     }
 }

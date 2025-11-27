@@ -95,38 +95,24 @@ extension PermissionManager {
 }
 
 extension PermissionManager {
-    nonisolated func refresh() {
-        Task { [weak self] in
-            await self?.refreshStatuses()
-        }
+    func refresh() async {
+        await refreshStatuses()
     }
 
-    nonisolated func status(for permission: Permission) async -> PermissionStatus {
-        await Task { [weak self] in
-            guard let self else {
-                return .notDetermined
-            }
-
-            return if let handler = await getPermissionHandler(from: permission) {
-                await status(for: handler)
-            } else {
-                .notDetermined
-            }
-        }.value
-    }
-
-    nonisolated func request(_ permission: Permission) async -> PermissionStatus {
-        await Task { [weak self] in
-            guard let self else {
-                return .notDetermined
-            }
-            if let handler = await getPermissionHandler(from: permission) {
-                let newStatus = await request(handler)
-                refresh()
-                return newStatus
-            }
+    func status(for permission: Permission) async -> PermissionStatus {
+        guard let handler = getPermissionHandler(from: permission) else {
             return .notDetermined
-        }.value
+        }
+        return await status(for: handler)
+    }
+
+    func request(_ permission: Permission) async -> PermissionStatus {
+        guard let handler = getPermissionHandler(from: permission) else {
+            return .notDetermined
+        }
+        let newStatus = await request(handler)
+        await refreshStatuses()
+        return newStatus
     }
 }
 
@@ -151,15 +137,10 @@ extension PermissionManager {
 
 #if DEBUG
     extension PermissionManager {
-        nonisolated func reset() {
-            Task { @MainActor [weak self] in
-                guard let self else {
-                    return
-                }
-                calendarStatus = .notDetermined
-                contactsStatus = .notDetermined
-                remindersStatus = .notDetermined
-            }
+        func reset() {
+            calendarStatus = .notDetermined
+            contactsStatus = .notDetermined
+            remindersStatus = .notDetermined
         }
     }
 #endif

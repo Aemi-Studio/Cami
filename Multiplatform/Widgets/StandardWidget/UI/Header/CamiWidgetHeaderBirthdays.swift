@@ -37,10 +37,13 @@ struct CamiWidgetHeaderBirthdays: View {
         family == .systemSmall
     }
 
-    private let bCalColor: Color = .init(
-        cgColor: DataContext.shared.birthdayCalendar?.cgColor
-            ?? .init(red: 1, green: 0, blue: 0, alpha: 1)
-    )
+    private var bCalColor: Color {
+        if let cgColor = data?.allCalendars.first(where: { $0.type == .birthday })?.cgColor {
+            Color(cgColor: cgColor)
+        } else {
+            Color.red
+        }
+    }
 
     var body: some View {
         if let viewModel = birthdayViewModel {

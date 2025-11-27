@@ -26,21 +26,46 @@ struct StandardWidgetEntry {
     ) {
         self.date = date
         self.configuration = configuration
-        self.calendars = calendars.isEmpty ? DataContext.shared.calendars.map(\.calendarIdentifier) : calendars
-        self.inlineCalendars = inlineCalendars.isEmpty
-            ? DataContext.shared.calendars
-                .map(\.calendarIdentifier)
-            : inlineCalendars
+        self.calendars = calendars
+        self.inlineCalendars = inlineCalendars
+    }
+
+    @MainActor
+    init(
+        date: Date = Date.now,
+        configuration: Configuration = .default,
+        calendars: [Calendar],
+        inlineCalendars: [Calendar],
+        fetchingDefaults: Bool
+    ) async {
+        self.date = date
+        self.configuration = configuration
+
+        let defaultCalendars = DataContext.shared.calendars.map(\.calendarIdentifier)
+        self.calendars = calendars.isEmpty ? defaultCalendars : calendars
+        self.inlineCalendars = inlineCalendars.isEmpty ? defaultCalendars : inlineCalendars
     }
 }
 
 extension StandardWidgetEntry {
+    /// Synchronous default for placeholder/environment values (uses empty calendars)
     static var `default`: Self {
         .init(
             date: .now,
             configuration: .default,
-            calendars: DataContext.shared.calendars.map(\.calendarIdentifier),
-            inlineCalendars: DataContext.shared.calendars.map(\.calendarIdentifier)
+            calendars: [],
+            inlineCalendars: []
+        )
+    }
+
+    @MainActor
+    static func makeDefault() async -> Self {
+        let calendars = DataContext.shared.calendars.map(\.calendarIdentifier)
+        return .init(
+            date: .now,
+            configuration: .default,
+            calendars: calendars,
+            inlineCalendars: calendars
         )
     }
 }

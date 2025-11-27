@@ -8,13 +8,15 @@
 import EventKit
 import Foundation
 
-final class EventService: @unchecked Sendable {
+/// Service for fetching and managing calendar events.
+@MainActor
+final class EventService {
     private let eventStoreService = EventStoreService.shared
 
     init() {}
 
-    func event(for id: String) -> EKEvent? {
-        eventStoreService.store.event(withIdentifier: id)
+    func event(for id: String) async -> EKEvent? {
+        await eventStoreService.store.event(withIdentifier: id)
     }
 
     func events(
@@ -22,7 +24,7 @@ final class EventService: @unchecked Sendable {
         during days: Int,
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
-    ) -> [EKEvent] {
+    ) async -> [EKEvent] {
         let calendar = Calendar.autoupdatingCurrent
 
         var todayComponent = DateComponents()
@@ -30,7 +32,7 @@ final class EventService: @unchecked Sendable {
 
         guard let today = calendar.date(byAdding: todayComponent, to: date, wrappingComponents: false)
         else {
-            return [EKEvent]()
+            return []
         }
 
         var oneMonthFromNowComponents = DateComponents()
@@ -41,16 +43,17 @@ final class EventService: @unchecked Sendable {
                 byAdding: oneMonthFromNowComponents, to: date, wrappingComponents: false
             )
         else {
-            return [EKEvent]()
+            return []
         }
 
-        let predicate = eventStoreService.store.predicateForEvents(
+        let store = await eventStoreService.store
+        let predicate = store.predicateForEvents(
             withStart: today,
             end: oneMonthFromNow,
             calendars: !calendars.isEmpty ? calendars : []
         )
 
-        return eventStoreService.store.events(matching: predicate).sorted(.orderedAscending).filter(filter)
+        return store.events(matching: predicate).sorted(.orderedAscending).filter(filter)
     }
 
     func events(
@@ -58,8 +61,9 @@ final class EventService: @unchecked Sendable {
         limit count: Int = Int.max,
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
-    ) -> [EKEvent] {
+    ) async -> [EKEvent] {
         let calendar = Calendar.autoupdatingCurrent
+        let store = await eventStoreService.store
 
         var consideredDays = 56
         var events = [EKEvent]()
@@ -79,13 +83,13 @@ final class EventService: @unchecked Sendable {
                 return []
             }
 
-            let predicate = eventStoreService.store.predicateForEvents(
+            let predicate = store.predicateForEvents(
                 withStart: currentDate,
                 end: aWeekLater,
                 calendars: calendars
             )
 
-            let fetchedEvents = eventStoreService.store.events(matching: predicate).sorted(.orderedAscending)
+            let fetchedEvents = store.events(matching: predicate).sorted(.orderedAscending)
 
             events = Array(Set(events).union(fetchedEvents)).sorted()
 
@@ -101,10 +105,11 @@ final class EventService: @unchecked Sendable {
         during days: Int = 30,
         where filter: ((EKEvent) -> Bool) = { _ in true },
         relativeTo date: Date
-    ) -> [EKEvent] {
+    ) async -> [EKEvent] {
+        let store = await eventStoreService.store
         let calendars = calendarIds.compactMap { id in
-            eventStoreService.store.calendar(withIdentifier: id)
+            store.calendar(withIdentifier: id)
         }
-        return events(from: calendars, during: days, where: filter, relativeTo: date)
+        return await events(from: calendars, during: days, where: filter, relativeTo: date)
     }
 }

@@ -10,18 +10,16 @@ import Foundation
 
 // MARK: - Birthdays
 
-// MARK: - Computed Properties - Birthdays
-
 extension DataContext {
-    var birthdayCalendar: EKCalendar? {
-        _birthdayService.birthdayCalendar
+    func birthdayCalendar() async -> EKCalendar? {
+        await birthdayService.birthdayCalendar()
     }
 
-    var birthdays: [EKEvent] {
-        _birthdayService.birthdays
+    func birthdays() async -> [EKEvent] {
+        await birthdayService.birthdays()
     }
 
-    func birthdays(from date: Date, during days: Int = 365) -> [EKEvent] {
-        _birthdayService.birthdays(from: date, during: days)
+    func birthdays(from date: Date, during days: Int = 365) async -> [EKEvent] {
+        await birthdayService.birthdays(from: date, during: days)
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class BirthdayViewModel {
     let birthdays: [CalendarItem]
     let referenceDate: Date

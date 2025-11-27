@@ -8,7 +8,9 @@
 import EventKit
 import Foundation
 
-final class ReminderService: @unchecked Sendable {
+/// Service for fetching and managing reminders.
+@MainActor
+final class ReminderService {
     private let eventStoreService = EventStoreService.shared
 
     init() {}
@@ -17,33 +19,16 @@ final class ReminderService: @unchecked Sendable {
         from calendars: [EKCalendar],
         where filter: ((EKReminder) -> Bool) = { _ in true }
     ) async -> [EKReminder] {
-        let predicate = eventStoreService.store.predicateForReminders(in: calendars)
+        let store = await eventStoreService.store
+        let predicate = store.predicateForReminders(in: calendars)
 
-        let reminders = await withUnsafeContinuation { result in
-            eventStoreService.store.fetchReminders(matching: predicate) { reminders in
-                if let reminders {
-                    result.resume(returning: reminders)
-                } else {
-                    result.resume(returning: [])
-                }
+        let reminders = await withCheckedContinuation { result in
+            store.fetchReminders(matching: predicate) { reminders in
+                result.resume(returning: reminders ?? [])
             }
         }
 
         return reminders.filter(filter)
-    }
-
-    func reminders(
-        from taskLists: [EKCalendar],
-        where filter: (@escaping (EKReminder) -> Bool) = { _ in true },
-        operation: @escaping ([EKReminder]) -> Void
-    ) {
-        let predicate = eventStoreService.store.predicateForReminders(in: taskLists)
-
-        eventStoreService.store.fetchReminders(matching: predicate) { reminders in
-            if let reminders {
-                operation(reminders.filter(filter))
-            }
-        }
     }
 
     func createReminder(
@@ -52,15 +37,16 @@ final class ReminderService: @unchecked Sendable {
         priority: EKReminderPriority = .none,
         details: String? = nil,
         calendar: EKCalendar? = nil
-    ) throws(ReminderError) -> EKReminder {
-        let reminder = EKReminder(eventStore: eventStoreService.store)
+    ) async throws(ReminderError) -> EKReminder {
+        let store = await eventStoreService.store
+        let reminder = EKReminder(eventStore: store)
         reminder.title = title
 
         reminder.calendar =
             if let calendar {
                 calendar
             } else {
-                eventStoreService.store.defaultCalendarForNewReminders()
+                store.defaultCalendarForNewReminders()
             }
 
         if priority != .none {
@@ -77,36 +63,33 @@ final class ReminderService: @unchecked Sendable {
         }
 
         do {
-            try eventStoreService.store.save(reminder, commit: true)
+            try store.save(reminder, commit: true)
             return reminder
         } catch {
             throw .failureToSave
         }
     }
 
-    func completeReminder(_ reminder: EKReminder?) -> Bool {
+    func completeReminder(_ reminder: EKReminder?) async -> Bool {
+        guard let reminder else { return false }
+
         do {
-            if let reminder {
-                reminder.isCompleted = true
-                try eventStoreService.store.save(reminder, commit: true)
-                return true
-            }
+            let store = await eventStoreService.store
+            reminder.isCompleted = true
+            try store.save(reminder, commit: true)
+            return true
         } catch {
             return false
         }
-        return false
     }
 
     func completeReminder(withIdentifier identifier: String) async -> Bool {
-        await withCheckedContinuation { continuation in
-            reminders(from: eventStoreService.store.calendars(for: .reminder)) { reminder in
-                reminder.calendarItemIdentifier == identifier
-            } operation: { results in
-                continuation.resume(
-                    returning: self.completeReminder(results.first)
-                )
-            }
+        let store = await eventStoreService.store
+        let calendars = store.calendars(for: .reminder)
+        let results = await reminders(from: calendars) { reminder in
+            reminder.calendarItemIdentifier == identifier
         }
+        return await completeReminder(results.first)
     }
 }
 

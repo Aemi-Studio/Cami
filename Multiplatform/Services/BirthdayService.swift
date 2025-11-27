@@ -8,23 +8,25 @@
 import EventKit
 import Foundation
 
-final class BirthdayService: @unchecked Sendable {
+/// Service for fetching birthday events from the calendar.
+@MainActor
+final class BirthdayService {
     private let eventStoreService = EventStoreService.shared
 
     init() {}
 
-    var birthdayCalendar: EKCalendar? {
-        eventStoreService.store.calendars(for: .event).first { calendar in
+    func birthdayCalendar() async -> EKCalendar? {
+        await eventStoreService.store.calendars(for: .event).first { calendar in
             calendar.type == .birthday
         }
     }
 
-    var birthdays: [EKEvent] {
-        birthdays(from: .now, during: 90)
+    func birthdays() async -> [EKEvent] {
+        await birthdays(from: .now, during: 90)
     }
 
-    func birthdays(from date: Date, during days: Int = 365) -> [EKEvent] {
-        guard let birthdayCalendar else {
+    func birthdays(from date: Date, during days: Int = 365) async -> [EKEvent] {
+        guard let birthdayCalendar = await birthdayCalendar() else {
             return []
         }
 
@@ -35,7 +37,7 @@ final class BirthdayService: @unchecked Sendable {
 
         guard let today = calendar.date(byAdding: todayComponent, to: date, wrappingComponents: false)
         else {
-            return [EKEvent]()
+            return []
         }
 
         var limit = DateComponents()
@@ -43,15 +45,16 @@ final class BirthdayService: @unchecked Sendable {
 
         guard let endDate = calendar.date(byAdding: limit, to: date, wrappingComponents: false)
         else {
-            return [EKEvent]()
+            return []
         }
 
-        let predicate = eventStoreService.store.predicateForEvents(
+        let store = await eventStoreService.store
+        let predicate = store.predicateForEvents(
             withStart: today,
             end: endDate,
             calendars: [birthdayCalendar]
         )
 
-        return eventStoreService.store.events(matching: predicate).sorted(.orderedAscending)
+        return store.events(matching: predicate).sorted(.orderedAscending)
     }
 }

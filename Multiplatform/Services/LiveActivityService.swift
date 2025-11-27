@@ -167,15 +167,14 @@ actor LiveActivityService {
         let now = Date.now
 
         // Get events happening right now (must hop to MainActor for DataContext)
-        let ongoingEvents = await MainActor.run {
-            DataContext.shared.events(during: 1, relativeTo: now).filter { event in
-                guard let startDate = event.startDate,
-                      let endDate = event.endDate
-                else {
-                    return false
-                }
-                return !event.isAllDay && startDate <= now && endDate > now
+        let allEvents = await DataContext.shared.events(during: 1, relativeTo: now)
+        let ongoingEvents = allEvents.filter { event in
+            guard let startDate = event.startDate,
+                  let endDate = event.endDate
+            else {
+                return false
             }
+            return !event.isAllDay && startDate <= now && endDate > now
         }
 
         // Start activities for ongoing events that don't have one

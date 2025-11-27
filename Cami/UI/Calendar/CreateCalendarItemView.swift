@@ -12,12 +12,6 @@ struct CreateCalendarItemView: View {
     @Environment(\.data) private var data
     @Environment(\.dismiss) private var dismiss
 
-    @State private var event: EKEvent
-
-    init() {
-        self.event = DataContext.shared.createEvent()
-    }
-
     var body: some View {
         EventCreationView()
             .navigationTitle(String(localized: "create.\(CalendarItem.Kind.event.description)"))
@@ -30,10 +24,11 @@ struct CreateCalendarItemView: View {
                 }
                 ToolbarItemGroup(placement: .confirmationAction) {
                     Button(String(localized: "button.save")) {
-                        if let data,
-                           (try? data.createReminder(title: "")) != nil
-                        {
-                            dismiss()
+                        Task {
+                            if let data {
+                                _ = try? await data.createReminder(title: "")
+                                dismiss()
+                            }
                         }
                     }
                     .disabled(true)

@@ -167,9 +167,7 @@ private struct OnboardingPermissionView<Permission>: View where Permission: Perm
             Button {
                 Task {
                     await requestAction()
-                    await MainActor.run {
-                        permissionManager.refresh()
-                    }
+                    await permissionManager.refresh()
                 }
             } label: {
                 Text(String(localized: "onboarding.permission.grantAccess"))

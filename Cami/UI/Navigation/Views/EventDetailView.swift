@@ -41,9 +41,7 @@ struct EventDetailView: View {
 
     private func loadEvent() async {
         isLoading = true
-        event = await MainActor.run {
-            dataContext?.event(for: identifier)
-        }
+        event = await dataContext?.event(for: identifier)
         isLoading = false
     }
 }

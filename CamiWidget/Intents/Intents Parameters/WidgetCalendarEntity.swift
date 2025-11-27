@@ -20,11 +20,14 @@ struct WidgetCalendarEntity: AppEntity {
         DisplayRepresentation(title: "\(id)")
     }
 
-    static let allCalendars: [WidgetCalendarEntity] = DataContext.shared.calendars.map { calendar in
-        WidgetCalendarEntity(
-            id: "\(calendar.source.title) - \(calendar.title)",
-            calendar: calendar.calendarIdentifier
-        )
+    @MainActor
+    static func fetchAllCalendars() -> [WidgetCalendarEntity] {
+        DataContext.shared.calendars.map { calendar in
+            WidgetCalendarEntity(
+                id: "\(calendar.source.title) - \(calendar.title)",
+                calendar: calendar.calendarIdentifier
+            )
+        }
     }
 }
 
@@ -32,16 +35,17 @@ struct CamiCalendarQuery: EntityQuery {
     typealias Entity = WidgetCalendarEntity
 
     func entities(for identifiers: [Entity.ID]) async throws -> [Entity] {
-        WidgetCalendarEntity.allCalendars.filter { calendar in
+        let allCalendars = await WidgetCalendarEntity.fetchAllCalendars()
+        return allCalendars.filter { calendar in
             identifiers.contains(calendar.id)
         }
     }
 
     func suggestedEntities() async throws -> [Entity] {
-        WidgetCalendarEntity.allCalendars
+        await WidgetCalendarEntity.fetchAllCalendars()
     }
 
     func defaultResult() async -> [Entity] {
-        WidgetCalendarEntity.allCalendars
+        await WidgetCalendarEntity.fetchAllCalendars()
     }
 }

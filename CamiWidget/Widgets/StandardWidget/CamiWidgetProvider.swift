@@ -12,11 +12,11 @@ struct CamiWidgetProvider: AppIntentTimelineProvider {
     typealias Intent = CamiWidgetIntent
 
     func placeholder(in _: Context) -> Entry {
-        let calendars = DataContext.shared.calendars.map(\.calendarIdentifier)
-        return StandardWidgetEntry(
+        // Return placeholder with empty calendars - will be populated in snapshot/timeline
+        StandardWidgetEntry(
             date: .now,
-            calendars: calendars,
-            inlineCalendars: calendars
+            calendars: [],
+            inlineCalendars: []
         )
     }
 

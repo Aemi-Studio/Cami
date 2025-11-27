@@ -5,6 +5,7 @@
 //  Created by Guillaume Coquard on 18/01/24.
 //
 
+import EventKit
 import EventKitUI
 import SwiftUI
 
@@ -12,7 +13,8 @@ struct EditEventViewController: UIViewControllerRepresentable {
     @Environment(\.dismiss)
     var dismiss: DismissAction
 
-    var event: EKEvent
+    let event: EKEvent
+    let eventStore: EKEventStore
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -36,7 +38,7 @@ struct EditEventViewController: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> EKEventEditViewController {
         let eventEditViewController = EKEventEditViewController()
         eventEditViewController.event = event
-        eventEditViewController.eventStore = DataContext.shared.store
+        eventEditViewController.eventStore = eventStore
         eventEditViewController.editViewDelegate = context.coordinator
         return eventEditViewController
     }

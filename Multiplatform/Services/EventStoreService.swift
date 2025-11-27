@@ -8,16 +8,21 @@
 import EventKit
 import Foundation
 
-final class EventStoreService: @unchecked Sendable {
+/// Thread-safe service for accessing EventKit's EKEventStore.
+///
+/// This actor manages the shared EKEventStore instance and handles
+/// periodic refresh of sources to keep calendar data up-to-date.
+actor EventStoreService {
     static let shared = EventStoreService()
 
     private let eventStore = EKEventStore()
     private var lastRefreshTime: Date = .distantPast
     private let refreshInterval: TimeInterval = 30
-    private let refreshQueue = DispatchQueue(label: "eventstore.refresh", qos: .utility)
 
     private init() {}
 
+    /// The underlying EKEventStore instance.
+    /// Automatically refreshes sources if stale.
     var store: EKEventStore {
         refreshIfNeeded()
         return eventStore
@@ -26,10 +31,8 @@ final class EventStoreService: @unchecked Sendable {
     private func refreshIfNeeded() {
         let now = Date()
         if now.timeIntervalSince(lastRefreshTime) > refreshInterval {
-            refreshQueue.async { [weak self] in
-                self?.eventStore.refreshSourcesIfNecessary()
-                self?.lastRefreshTime = now
-            }
+            eventStore.refreshSourcesIfNecessary()
+            lastRefreshTime = now
         }
     }
 
@@ -41,15 +44,16 @@ final class EventStoreService: @unchecked Sendable {
         try await eventStore.requestFullAccessToReminders()
     }
 
-    /// Creates an AsyncStream that emits EventKit store change notifications
-    func storeChanges() -> AsyncStream<Notification> {
+    /// Creates an AsyncStream that emits when the EventKit store changes.
+    /// The stream yields Void values; the notification content is not used.
+    nonisolated func storeChanges() -> AsyncStream<Void> {
         AsyncStream { continuation in
             let observer = NotificationCenter.default.addObserver(
                 forName: .EKEventStoreChanged,
                 object: nil,
                 queue: .main
-            ) { notification in
-                continuation.yield(notification)
+            ) { _ in
+                continuation.yield(())
             }
             continuation.onTermination = { _ in
                 NotificationCenter.default.removeObserver(observer)

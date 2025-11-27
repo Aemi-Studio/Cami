@@ -10,10 +10,12 @@ import EventKit
 import SwiftUI
 
 struct EventView: View {
-    @State
-    private var showEventEditView: Bool = false
+    @Environment(\.data) private var data
 
-    var event: EKEvent
+    @State private var showEventEditView: Bool = false
+    @State private var eventStore: EKEventStore?
+
+    let event: EKEvent
 
     init(_ event: EKEvent) {
         self.event = event
@@ -30,14 +32,20 @@ struct EventView: View {
                     Button(String(localized: "button.edit")) {
                         showEventEditView.toggle()
                     }
+                    .disabled(eventStore == nil)
                 }
             }
         }
         .sheet(isPresented: $showEventEditView) {
-            EditEventViewController(event: event)
-                .onDisappear {
-                    event.refresh()
-                }
+            if let eventStore {
+                EditEventViewController(event: event, eventStore: eventStore)
+                    .onDisappear {
+                        event.refresh()
+                    }
+            }
+        }
+        .task {
+            eventStore = await data?.store
         }
         .onAppear {
             event.refresh()

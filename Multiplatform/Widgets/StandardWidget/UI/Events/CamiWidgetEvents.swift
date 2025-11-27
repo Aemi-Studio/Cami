@@ -14,7 +14,9 @@ struct CamiWidgetEvents: View {
     private var configuration: StandardWidgetConfiguration { content.configuration }
 
     private var dates: [Date] {
-        Set<Date>().union(content.items.keys).union(content.inlineEvents.keys).sorted()
+        let itemDates = Set(content.items.keys)
+        let inlineDates = Set(content.inlineEvents.keys)
+        return itemDates.union(inlineDates).sorted()
     }
 
     var body: some View {

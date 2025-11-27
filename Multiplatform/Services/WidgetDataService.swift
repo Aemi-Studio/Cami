@@ -8,7 +8,9 @@
 import EventKit
 import Foundation
 
-final class WidgetDataService: @unchecked Sendable {
+/// Service for fetching calendar data optimized for widgets.
+@MainActor
+final class WidgetDataService {
     private let eventStoreService = EventStoreService.shared
 
     init() {}
@@ -17,9 +19,10 @@ final class WidgetDataService: @unchecked Sendable {
         calendars: [String],
         limit: Int = 20,
         referenceDate: Date = .now
-    ) -> [EKEvent] {
+    ) async -> [EKEvent] {
+        let store = await eventStoreService.store
         let ekCalendars = calendars.compactMap { identifier in
-            eventStoreService.store.calendar(withIdentifier: identifier)
+            store.calendar(withIdentifier: identifier)
         }
 
         guard !ekCalendars.isEmpty else {
@@ -32,54 +35,59 @@ final class WidgetDataService: @unchecked Sendable {
             to: referenceDate
         ) ?? referenceDate
 
-        let predicate = eventStoreService.store.predicateForEvents(
+        let predicate = store.predicateForEvents(
             withStart: referenceDate,
             end: endDate,
             calendars: ekCalendars
         )
 
-        return Array(eventStoreService.store.events(matching: predicate)
+        return Array(store.events(matching: predicate)
             .sorted { $0.startDate < $1.startDate }
             .prefix(limit))
     }
 
     func getRemindersForWidget(
         calendars: [String]? = nil,
-        limit: Int = 20,
-        operation: @escaping ([EKReminder]) -> Void
-    ) {
+        limit: Int = 20
+    ) async -> [EKReminder] {
+        let store = await eventStoreService.store
         let ekCalendars: [EKCalendar] =
             if let calendars {
                 calendars.compactMap { identifier in
-                    eventStoreService.store.calendar(withIdentifier: identifier)
+                    store.calendar(withIdentifier: identifier)
                 }
             } else {
-                eventStoreService.store.calendars(for: .reminder)
+                store.calendars(for: .reminder)
             }
 
-        let predicate = eventStoreService.store.predicateForReminders(in: ekCalendars)
+        let predicate = store.predicateForReminders(in: ekCalendars)
 
-        eventStoreService.store.fetchReminders(matching: predicate) { reminders in
-            let filtered = (reminders ?? [])
-                .filter { !$0.isCompleted && $0.dueDateComponents?.date != nil }
-                .sorted { lhs, rhs in
-                    guard let lhsDate = lhs.dueDateComponents?.date,
-                          let rhsDate = rhs.dueDateComponents?.date
-                    else {
-                        return false
-                    }
-                    return lhsDate < rhsDate
-                }
-
-            operation(Array(filtered.prefix(limit)))
+        let reminders = await withCheckedContinuation { continuation in
+            store.fetchReminders(matching: predicate) { reminders in
+                continuation.resume(returning: reminders ?? [])
+            }
         }
+
+        let filtered = reminders
+            .filter { !$0.isCompleted && $0.dueDateComponents?.date != nil }
+            .sorted { lhs, rhs in
+                guard let lhsDate = lhs.dueDateComponents?.date,
+                      let rhsDate = rhs.dueDateComponents?.date
+                else {
+                    return false
+                }
+                return lhsDate < rhsDate
+            }
+
+        return Array(filtered.prefix(limit))
     }
 
     func getBirthdaysForWidget(
         referenceDate: Date = .now,
         days: Int = 90
-    ) -> [EKEvent] {
-        let calendars = eventStoreService.store.calendars(for: .event)
+    ) async -> [EKEvent] {
+        let store = await eventStoreService.store
+        let calendars = store.calendars(for: .event)
         let birthdayCalendar = calendars.first { $0.type == .birthday }
 
         guard let birthdayCalendar else {
@@ -92,13 +100,13 @@ final class WidgetDataService: @unchecked Sendable {
             to: referenceDate
         ) ?? referenceDate
 
-        let predicate = eventStoreService.store.predicateForEvents(
+        let predicate = store.predicateForEvents(
             withStart: referenceDate,
             end: endDate,
             calendars: [birthdayCalendar]
         )
 
-        return eventStoreService.store.events(matching: predicate)
+        return store.events(matching: predicate)
             .sorted { $0.startDate < $1.startDate }
     }
 }

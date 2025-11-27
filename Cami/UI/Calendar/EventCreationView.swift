@@ -61,18 +61,24 @@ struct CalendarItemTimeInput: View {
 struct EventCreationView: View {
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.data) private var data
 
-    @State private var event: EKEvent
-
-    init() {
-        self.event = DataContext.shared.createEvent()
-    }
+    @State private var event: EKEvent?
+    @State private var title: String = ""
 
     var body: some View {
         ScrollView(.vertical) {
             VStack {
-                ItemTitleInput(prompt: "Title", title: $event.title)
+                ItemTitleInput(prompt: "Title", title: $title)
             }
+        }
+        .task {
+            if let data {
+                event = await data.createEvent()
+            }
+        }
+        .onChange(of: title) { _, newValue in
+            event?.title = newValue
         }
     }
 }

@@ -113,8 +113,8 @@ struct ReminderDetailView: View {
 
     private func loadReminder() async {
         isLoading = true
-        reminder = await MainActor.run {
-            dataContext?.eventStore.calendarItem(withIdentifier: identifier) as? EKReminder
+        if let store = await dataContext?.store {
+            reminder = store.calendarItem(withIdentifier: identifier) as? EKReminder
         }
         isLoading = false
     }

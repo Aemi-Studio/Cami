@@ -22,7 +22,7 @@ struct RefreshWidgetsModifier: ViewModifier {
     }
 
     @Sendable private func reactToEventStoreChanges() async {
-        for await _ in DataContext.shared.eventStoreChanges() {
+        for await _ in DataContext.eventStoreChanges() {
             WidgetCenter.shared.reloadAllTimelines()
         }
     }

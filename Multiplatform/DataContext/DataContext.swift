@@ -9,15 +9,20 @@ import Contacts
 import EventKit
 import SwiftUI
 
-final class DataContext: @unchecked Sendable {
-    static let shared: DataContext = .init()
+/// Central data context for accessing EventKit calendars, events, and reminders.
+///
+/// DataContext coordinates access to the EventStoreService and provides
+/// cached calendar data for UI consumption.
+@MainActor
+final class DataContext {
+    static let shared = DataContext()
 
     private let eventStoreService = EventStoreService.shared
-    fileprivate let eventService = EventService()
-    fileprivate let reminderService = ReminderService()
-    fileprivate let birthdayService = BirthdayService()
+    let eventService: EventService
+    let reminderService: ReminderService
+    let birthdayService: BirthdayService
 
-    var contactStore: CNContactStore = .init()
+    let contactStore = CNContactStore()
 
     private(set) var allCalendars: [EKCalendar] = []
     private(set) var taskLists: [EKCalendar] = []
@@ -25,52 +30,56 @@ final class DataContext: @unchecked Sendable {
     private var observationTask: Task<Void, Never>?
 
     private init() {
-        update()
-        startObserving()
+        self.eventService = EventService()
+        self.reminderService = ReminderService()
+        self.birthdayService = BirthdayService()
+
+        Task {
+            await update()
+            startObserving()
+        }
     }
 
-    private func update() {
-        allCalendars = getAllCalendarsForEvents()
-        taskLists = getAllCalendarsForReminders()
+    private func update() async {
+        allCalendars = await getAllCalendarsForEvents()
+        taskLists = await getAllCalendarsForReminders()
     }
 
     private func startObserving() {
         observationTask = Task { [weak self] in
             guard let self else { return }
             for await _ in eventStoreService.storeChanges() {
-                self.update()
+                await self.update()
             }
         }
     }
 
-    private func getAllCalendarsForEvents() -> [EKCalendar] {
-        eventStoreService.store.calendars(for: .event)
+    private func getAllCalendarsForEvents() async -> [EKCalendar] {
+        await eventStoreService.store.calendars(for: .event)
     }
 
-    private func getAllCalendarsForReminders() -> [EKCalendar] {
-        eventStoreService.store.calendars(for: .reminder)
+    private func getAllCalendarsForReminders() async -> [EKCalendar] {
+        await eventStoreService.store.calendars(for: .reminder)
     }
 
     var store: EKEventStore {
-        eventStoreService.store
-    }
-
-    var eventStore: EKEventStore {
-        eventStoreService.store
+        get async {
+            await eventStoreService.store
+        }
     }
 
     var calendars: [EKCalendar] {
         allCalendars.filter { $0.type != .birthday }
     }
 
-    func get(calendar identifier: String) -> EKCalendar? {
-        eventStoreService.store.calendar(withIdentifier: identifier)
+    func calendar(withIdentifier identifier: String) async -> EKCalendar? {
+        await eventStoreService.store.calendar(withIdentifier: identifier)
     }
 }
 
 extension DataContext: Loggable {}
 
-// MARK: Access Requests
+// MARK: - Access Requests
 
 extension DataContext {
     func requestCalendarsAccess() async {
@@ -104,15 +113,12 @@ extension EnvironmentValues {
     @Entry var data: DataContext!
 }
 
+// MARK: - Store Changes
+
 extension DataContext {
-    /// Creates an AsyncStream that emits EventKit store change notifications
-    func eventStoreChanges() -> AsyncStream<Notification> {
-        eventStoreService.storeChanges()
+    /// Creates an AsyncStream that emits when the EventKit store changes.
+    /// This is a nonisolated static method that can be called from any context.
+    nonisolated static func eventStoreChanges() -> AsyncStream<Void> {
+        EventStoreService.shared.storeChanges()
     }
-
-    // MARK: - Service Access
-
-    var _eventService: EventService { eventService }
-    var _reminderService: ReminderService { reminderService }
-    var _birthdayService: BirthdayService { birthdayService }
 }

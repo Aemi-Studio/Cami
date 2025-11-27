@@ -25,7 +25,6 @@ actor CalendarStore {
     static let shared = CalendarStore()
 
     private let logger = Logger(subsystem: "dev.music.cami", category: "CalendarStore")
-    private let dataContext: DataContext
     private let settings: AppSettings
 
     // MARK: - Cache
@@ -113,8 +112,7 @@ actor CalendarStore {
 
     // MARK: - Initialization
 
-    private init(dataContext: DataContext = .shared, settings: AppSettings = .shared) {
-        self.dataContext = dataContext
+    private init(settings: AppSettings = .shared) {
         self.settings = settings
     }
 
@@ -126,7 +124,8 @@ actor CalendarStore {
         // Subscribe to EventKit changes
         observationTask = Task { [weak self] in
             guard let self else { return }
-            for await _ in dataContext.eventStoreChanges() {
+            let stream = DataContext.eventStoreChanges()
+            for await _ in stream {
                 await self.handleEventStoreChange()
             }
         }
@@ -142,7 +141,7 @@ actor CalendarStore {
         // Initialize calendar selection with all calendars if not set
         Task {
             let calendarIDs = await MainActor.run {
-                dataContext.calendars.map(\.calendarIdentifier)
+                DataContext.shared.calendars.map(\.calendarIdentifier)
             }
             await settings.initializeCalendarSelectionIfNeeded(with: calendarIDs)
         }
@@ -156,7 +155,7 @@ actor CalendarStore {
     var calendars: [EKCalendar] {
         get async {
             await MainActor.run {
-                dataContext.calendars
+                DataContext.shared.calendars
             }
         }
     }
@@ -165,7 +164,7 @@ actor CalendarStore {
     var taskLists: [EKCalendar] {
         get async {
             await MainActor.run {
-                dataContext.taskLists
+                DataContext.shared.taskLists
             }
         }
     }
@@ -270,9 +269,7 @@ actor CalendarStore {
     }
 
     private func fetchEvents(for date: Date) async -> [EKEvent] {
-        await MainActor.run {
-            dataContext.events(during: 1, relativeTo: date)
-        }
+        await DataContext.shared.events(during: 1, relativeTo: date)
     }
 
     private func filterEventsBySelectedCalendars(_ events: [EKEvent]) async -> [EKEvent] {
@@ -385,15 +382,15 @@ actor CalendarStore {
     }
 
     private func fetchReminders(for date: Date) async -> [EKReminder] {
-        await dataContext.reminders(for: date)
+        await DataContext.shared.reminders(for: date)
     }
 
     private func fetchOverdueReminders() async -> [EKReminder] {
-        await dataContext.reminders(where: Filters.overdue.callable)
+        await DataContext.shared.reminders(where: Filters.overdue.callable)
     }
 
     private func fetchOpenReminders() async -> [EKReminder] {
-        await dataContext.reminders(where: Filters.open.callable)
+        await DataContext.shared.reminders(where: Filters.open.callable)
     }
 
     private func filterRemindersBySelectedCalendars(_ reminders: [EKReminder]) async -> [EKReminder] {

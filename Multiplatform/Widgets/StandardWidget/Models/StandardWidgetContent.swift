@@ -2,110 +2,128 @@ import EventKit
 import Foundation
 import SwiftUI
 
+/// Widget content that holds pre-computed calendar data for synchronous access in widget views.
+///
+/// Use `StandardWidgetContent.create(from:)` to asynchronously fetch and populate data,
+/// then access properties synchronously in widget views.
 @Observable
 final class StandardWidgetContent: Loggable {
     typealias Calendar = String
     typealias Entry = StandardWidgetEntry
     typealias Configuration = StandardWidgetConfiguration
-    private static let widgetDataService = WidgetDataService()
 
     let date: Date
     let configuration: Configuration
 
-    private let inlineCalendars: any Collection<Calendar>
-    private let normalCalendars: any Collection<Calendar>
+    /// Pre-computed birthdays for the widget
+    let birthdays: [CalendarItem]
 
-    private var _allItems: [Date: [CalendarItem]]?
-    private var _birthdays: [CalendarItem]?
-    private var _items: [Date: [CalendarItem]]?
-    private var _inlineEvents: [Date: [CalendarItem]]?
+    /// Pre-computed items (events and reminders) grouped by date
+    let items: [Date: [CalendarItem]]
 
-    private let entry: Entry
+    /// Pre-computed inline (all-day) events grouped by date
+    let inlineEvents: [Date: [CalendarItem]]
 
-    private var allItems: [Date: [CalendarItem]] {
-        if let _allItems {
-            return _allItems
-        }
+    // MARK: - Initialization
 
-        var items = Self.events(from: entry).mapped(relativeTo: entry.date)
-
-        Self.reminders(with: configuration) { reminders in
-            items += reminders.mapped(relativeTo: self.entry.date)
-        }
-
-        _allItems = items
-        return items
+    /// Creates a default content instance with empty data.
+    /// Use `create(from:)` for populated content.
+    init(from entry: Entry) {
+        self.date = entry.date
+        self.configuration = entry.configuration
+        self.birthdays = []
+        self.items = [:]
+        self.inlineEvents = [:]
     }
 
-    var birthdays: [CalendarItem] {
-        if let _birthdays {
-            return _birthdays
-        }
-
-        let result = Self.birthdays(relativeTo: entry.date, with: configuration)
-        _birthdays = result
-        return result
+    /// Private initializer for fully populated content
+    private init(
+        date: Date,
+        configuration: Configuration,
+        birthdays: [CalendarItem],
+        items: [Date: [CalendarItem]],
+        inlineEvents: [Date: [CalendarItem]]
+    ) {
+        self.date = date
+        self.configuration = configuration
+        self.birthdays = birthdays
+        self.items = items
+        self.inlineEvents = inlineEvents
     }
 
-    var items: [Date: [CalendarItem]] {
-        if let _items {
-            return _items
+    // MARK: - Factory Method
+
+    /// Asynchronously creates widget content by fetching all required data.
+    @MainActor
+    static func create(from entry: Entry) async -> StandardWidgetContent {
+        let widgetDataService = WidgetDataService()
+        let calendars = Self.calendars(from: entry)
+        let normalCalendars = calendars.normal
+        let inlineCalendars = calendars.inline
+
+        // Fetch birthdays
+        let birthdays: [CalendarItem]
+        if entry.configuration.complication == .birthdays {
+            birthdays = await widgetDataService
+                .getBirthdaysForWidget(referenceDate: entry.date)
+                .compactMap(CalendarItem.init)
+        } else {
+            birthdays = []
         }
 
-        let result = allItems.filter(where: {
-            if $0.kind == .event {
-                self.normalCalendars.contains($0.calendar)
+        // Fetch events
+        let eventItems = await Self.fetchEvents(
+            from: entry,
+            using: widgetDataService,
+            calendars: calendars
+        )
+
+        // Fetch reminders
+        let reminderItems: [CalendarItem]
+        if entry.configuration.showReminders {
+            let reminders = await widgetDataService.getRemindersForWidget()
+            reminderItems = reminders.compactMap(CalendarItem.init)
+        } else {
+            reminderItems = []
+        }
+
+        // Combine and map all items
+        var allItems = eventItems.mapped(relativeTo: entry.date)
+        allItems += reminderItems.mapped(relativeTo: entry.date)
+
+        // Filter items for normal calendars
+        let items = allItems.filter(where: { item in
+            if item.kind == .event {
+                normalCalendars.contains(item.calendar)
             } else {
                 true
             }
         })
-        _items = result
-        return result
-    }
 
-    var inlineEvents: [Date: [CalendarItem]] {
-        if let _inlineEvents {
-            return _inlineEvents
-        }
-
-        let result = allItems.filter(where: {
-            if $0.kind == .event {
-                $0.isAllDay && self.inlineCalendars.contains($0.calendar)
+        // Filter inline events (all-day events from inline calendars)
+        let inlineEvents = allItems.filter(where: { item in
+            if item.kind == .event {
+                item.isAllDay && inlineCalendars.contains(item.calendar)
             } else {
                 false
             }
         })
-        _inlineEvents = result
-        return result
+
+        return StandardWidgetContent(
+            date: entry.date,
+            configuration: entry.configuration,
+            birthdays: birthdays,
+            items: items,
+            inlineEvents: inlineEvents
+        )
     }
 
-    private static func birthdays(relativeTo date: Date, with configuration: Configuration) -> [CalendarItem] {
-        if configuration.complication == .birthdays {
-            widgetDataService.getBirthdaysForWidget(referenceDate: date).compactMap(CalendarItem.init)
-        } else {
-            []
-        }
-    }
-
-    private static func reminders(
-        with configuration: Configuration,
-        operation: @escaping ([CalendarItem]) -> Void
-    ) {
-        guard configuration.showReminders else {
-            operation([])
-            return
-        }
-
-        widgetDataService.getRemindersForWidget { reminders in
-            let calendarItems = reminders.compactMap(CalendarItem.init)
-            operation(calendarItems)
-        }
-    }
+    // MARK: - Private Helpers
 
     private struct Calendars {
-        let normal: any Collection<Calendar>
-        let inline: any Collection<Calendar>
-        let all: any Collection<Calendar>
+        let normal: Set<Calendar>
+        let inline: Set<Calendar>
+        let all: [Calendar]
     }
 
     private static func calendars(from entry: Entry) -> Calendars {
@@ -115,8 +133,12 @@ final class StandardWidgetContent: Loggable {
         return Calendars(normal: normal, inline: inline, all: all)
     }
 
-    private static func events(from entry: Entry) -> [CalendarItem] {
-        let calendars = Self.calendars(from: entry)
+    @MainActor
+    private static func fetchEvents(
+        from entry: Entry,
+        using widgetDataService: WidgetDataService,
+        calendars: Calendars
+    ) async -> [CalendarItem] {
         let normal = calendars.normal
         let inline = calendars.inline
         let all = calendars.all
@@ -126,7 +148,7 @@ final class StandardWidgetContent: Loggable {
             return []
         }
 
-        let events = widgetDataService.getEventsForWidget(
+        let events = await widgetDataService.getEventsForWidget(
             calendars: Array(all),
             limit: 20,
             referenceDate: entry.date
@@ -139,21 +161,5 @@ final class StandardWidgetContent: Loggable {
 
         return events.compactMap(CalendarItem.init)
     }
-
-    init(from entry: Entry) {
-        self.entry = entry
-        self.date = entry.date
-        self.configuration = entry.configuration
-
-        let calendars = Self.calendars(from: entry)
-
-        self.normalCalendars = calendars.normal
-        self.inlineCalendars = calendars.inline
-    }
 }
 
-extension StandardWidgetContent: Equatable {
-    static func == (lhs: StandardWidgetContent, rhs: StandardWidgetContent) -> Bool {
-        lhs.items == rhs.items && lhs.inlineEvents == rhs.inlineEvents && lhs.birthdays == rhs.birthdays
-    }
-}

@@ -15,17 +15,8 @@ extension DataContext {
         from calendars: [EKCalendar]? = nil,
         where filter: ((EKReminder) -> Bool) = { _ in true }
     ) async -> [EKReminder] {
-        let calendars = calendars ?? self.calendars
-        return await _reminderService.reminders(from: calendars, where: filter)
-    }
-
-    func reminders(
-        from taskLists: [EKCalendar]? = nil,
-        where filter: (@escaping (EKReminder) -> Bool) = { _ in true },
-        operation: @escaping ([EKReminder]) -> Void
-    ) {
-        let taskLists = taskLists ?? self.taskLists
-        _reminderService.reminders(from: taskLists, where: filter, operation: operation)
+        let calendars = calendars ?? self.taskLists
+        return await reminderService.reminders(from: calendars, where: filter)
     }
 
     /// Returns reminders due on a specific date that are not completed.
@@ -35,8 +26,8 @@ extension DataContext {
 }
 
 extension DataContext {
-    func createEvent() -> EKEvent {
-        EKEvent(eventStore: eventStore)
+    func createEvent() async -> EKEvent {
+        EKEvent(eventStore: await store)
     }
 
     func createReminder(
@@ -45,8 +36,8 @@ extension DataContext {
         priority: EKReminderPriority = .none,
         details: String? = nil,
         calendar: EKCalendar? = nil
-    ) throws(ReminderError) -> EKReminder {
-        try _reminderService.createReminder(
+    ) async throws(ReminderError) -> EKReminder {
+        try await reminderService.createReminder(
             title: title,
             date: date,
             priority: priority,
@@ -56,6 +47,6 @@ extension DataContext {
     }
 
     func completeReminder(withIdentifier identifier: String) async -> Bool {
-        await _reminderService.completeReminder(withIdentifier: identifier)
+        await reminderService.completeReminder(withIdentifier: identifier)
     }
 }
