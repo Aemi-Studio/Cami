@@ -55,6 +55,12 @@ struct DayPagerView: View {
                 ForEach(availableDates, id: \.self) { date in
                     DayPageContent(date: date, topPadding: topPadding)
                         .id(date)
+                        .scrollTransition(.interactive, axis: .horizontal) { content, phase in
+                            content
+                                .opacity(phase.isIdentity ? 1 : 0.6)
+                                .scaleEffect(phase.isIdentity ? 1 : 0.92)
+                                .blur(radius: phase.isIdentity ? 0 : 2)
+                        }
                 }
             }
             .scrollTargetLayout()
@@ -175,16 +181,16 @@ private struct DayPageContent: View {
 
 /// Placeholder view shown while day content is loading
 private struct DayPagePlaceholder: View {
+    @State private var isAnimating = false
+
     var body: some View {
         VStack(spacing: 16) {
             // Summary placeholder
             HStack(spacing: 8) {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(.quaternary)
+                ShimmerRectangle(cornerRadius: 8)
                     .frame(width: 80, height: 36)
 
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(.quaternary)
+                ShimmerRectangle(cornerRadius: 8)
                     .frame(width: 80, height: 36)
 
                 Spacer()
@@ -192,28 +198,62 @@ private struct DayPagePlaceholder: View {
             .padding(.bottom, 18)
 
             // Event placeholders
-            ForEach(0..<3, id: \.self) { _ in
+            ForEach(0..<3, id: \.self) { index in
                 HStack(spacing: 12) {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(.quaternary)
+                    ShimmerRectangle(cornerRadius: 4)
                         .frame(width: 4, height: 44)
 
                     VStack(alignment: .leading, spacing: 4) {
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(.quaternary)
+                        ShimmerRectangle(cornerRadius: 4)
                             .frame(width: 120, height: 16)
 
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(.quaternary)
+                        ShimmerRectangle(cornerRadius: 4)
                             .frame(width: 80, height: 12)
                     }
 
                     Spacer()
                 }
+                .opacity(isAnimating ? 1 : 0.5)
+                .animation(
+                    .easeInOut(duration: 0.8)
+                    .repeatForever(autoreverses: true)
+                    .delay(Double(index) * 0.1),
+                    value: isAnimating
+                )
             }
 
             Spacer()
         }
-        .redacted(reason: .placeholder)
+        .onAppear {
+            isAnimating = true
+        }
+    }
+}
+
+/// A rectangle with shimmer effect for loading states
+private struct ShimmerRectangle: View {
+    let cornerRadius: CGFloat
+    @State private var shimmerOffset: CGFloat = -1
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: cornerRadius)
+            .fill(.quaternary)
+            .overlay {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(
+                        LinearGradient(
+                            colors: [.clear, .white.opacity(0.3), .clear],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .offset(x: shimmerOffset * 200)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: false)) {
+                    shimmerOffset = 1
+                }
+            }
     }
 }

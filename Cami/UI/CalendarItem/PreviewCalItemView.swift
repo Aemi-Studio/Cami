@@ -34,7 +34,7 @@ struct CalendarItemView: View {
 
     var body: some View {
         Button {
-            withAnimation {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                 showDetail.toggle()
             }
         } label: {
@@ -43,41 +43,65 @@ struct CalendarItemView: View {
                 .background(
                     GlassStyle(.rect(cornerRadius: 12), color: Color(item.calendar.cgColor), intensity: 0.05)
                 )
-                .transition(.blurReplace)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color(item.calendar.cgColor).opacity(showDetail ? 0.3 : 0), lineWidth: 1)
+                }
                 .contentShape(.rect)
-                .animation(.interactiveSpring, value: showDetail)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(ScaleButtonStyle())
+        .sensoryFeedback(.selection, trigger: showDetail)
     }
 
-    @ViewBuilder var content: some View {
+    @ViewBuilder private var content: some View {
         VStack(alignment: .leading, spacing: 4) {
             Group {
                 HStack {
                     CalendarItemCalendarColorBadge(item: item)
+                        .scaleEffect(showDetail ? 1.1 : 1.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: showDetail)
+
                     CalendarItemStartDateView(date: startDate, isAllDay: isAllDay)
+
                     if !showDetail {
                         Spacer()
                         CalendarItemCharacteristicsView(event: item)
+                            .transition(.opacity.combined(with: .scale(scale: 0.8)))
                     }
                 }
+                .animation(.spring(response: 0.3, dampingFraction: 0.8), value: showDetail)
+
                 Text(item.title)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.leading)
 
-                Group {
-                    if showDetail {
-                        CalendarItemDetailView(event: item)
-                    }
+                if showDetail {
+                    CalendarItemDetailView(event: item)
+                        .transition(
+                            .asymmetric(
+                                insertion: .opacity
+                                    .combined(with: .move(edge: .top))
+                                    .combined(with: .scale(scale: 0.95, anchor: .top)),
+                                removal: .opacity
+                                    .combined(with: .scale(scale: 0.95, anchor: .top))
+                            )
+                        )
                 }
-                .id("CalendarItemDetailView-showDetail-\(showDetail)")
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .fontDesign(.rounded)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        
+    }
+}
+
+/// A button style that provides subtle scale feedback without interfering with scroll gestures
+private struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
 

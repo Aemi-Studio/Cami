@@ -58,31 +58,45 @@ struct TopBar<LeadingContent: View, TrailingContent: View>: View {
         (largeTitleFontSize, title3FontSize)
     }
     
+    /// Dynamic opacity for subtle fade effect during scroll
+    private var contentOpacity: CGFloat {
+        1.0 - (scrollProgress * 0.1)
+    }
+
+    /// Dynamic blur for depth effect
+    private var backgroundBlur: CGFloat {
+        scrollProgress * 0.5
+    }
+
     // MARK: - Body
-    
+
     var body: some View {
         ZStack(alignment: .top) {
             HStack(alignment: .center) {
                 leadingContent()
                     .font(.system(size: dynamicHeight.mapped(from: heightRange, to: fontSizeRange)))
-                
+                    .opacity(contentOpacity)
+                    .scaleEffect(1.0 - (scrollProgress * 0.02), anchor: .leading)
+
                 Spacer()
-                
+
                 HStack(spacing: dynamicHeight.mapped(from: heightRange, to: spacingRange)) {
                     trailingContent()
                 }
                 .buttonStyle(CircularGlassButtonStyle(dynamicHeight))
                 .padding(.trailing, dynamicHeight.mapped(from: heightRange, to: paddingRange))
+                .scaleEffect(1.0 - (scrollProgress * 0.05))
             }
             .padding(.horizontal)
-            .frame(height: dynamicHeight)  // Constrain HStack to dynamic height
+            .frame(height: dynamicHeight)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(height: maxBarHeight)  // ZStack stays fixed to prevent layout feedback
+        .frame(height: maxBarHeight)
         .padding(.bottom)
         .dynamicTypeSize(...(.large))
         .track(height: $viewHeight)
         .track(safeAreaInsets: $topSafeAreaInset, edge: .top)
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: scrollProgress)
         .animation(.easeInOut, value: viewHeight)
     }
 }

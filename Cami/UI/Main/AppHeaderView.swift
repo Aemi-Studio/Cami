@@ -37,10 +37,12 @@ struct AppHeaderView: View {
                     longDate
                     shortDate
                 }
+                .contentTransition(.numericText())
+                .animation(.easeInOut(duration: 0.25), value: displayedDate)
 
                 if !appState.isViewingToday {
                     Button {
-                        withAnimation(.easeInOut(duration: 0.25)) {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                             appState.navigateToToday()
                         }
                     } label: {
@@ -51,17 +53,28 @@ struct AppHeaderView: View {
                     .buttonStyle(.bordered)
                     .buttonBorderShape(.capsule)
                     .tint(.red)
-                    .transition(.scale.combined(with: .opacity))
+                    .transition(
+                        .asymmetric(
+                            insertion: .scale(scale: 0.5)
+                                .combined(with: .opacity)
+                                .combined(with: .offset(x: -10)),
+                            removal: .scale(scale: 0.8)
+                                .combined(with: .opacity)
+                        )
+                    )
                 }
             }
-            .animation(.easeInOut(duration: 0.2), value: appState.isViewingToday)
+            .animation(.spring(response: 0.35, dampingFraction: 0.75), value: appState.isViewingToday)
         } trailing: {
             Button(String(localized: "button.createCalendarItem"), systemImage: "plus") {
                 navigation.navigate(to: .createEvent(date: appState.selectedDate))
             }
+            .transition(.scale.combined(with: .opacity))
+
             Button(String(localized: "button.settings"), systemImage: "gear") {
                 navigation.navigate(to: .settings)
             }
+            .transition(.scale.combined(with: .opacity))
             .contextMenu {
                 Button(String(localized: "button.refresh"), systemImage: "arrow.clockwise") {
                     WidgetCenter.shared.reloadAllTimelines()
