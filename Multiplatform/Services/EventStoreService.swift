@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 28/09/25.
 //
 
-import Combine
 import EventKit
 import Foundation
 
@@ -42,7 +41,19 @@ final class EventStoreService: @unchecked Sendable {
         try await eventStore.requestFullAccessToReminders()
     }
 
-    func publishChanges() -> AnyPublisher<Notification, Never> {
-        NotificationCenter.default.publisher(for: .EKEventStoreChanged).eraseToAnyPublisher()
+    /// Creates an AsyncStream that emits EventKit store change notifications
+    func storeChanges() -> AsyncStream<Notification> {
+        AsyncStream { continuation in
+            let observer = NotificationCenter.default.addObserver(
+                forName: .EKEventStoreChanged,
+                object: nil,
+                queue: .main
+            ) { notification in
+                continuation.yield(notification)
+            }
+            continuation.onTermination = { _ in
+                NotificationCenter.default.removeObserver(observer)
+            }
+        }
     }
 }

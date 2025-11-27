@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 15/11/23.
 //
 
-import Combine
 import Contacts
 import EventKit
 import SwiftUI
@@ -23,11 +22,11 @@ final class DataContext: @unchecked Sendable {
     private(set) var allCalendars: [EKCalendar] = []
     private(set) var taskLists: [EKCalendar] = []
 
-    private var cancellables: Set<AnyCancellable> = []
+    private var observationTask: Task<Void, Never>?
 
     private init() {
         update()
-        subscribe()
+        startObserving()
     }
 
     private func update() {
@@ -35,12 +34,13 @@ final class DataContext: @unchecked Sendable {
         taskLists = getAllCalendarsForReminders()
     }
 
-    func subscribe() {
-        eventStoreService.publishChanges()
-            .sink { [weak self] _ in
-                self?.update()
+    private func startObserving() {
+        observationTask = Task { [weak self] in
+            guard let self else { return }
+            for await _ in eventStoreService.storeChanges() {
+                self.update()
             }
-            .store(in: &cancellables)
+        }
     }
 
     private func getAllCalendarsForEvents() -> [EKCalendar] {
@@ -105,8 +105,9 @@ extension EnvironmentValues {
 }
 
 extension DataContext {
-    func publishEventStoreChanges() -> AnyPublisher<Notification, Never> {
-        eventStoreService.publishChanges()
+    /// Creates an AsyncStream that emits EventKit store change notifications
+    func eventStoreChanges() -> AsyncStream<Notification> {
+        eventStoreService.storeChanges()
     }
 
     // MARK: - Service Access

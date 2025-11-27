@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 21/03/25.
 //
 
-import Combine
 import EventKit
 import MapKit
 import SwiftUI

@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 26.11.25.
 //
 
-import Combine
 import EventKit
 import SwiftUI
 
@@ -23,7 +22,7 @@ final class DayViewModel: Loggable {
     typealias UpdateAction = (CalendarItemType) -> Void
 
     private let settings = AppSettings.shared
-    private var cancellable: AnyCancellable?
+    private var observationTask: Task<Void, Never>?
 
     var showEvents: Bool = true
     var showReminders: Bool = true
@@ -39,7 +38,7 @@ final class DayViewModel: Loggable {
         Task { [weak self] in
             await self?.loadFromSettings()
         }
-        observeSettings()
+        startObserving()
     }
 
     private func loadFromSettings() async {
@@ -47,11 +46,10 @@ final class DayViewModel: Loggable {
         showReminders = await settings.showReminders
     }
 
-    private func observeSettings() {
-        cancellable = settings.settingsChanged
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] change in
-                guard let self else { return }
+    private func startObserving() {
+        observationTask = Task { [weak self] in
+            guard let self else { return }
+            for await change in await settings.settingsChanges() {
                 switch change {
                 case .showEvents(let show):
                     showEvents = show
@@ -61,6 +59,7 @@ final class DayViewModel: Loggable {
                     break
                 }
             }
+        }
     }
 
     func filter(_ item: EKCalendarItem) -> Bool {

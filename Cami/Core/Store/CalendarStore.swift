@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 26/11/25.
 //
 
-import Combine
 import EventKit
 import Foundation
 import OSLog
@@ -70,12 +69,7 @@ actor CalendarStore {
         }
     }
 
-    // MARK: - Publishers
-
-    private nonisolated(unsafe) let _storeChanged = PassthroughSubject<StoreChange, Never>()
-    nonisolated var storeChanged: AnyPublisher<StoreChange, Never> {
-        _storeChanged.eraseToAnyPublisher()
-    }
+    // MARK: - Store Changes
 
     enum StoreChange: Sendable {
         case calendarsUpdated
@@ -84,9 +78,37 @@ actor CalendarStore {
         case cacheInvalidated
     }
 
+    /// Continuations for store change streams
+    private var continuations: [UUID: AsyncStream<StoreChange>.Continuation] = [:]
+
+    /// Creates an AsyncStream that emits store changes
+    func storeChanges() -> AsyncStream<StoreChange> {
+        let (stream, continuation) = AsyncStream.makeStream(of: StoreChange.self)
+        let id = UUID()
+        continuations[id] = continuation
+        continuation.onTermination = { [weak self] _ in
+            Task { [weak self] in
+                await self?.removeContinuation(id)
+            }
+        }
+        return stream
+    }
+
+    private func removeContinuation(_ id: UUID) {
+        continuations.removeValue(forKey: id)
+    }
+
+    /// Sends a change to all active continuations
+    private func send(_ change: StoreChange) {
+        for continuation in continuations.values {
+            continuation.yield(change)
+        }
+    }
+
     // MARK: - Subscriptions
 
-    private var cancellables: Set<AnyCancellable> = []
+    private var observationTask: Task<Void, Never>?
+    private var settingsObservationTask: Task<Void, Never>?
     private var isSubscribed = false
 
     // MARK: - Initialization
@@ -102,24 +124,20 @@ actor CalendarStore {
         isSubscribed = true
 
         // Subscribe to EventKit changes
-        dataContext.publishEventStoreChanges()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                Task { [weak self] in
-                    await self?.handleEventStoreChange()
-                }
+        observationTask = Task { [weak self] in
+            guard let self else { return }
+            for await _ in dataContext.eventStoreChanges() {
+                await self.handleEventStoreChange()
             }
-            .store(in: &cancellables)
+        }
 
         // Subscribe to settings changes
-        settings.settingsChanged
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] change in
-                Task { [weak self] in
-                    await self?.handleSettingsChange(change)
-                }
+        settingsObservationTask = Task { [weak self] in
+            guard let self else { return }
+            for await change in await settings.settingsChanges() {
+                await self.handleSettingsChange(change)
             }
-            .store(in: &cancellables)
+        }
 
         // Initialize calendar selection with all calendars if not set
         Task {
@@ -247,7 +265,7 @@ actor CalendarStore {
     private func refreshEvents(for date: Date) async {
         let fetched = await fetchEvents(for: date)
         eventCache[date] = CacheEntry(data: fetched)
-        _storeChanged.send(.eventsUpdated(date))
+        send(.eventsUpdated(date))
         logger.debug("Background refreshed events for \(date)")
     }
 
@@ -348,7 +366,7 @@ actor CalendarStore {
     private func refreshReminders(for date: Date) async {
         let fetched = await fetchReminders(for: date)
         reminderCache[date] = CacheEntry(data: fetched)
-        _storeChanged.send(.remindersUpdated(date))
+        send(.remindersUpdated(date))
         logger.debug("Background refreshed reminders for \(date)")
     }
 
@@ -401,7 +419,7 @@ actor CalendarStore {
         reminderCache.removeAll()
         overdueRemindersCache = nil
         openRemindersCache = nil
-        _storeChanged.send(.cacheInvalidated)
+        send(.cacheInvalidated)
         logger.debug("Cache invalidated")
     }
 
@@ -507,7 +525,7 @@ actor CalendarStore {
 
     private func handleEventStoreChange() async {
         invalidateCache()
-        _storeChanged.send(.calendarsUpdated)
+        send(.calendarsUpdated)
         logger.info("EventKit store changed, cache invalidated")
     }
 
@@ -516,7 +534,7 @@ actor CalendarStore {
         case .calendarSelection:
             // Calendar selection changed - notify observers but keep cache
             // (cache stores all events, filtering happens on read)
-            _storeChanged.send(.cacheInvalidated)
+            send(.cacheInvalidated)
             logger.debug("Calendar selection changed")
 
         case .showEvents, .showReminders:

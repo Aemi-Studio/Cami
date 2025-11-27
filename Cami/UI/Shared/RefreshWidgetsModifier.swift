@@ -17,10 +17,14 @@ struct RefreshWidgetsModifier: ViewModifier {
             .onChange(of: scenePhase) { _, _ in
                 WidgetCenter.shared.reloadAllTimelines()
             }
-            .onReceive(DataContext.shared.publishEventStoreChanges()) { _ in
-                WidgetCenter.shared.reloadAllTimelines()
-            }
+            .task(reactToEventStoreChanges)
             .task(reactToPermissionChanges)
+    }
+
+    @Sendable private func reactToEventStoreChanges() async {
+        for await _ in DataContext.shared.eventStoreChanges() {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 
     @Sendable private func reactToPermissionChanges() async {

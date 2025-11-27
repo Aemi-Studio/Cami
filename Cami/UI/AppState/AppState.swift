@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 30/03/25.
 //
 
-import Combine
 import SwiftUI
 
 /// Application state coordinator.
@@ -38,7 +37,6 @@ final class AppState: Loggable {
     let storage = AppStorageManager()
 
     let settings = AppSettings.shared
-    private var cancellables: Set<AnyCancellable> = []
 
     init(date: Date = .now) {
         self.selectedDate = date.zero

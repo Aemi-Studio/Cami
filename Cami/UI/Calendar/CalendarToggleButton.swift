@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 17/03/25.
 //
 
-import Combine
 import EventKit
 import SwiftUI
 
@@ -13,7 +12,7 @@ struct CalendarToggleButton: View {
     let calendar: EKCalendar
 
     @State private var isSelected = true
-    @State private var cancellable: AnyCancellable?
+    @State private var observationTask: Task<Void, Never>?
 
     private let settings = AppSettings.shared
 
@@ -28,7 +27,10 @@ struct CalendarToggleButton: View {
         .tint(Color(calendar.cgColor))
         .task {
             await loadInitialState()
-            observeChanges()
+            startObserving()
+        }
+        .onDisappear {
+            observationTask?.cancel()
         }
         .onChange(of: isSelected) { _, newValue in
             Task {
@@ -47,13 +49,13 @@ struct CalendarToggleButton: View {
         }
     }
 
-    private func observeChanges() {
-        cancellable = settings.settingsChanged
-            .receive(on: DispatchQueue.main)
-            .sink { change in
+    private func startObserving() {
+        observationTask = Task {
+            for await change in await settings.settingsChanges() {
                 if case .calendarSelection(let ids) = change {
                     isSelected = ids.contains(calendar.calendarIdentifier)
                 }
             }
+        }
     }
 }

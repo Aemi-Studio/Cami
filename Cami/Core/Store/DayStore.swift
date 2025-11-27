@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 26/11/25.
 //
 
-import Combine
 import EventKit
 import Foundation
 import OSLog
@@ -92,7 +91,7 @@ final class DayStore {
 
     // MARK: - Subscriptions
 
-    private var cancellables: Set<AnyCancellable> = []
+    private var observationTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
@@ -104,14 +103,12 @@ final class DayStore {
     /// Starts observing store changes and loads initial data
     func startObserving() {
         // Subscribe to CalendarStore changes
-        calendarStore.storeChanged
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] change in
-                Task { @MainActor [weak self] in
-                    await self?.handleStoreChange(change)
-                }
+        observationTask = Task { [weak self] in
+            guard let self else { return }
+            for await change in await calendarStore.storeChanges() {
+                await self.handleStoreChange(change)
             }
-            .store(in: &cancellables)
+        }
 
         // Load initial data
         Task {

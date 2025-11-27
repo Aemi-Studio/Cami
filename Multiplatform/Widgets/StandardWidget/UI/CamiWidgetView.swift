@@ -48,7 +48,6 @@ struct CamiWidgetView: View {
         .environment(\.widgetContent, content)
         .environment(\.data, .shared)
         .environment(\.locale, .prefered)
-        .task { DataContext.shared.subscribe() }
     }
     
     private var maskContent: some View {

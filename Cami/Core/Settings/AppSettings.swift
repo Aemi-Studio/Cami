@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 26/11/25.
 //
 
-import Combine
 import Foundation
 import OSLog
 
@@ -24,10 +23,31 @@ actor AppSettings {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
 
-    /// Publisher for settings changes
-    private nonisolated(unsafe) let _settingsChanged = PassthroughSubject<SettingsChange, Never>()
-    nonisolated var settingsChanged: AnyPublisher<SettingsChange, Never> {
-        _settingsChanged.eraseToAnyPublisher()
+    /// Continuations for settings change streams
+    private var continuations: [UUID: AsyncStream<SettingsChange>.Continuation] = [:]
+
+    /// Creates an AsyncStream that emits settings changes
+    func settingsChanges() -> AsyncStream<SettingsChange> {
+        let (stream, continuation) = AsyncStream.makeStream(of: SettingsChange.self)
+        let id = UUID()
+        continuations[id] = continuation
+        continuation.onTermination = { [weak self] _ in
+            Task { [weak self] in
+                await self?.removeContinuation(id)
+            }
+        }
+        return stream
+    }
+
+    private func removeContinuation(_ id: UUID) {
+        continuations.removeValue(forKey: id)
+    }
+
+    /// Sends a change to all active continuations
+    private func send(_ change: SettingsChange) {
+        for continuation in continuations.values {
+            continuation.yield(change)
+        }
     }
 
     // MARK: - Settings Change Types
@@ -111,7 +131,7 @@ actor AppSettings {
     func setSelectedCalendarIDs(_ ids: Set<String>) {
         _selectedCalendarIDs = ids
         saveSet(ids, forKey: Keys.selectedCalendarIDs.rawValue)
-        _settingsChanged.send(.calendarSelection(ids))
+        send(.calendarSelection(ids))
         logger.debug("Calendar selection updated: \(ids.count) calendars selected")
     }
 
@@ -143,7 +163,7 @@ actor AppSettings {
     func setShowEvents(_ show: Bool) {
         _showEvents = show
         defaults.set(show, forKey: Keys.showEvents.rawValue)
-        _settingsChanged.send(.showEvents(show))
+        send(.showEvents(show))
         logger.debug("Show events: \(show)")
     }
 
@@ -164,7 +184,7 @@ actor AppSettings {
     func setShowReminders(_ show: Bool) {
         _showReminders = show
         defaults.set(show, forKey: Keys.showReminders.rawValue)
-        _settingsChanged.send(.showReminders(show))
+        send(.showReminders(show))
         logger.debug("Show reminders: \(show)")
     }
 
@@ -186,7 +206,7 @@ actor AppSettings {
     func completeOnboarding() {
         _hasCompletedOnboarding = true
         defaults.set(true, forKey: Keys.hasCompletedOnboarding.rawValue)
-        _settingsChanged.send(.onboardingCompleted)
+        send(.onboardingCompleted)
         logger.info("Onboarding completed")
     }
 
@@ -208,7 +228,7 @@ actor AppSettings {
         current.insert(step)
         _completedOnboardingSteps = current
         saveSet(current, forKey: Keys.completedOnboardingSteps.rawValue)
-        _settingsChanged.send(.onboardingStepCompleted(step))
+        send(.onboardingStepCompleted(step))
         logger.debug("Completed onboarding step: \(step.rawValue)")
     }
 

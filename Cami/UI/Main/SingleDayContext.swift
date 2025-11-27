@@ -5,7 +5,6 @@
 //  Created by Guillaume Coquard on 16/03/25.
 //
 
-import Combine
 import EventKit
 import SwiftUI
 
@@ -27,7 +26,7 @@ final class SingleDayContext {
     let date: Date
 
     private let calendarStore: CalendarStore
-    private var cancellables: Set<AnyCancellable> = []
+    private var observationTask: Task<Void, Never>?
 
     /// Current loading state
     private(set) var loadingState: DayContextLoadingState = .idle
@@ -74,34 +73,31 @@ final class SingleDayContext {
     init(for date: Date, calendarStore: CalendarStore = .shared) {
         self.date = date
         self.calendarStore = calendarStore
-        subscribe()
+        startObserving()
 
         Task { [weak self] in
             await self?.initialLoad()
         }
     }
 
-    private func subscribe() {
-        calendarStore.storeChanged
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] change in
-                Task { @MainActor [weak self] in
-                    guard let self else { return }
-                    switch change {
-                    case .calendarsUpdated, .cacheInvalidated:
+    private func startObserving() {
+        observationTask = Task { [weak self] in
+            guard let self else { return }
+            for await change in await calendarStore.storeChanges() {
+                switch change {
+                case .calendarsUpdated, .cacheInvalidated:
+                    await refresh()
+                case .eventsUpdated(let updatedDate):
+                    if updatedDate.zero == date.zero {
                         await refresh()
-                    case .eventsUpdated(let updatedDate):
-                        if updatedDate.zero == date.zero {
-                            await refresh()
-                        }
-                    case .remindersUpdated(let updatedDate):
-                        if updatedDate.zero == date.zero {
-                            await refresh()
-                        }
+                    }
+                case .remindersUpdated(let updatedDate):
+                    if updatedDate.zero == date.zero {
+                        await refresh()
                     }
                 }
             }
-            .store(in: &cancellables)
+        }
     }
 
     /// Initial load of data
