@@ -12,6 +12,7 @@ final class StandardWidgetConfiguration {
     private(set) var allDayStyle: AllDayStyleEnum
     private(set) var complication: ComplicationEnum
     private(set) var showReminders: Bool
+    private(set) var reminderDisplayMode: ReminderDisplayModeEnum
     private(set) var showHeader: Bool
     private(set) var useUnifiedList: Bool
     private(set) var showOngoingEvents: Bool
@@ -22,6 +23,7 @@ final class StandardWidgetConfiguration {
         self.complication = .birthdays
         self.showHeader = true
         self.showReminders = true
+        self.reminderDisplayMode = .todayAndOverdue
         self.useUnifiedList = true
         self.showOngoingEvents = true
         self.groupEvents = true
@@ -32,6 +34,7 @@ final class StandardWidgetConfiguration {
         self.complication = intent.complication
         self.showHeader = intent.showHeader
         self.showReminders = intent.reminders
+        self.reminderDisplayMode = intent.reminderDisplayMode
         self.useUnifiedList = intent.useUnifiedList
         self.showOngoingEvents = intent.ongoingEvents
         self.groupEvents = intent.groupEvents

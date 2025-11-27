@@ -48,6 +48,8 @@ final class WidgetDataService {
 
     func getRemindersForWidget(
         calendars: [String]? = nil,
+        displayMode: ReminderDisplayModeEnum = .todayAndOverdue,
+        referenceDate: Date = .now,
         limit: Int = 20
     ) async -> [EKReminder] {
         let store = await eventStoreService.store
@@ -68,8 +70,31 @@ final class WidgetDataService {
             }
         }
 
+        let todayStart = referenceDate.zero
+        let tomorrowStart = Calendar.current.date(byAdding: .day, value: 1, to: todayStart) ?? todayStart
+
         let filtered = reminders
-            .filter { !$0.isCompleted && $0.dueDateComponents?.date != nil }
+            .filter { reminder in
+                guard !reminder.isCompleted,
+                      let dueDate = reminder.dueDateComponents?.date
+                else {
+                    return false
+                }
+
+                switch displayMode {
+                case .todayOnly:
+                    // Only reminders due today
+                    return dueDate >= todayStart && dueDate < tomorrowStart
+
+                case .todayAndOverdue:
+                    // Reminders due today or overdue (before today)
+                    return dueDate < tomorrowStart
+
+                case .upcoming:
+                    // All reminders with due dates (past, present, future)
+                    return true
+                }
+            }
             .sorted { lhs, rhs in
                 guard let lhsDate = lhs.dueDateComponents?.date,
                       let rhsDate = rhs.dueDateComponents?.date

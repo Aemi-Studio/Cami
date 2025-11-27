@@ -43,8 +43,35 @@ struct SettingsNavigationLinksSection: View {
 }
 
 struct WidgetSettingsView: View {
+    @AppStorage(SettingsKeys.openInCami.rawValue)
+    private var openInCami: Bool = false
+
+    private var openInCamiBinding: Binding<Bool> {
+        Binding {
+            openInCami
+        } set: {
+            openInCami = $0
+        }
+    }
+
     var body: some View {
         ScrollablePage(title: String(localized: "view.widgetSettings.title")) {
+            CustomSection {
+                Label(
+                    String(localized: "settings.section.widgetNavigation.header"),
+                    systemImage: "arrow.up.forward.app"
+                )
+            } content: {
+                BorderedToggle(isOn: openInCamiBinding) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(String(localized: "settings.widget.openInCami.title"))
+                        Text(String(localized: "settings.widget.openInCami.description"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
             CustomSection {
                 WidgetsRefreshButton()
             }

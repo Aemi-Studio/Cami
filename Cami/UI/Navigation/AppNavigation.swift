@@ -177,20 +177,31 @@ final class AppNavigation {
 
         let host = url.host()
         let pathComponents = url.pathComponents.filter { $0 != "/" }
+        let queryParams = queryParameters(from: url)
 
         switch host {
         case "event":
-            if let identifier = pathComponents.first {
+            // Support both path (/identifier) and query (?id=identifier) formats
+            if let identifier = pathComponents.first ?? queryParams["id"] {
                 return .eventDetail(identifier: identifier)
             }
 
         case "reminder":
-            if let identifier = pathComponents.first {
+            // Support both path (/identifier) and query (?id=identifier) formats
+            if let identifier = pathComponents.first ?? queryParams["id"] {
                 return .reminderDetail(identifier: identifier)
             }
 
+        case "day":
+            // Handle day navigation: camical:day?time=xxx
+            if let timeString = queryParams["time"],
+               let _ = Double(timeString) {
+                // Navigate to the main view - date selection would require additional state management
+                return .main
+            }
+
         case "create":
-            let kindString = pathComponents.first
+            let kindString = pathComponents.first ?? queryParams["kind"]
             let date = dateFromURL(url)
             switch kindString {
             case "event":
@@ -218,6 +229,19 @@ final class AppNavigation {
         }
 
         return nil
+    }
+
+    /// Extracts query parameters from a URL
+    private func queryParameters(from url: URL) -> [String: String] {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let queryItems = components.queryItems
+        else {
+            return [:]
+        }
+        return Dictionary(uniqueKeysWithValues: queryItems.compactMap { item in
+            guard let value = item.value else { return nil }
+            return (item.name, value)
+        })
     }
 
     /// Extracts a date from URL query parameters

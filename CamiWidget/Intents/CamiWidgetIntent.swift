@@ -46,6 +46,12 @@ struct CamiWidgetIntent: WidgetConfigurationIntent {
     @Parameter(title: "Show Reminders", default: true)
     var reminders: Bool
 
+    @Parameter(
+        title: "Reminder Display Mode",
+        default: .todayAndOverdue
+    )
+    var reminderDisplayMode: ReminderDisplayModeEnum
+
     @Parameter(title: "Mix Events & Reminders", default: true)
     var useUnifiedList: Bool
 

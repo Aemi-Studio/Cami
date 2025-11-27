@@ -25,7 +25,12 @@ struct ReminderCompletionIntent: AppIntent {
     static let isDiscoverable: Bool = false
 
     func perform() async throws -> some IntentResult {
-        if await DataContext.shared.completeReminder(withIdentifier: reminderIdentifier) {
+        let success = await DataContext.shared.completeReminder(withIdentifier: reminderIdentifier)
+
+        // Reload widget timelines to reflect the completion
+        WidgetCenter.shared.reloadAllTimelines()
+
+        if success {
             return .result(value: "Reminder completed")
         } else {
             return .result(value: "Reminder not completed")

@@ -81,7 +81,10 @@ final class StandardWidgetContent: Loggable {
         // Fetch reminders
         let reminderItems: [WidgetCalendarItem]
         if entry.configuration.showReminders {
-            let reminders = await widgetDataService.getRemindersForWidget()
+            let reminders = await widgetDataService.getRemindersForWidget(
+                displayMode: entry.configuration.reminderDisplayMode,
+                referenceDate: entry.date
+            )
             reminderItems = reminders.compactMap(WidgetCalendarItem.init)
         } else {
             reminderItems = []
