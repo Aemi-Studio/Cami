@@ -25,20 +25,16 @@ struct CamiApp: App {
                 .refreshWidgets()
                 .environment(\.viewKind, .standard)
                 .environment(permissionManager)
-                .task {
-                    await startServices()
-                }
+                .task(startServices)
         }
     }
 
-    private func startServices() async {
+    @Sendable private func startServices() async {
         // Start CalendarStore to observe EventKit and settings changes
         await CalendarStore.shared.startObserving()
 
         // Start DayStore to observe CalendarStore changes
-        await MainActor.run {
-            dayStore.startObserving()
-        }
+        dayStore.startObserving()
 
         // Start LiveActivity monitoring
         await LiveActivityService.shared.startMonitoring()
