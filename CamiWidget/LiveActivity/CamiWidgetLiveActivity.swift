@@ -1,308 +1,112 @@
-//
-//  CamiWidgetLiveActivity.swift
-//  CamiWidget
-//
-//  Created by Guillaume Coquard on 03/11/23.
-//
-
 import ActivityKit
 import SwiftUI
 import WidgetKit
 
-// MARK: - Live Activity Widget
+struct OngoingEventAttributes: ActivityAttributes {
+    struct ContentState: Codable, Hashable {
+        var progress: Double
+        var hasEnded: Bool
+    }
+
+    var eventIdentifier: String
+    var title: String
+    var location: String?
+    var startDate: Date
+    var endDate: Date
+    var colorRed: Double
+    var colorGreen: Double
+    var colorBlue: Double
+    var isAllDay: Bool
+}
 
 struct OngoingEventLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: OngoingEventAttributes.self) { context in
-            // Lock Screen / Banner presentation
-            LockScreenView(context: context)
-                .activityBackgroundTint(eventColor(from: context.attributes).opacity(0.2))
-                .activitySystemActionForegroundColor(eventColor(from: context.attributes))
+            LockScreenLiveActivityView(context: context)
+                .activityBackgroundTint(eventColor(context.attributes).opacity(0.2))
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded presentation
                 DynamicIslandExpandedRegion(.leading) {
-                    ExpandedLeadingView(context: context)
+                    ProgressView(value: max(0, min(1, context.state.progress)))
+                        .progressViewStyle(.circular)
+                        .tint(eventColor(context.attributes))
                 }
+
                 DynamicIslandExpandedRegion(.trailing) {
-                    ExpandedTrailingView(context: context)
+                    Text(context.attributes.endDate, style: .time)
+                        .font(.caption)
                 }
-                DynamicIslandExpandedRegion(.bottom) {
-                    ExpandedBottomView(context: context)
-                }
+
                 DynamicIslandExpandedRegion(.center) {
-                    ExpandedCenterView(context: context)
+                    Text(context.attributes.title)
+                        .font(.subheadline.weight(.semibold))
+                        .lineLimit(1)
+                }
+
+                DynamicIslandExpandedRegion(.bottom) {
+                    HStack {
+                        if let location = context.attributes.location, !location.isEmpty {
+                            Label(location, systemImage: "mappin")
+                                .lineLimit(1)
+                        }
+                        Spacer()
+                        Text(timerInterval: context.attributes.startDate...context.attributes.endDate, countsDown: true)
+                            .monospacedDigit()
+                    }
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
                 }
             } compactLeading: {
-                CompactLeadingView(context: context)
+                Image(systemName: "calendar")
+                    .foregroundStyle(eventColor(context.attributes))
             } compactTrailing: {
-                CompactTrailingView(context: context)
+                Text(timerInterval: context.attributes.startDate...context.attributes.endDate, countsDown: true)
+                    .font(.caption2)
+                    .monospacedDigit()
             } minimal: {
-                MinimalView(context: context)
+                Image(systemName: "calendar")
             }
             .widgetURL(URL(string: "camical://event/\(context.attributes.eventIdentifier)"))
-            .keylineTint(eventColor(from: context.attributes))
         }
     }
 
-    private func eventColor(from attributes: OngoingEventAttributes) -> Color {
-        Color(
-            red: attributes.colorRed,
-            green: attributes.colorGreen,
-            blue: attributes.colorBlue
-        )
+    private func eventColor(_ attributes: OngoingEventAttributes) -> Color {
+        Color(red: attributes.colorRed, green: attributes.colorGreen, blue: attributes.colorBlue)
     }
 }
 
-// MARK: - Lock Screen View
-
-private struct LockScreenView: View {
+private struct LockScreenLiveActivityView: View {
     let context: ActivityViewContext<OngoingEventAttributes>
-
-    private var eventColor: Color {
-        Color(
-            red: context.attributes.colorRed,
-            green: context.attributes.colorGreen,
-            blue: context.attributes.colorBlue
-        )
-    }
 
     var body: some View {
         HStack(spacing: 12) {
-            // Progress indicator
-            ProgressCircle(
-                progress: context.state.progress,
-                lineWidthRatio: 0.15
-            )
-            .frame(width: 44, height: 44)
-            .tint(eventColor)
+            ProgressView(value: max(0, min(1, context.state.progress)))
+                .progressViewStyle(.circular)
+                .tint(.accentColor)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(context.attributes.title)
                     .font(.headline)
-                    .fontWeight(.semibold)
                     .lineLimit(1)
 
                 HStack(spacing: 8) {
                     if let location = context.attributes.location, !location.isEmpty {
-                        Label(location, systemImage: "location.fill")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        Label(location, systemImage: "mappin.circle")
                             .lineLimit(1)
                     }
-
-                    Label {
-                        Text(timerInterval: context.attributes.startDate...context.attributes.endDate,
-                             countsDown: true)
-                    } icon: {
-                        Image(systemName: "clock")
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    Text(timerInterval: context.attributes.startDate...context.attributes.endDate, countsDown: true)
+                        .monospacedDigit()
                 }
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
 
             Spacer()
 
-            // End time
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(String(localized: "liveActivity.endsAt"))
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-                Text(context.attributes.endDate, style: .time)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .foregroundStyle(eventColor)
-            }
+            Text(context.attributes.endDate, style: .time)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.secondary)
         }
-        .padding()
-    }
-}
-
-// MARK: - Dynamic Island Expanded Views
-
-private struct ExpandedLeadingView: View {
-    let context: ActivityViewContext<OngoingEventAttributes>
-
-    private var eventColor: Color {
-        Color(
-            red: context.attributes.colorRed,
-            green: context.attributes.colorGreen,
-            blue: context.attributes.colorBlue
-        )
-    }
-
-    var body: some View {
-        ProgressCircle(
-            progress: context.state.progress,
-            lineWidthRatio: 0.2
-        )
-        .frame(width: 28, height: 28)
-        .tint(eventColor)
-    }
-}
-
-private struct ExpandedTrailingView: View {
-    let context: ActivityViewContext<OngoingEventAttributes>
-
-    private var eventColor: Color {
-        Color(
-            red: context.attributes.colorRed,
-            green: context.attributes.colorGreen,
-            blue: context.attributes.colorBlue
-        )
-    }
-
-    var body: some View {
-        Text(context.attributes.endDate, style: .time)
-            .font(.caption)
-            .fontWeight(.medium)
-            .foregroundStyle(eventColor)
-    }
-}
-
-private struct ExpandedCenterView: View {
-    let context: ActivityViewContext<OngoingEventAttributes>
-
-    var body: some View {
-        Text(context.attributes.title)
-            .font(.subheadline)
-            .fontWeight(.semibold)
-            .lineLimit(1)
-    }
-}
-
-private struct ExpandedBottomView: View {
-    let context: ActivityViewContext<OngoingEventAttributes>
-
-    var body: some View {
-        HStack {
-            if let location = context.attributes.location, !location.isEmpty {
-                Label(location, systemImage: "location.fill")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-
-            Spacer()
-
-            Text(timerInterval: context.attributes.startDate...context.attributes.endDate,
-                 countsDown: true)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .monospacedDigit()
-            .foregroundStyle(.secondary)
-        }
-    }
-}
-
-// MARK: - Dynamic Island Compact Views
-
-private struct CompactLeadingView: View {
-    let context: ActivityViewContext<OngoingEventAttributes>
-
-    private var eventColor: Color {
-        Color(
-            red: context.attributes.colorRed,
-            green: context.attributes.colorGreen,
-            blue: context.attributes.colorBlue
-        )
-    }
-
-    var body: some View {
-        ProgressCircle(
-            progress: context.state.progress,
-            lineWidthRatio: 0.25
-        )
-        .frame(width: 20, height: 20)
-        .tint(eventColor)
-    }
-}
-
-private struct CompactTrailingView: View {
-    let context: ActivityViewContext<OngoingEventAttributes>
-
-    var body: some View {
-        Text(timerInterval: context.attributes.startDate...context.attributes.endDate,
-             countsDown: true)
-        .font(.caption2)
-        .fontWeight(.medium)
-        .monospacedDigit()
-        .frame(minWidth: 32)
-    }
-}
-
-// MARK: - Dynamic Island Minimal View
-
-private struct MinimalView: View {
-    let context: ActivityViewContext<OngoingEventAttributes>
-
-    private var eventColor: Color {
-        Color(
-            red: context.attributes.colorRed,
-            green: context.attributes.colorGreen,
-            blue: context.attributes.colorBlue
-        )
-    }
-
-    var body: some View {
-        ProgressCircle(
-            progress: context.state.progress,
-            lineWidthRatio: 0.25
-        )
-        .tint(eventColor)
-    }
-}
-
-// MARK: - Previews
-
-#Preview("Lock Screen", as: .content, using: OngoingEventAttributes.preview) {
-    OngoingEventLiveActivity()
-} contentStates: {
-    OngoingEventAttributes.ContentState.inProgress
-    OngoingEventAttributes.ContentState.almostDone
-}
-
-#Preview("Dynamic Island Compact", as: .dynamicIsland(.compact), using: OngoingEventAttributes.preview) {
-    OngoingEventLiveActivity()
-} contentStates: {
-    OngoingEventAttributes.ContentState.inProgress
-}
-
-#Preview("Dynamic Island Expanded", as: .dynamicIsland(.expanded), using: OngoingEventAttributes.preview) {
-    OngoingEventLiveActivity()
-} contentStates: {
-    OngoingEventAttributes.ContentState.inProgress
-}
-
-#Preview("Dynamic Island Minimal", as: .dynamicIsland(.minimal), using: OngoingEventAttributes.preview) {
-    OngoingEventLiveActivity()
-} contentStates: {
-    OngoingEventAttributes.ContentState.inProgress
-}
-
-// MARK: - Preview Data
-
-extension OngoingEventAttributes {
-    static var preview: OngoingEventAttributes {
-        OngoingEventAttributes(
-            eventIdentifier: "preview-event",
-            title: "Team Standup Meeting",
-            location: "Conference Room A",
-            startDate: Date.now.addingTimeInterval(-1800), // Started 30 min ago
-            endDate: Date.now.addingTimeInterval(1800), // Ends in 30 min
-            color: (red: 0.2, green: 0.5, blue: 1.0),
-            isAllDay: false
-        )
-    }
-}
-
-extension OngoingEventAttributes.ContentState {
-    static var inProgress: OngoingEventAttributes.ContentState {
-        OngoingEventAttributes.ContentState(progress: 0.5, hasEnded: false)
-    }
-
-    static var almostDone: OngoingEventAttributes.ContentState {
-        OngoingEventAttributes.ContentState(progress: 0.9, hasEnded: false)
+        .padding(.horizontal)
     }
 }

@@ -1,12 +1,1 @@
-//
-//  CustomDesign.swift
-//  Cami
-//
-//  Created by Guillaume Coquard on 02/02/25.
-//
-
-enum CustomDesign {
-    static let borderedRadius: Double = 12
-    static let borderedPadding: Double = 16
-    static let borderedStrokeWidth: Double = 0.25
-}
+// Rewritten from scratch on rewrite/rfc-greenfield-tdd.

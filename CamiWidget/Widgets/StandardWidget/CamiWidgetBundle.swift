@@ -1,10 +1,3 @@
-//
-//  CamiWidgetBundle.swift
-//  CamiWidget
-//
-//  Created by Guillaume Coquard on 03/11/23.
-//
-
 import SwiftUI
 import WidgetKit
 
