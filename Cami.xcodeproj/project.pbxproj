@@ -304,12 +304,12 @@
 				Base,
 			);
 			mainGroup = 465533002AF4EA69000B537B;
-			packageReferences = (
-				461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
-				46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */,
-				46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */,
-				46900F2C2E91C4E600870DFE /* XCLocalSwiftPackageReference "../AemiSDR/AemiSDR" */,
-			);
+				packageReferences = (
+					461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
+					46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */,
+					46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */,
+					46900F2C2E91C4E600870DFE /* XCRemoteSwiftPackageReference "AemiSDR" */,
+				);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 4655330A2AF4EA69000B537B /* Products */;
 			projectDirPath = "";
@@ -820,13 +820,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		46900F2C2E91C4E600870DFE /* XCLocalSwiftPackageReference "../AemiSDR/AemiSDR" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../AemiSDR/AemiSDR;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -853,6 +846,14 @@
 				kind = branch;
 			};
 		};
+		46900F2C2E91C4E600870DFE /* XCRemoteSwiftPackageReference "AemiSDR" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Aemi-Studio/AemiSDR";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -873,11 +874,12 @@
 		};
 		46900F2D2E91C4E600870DFE /* AemiSDR */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 46900F2C2E91C4E600870DFE /* XCRemoteSwiftPackageReference "AemiSDR" */;
 			productName = AemiSDR;
 		};
 		46900F2F2E91C4F500870DFE /* AemiSDR */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 46900F2C2E91C4E600870DFE /* XCLocalSwiftPackageReference "../AemiSDR/AemiSDR" */;
+			package = 46900F2C2E91C4E600870DFE /* XCRemoteSwiftPackageReference "AemiSDR" */;
 			productName = AemiSDR;
 		};
 		46A6C1072D46D61F00D3C72B /* AemiUtilities */ = {
