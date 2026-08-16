@@ -5,7 +5,7 @@ let package = Package(
     name: "CamiCore",
     platforms: [
         .iOS(.v18),
-        .macOS(.v14)
+        .macOS(.v15)
     ],
     products: [
         .library(name: "CamiCore", targets: ["CamiCore"])
