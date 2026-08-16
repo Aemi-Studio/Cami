@@ -1,40 +1,21 @@
 {
-  "originHash" : "29d64e49102548bcaf05cbcdca9fc1e4511380815ebb8e41842d709f47ca2bef",
+  "originHash" : "559a4f0bc290f79631be00af9e7300deec16f43cd6d925df5c65f92fd5e4f22a",
   "pins" : [
+    {
+      "identity" : "aemi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Aemi-Studio/aemi",
+      "state" : {
+        "branch" : "main",
+        "revision" : "3930ecdab69611ea240a48a3a540f9f1f4cffe46"
+      }
+    },
     {
       "identity" : "aemisdr",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Aemi-Studio/AemiSDR",
       "state" : {
-        "branch" : "main",
-        "revision" : "246250dae9902cfebff61c7259359e0635658e52"
-      }
-    },
-    {
-      "identity" : "aemiui",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Aemi-Studio/AemiUI",
-      "state" : {
-        "branch" : "main",
-        "revision" : "8327810362fa456f20bf5ae4a2820d9d83746312"
-      }
-    },
-    {
-      "identity" : "aemiutilities",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Aemi-Studio/AemiUtilities",
-      "state" : {
-        "branch" : "main",
-        "revision" : "6c2dc3dd1f1a2e98b1f1393579715dab6b8ccc29"
-      }
-    },
-    {
-      "identity" : "internedstrings",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/g-cqd/InternedStrings.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "8aa92bfa4bb342af4bf494b43009c757878f344e"
+        "revision" : "56df4d7335e1eb2334059a7f4c6e0e29003d24f8"
       }
     },
     {

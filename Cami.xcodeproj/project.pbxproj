@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		460BE8032D7FB22D003862E6 /* AemiUI in Frameworks */ = {isa = PBXBuildFile; productRef = 460BE8022D7FB22D003862E6 /* AemiUI */; };
-		460BE8052D7FB24A003862E6 /* AemiUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 460BE8042D7FB24A003862E6 /* AemiUtilities */; };
+		460BE8052D7FB24A003862E6 /* AemiCore in Frameworks */ = {isa = PBXBuildFile; productRef = 460BE8042D7FB24A003862E6 /* AemiCore */; };
 		461649352B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */; };
 		461649362B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 461649342B09A89A00F7E7E1 /* PrivacyInfo.xcprivacy */; };
 		46283BBA2D484EAE00754580 /* AemiUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46283BB92D484EAE00754580 /* AemiUI */; };
@@ -20,7 +20,7 @@
 		465159302B7252AB0073544A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4651592F2B7252AB0073544A /* Settings.bundle */; };
 		46900F2E2E91C4E600870DFE /* AemiSDR in Frameworks */ = {isa = PBXBuildFile; productRef = 46900F2D2E91C4E600870DFE /* AemiSDR */; };
 		46900F302E91C4F500870DFE /* AemiSDR in Frameworks */ = {isa = PBXBuildFile; productRef = 46900F2F2E91C4F500870DFE /* AemiSDR */; };
-		46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 46A6C1072D46D61F00D3C72B /* AemiUtilities */; };
+		46A6C1082D46D61F00D3C72B /* AemiCore in Frameworks */ = {isa = PBXBuildFile; productRef = 46A6C1072D46D61F00D3C72B /* AemiCore */; };
 		46E0222F2B7A72B7005725B0 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E0222E2B7A72B7005725B0 /* Collections */; };
 		46E022312B7A72B7005725B0 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022302B7A72B7005725B0 /* DequeModule */; };
 		46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 46E022322B7A72B7005725B0 /* OrderedCollections */; };
@@ -157,7 +157,7 @@
 				46900F2E2E91C4E600870DFE /* AemiSDR in Frameworks */,
 				46283BBA2D484EAE00754580 /* AemiUI in Frameworks */,
 				46E0222F2B7A72B7005725B0 /* Collections in Frameworks */,
-				46A6C1082D46D61F00D3C72B /* AemiUtilities in Frameworks */,
+				46A6C1082D46D61F00D3C72B /* AemiCore in Frameworks */,
 				46E022312B7A72B7005725B0 /* DequeModule in Frameworks */,
 				46E022332B7A72B7005725B0 /* OrderedCollections in Frameworks */,
 			);
@@ -165,7 +165,7 @@
 		46B1605F2B07D87000A44FBF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				460BE8052D7FB24A003862E6 /* AemiUtilities in Frameworks */,
+				460BE8052D7FB24A003862E6 /* AemiCore in Frameworks */,
 				464F11662D406FC400F73884 /* SwiftUI.framework in Frameworks */,
 				46E022352B7A72BE005725B0 /* Collections in Frameworks */,
 				464F11682D406FD000F73884 /* WidgetKit.framework in Frameworks */,
@@ -243,7 +243,7 @@
 				46E0222E2B7A72B7005725B0 /* Collections */,
 				46E022302B7A72B7005725B0 /* DequeModule */,
 				46E022322B7A72B7005725B0 /* OrderedCollections */,
-				46A6C1072D46D61F00D3C72B /* AemiUtilities */,
+				46A6C1072D46D61F00D3C72B /* AemiCore */,
 				46283BB92D484EAE00754580 /* AemiUI */,
 				46900F2D2E91C4E600870DFE /* AemiSDR */,
 			);
@@ -271,7 +271,7 @@
 				46E022362B7A72BE005725B0 /* DequeModule */,
 				46E022382B7A72BE005725B0 /* OrderedCollections */,
 				460BE8022D7FB22D003862E6 /* AemiUI */,
-				460BE8042D7FB24A003862E6 /* AemiUtilities */,
+				460BE8042D7FB24A003862E6 /* AemiCore */,
 				46900F2F2E91C4F500870DFE /* AemiSDR */,
 			);
 			productName = CamiCompleteWidgetExtension;
@@ -304,12 +304,11 @@
 				Base,
 			);
 			mainGroup = 465533002AF4EA69000B537B;
-				packageReferences = (
-					461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
-					46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */,
-					46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */,
-					46900F2C2E91C4E600870DFE /* XCRemoteSwiftPackageReference "AemiSDR" */,
-				);
+			packageReferences = (
+				461817A82B10BBBD004D692A /* XCRemoteSwiftPackageReference "swift-collections" */,
+				46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "aemi" */,
+				46900F2C2E91C4E600870DFE /* XCRemoteSwiftPackageReference "AemiSDR" */,
+			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 4655330A2AF4EA69000B537B /* Products */;
 			projectDirPath = "";
@@ -830,17 +829,9 @@
 				minimumVersion = 1.1.0;
 			};
 		};
-		46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */ = {
+		46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "aemi" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Aemi-Studio/AemiUI";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Aemi-Studio/AemiUtilities";
+			repositoryURL = "https://github.com/Aemi-Studio/aemi";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -850,8 +841,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Aemi-Studio/AemiSDR";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = revision;
+				revision = 56df4d7335e1eb2334059a7f4c6e0e29003d24f8;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -859,17 +850,17 @@
 /* Begin XCSwiftPackageProductDependency section */
 		460BE8022D7FB22D003862E6 /* AemiUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */;
+			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "aemi" */;
 			productName = AemiUI;
 		};
-		460BE8042D7FB24A003862E6 /* AemiUtilities */ = {
+		460BE8042D7FB24A003862E6 /* AemiCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */;
-			productName = AemiUtilities;
+			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "aemi" */;
+			productName = AemiCore;
 		};
 		46283BB92D484EAE00754580 /* AemiUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "AemiUI" */;
+			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "aemi" */;
 			productName = AemiUI;
 		};
 		46900F2D2E91C4E600870DFE /* AemiSDR */ = {
@@ -882,10 +873,10 @@
 			package = 46900F2C2E91C4E600870DFE /* XCRemoteSwiftPackageReference "AemiSDR" */;
 			productName = AemiSDR;
 		};
-		46A6C1072D46D61F00D3C72B /* AemiUtilities */ = {
+		46A6C1072D46D61F00D3C72B /* AemiCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 46A6C1062D46D61F00D3C72B /* XCRemoteSwiftPackageReference "AemiUtilities" */;
-			productName = AemiUtilities;
+			package = 46283BB82D484EAE00754580 /* XCRemoteSwiftPackageReference "aemi" */;
+			productName = AemiCore;
 		};
 		46E0222E2B7A72B7005725B0 /* Collections */ = {
 			isa = XCSwiftPackageProductDependency;
