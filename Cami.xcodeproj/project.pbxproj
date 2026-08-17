@@ -842,7 +842,7 @@
 			repositoryURL = "https://github.com/Aemi-Studio/AemiSDR";
 			requirement = {
 				kind = revision;
-				revision = 56df4d7335e1eb2334059a7f4c6e0e29003d24f8;
+				revision = 8e7d2399489315a9fd9c9351485d69cf2d7ce7e0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
